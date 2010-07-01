@@ -5,16 +5,16 @@ package scidraw.drawing.map.painters.axis;
 import java.awt.Color;
 import java.util.List;
 
-import fava.*;
-import fava.datatypes.Pair;
-import fava.signatures.FunctionEach;
-import static fava.Fn.*;
-import static fava.Functions.*;
-
 import scidraw.drawing.map.palettes.AbstractPalette;
 import scidraw.drawing.painters.PainterData;
 import scitypes.Coord;
 import scitypes.SISize;
+import scitypes.SigDigits;
+
+import fava.*;
+import fava.datatypes.Pair;
+import fava.signatures.FunctionEach;
+import static fava.Fn.*;
 
 
 
@@ -54,6 +54,31 @@ public class SpectrumCoordsAxisPainter extends AbstractKeyCoordAxisPainter
 	public SpectrumCoordsAxisPainter(boolean drawCoords, Coord<Number> topLeftCoord, Coord<Number> topRightCoord,
 			Coord<Number> bottomLeftCoord, Coord<Number> bottomRightCoord, SISize coordinateUnits,
 			boolean drawSpectrum, int spectrumHeight, int spectrumSteps, List<AbstractPalette> palettes,
+			boolean realDimensionsProvided, String descriptor, boolean negativeValues)
+	{
+		super(
+			drawCoords,
+			topLeftCoord,
+			topRightCoord,
+			bottomLeftCoord,
+			bottomRightCoord,
+			coordinateUnits,
+			drawSpectrum,
+			spectrumHeight,
+			realDimensionsProvided,
+			descriptor);
+
+		this.markings = null;
+		this.negativeValues = negativeValues;
+		
+		this.spectrumSteps = spectrumSteps;
+		this.colourRules = palettes;
+		
+	}
+	
+	public SpectrumCoordsAxisPainter(boolean drawCoords, Coord<Number> topLeftCoord, Coord<Number> topRightCoord,
+			Coord<Number> bottomLeftCoord, Coord<Number> bottomRightCoord, SISize coordinateUnits,
+			boolean drawSpectrum, int spectrumHeight, int spectrumSteps, List<AbstractPalette> palettes,
 			boolean realDimensionsProvided, String descriptor, boolean negativeValues, List<Pair<Float, String>> markings)
 	{
 		super(
@@ -70,10 +95,9 @@ public class SpectrumCoordsAxisPainter extends AbstractKeyCoordAxisPainter
 
 		this.markings = markings;
 		this.negativeValues = negativeValues;
-		
+
 		this.spectrumSteps = spectrumSteps;
 		this.colourRules = palettes;
-
 	}
 
 
@@ -112,13 +136,21 @@ public class SpectrumCoordsAxisPainter extends AbstractKeyCoordAxisPainter
 
 		if (markings == null)
 		{
-			String maxIntensity = String.valueOf((int) p.dr.maxYIntensity);
-			String minIntensity = negativeValues ? maxIntensity : "0";
+			
+			float maxIntensityFloat = p.dr.maxYIntensity;
+			String maxIntensity;
+			if (maxIntensityFloat < 1)
+			{
+				maxIntensity = SigDigits.roundFloatTo(p.dr.maxYIntensity, 1);
+			} else  {
+				maxIntensity = String.valueOf((int) p.dr.maxYIntensity);
+			}
+			String minIntensity = negativeValues ? "-" + maxIntensity : "0";
 
 			while (width > 0.0 && fontSize > 1.0)
 			{
 
-				float expectedTextWidth = p.context.getTextWidth(maxIntensity + " " + descriptor + " " + maxIntensity);
+				float expectedTextWidth = p.context.getTextWidth(minIntensity + " " + descriptor + " " + maxIntensity);
 				if (expectedTextWidth < width) break;
 				fontSize *= (width/expectedTextWidth) * 0.95;
 				p.context.setFontSize(fontSize);

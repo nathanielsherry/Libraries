@@ -329,6 +329,12 @@ public interface Surface
 	 */
 	public void useSansFont();
 
+	
+	/**
+	 * Indicates if this surface is backed by a vector image
+	 * @return true if the surface is vector based, false if the surface is raster based
+	 */
+	public boolean isVectorSurface();
 
 	/**
 	 * Creates a raster Buffer for intermediate drawing. This buffer can later be drawn onto the Surface by calling

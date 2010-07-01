@@ -17,5 +17,10 @@ class ScreenSurface extends AbstractGraphicsSurface
 	{
 		return new ScreenSurface((Graphics2D)graphics.create());
 	}
+
+	@Override
+	public boolean isVectorSurface() {
+		return false;
+	}
 	
 }

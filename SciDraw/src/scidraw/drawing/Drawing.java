@@ -28,6 +28,10 @@ public abstract class Drawing
 		this.dr = dr;
 	}
 	
+	public Drawing()
+	{
+	}
+	
 	public void setContext(Surface context) {
 		this.context = context;
 	}

@@ -31,4 +31,9 @@ class SVGSurface extends AbstractGraphicsSurface implements SaveableSurface
 		return new SVGSurface((SVGGraphics2D)svgGraphics.create());
 	}
 
+	@Override
+	public boolean isVectorSurface() {
+		return true;
+	}
+
 }

@@ -5,18 +5,19 @@ import fava.*;
 import fava.datatypes.Bounds;
 import fava.datatypes.Pair;
 
+
+import java.util.List;
+
 import scidraw.datatypes.DataTypeFactory;
+import scidraw.drawing.Drawing;
 import scidraw.drawing.DrawingRequest;
 import scidraw.drawing.backends.Buffer;
 import scidraw.drawing.backends.Surface;
 import scidraw.drawing.backends.graphics2d.ImageBuffer;
 import scidraw.drawing.map.painters.MapPainter;
-import scidraw.drawing.map.palettes.AbstractPalette;
 import scidraw.drawing.painters.PainterData;
 import scidraw.drawing.painters.axis.AxisPainter;
 import scitypes.Coord;
-
-import java.util.List;
 
 /**
  * 
@@ -27,7 +28,7 @@ import java.util.List;
  * 
  */
 
-public class MapDrawing extends scidraw.drawing.Drawing
+public class MapDrawing extends Drawing
 {
 
 	private Buffer				mapBuffer;
@@ -102,9 +103,23 @@ public class MapDrawing extends scidraw.drawing.Drawing
 		axisPainters = DataTypeFactory.<AxisPainter> list();
 	}
 
+	
+	/**
+	 * Creates a Map object
+	 * @see Drawing
+	 */
+	public MapDrawing()
+	{
+		super();
+		axisPainters = DataTypeFactory.<AxisPainter> list();
+	}
 
 	public void setAxisPainters(List<AxisPainter> axisPainters) {
 		this.axisPainters = axisPainters;
+	}
+	public void setAxisPainters(AxisPainter painter) {
+		axisPainters = DataTypeFactory.<AxisPainter> list();
+		axisPainters.add(painter);
 	}
 	public void setPainters(List<MapPainter> painters) {
 		this.painters = painters;
@@ -244,7 +259,7 @@ public class MapDrawing extends scidraw.drawing.Drawing
 	 *            the DrawingRequest to define how maps should be drawn
 	 * @return a cell size (square) for a single data point
 	 */
-	public static float calcCellSize(float availableWidth, float availableHeight, scidraw.drawing.DrawingRequest dr)
+	public static float calcCellSize(float availableWidth, float availableHeight, DrawingRequest dr)
 	{
 
 		float cellWidth, cellHeight;
@@ -254,7 +269,7 @@ public class MapDrawing extends scidraw.drawing.Drawing
 
 		float cellSize;
 		cellSize = cellWidth > cellHeight ? cellHeight : cellWidth;
-
+	
 		return cellSize;
 
 	}
@@ -270,40 +285,7 @@ public class MapDrawing extends scidraw.drawing.Drawing
 	{
 		
 		return AxisPainter.calcAxisBorders(new PainterData(context, dr, new Coord<Float>(dr.imageWidth, dr.imageHeight), null), axisPainters);
-/*
-		Bounds<Double> availableX, availableY;
-		availableX = new Bounds<Double>(0.0, dr.imageWidth);
-		availableY = new Bounds<Double>(0.0, dr.imageHeight);
-		PainterData p = new PainterData(context, dr, new Coord<Double>(dr.imageWidth, dr.imageHeight), null);
 
-		if (axisPainters != null) {
-
-			Pair<Double, Double> axisSizeX, axisSizeY;
-
-			for (AxisPainter axisPainter : axisPainters) {
-
-
-				axisPainter.setDimensions(
-
-				new Bounds<Double>(availableX.start, availableX.end),
-						new Bounds<Double>(availableY.start, availableY.end)
-
-				);
-
-				axisSizeX = axisPainter.getAxisSizeX(p);
-				axisSizeY = axisPainter.getAxisSizeY(p);
-
-				availableX.start += axisSizeX.first;
-				availableX.end -= axisSizeX.second;
-				availableY.start += axisSizeY.first;
-				availableY.end -= axisSizeY.second;
-
-			}
-
-		}
-
-		return new Coord<Bounds<Double>>(availableX, availableY);
-*/
 	}
 
 
