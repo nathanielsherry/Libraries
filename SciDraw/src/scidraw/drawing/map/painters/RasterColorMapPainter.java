@@ -4,8 +4,9 @@ package scidraw.drawing.map.painters;
 import java.awt.Color;
 import java.util.List;
 
-import plural.plural.PluralEachIndex;
-import plural.plural.executor.eachindex.implementations.PluralEachIndexExecutor;
+import plural.workers.PluralEachIndex;
+import plural.workers.executor.eachindex.implementations.PluralEachIndexExecutor;
+
 
 import scidraw.drawing.backends.Buffer;
 import scidraw.drawing.map.MapDrawing;

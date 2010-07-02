@@ -6,9 +6,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import plural.plural.PluralEachIndex;
-import plural.plural.executor.eachindex.EachIndexExecutor;
-import plural.plural.executor.eachindex.implementations.PluralEachIndexExecutor;
+import plural.workers.PluralEachIndex;
+import plural.workers.executor.eachindex.EachIndexExecutor;
+import plural.workers.executor.eachindex.implementations.PluralEachIndexExecutor;
+
 
 import fava.*;
 import fava.signatures.FunctionCombine;

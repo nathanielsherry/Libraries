@@ -21,9 +21,9 @@
 	<classpathentry kind="lib" path="Batik/xerces_2_5_0.jar"/>
 	<classpathentry kind="lib" path="Batik/xml-apis-ext.jar"/>
 	<classpathentry kind="lib" path="Batik/xml-apis.jar"/>
-	<classpathentry kind="lib" path="/home/nathaniel/Projects/Java Jar Libraries/Fava.jar"/>
-	<classpathentry kind="lib" path="/home/nathaniel/Projects/Java Jar Libraries/SciTypes.jar"/>
-	<classpathentry kind="lib" path="/home/nathaniel/Projects/Java Jar Libraries/Plural.jar"/>
-	<classpathentry kind="lib" path="/home/nathaniel/Projects/Java Jar Libraries/Eventful.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Eventful"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Fava"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Plural"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/SciTypes"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
