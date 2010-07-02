@@ -88,7 +88,6 @@ public class ThreadedRasterMapPainter extends MapPainter
 
 		final PluralEachIndex drawPixel = new PluralEachIndex() {
 
-			@Override
 			public void f(Integer ordinal)
 			{
 				if (maximumIndex > ordinal) {

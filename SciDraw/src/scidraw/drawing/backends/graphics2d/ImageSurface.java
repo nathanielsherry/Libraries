@@ -36,7 +36,6 @@ class ImageSurface extends AbstractGraphicsSurface implements SaveableSurface
 		return new ImageSurface(image);
 	}
 
-	@Override
 	public boolean isVectorSurface() {
 		return false;
 	}

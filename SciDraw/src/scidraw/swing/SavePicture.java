@@ -128,14 +128,14 @@ public class SavePicture extends SwidgetDialog
 
 		ComplexToggle png, svg, pdf;
 
-		png = new ComplexToggle("picture_png", "Pixel Image (PNG)",
+		png = new ComplexToggle("document-png", "Pixel Image (PNG)",
 				"Pixel based images are a grid of coloured dots. They have a fixed size and level of detail.", group);
 
-		svg = new ComplexToggle("picture_svg", "Vector Image (SVG)",
+		svg = new ComplexToggle("document-svg", "Vector Image (SVG)",
 				"Vector images use points, lines, and curves to define an image. They can be scaled to any size.",
 				group);
 
-		pdf = new ComplexToggle("picture_pdf", "PDF File", "PDF files are a more print-oriented vector image format.",
+		pdf = new ComplexToggle("document-pdf", "PDF File", "PDF files are a more print-oriented vector image format.",
 				group);
 
 

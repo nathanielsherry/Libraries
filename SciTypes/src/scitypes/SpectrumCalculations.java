@@ -112,7 +112,6 @@ public class SpectrumCalculations
 
 		return foldr(dataset, max(dataset.get(0)), new FunctionCombine<Spectrum, Float, Float>() {
 
-			@Override
 			public Float f(Spectrum list, Float currentMax)
 			{
 				return Math.max(currentMax, max(list));
@@ -267,7 +266,6 @@ public class SpectrumCalculations
 
 		PluralEachIndex eachtask = new PluralEachIndex() {
 
-			@Override
 			public void f(Integer ordinal)
 			{
 				result.set(ordinal, data.get(ordinal) / value);
@@ -373,7 +371,6 @@ public class SpectrumCalculations
 
 		PluralEachIndex eachtask = new PluralEachIndex() {
 
-			@Override
 			public void f(Integer ordinal)
 			{
 				float newvalue = data.get(ordinal) - value;
@@ -453,7 +450,6 @@ public class SpectrumCalculations
 
 		PluralEachIndex eachtask = new PluralEachIndex() {
 
-			@Override
 			public void f(Integer ordinal)
 			{
 				result.set(ordinal, l1.get(ordinal) + l2.get(ordinal));
@@ -563,7 +559,6 @@ public class SpectrumCalculations
 
 		PluralEachIndex eachtask = new PluralEachIndex() {
 
-			@Override
 			public void f(Integer ordinal)
 			{
 				float newValue = l1.get(ordinal) - l2.get(ordinal);
@@ -622,7 +617,6 @@ public class SpectrumCalculations
 
 		PluralEachIndex eachtask = new PluralEachIndex() {
 
-			@Override
 			public void f(Integer ordinal)
 			{
 				result.set(ordinal, l1.get(ordinal) * l2.get(ordinal));
@@ -771,7 +765,6 @@ public class SpectrumCalculations
 
 		PluralEachIndex eachtask = new PluralEachIndex() {
 
-			@Override
 			public void f(Integer ordinal)
 			{
 				float logValue = (float)Math.log(data.get(ordinal) + 1.0);

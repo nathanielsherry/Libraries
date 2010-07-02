@@ -79,11 +79,11 @@ public class RasterColorMapPainter extends MapPainter
 
 		final Buffer b = p.context.getImageBuffer(p.dr.dataWidth, p.dr.dataHeight);
 
+		
 		final PluralEachIndex drawPixel = new PluralEachIndex() {
 
-			@Override
 			public void f(Integer ordinal)
-			{
+			{			
 				if (maximumIndex > ordinal) {
 					b.setPixelValue(ordinal, data.get(ordinal));
 				}
@@ -106,7 +106,6 @@ public class RasterColorMapPainter extends MapPainter
 
 	private void drawAsScalar(PainterData p, List<Color> data, float cellSize)
 	{
-
 		// draw the map
 		for (int y = 0; y < p.dr.dataHeight; y++) {
 			for (int x = 0; x < p.dr.dataWidth; x++) {
