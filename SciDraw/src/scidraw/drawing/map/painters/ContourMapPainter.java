@@ -2,12 +2,23 @@ package scidraw.drawing.map.painters;
 
 
 import java.awt.Color;
+import java.util.LinkedList;
 import java.util.List;
 
+import plural.workers.PluralEachIndex;
+import plural.workers.PluralMap;
+import plural.workers.executor.ThreadPoolUsers;
+import plural.workers.executor.eachindex.implementations.PluralEachIndexExecutor;
+import plural.workers.executor.maps.implementations.PluralMapExecutor;
+
+import fava.Functions;
 import fava.datatypes.Pair;
+import fava.datatypes.Range;
+import fava.datatypes.Triplet;
 
 
 import scidraw.datatypes.DataTypeFactory;
+import scidraw.drawing.backends.Surface;
 import scidraw.drawing.map.MapDrawing;
 import scidraw.drawing.map.palettes.AbstractPalette;
 import scidraw.drawing.painters.PainterData;
@@ -43,34 +54,82 @@ public class ContourMapPainter extends MapPainter
 	@Override
 	public void drawElement(PainterData p)
 	{
+		boolean oldState = ThreadPoolUsers.isPersistent();
+		ThreadPoolUsers.setPersistent(true);
+		
 		GridPerspective<Double> grid = new GridPerspective<Double>(p.dr.dataWidth, p.dr.dataHeight, 0.0);
 		trace(p, grid, data);
+		
+		ThreadPoolUsers.setPersistent(oldState);
+		
+		
 	}
 
 
-	private void trace(PainterData p, GridPerspective<Double> grid, Spectrum list)
+	private void trace(final PainterData p, GridPerspective<Double> grid, Spectrum list)
 	{
 
+		
+		
 		// generate a list of threshold maps, once for each step in the spectrum.
-		List<List<Threshold>> thresholds = getThresholdCellsSet(p, list);
-		GridPerspective<Threshold> thresholdGrid = new GridPerspective<Threshold>(grid.width, grid.height,
+		final List<List<Threshold>> thresholds = getThresholdCellsSet(p, list);
+		final GridPerspective<Threshold> thresholdGrid = new GridPerspective<Threshold>(grid.width, grid.height,
 				Threshold.OUTSIDE);
 
 		// generate a list of bordercells from the threshold maps
-		List<List<Boolean>> borderCellSet = getBorderCellsSet(grid, thresholds);
-		GridPerspective<Boolean> borderGrid = new GridPerspective<Boolean>(grid.width + 1, grid.height + 1, false);
+		final List<List<Boolean>> borderCellSet = getBorderCellsSet(grid, thresholds);
+		final GridPerspective<Boolean> borderGrid = new GridPerspective<Boolean>(grid.width + 1, grid.height + 1, false);
 
-		Color colour;
+		//Color colour;
 
+		
 		
 		for (int i = 0; i < borderCellSet.size(); i++) {
 
-			colour = getColourFromRules(i, borderCellSet.size());
-			p.context.setSource(colour.getRed(), colour.getGreen(), colour.getBlue());
+			//colour = getColourFromRules(i, borderCellSet.size());
+			
+			
+			//p.context.setSource(colour.getRed(), colour.getGreen(), colour.getBlue());
 
-			traceAllRegionsFromBorderCells(p, borderGrid, borderCellSet.get(i), thresholdGrid, thresholds.get(i));
+			//traceAllRegionsFromBorderCells(p, borderGrid, borderCellSet.get(i), thresholdGrid, thresholds.get(i));
 		}
 
+		
+		
+		
+		PluralMap<Integer, Pair<Boolean, Surface>> mapLayers = new PluralMap<Integer, Pair<Boolean,Surface>>() {
+
+			public Pair<Boolean, Surface> f(Integer i) {
+			
+				Color colour = getColourFromRules(i, borderCellSet.size());
+				
+				Surface context = p.context.getNewContextForSurface();
+				
+				context.setSource(colour.getRed(), colour.getGreen(), colour.getBlue());
+
+				boolean trace = traceAllRegionsFromBorderCells(p, context, borderGrid, borderCellSet.get(i), thresholdGrid, thresholds.get(i));
+				
+				return new Pair<Boolean, Surface>(trace, context);
+				
+			}
+		};
+		
+		
+		//execute the map and get the result
+		List<Pair<Boolean, Surface>> surfaces = 
+			new PluralMapExecutor<Integer, Pair<Boolean,Surface>>(
+					new Range(0, contourSteps-1).map(Functions.<Integer>id()), 
+					mapLayers
+			).executeBlocking();
+		
+		
+		//grab the surfaces from the result, and fill them sequentially
+		for (Pair<Boolean, Surface> pair : surfaces)
+		{
+			if (pair.first) pair.second.fill();
+		}
+
+		
 
 
 	}
@@ -92,10 +151,15 @@ public class ContourMapPainter extends MapPainter
 		if (listMax == 0) listMax = 1; // make sure that a map full of 0 doesn't get painted as high
 		final double increment = listMax / contourSteps;
 		
-		for (int i = 0; i < contourSteps; i++) {
-			thresholds.set(i, getThresholdMap(list, increment * i));
-		}
-		 
+		
+		PluralEachIndex eachThreshold = new PluralEachIndex() {
+			
+			public void f(Integer i) {
+				thresholds.set(i, getThresholdMap(list, increment * i));
+			}
+		};
+		
+		new PluralEachIndexExecutor(contourSteps, eachThreshold).executeBlocking();		 
 		
 		return thresholds;
 	}
@@ -113,10 +177,15 @@ public class ContourMapPainter extends MapPainter
 				Threshold.OUTSIDE);
 
 		
-		for (int i = 0; i < contourSteps; i++) {
+		PluralEachIndex eachBorder = new PluralEachIndex() {
+			
+			public void f(Integer i) {
+				set.set(i, getBorderCells(thresholdGrid, thresholds.get(i)));
+			}
+		};
 
-			set.set(i, getBorderCells(thresholdGrid, thresholds.get(i)));
-		}
+		
+		new PluralEachIndexExecutor(contourSteps, eachBorder).executeBlocking();
 
 		return set;
 
@@ -194,7 +263,7 @@ public class ContourMapPainter extends MapPainter
 	 * -------------------------------------------------------------------
 	 */
 
-	private void traceAllRegionsFromBorderCells(PainterData p, GridPerspective<Boolean> grid, List<Boolean> borderCells,
+	private boolean traceAllRegionsFromBorderCells(PainterData p, Surface context, GridPerspective<Boolean> grid, List<Boolean> borderCells,
 			GridPerspective<Threshold> thresholdGrid, List<Threshold> threshold)
 	{
 
@@ -205,7 +274,7 @@ public class ContourMapPainter extends MapPainter
 			for (int x = 0; x < grid.width; x++) {
 
 				if (grid.get(borderCells, x, y) == true) {
-					borderCells = traceSingleRegionFromBorderCells(p, grid, borderCells, thresholdGrid, threshold, x, y);
+					borderCells = traceSingleRegionFromBorderCells(p, context, grid, borderCells, thresholdGrid, threshold, x, y);
 					counts++;
 					trace = true;
 				}
@@ -214,12 +283,12 @@ public class ContourMapPainter extends MapPainter
 		}
 
 
-		if (trace) p.context.fill();
+		return trace;
 
 	}
 
 
-	private List<Boolean> traceSingleRegionFromBorderCells(PainterData p, GridPerspective<Boolean> grid, List<Boolean> borderCells,
+	private List<Boolean> traceSingleRegionFromBorderCells(PainterData p, Surface context, GridPerspective<Boolean> grid, List<Boolean> borderCells,
 			GridPerspective<Threshold> thresholdGrid, List<Threshold> threshold, int startX, int startY)
 	{
 
@@ -238,7 +307,7 @@ public class ContourMapPainter extends MapPainter
 		float posX, posY;
 		posX = (x) * cellSize;
 		posY = ((grid.height - 1 - y)) * cellSize;
-		p.context.moveTo(posX, posY);
+		context.moveTo(posX, posY);
 
 		int direction = 0;
 		Coord<Integer> point;
@@ -257,7 +326,7 @@ public class ContourMapPainter extends MapPainter
 			// calculate the position scaled to cellsize
 			posX = (x) * cellSize;
 			posY = ((grid.height - 1 - y)) * cellSize;
-			p.context.lineTo(posX, posY);
+			context.lineTo(posX, posY);
 
 			grid.set(remainingBorderCells, x, y, false);
 

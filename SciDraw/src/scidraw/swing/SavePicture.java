@@ -20,6 +20,7 @@ import javax.swing.JPanel;
 import swidget.containers.SwidgetContainer;
 import swidget.containers.SwidgetDialog;
 import swidget.dialogues.fileio.SwingIO;
+import swidget.icons.StockIcon;
 import swidget.widgets.ClearPanel;
 import swidget.widgets.ImageButton;
 import swidget.widgets.Spacing;
@@ -79,8 +80,8 @@ public class SavePicture extends SwidgetDialog
 		buttonBox.setLayout(new BoxLayout(buttonBox, BoxLayout.LINE_AXIS));
 
 
-		ImageButton ok = new ImageButton("document-save", "Save", true);
-		ImageButton cancel = new ImageButton("cancel", "Cancel", true);
+		ImageButton ok = new ImageButton(StockIcon.DOCUMENT_SAVE, "Save", true);
+		ImageButton cancel = new ImageButton(StockIcon.CHOOSE_CANCEL, "Cancel", true);
 
 		ok.addActionListener(new ActionListener() {
 
