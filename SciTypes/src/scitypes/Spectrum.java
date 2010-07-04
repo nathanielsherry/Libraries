@@ -5,6 +5,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
 
@@ -13,7 +14,7 @@ import fava.signatures.FunctionCombine;
 import fava.signatures.FunctionEach;
 import fava.signatures.FunctionMap;
 
-public class Spectrum extends Functionable<Float> implements Iterable<Float>
+public class Spectrum extends Functionable<Float> implements Iterable<Float>, Serializable
 {
 
 	private float	data[];
@@ -223,6 +224,7 @@ public class Spectrum extends Functionable<Float> implements Iterable<Float>
 				}
 				catch (IOException e)
 				{
+					e.printStackTrace();
 					return new byte[0];
 				}
 
@@ -250,10 +252,12 @@ public class Spectrum extends Functionable<Float> implements Iterable<Float>
 				}
 				catch (IOException e)
 				{
+					e.printStackTrace();
 					return null;
 				}
 				catch (ClassNotFoundException e)
 				{
+					e.printStackTrace();
 					return null;
 				}
 
