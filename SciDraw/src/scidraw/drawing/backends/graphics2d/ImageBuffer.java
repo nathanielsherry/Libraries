@@ -60,10 +60,10 @@ public class ImageBuffer extends ScreenSurface implements Buffer
 		dirty = true;
 		offset *= 4;
 
-		int alpha = (int) (c.getAlpha());
-		int red = (int) (c.getRed());
-		int green = (int) (c.getGreen());
-		int blue = (int) (c.getBlue());
+		int alpha = c.getAlpha();
+		int red = c.getRed();
+		int green = c.getGreen();
+		int blue = c.getBlue();
 
 		datasource[offset + 3] = alpha;
 		datasource[offset + 0] = red;

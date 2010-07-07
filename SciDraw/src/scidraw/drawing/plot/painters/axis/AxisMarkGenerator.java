@@ -2,7 +2,6 @@ package scidraw.drawing.plot.painters.axis;
 
 import java.util.List;
 
-import fava.*;
 import fava.datatypes.Pair;
 
 import scidraw.datatypes.DataTypeFactory;

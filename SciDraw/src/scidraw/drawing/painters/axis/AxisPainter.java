@@ -3,7 +3,6 @@ package scidraw.drawing.painters.axis;
 
 import java.util.List;
 
-import fava.*;
 import fava.datatypes.Bounds;
 import fava.datatypes.Pair;
 
@@ -84,7 +83,7 @@ public abstract class AxisPainter extends Painter
 	@Override
 	protected float getBaseUnitSize(scidraw.drawing.DrawingRequest dr)
 	{
-		return (float)Math.min(dr.imageHeight, dr.imageWidth) / 350.0f;
+		return Math.min(dr.imageHeight, dr.imageWidth) / 350.0f;
 	}
 
 

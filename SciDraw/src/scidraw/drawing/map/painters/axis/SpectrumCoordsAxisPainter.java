@@ -101,6 +101,7 @@ public class SpectrumCoordsAxisPainter extends AbstractKeyCoordAxisPainter
 	}
 
 
+	@Override
 	protected void drawKey(final PainterData p)
 	{
 

@@ -10,11 +10,8 @@ import java.awt.GradientPaint;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.font.TextLayout;
-import java.awt.geom.AffineTransform;
 import java.awt.geom.GeneralPath;
-import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
-import java.awt.image.BufferedImageOp;
 import java.util.Stack;
 
 import scidraw.drawing.backends.Buffer;
@@ -294,13 +291,8 @@ abstract class AbstractGraphicsSurface implements Surface
 	{
 		BufferedImage image = (BufferedImage) buffer.getImageSource();
 
-
-		BufferedImageOp op = new AffineTransformOp(new AffineTransform(scale, 0, 0, scale, 0, 0),
-				AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
-
 		graphics.drawImage(image, 0, 0, (int)(image.getWidth()*scale), (int)(image.getHeight()*scale), null);
-		
-		//graphics.drawImage(image, op, x, y);
+
 		
 	}
 	

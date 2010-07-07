@@ -1,6 +1,5 @@
 package scidraw.drawing.map.painters.axis;
 
-import fava.*;
 import fava.datatypes.Bounds;
 import fava.datatypes.Pair;
 

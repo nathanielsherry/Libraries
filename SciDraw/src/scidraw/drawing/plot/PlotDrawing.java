@@ -3,7 +3,6 @@ package scidraw.drawing.plot;
 
 import java.util.List;
 
-import fava.*;
 import fava.datatypes.Bounds;
 import fava.datatypes.Pair;
 
@@ -149,6 +148,7 @@ public class PlotDrawing extends Drawing
 	/**
 	 * Draws a plot using the given painters
 	 */
+	@Override
 	public void draw()
 	{
 		

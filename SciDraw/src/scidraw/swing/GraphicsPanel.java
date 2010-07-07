@@ -2,7 +2,6 @@ package scidraw.swing;
 
 
 import java.awt.Graphics;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.OutputStream;
 
@@ -12,9 +11,6 @@ import scidraw.drawing.backends.DrawingSurfaceFactory;
 import scidraw.drawing.backends.SaveableSurface;
 import scidraw.drawing.backends.Surface;
 import scidraw.drawing.backends.SurfaceType;
-
-import eventful.Eventful;
-import eventful.EventfulEnum;
 
 
 /**
@@ -36,7 +32,7 @@ public abstract class GraphicsPanel extends JPanel
 	{
 	}
 
-
+	@Override
 	public void paintComponent(Graphics g)
 	{
 		draw(g);

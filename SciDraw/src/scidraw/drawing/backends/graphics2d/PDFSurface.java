@@ -12,10 +12,8 @@ import org.apache.batik.transcoder.TranscoderInput;
 import org.apache.batik.transcoder.TranscoderOutput;
 import org.apache.fop.svg.PDFTranscoder;
 
-import scidraw.drawing.backends.SaveableSurface;
 
-
-class PDFSurface extends SVGSurface implements SaveableSurface
+class PDFSurface extends SVGSurface
 {
 
 	public PDFSurface(SVGGraphics2D g)

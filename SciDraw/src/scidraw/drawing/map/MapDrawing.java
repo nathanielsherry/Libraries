@@ -1,7 +1,6 @@
 package scidraw.drawing.map;
 
 
-import fava.*;
 import fava.datatypes.Bounds;
 import fava.datatypes.Pair;
 
@@ -138,6 +137,7 @@ public class MapDrawing extends Drawing
 	 * @param mapPainters
 	 *            the {@link MapPainter}s to use to draw the map
 	 */
+	@Override
 	public void draw()
 	{
 		

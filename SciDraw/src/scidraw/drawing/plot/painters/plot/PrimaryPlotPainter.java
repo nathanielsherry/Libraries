@@ -34,7 +34,7 @@ public class PrimaryPlotPainter extends AreaPainter
 	
 	private static Color getStrokeColor(boolean isMonochrome)
 	{
-		if (isMonochrome) return new Color(0.10f, 0.10f, 0.10f);;
+		if (isMonochrome) return new Color(0.10f, 0.10f, 0.10f);
 		return new Color(0.204f, 0.404f, 0.016f);
 	}
 	

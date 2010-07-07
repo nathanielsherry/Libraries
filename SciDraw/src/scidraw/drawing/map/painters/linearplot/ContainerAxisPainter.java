@@ -1,6 +1,5 @@
 package scidraw.drawing.map.painters.linearplot;
 
-import fava.*;
 import fava.datatypes.Pair;
 
 import scidraw.drawing.Drawing;
@@ -17,7 +16,7 @@ public class ContainerAxisPainter extends AxisPainter {
 	
 	private Side side;
 	
-	public enum Side {TOP, BOTTOM, LEFT, RIGHT};
+	public enum Side {TOP, BOTTOM, LEFT, RIGHT}
 	
 	public ContainerAxisPainter(Drawing drawing, float percent, Side side)
 	{

@@ -12,7 +12,6 @@ import scidraw.drawing.backends.Buffer;
 import scidraw.drawing.map.MapDrawing;
 import scidraw.drawing.map.palettes.ThermalScalePalette;
 import scidraw.drawing.painters.PainterData;
-import scitypes.GridPerspective;
 
 /**
  * 
@@ -54,9 +53,6 @@ public class RasterColorMapPainter extends MapPainter
 			p.context.rectangle(0, 0, p.dr.dataWidth * cellSize, p.dr.dataHeight * cellSize);
 			p.context.clip();
 	
-			
-			GridPerspective<Color> grid = new GridPerspective<Color>(p.dr.dataWidth, p.dr.dataHeight, Color.gray);
-			//pixels = Calculations.gridYReverse(pixels, grid);
 	
 			if (p.dr.drawToVectorSurface) {
 				drawAsScalar(p, pixels, cellSize);

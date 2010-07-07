@@ -2,7 +2,6 @@ package scidraw.drawing.map.painters;
 
 
 import java.awt.Color;
-import java.util.LinkedList;
 import java.util.List;
 
 import plural.workers.PluralEachIndex;
@@ -14,7 +13,6 @@ import plural.workers.executor.maps.implementations.PluralMapExecutor;
 import fava.Functions;
 import fava.datatypes.Pair;
 import fava.datatypes.Range;
-import fava.datatypes.Triplet;
 
 
 import scidraw.datatypes.DataTypeFactory;

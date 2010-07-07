@@ -63,10 +63,9 @@ public abstract class PlotPainter extends Painter{
 	 * @param connected should the data points be drawn as part of a connected series, or should each point be shown as an individual line
 	 * @param data the data series to trace
 	 */
-	protected void traceData(Surface context, scidraw.drawing.DrawingRequest _dr, Coord<Float> plotSize, Spectrum dataHeights, TraceType traceType, Spectrum data)
+	protected void traceData(Surface context, scidraw.drawing.DrawingRequest dr, Coord<Float> plotSize, Spectrum dataHeights, TraceType traceType, Spectrum data)
 	{
-		
-		DrawingRequest dr = (DrawingRequest)_dr;
+
 
 		if (context == null) return;
 
@@ -133,7 +132,7 @@ public abstract class PlotPainter extends Painter{
 	
 	protected Coord<Bounds<Float>> getTextLabelDimensions(PainterData p, String title, float energy)
 	{
-		DrawingRequest dr = (DrawingRequest)p.dr;
+		DrawingRequest dr = p.dr;
 
 		float textWidth = p.context.getTextWidth(title);
 
@@ -200,9 +199,8 @@ public abstract class PlotPainter extends Painter{
 	}
 	
 	
-	public float getChannelAtEnergy(scidraw.drawing.DrawingRequest _dr, float energy)
+	public float getChannelAtEnergy(scidraw.drawing.DrawingRequest dr, float energy)
 	{
-		DrawingRequest dr = (DrawingRequest)_dr;
 		return energy / dr.unitSize;
 	}
 

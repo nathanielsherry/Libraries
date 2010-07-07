@@ -43,6 +43,7 @@ public class LegendCoordsAxisPainter extends AbstractKeyCoordAxisPainter
 	}
 
 
+	@Override
 	protected void drawKey(final PainterData p)
 	{
 
