@@ -14,7 +14,7 @@ public class Ratios
 	public static String fromFloat(float value, boolean integersOnly)
 	{
 		float ratioValue = (float)Math.pow(logValue, Math.abs(value));
-		int decimals = 0;;
+		int decimals = 0;
 		if (ratioValue < logValue && !integersOnly) decimals = 1;
 		
 		String ratioString; 

@@ -11,7 +11,6 @@ import plural.workers.executor.eachindex.EachIndexExecutor;
 import plural.workers.executor.eachindex.implementations.PluralEachIndexExecutor;
 
 
-import fava.*;
 import fava.signatures.FunctionCombine;
 import static fava.Fn.*;
 import static fava.Functions.*;
@@ -756,7 +755,7 @@ public class SpectrumCalculations
 			logValue = (float)Math.log1p(source.get(i));
 			logValue = logValue < 0 ? 0 : logValue;
 			logValue = Float.isNaN(logValue) ? 0 : logValue;
-			target.set(i, (float)logValue);
+			target.set(i, logValue);
 		}
 
 	}
@@ -784,7 +783,7 @@ public class SpectrumCalculations
 				logValue = logValue < 0 ? 0 : logValue;
 				logValue = Float.isNaN(logValue) ? 0 : logValue;
 
-				result.set(ordinal, (float)logValue);
+				result.set(ordinal, logValue);
 			}
 		};
 

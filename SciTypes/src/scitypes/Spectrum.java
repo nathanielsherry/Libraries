@@ -14,7 +14,7 @@ import fava.signatures.FunctionCombine;
 import fava.signatures.FunctionEach;
 import fava.signatures.FunctionMap;
 
-public class Spectrum extends Functionable<Float> implements Iterable<Float>, Serializable
+public class Spectrum extends Functionable<Float> implements Serializable
 {
 
 	private float	data[];
@@ -58,6 +58,17 @@ public class Spectrum extends Functionable<Float> implements Iterable<Float>, Se
 		this.data = copy.toArray();
 		this.size = copy.size;
 		this.maxIndex = copy.maxIndex;		
+	}
+	
+	public void copy(Spectrum s)
+	{
+		int maxindex;
+		maxindex = Math.min(s.size(), size());
+		
+		for (int i = 0; i < maxindex; i++)
+		{
+			set(i, s.get(i));
+		}
 	}
 
 
@@ -140,6 +151,7 @@ public class Spectrum extends Functionable<Float> implements Iterable<Float>, Se
 		};
 	}
 
+	@Override
 	public void each(FunctionEach<Float> f)
 	{
 		for (int i = 0; i < size; i++)
@@ -160,6 +172,7 @@ public class Spectrum extends Functionable<Float> implements Iterable<Float>, Se
 		
 	}
 	
+	@Override
 	public Float fold(FunctionCombine<Float, Float, Float> f)
 	{
 		
@@ -176,6 +189,7 @@ public class Spectrum extends Functionable<Float> implements Iterable<Float>, Se
 		
 	}
 	
+	@Override
 	public <T2> T2 fold(T2 base, FunctionCombine<Float, T2, T2> f)
 	{
 		
