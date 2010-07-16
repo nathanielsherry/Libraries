@@ -16,7 +16,7 @@ public class Ratios
 		float ratioValue = (float)Math.pow(logValue, Math.abs(value));
 		int decimals = 0;
 		if (ratioValue < logValue && !integersOnly) decimals = 1;
-		
+				
 		String ratioString; 
 		ratioString = SigDigits.roundFloatTo(ratioValue, decimals);
 		

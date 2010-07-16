@@ -134,13 +134,13 @@ public class Spectrum extends Functionable<Float> implements Serializable
 
 			public boolean hasNext()
 			{
-				return (index < size-1);
+				return (index < size);
 			}
 
 
 			public Float next()
 			{
-				return data[++index];
+				return data[index++];
 			}
 
 

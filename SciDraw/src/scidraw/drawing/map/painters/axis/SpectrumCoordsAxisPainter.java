@@ -13,6 +13,7 @@ import scitypes.SigDigits;
 
 import fava.*;
 import fava.datatypes.Pair;
+import fava.signatures.FunctionCombine;
 import fava.signatures.FunctionEach;
 import static fava.Fn.*;
 
@@ -168,12 +169,23 @@ public class SpectrumCoordsAxisPainter extends AbstractKeyCoordAxisPainter
 			
 
 			//concatenate the list of strings to display so we can check the width of the total string
-			String markingsText = foldr(map(markings, Functions.<Float, String>second()), Functions.strcat(" "));
+			String longestMarking = foldr(map(markings, Functions.<Float, String>second()), new FunctionCombine<String, String, String>() {
+
+				public String f(String s1, String s2)
+				{
+					Float l1 = p.context.getTextWidth(s1);
+					Float l2 = p.context.getTextWidth(s2);
+					if (l1 > l2) return s1;
+					return s2;
+				}}
+			);
+			
+			
 			//keep shrinking the font size until all of the text until the font size is small enough that it fits
 			while (width > 0.0 && fontSize > 1.0)
 			{
 				//get the width of the text for all of the markings
-				float expectedTextWidth = p.context.getTextWidth(markingsText);
+				float expectedTextWidth = p.context.getTextWidth(longestMarking) * markings.size();
 				if (expectedTextWidth < width) break;
 				
 				fontSize *= (width/expectedTextWidth) * 0.95; 
