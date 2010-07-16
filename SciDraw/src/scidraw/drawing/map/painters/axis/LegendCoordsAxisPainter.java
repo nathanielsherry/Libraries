@@ -63,7 +63,7 @@ public class LegendCoordsAxisPainter extends AbstractKeyCoordAxisPainter
 		
 		
 		// concatenate the list of strings to display so we can check the width of the total string
-		String markingsText = foldr(map(entries, Functions.<Color, String>second()), strcat(" "));
+		String markingsText = foldr(map(entries, Functions.<Color, String>second()), strcat(" "));		
 		float legendSquareWidth = entries.size() * keyHeight * 2.5f - keyHeight; // -keyHeight because we don't need
 																					// padding on the end
 
