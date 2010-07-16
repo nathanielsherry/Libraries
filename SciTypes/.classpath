@@ -2,8 +2,7 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/Eventful"/>
-	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/Plural"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Plural"/>
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/Fava"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
