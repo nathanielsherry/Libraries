@@ -262,17 +262,27 @@ abstract class AbstractGraphicsSurface implements Surface
 
 	public void useMonoFont()
 	{
-		Font f = graphics.getFont();
-		graphics.setFont(new Font("Mono", f.getStyle(), f.getSize()));
+		setFont("Mono");
 	}
 
 
 	public void useSansFont()
 	{
-		Font f = graphics.getFont();
-		graphics.setFont(new Font("Sans", f.getStyle(), f.getSize()));
+		setFont("Sans");
 	}
 
+	public void setFont(String name)
+	{
+		Font f = graphics.getFont();
+		graphics.setFont(new Font(name, f.getStyle(), f.getSize()));
+	}
+	
+	public void setFontBold(boolean bold)
+	{
+		Font f = graphics.getFont();
+		graphics.setFont(f.deriveFont(bold ? Font.BOLD : Font.PLAIN));
+	}
+	
 
 	public float getFontAscent()
 	{

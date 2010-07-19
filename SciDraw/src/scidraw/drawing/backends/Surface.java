@@ -3,6 +3,7 @@ package scidraw.drawing.backends;
 
 
 import java.awt.Color;
+import java.awt.Font;
 
 
 
@@ -329,6 +330,14 @@ public interface Surface
 	 */
 	public void useSansFont();
 
+	
+	/**
+	 * Specifies that a custom font should be used
+	 * @param f the font to be used
+	 */
+	public void setFont(String name);
+	
+	public void setFontBold(boolean bold);
 	
 	/**
 	 * Indicates if this surface is backed by a vector image

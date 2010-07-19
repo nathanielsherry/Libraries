@@ -115,9 +115,9 @@ public class ContourMapPainter extends MapPainter
 		
 		//execute the map and get the result
 		List<Pair<Boolean, Surface>> surfaces = 
-			new PluralMapExecutor<Integer, Pair<Boolean,Surface>>(
-					new Range(0, contourSteps-1).map(Functions.<Integer>id()), 
-					mapLayers
+			new PluralMapExecutor<Integer, Pair<Boolean,Surface>>
+			(
+				new Range(0, contourSteps-1).map(Functions.<Integer>id()).toSink(), mapLayers
 			).executeBlocking();
 		
 		

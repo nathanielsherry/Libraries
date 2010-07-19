@@ -25,9 +25,6 @@ public abstract class GraphicsPanel extends JPanel
 {
 
 
-	private boolean isPDF = false;
-
-
 	public GraphicsPanel()
 	{
 	}
@@ -44,19 +41,19 @@ public abstract class GraphicsPanel extends JPanel
 	}
 
 
-	protected void writePNG(OutputStream out) throws IOException
+	public void writePNG(OutputStream out) throws IOException
 	{
 		write(SurfaceType.RASTER, out);
 	}
 
 
-	protected void writeSVG(OutputStream out) throws IOException
+	public void writeSVG(OutputStream out) throws IOException
 	{
 		write(SurfaceType.VECTOR, out);
 	}
 
 
-	protected void writePDF(OutputStream out) throws IOException
+	public void writePDF(OutputStream out) throws IOException
 	{
 		write(SurfaceType.PDF, out);
 	}
@@ -74,14 +71,6 @@ public abstract class GraphicsPanel extends JPanel
 		b.write(out);
 	}
 
-
-	protected void setOutputIsPDF(boolean isPDF){
-		this.isPDF= isPDF; 
-	}
-	
-	protected boolean isOutputPDF(){
-		return isPDF;
-	}
 
 
 	/**
