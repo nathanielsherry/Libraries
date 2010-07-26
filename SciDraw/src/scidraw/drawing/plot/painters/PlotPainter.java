@@ -166,12 +166,15 @@ public abstract class PlotPainter extends Painter{
 	 */
 	protected void drawTextLabel(PainterData p, String title, float energy, float xStart, float yStart)
 	{
-		
+		drawTextLabel(p, title, energy, xStart, yStart, true);
+	}
+	protected void drawTextLabel(PainterData p, String title, float energy, float xStart, float yStart, boolean resetColour)
+	{
 		if (xStart > p.plotSize.x) return;
 
 		if (title != null) {
 
-			p.context.setSource(0.0f, 0.0f, 0.0f);
+			if (resetColour) p.context.setSource(0.0f, 0.0f, 0.0f);
 			p.context.writeText(title, xStart, p.plotSize.y - yStart);
 		}
 

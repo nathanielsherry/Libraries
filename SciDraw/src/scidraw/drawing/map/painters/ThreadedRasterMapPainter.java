@@ -30,6 +30,7 @@ public class ThreadedRasterMapPainter extends MapPainter
 	public ThreadedRasterMapPainter(List<AbstractPalette> colourRules, Spectrum data)
 	{
 		super(colourRules, data);
+		
 	}
 
 
@@ -46,6 +47,7 @@ public class ThreadedRasterMapPainter extends MapPainter
 		p.context.save();
 
 		Spectrum modData = data;
+		
 		float maxIntensity;
 		if (p.dr.maxYIntensity <= 0) {
 			maxIntensity = SpectrumCalculations.max(data);

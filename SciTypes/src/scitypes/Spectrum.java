@@ -160,6 +160,14 @@ public class Spectrum extends Functionable<Float> implements Serializable
 		}
 	}
 	
+	public void map_i(FunctionMap<Float, Float> f)
+	{
+		for (int i = 0; i < size; i++)
+		{
+			set(i, f.f(data[i]));
+		}
+	}
+	
 	public Spectrum map(FunctionMap<Float, Float> f)
 	{
 		

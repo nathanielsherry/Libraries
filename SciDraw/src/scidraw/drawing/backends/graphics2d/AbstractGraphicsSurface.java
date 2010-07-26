@@ -103,7 +103,7 @@ abstract class AbstractGraphicsSurface implements Surface
 	{
 		path.moveTo(x, y);
 	}
-
+	
 
 	public void rectangle(float x, float y, float width, float height)
 	{

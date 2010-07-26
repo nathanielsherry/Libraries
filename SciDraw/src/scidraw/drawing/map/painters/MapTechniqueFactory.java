@@ -13,7 +13,7 @@ public class MapTechniqueFactory
 
 	public static MapPainter getTechnique(List<AbstractPalette> colourRules, Spectrum data, boolean contour, int contourSteps)
 	{
-		if (contour) return new ContourMapPainter(colourRules, data, contourSteps);
+		//if (contour) return new ContourMapPainter(colourRules, data, contourSteps);
 		return new ThreadedRasterMapPainter(colourRules, data);
 	}
 	

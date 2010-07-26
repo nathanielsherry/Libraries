@@ -3,7 +3,6 @@ package scidraw.drawing.backends;
 
 
 import java.awt.Color;
-import java.awt.Font;
 
 
 
@@ -49,6 +48,7 @@ public interface Surface
 	public void moveTo(float x, float y);
 
 
+	
 	/**
 	 * Outlines the shape in the buffer, clears the buffer
 	 */

@@ -19,4 +19,10 @@ public class Coord<T> {
 		this.y = y;
 	}
 	
+	@Override
+	public String toString()
+	{
+		return "(" + x.toString() + "," + y.toString() + ")";
+	}
+	
 }
