@@ -136,7 +136,7 @@ public class FileBackedList<T extends Serializable> implements List<T>
 			
 			long currentLength = raf.length();
 
-			byte[] encoded = encodeObject(element); //encode.f(element);
+			byte[] encoded = encodeObject(element);
 			
 			long writePosition = currentLength;
 			
@@ -261,7 +261,7 @@ public class FileBackedList<T extends Serializable> implements List<T>
 			raf.seek(offset);
 			raf.read(data, 0, length);
 						
-			return decodeObject(data);//decode.f(data);
+			return decodeObject(data);
 		}
 		catch (IOException e)
 		{
@@ -443,9 +443,12 @@ public class FileBackedList<T extends Serializable> implements List<T>
 			//nothing
 		}
 		
-		//record the old range which is not being used anymore
-		Range oldRange = elementPositions.get(index);
-		discardedRanges.addRange(oldRange);
+		if (elementPositions.size() > index)
+		{
+			//record the old range which is not being used anymore
+			Range oldRange = elementPositions.get(index);
+			discardedRanges.addRange(oldRange);
+		}
 		
 		addEntry(index, element);
 		

@@ -30,12 +30,9 @@ import scitypes.Coord;
 public class MapDrawing extends Drawing
 {
 
-	private Buffer				mapBuffer;
 		
 	private List<MapPainter>	painters;
 	private List<AxisPainter>	axisPainters;
-
-	private boolean 			needsMapRepaint = true;
 
 
 	/**
@@ -56,7 +53,6 @@ public class MapDrawing extends Drawing
 		super(dr);
 		this.context = context;
 		this.axisPainters = axisPainters;
-		mapBuffer = new ImageBuffer(dr.dataWidth, dr.dataHeight);
 
 		// mapSize = calculateMapDimensions(dr, context);
 	}
@@ -158,17 +154,13 @@ public class MapDrawing extends Drawing
 				}
 		
 			}else{
-				if (needsMapRepaint){
-					mapBuffer = new ImageBuffer((int)dr.imageWidth, (int)dr.imageHeight);
-					mapBuffer.translate(borderSizes.x.start, borderSizes.y.start);
-					
-					for (MapPainter t : painters) {
-						t.draw(new PainterData(mapBuffer, dr, mapDimensions, null));
-					}
-					needsMapRepaint = false;
+
+				context.translate(borderSizes.x.start, borderSizes.y.start);
+				
+				for (MapPainter t : painters) {
+					t.draw(new PainterData(context, dr, mapDimensions, null));
 				}
-			
-				context.compose(mapBuffer, 0, 0, 1.0f);
+				
 			}
 
 			
@@ -240,7 +232,7 @@ public class MapDrawing extends Drawing
 
 		Coord<Float> borders = calcBorderSize();
 
-		float cellSize = calcCellSize(dr.imageWidth - borders.x, dr.imageHeight - borders.y, dr);
+		float cellSize = calcInterpolatedCellSize(dr.imageWidth - borders.x, dr.imageHeight - borders.y, dr);
 		if (cellSize < 0.01) cellSize = 0.01f;
 
 		return new Coord<Float>(dr.dataWidth * cellSize + borders.x, dr.dataHeight * cellSize + borders.y);
@@ -259,13 +251,28 @@ public class MapDrawing extends Drawing
 	 *            the DrawingRequest to define how maps should be drawn
 	 * @return a cell size (square) for a single data point
 	 */
-	public static float calcCellSize(float availableWidth, float availableHeight, DrawingRequest dr)
+	public static float calcInterpolatedCellSize(float availableWidth, float availableHeight, DrawingRequest dr)
 	{
 
 		float cellWidth, cellHeight;
 
 		cellWidth = availableWidth / dr.dataWidth;
 		cellHeight = availableHeight / dr.dataHeight;
+
+		float cellSize;
+		cellSize = cellWidth > cellHeight ? cellHeight : cellWidth;
+	
+		return cellSize;
+
+	}
+	
+	public static float calcUninterpolatedCellSize(float availableWidth, float availableHeight, DrawingRequest dr)
+	{
+
+		float cellWidth, cellHeight;
+
+		cellWidth = availableWidth / dr.uninterpolatedWidth;
+		cellHeight = availableHeight / dr.uninterpolatedHeight;
 
 		float cellSize;
 		cellSize = cellWidth > cellHeight ? cellHeight : cellWidth;
@@ -309,7 +316,7 @@ public class MapDrawing extends Drawing
 		Coord<Float> borderSize = calcBorderSize();
 		float x = 0.0f, y = 0.0f;
 
-		float cellSize = calcCellSize(dr.imageWidth - borderSize.x, dr.imageHeight - borderSize.y, dr);
+		float cellSize = calcInterpolatedCellSize(dr.imageWidth - borderSize.x, dr.imageHeight - borderSize.y, dr);
 		x = dr.dataWidth * cellSize;
 		y = dr.dataHeight * cellSize;
 
@@ -330,7 +337,14 @@ public class MapDrawing extends Drawing
 
 
 	public void needsMapRepaint() {
-		needsMapRepaint = true;
+		
+		if (painters == null) return;
+		
+		for (MapPainter p : painters)
+		{
+			p.clearBuffer();
+		}
+		
 	}
 
 

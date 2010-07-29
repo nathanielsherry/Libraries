@@ -11,10 +11,10 @@ import java.io.IOException;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import swidget.containers.SwidgetContainer;
-import swidget.containers.SwidgetDialog;
 import swidget.dialogues.fileio.SwidgetIO;
 import swidget.icons.StockIcon;
 import swidget.widgets.ClearPanel;
@@ -24,7 +24,7 @@ import swidget.widgets.toggle.ComplexToggle;
 import swidget.widgets.toggle.ComplexToggleGroup;
 
 
-public class SavePicture extends SwidgetDialog
+public class SavePicture extends JDialog
 {
 
 	private GraphicsPanel		controller;
@@ -34,7 +34,7 @@ public class SavePicture extends SwidgetDialog
 
 	JPanel						controlsPanel;
 	
-	public SavePicture(SwidgetContainer owner, GraphicsPanel controller, String startingFolder)
+	public SavePicture(JFrame owner, GraphicsPanel controller, String startingFolder)
 	{
 
 		super(owner, "Save as Image");
@@ -42,11 +42,11 @@ public class SavePicture extends SwidgetDialog
 		this.controller = controller;
 		this.startingFolder = startingFolder;
 
-		init();
+		init(owner);
 
 	}
 	
-	private void init()
+	private void init(JFrame owner)
 	{
 
 		controlsPanel = new ClearPanel();
@@ -63,7 +63,7 @@ public class SavePicture extends SwidgetDialog
 		setResizable(false);
 
 		pack();
-		centreOnParent();
+		setLocationRelativeTo(owner);
 		setModal(true);
 		setVisible(true);
 	}

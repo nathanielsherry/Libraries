@@ -7,6 +7,7 @@ import plural.workers.PluralEachIndex;
 import plural.workers.executor.eachindex.implementations.PluralEachIndexExecutor;
 
 import scidraw.drawing.backends.Buffer;
+import scidraw.drawing.backends.Surface;
 import scidraw.drawing.map.MapDrawing;
 import scidraw.drawing.map.palettes.AbstractPalette;
 import scidraw.drawing.painters.PainterData;
@@ -24,8 +25,7 @@ import scitypes.SpectrumCalculations;
 public class ThreadedRasterMapPainter extends MapPainter
 {
 
-	private Buffer buffer;
-	public boolean useBuffer = false;
+	
 
 	public ThreadedRasterMapPainter(List<AbstractPalette> colourRules, Spectrum data)
 	{
@@ -39,43 +39,33 @@ public class ThreadedRasterMapPainter extends MapPainter
 		super(colourRule, data);
 	}
 
-
 	@Override
-	public void drawElement(PainterData p)
+	public void drawMap(PainterData p, float cellSize, float rawCellSize)
 	{
-
-		p.context.save();
-
-		Spectrum modData = data;
 		
-		float maxIntensity;
-		if (p.dr.maxYIntensity <= 0) {
-			maxIntensity = SpectrumCalculations.max(data);
-		} else {
-			maxIntensity = p.dr.maxYIntensity;
-		}
-
-
-		// get the size of the cells
-		float cellSize = MapDrawing.calcCellSize(p.plotSize.x, p.plotSize.y, p.dr);
-
-		// clip the region
-		p.context.rectangle(0, 0, p.dr.dataWidth * cellSize, p.dr.dataHeight * cellSize);
-		p.context.clip();
-
-		GridPerspective<Float> grid = new GridPerspective<Float>(p.dr.dataWidth, p.dr.dataHeight, 0.0f);
-		modData = SpectrumCalculations.gridYReverse(modData, grid);
-
-		if (p.dr.drawToVectorSurface) {
-			drawAsScalar(p, modData, cellSize, maxIntensity);
-			buffer = null;
-		} else {
-			if (useBuffer && buffer != null){
-				drawBuffer(p, buffer, cellSize);
+		p.context.save();
+	
+			Spectrum modData = data;
+			
+			float maxIntensity;
+			if (p.dr.maxYIntensity <= 0) {
+				maxIntensity = SpectrumCalculations.max(data);
 			} else {
-				buffer = drawAsRaster(p, modData, cellSize, maxIntensity, p.dr.dataHeight * p.dr.dataWidth);
+				maxIntensity = p.dr.maxYIntensity;
 			}
-		}
+	
+			
+			GridPerspective<Float> grid = new GridPerspective<Float>(p.dr.dataWidth, p.dr.dataHeight, 0.0f);
+			modData = SpectrumCalculations.gridYReverse(modData, grid);
+	
+			if (p.dr.drawToVectorSurface) {
+				drawAsScalar(p, modData, cellSize, maxIntensity);
+			} else {
+				if (buffer == null) {
+					buffer = drawAsRaster(p, modData, cellSize, maxIntensity, p.dr.dataHeight * p.dr.dataWidth);
+				}
+				p.context.compose(buffer, 0, 0, cellSize);
+			}
 
 		p.context.restore();
 
@@ -100,16 +90,10 @@ public class ThreadedRasterMapPainter extends MapPainter
 
 
 		new PluralEachIndexExecutor(data.size(), drawPixel).executeBlocking();
-
-		p.context.compose(b, 0, 0, cellSize);
 		
 		return b;
 	}
 
-	private void drawBuffer(PainterData p, Buffer b, float cellSize)
-	{
-		p.context.compose(b, 0, 0, cellSize);
-	}
 
 	private void drawAsScalar(PainterData p, Spectrum data, float cellSize, final float maxIntensity)
 	{
@@ -120,9 +104,6 @@ public class ThreadedRasterMapPainter extends MapPainter
 			for (int x = 0; x < p.dr.dataWidth; x++) {
 
 				p.context.save();
-
-				p.context.rectangle(0, 0, p.plotSize.x, p.plotSize.y);
-				p.context.clip();
 
 				int index = y * p.dr.dataWidth + x;
 				intensity = data.get(index);
@@ -135,10 +116,12 @@ public class ThreadedRasterMapPainter extends MapPainter
 		}
 	}
 
-	
-	public void clearBuffer()
+
+	@Override
+	public boolean isBufferingPainter()
 	{
-		buffer = null;
+		return true;
 	}
+
 	
 }

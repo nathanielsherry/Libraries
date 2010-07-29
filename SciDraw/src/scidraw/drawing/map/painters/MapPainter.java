@@ -5,9 +5,12 @@ import java.awt.Color;
 import java.util.List;
 
 import scidraw.datatypes.DataTypeFactory;
+import scidraw.drawing.backends.Buffer;
+import scidraw.drawing.backends.Surface;
 import scidraw.drawing.map.MapDrawing;
 import scidraw.drawing.map.palettes.AbstractPalette;
 import scidraw.drawing.painters.Painter;
+import scidraw.drawing.painters.PainterData;
 import scitypes.Spectrum;
 
 /**
@@ -22,7 +25,8 @@ import scitypes.Spectrum;
 public abstract class MapPainter extends Painter
 {
 
-	protected Spectrum			data;
+	protected Buffer 				buffer;
+	protected Spectrum				data;
 	protected List<AbstractPalette>	colourRules;
 
 
@@ -74,5 +78,38 @@ public abstract class MapPainter extends Painter
 		colourRules.addAll(palettes);
 	}
 
+	public void setData(Spectrum data)
+	{
+		this.data = data;
+	}
+	
+	
+	@Override
+	public final void drawElement(PainterData p)
+	{
+		
+		p.context.save();
+			
+			// get the size of the cells
+			float cellSize = MapDrawing.calcInterpolatedCellSize(p.plotSize.x, p.plotSize.y, p.dr);
+			float rawCellSize = MapDrawing.calcUninterpolatedCellSize(p.plotSize.x, p.plotSize.y, p.dr);
+	
+			// clip the region
+			p.context.rectangle(0, 0, p.dr.dataWidth * cellSize, p.dr.dataHeight * cellSize);
+			p.context.clip();
+			
+			drawMap(p, cellSize, rawCellSize);
+			
+		p.context.restore();
+		
+	}
+	
+	public abstract void drawMap(PainterData p, float cellSize, float rawCellSize);
+	
+	public abstract boolean isBufferingPainter();
+	public void clearBuffer()
+	{
+		buffer = null;
+	}
 	
 }

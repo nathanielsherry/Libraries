@@ -23,6 +23,11 @@ public class DrawingRequest implements Serializable, Cloneable
 	public int	dataHeight, dataWidth;
 
 	/**
+	 * The dimensions of the original data after interpolation
+	 */
+	public int	uninterpolatedHeight, uninterpolatedWidth;
+	
+	/**
 	 * The dimensions of the image to be drawn
 	 */
 	public float	imageWidth, imageHeight;

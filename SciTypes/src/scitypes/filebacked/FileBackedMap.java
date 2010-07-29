@@ -94,3 +94,36 @@ public class FileBackedMap<K, V extends Serializable> implements Map<K, V>{
 	
 	
 }
+
+
+class FileBackedMapEntry<K, V extends Serializable> implements Map.Entry<K, V>
+{
+
+	private Map<K, Integer> indexMap;
+	private FileBackedList<V> valueList;
+	
+	public FileBackedMapEntry(Map<K, Integer> indexMap, FileBackedList<V> valueList)
+	{
+		this.indexMap = indexMap;
+		this.valueList = valueList;
+	}
+	
+	public K getKey()
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public V getValue()
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public V setValue(V value)
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+}
