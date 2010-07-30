@@ -16,6 +16,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import swidget.dialogues.fileio.SwidgetIO;
+import swidget.icons.IconSize;
 import swidget.icons.StockIcon;
 import swidget.widgets.ClearPanel;
 import swidget.widgets.ImageButton;
@@ -125,14 +126,14 @@ public class SavePicture extends JDialog
 
 		ComplexToggle png, svg, pdf;
 
-		png = new ComplexToggle("document-png", "Pixel Image (PNG)",
+		png = new ComplexToggle(StockIcon.MIME_RASTER, "Pixel Image (PNG)",
 				"Pixel based images are a grid of coloured dots. They have a fixed size and level of detail.", group);
 
-		svg = new ComplexToggle("document-svg", "Vector Image (SVG)",
+		svg = new ComplexToggle(StockIcon.MIME_SVG, "Vector Image (SVG)",
 				"Vector images use points, lines, and curves to define an image. They can be scaled to any size.",
 				group);
 
-		pdf = new ComplexToggle("document-pdf", "PDF File", "PDF files are a more print-oriented vector image format.",
+		pdf = new ComplexToggle(StockIcon.MIME_PDF, "PDF File", "PDF files are a more print-oriented vector image format.",
 				group);
 
 

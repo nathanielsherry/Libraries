@@ -25,7 +25,6 @@ import scitypes.Spectrum;
 public abstract class MapPainter extends Painter
 {
 
-	protected Buffer 				buffer;
 	protected Spectrum				data;
 	protected List<AbstractPalette>	colourRules;
 
@@ -107,9 +106,6 @@ public abstract class MapPainter extends Painter
 	public abstract void drawMap(PainterData p, float cellSize, float rawCellSize);
 	
 	public abstract boolean isBufferingPainter();
-	public void clearBuffer()
-	{
-		buffer = null;
-	}
+	public abstract void clearBuffer();
 	
 }

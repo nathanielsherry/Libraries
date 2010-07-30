@@ -1,8 +1,10 @@
 package scidraw.drawing.map.painters;
 
 
+import java.awt.Color;
 import java.util.List;
 
+import plural.datatypes.DataTypeFactory;
 import plural.workers.PluralEachIndex;
 import plural.workers.executor.eachindex.implementations.PluralEachIndexExecutor;
 
@@ -26,7 +28,9 @@ public class ThreadedRasterMapPainter extends MapPainter
 {
 
 	
+	protected Buffer 				buffer;
 
+	
 	public ThreadedRasterMapPainter(List<AbstractPalette> colourRules, Spectrum data)
 	{
 		super(colourRules, data);
@@ -98,22 +102,43 @@ public class ThreadedRasterMapPainter extends MapPainter
 	private void drawAsScalar(PainterData p, Spectrum data, float cellSize, final float maxIntensity)
 	{
 		float intensity;
-
+		Color c, cp;
+		int index;
+		
+		//int span = 1;
+		
+		p.context.save();
+		
+		List<Color> handledColours = DataTypeFactory.<Color>list();
+		
 		// draw the map
 		for (int y = 0; y < p.dr.dataHeight; y++) {
 			for (int x = 0; x < p.dr.dataWidth; x++) {
-
-				p.context.save();
-
-				int index = y * p.dr.dataWidth + x;
+				
+				
+				
+				
+				
+				index = y * p.dr.dataWidth + x;
 				intensity = data.get(index);
+				
+				c = getColourFromRules(intensity, maxIntensity);
+				
+				
 				p.context.rectangle(x * cellSize, y * cellSize, cellSize + 1, cellSize + 1);
-				p.context.setSource(getColourFromRules(intensity, maxIntensity));
+
+					
+				p.context.setSource(c);
 				p.context.fill();
 
-				p.context.restore();
+
+
+				
 			}
 		}
+		
+	
+		p.context.restore();
 	}
 
 
@@ -121,6 +146,13 @@ public class ThreadedRasterMapPainter extends MapPainter
 	public boolean isBufferingPainter()
 	{
 		return true;
+	}
+
+
+	@Override
+	public void clearBuffer()
+	{
+		buffer = null;
 	}
 
 	

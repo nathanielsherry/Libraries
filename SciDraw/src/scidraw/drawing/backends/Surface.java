@@ -3,6 +3,7 @@ package scidraw.drawing.backends;
 
 
 import java.awt.Color;
+import java.awt.Shape;
 
 
 
@@ -24,6 +25,16 @@ public interface Surface
 		SOURCE,
 		XOR,
 		ADD
+	}
+	
+	public enum LineJoin
+	{
+		ROUND, BEVEL, MITER
+	}
+	
+	public enum EndCap
+	{
+		BUTT, ROUND, SQUARE
 	}
 	
 	/**
@@ -48,6 +59,8 @@ public interface Surface
 	public void moveTo(float x, float y);
 
 
+	public void addShape(Shape s);
+	
 	
 	/**
 	 * Outlines the shape in the buffer, clears the buffer
@@ -179,6 +192,10 @@ public interface Surface
 	 */
 	public void setLineWidth(float width);
 
+	
+	public void setLineJoin(LineJoin join);
+	public void setLineEnd(EndCap cap);
+	public void setLineStyle(float width, EndCap cap, LineJoin join);
 
 	/**
 	 * Calculates the width of the given text with the current font settings

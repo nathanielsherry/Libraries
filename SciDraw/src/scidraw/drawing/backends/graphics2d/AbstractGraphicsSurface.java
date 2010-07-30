@@ -9,6 +9,7 @@ import java.awt.Font;
 import java.awt.GradientPaint;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.Shape;
 import java.awt.font.TextLayout;
 import java.awt.geom.GeneralPath;
 import java.awt.image.BufferedImage;
@@ -58,6 +59,8 @@ abstract class AbstractGraphicsSurface implements Surface
 		saveStack = new Stack<Graphics2D>();
 
 		path = newPath();
+		stroke = new BasicStroke();
+		graphics.setStroke(stroke);
 		
 		compositeMode = CompositeModes.OVER;
 	}
@@ -104,6 +107,11 @@ abstract class AbstractGraphicsSurface implements Surface
 		path.moveTo(x, y);
 	}
 	
+	
+	public void addShape(Shape s)
+	{
+		path.append(s, false);
+	}
 
 	public void rectangle(float x, float y, float width, float height)
 	{
@@ -193,10 +201,53 @@ abstract class AbstractGraphicsSurface implements Surface
 
 	public void setLineWidth(float width)
 	{
-		stroke = new BasicStroke(width);
-		graphics.setStroke(stroke);
+		setLineStyle(width, stroke.getEndCap(), stroke.getLineJoin());
+	}
+	
+	public void setLineJoin(LineJoin join)
+	{
+			
+		int joinstyle = 0;
+		
+		switch (join)
+		{
+			case BEVEL : joinstyle = BasicStroke.JOIN_BEVEL; break;
+			case MITER : joinstyle = BasicStroke.JOIN_MITER; break;
+			case ROUND : joinstyle = BasicStroke.JOIN_ROUND; break;
+		}
+		
+		setLineStyle(stroke.getLineWidth(), stroke.getEndCap(), joinstyle);
 	}
 
+	public void setLineEnd(EndCap cap)
+	{
+				
+		int capstyle = 0;
+		
+		switch (cap)
+		{
+			case BUTT: capstyle = BasicStroke.CAP_BUTT; break;
+			case ROUND: capstyle = BasicStroke.CAP_ROUND; break;
+			case SQUARE: capstyle = BasicStroke.CAP_SQUARE; break;
+		}
+		
+		setLineStyle(stroke.getLineWidth(), capstyle, stroke.getLineJoin());
+	}
+	
+	public void setLineStyle(float width, EndCap cap, LineJoin join)
+	{
+				
+		setLineWidth(width);
+		setLineEnd(cap);
+		setLineJoin(join);
+		
+	}
+	
+	private void setLineStyle(float width, int cap, int join)
+	{
+		stroke = new BasicStroke(width, cap, join);
+		graphics.setStroke(stroke);
+	}
 
 	public void writeText(String text, float x, float y)
 	{
