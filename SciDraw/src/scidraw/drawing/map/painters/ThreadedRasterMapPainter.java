@@ -58,7 +58,6 @@ public class ThreadedRasterMapPainter extends MapPainter
 				maxIntensity = p.dr.maxYIntensity;
 			}
 	
-			
 			GridPerspective<Float> grid = new GridPerspective<Float>(p.dr.dataWidth, p.dr.dataHeight, 0.0f);
 			modData = SpectrumCalculations.gridYReverse(modData, grid);
 	

@@ -4,6 +4,7 @@ package scidraw.swing;
 import java.awt.BorderLayout;
 import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.ByteArrayOutputStream;
@@ -47,7 +48,19 @@ public class SavePicture extends JDialog
 
 	}
 	
-	private void init(JFrame owner)
+	public SavePicture(JDialog owner, GraphicsPanel controller, String startingFolder)
+	{
+
+		super(owner, "Save as Image");
+
+		this.controller = controller;
+		this.startingFolder = startingFolder;
+
+		init(owner);
+
+	}
+	
+	private void init(Window owner)
 	{
 
 		controlsPanel = new ClearPanel();

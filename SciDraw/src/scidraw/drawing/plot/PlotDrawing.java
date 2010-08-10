@@ -70,7 +70,7 @@ public class PlotDrawing extends Drawing
 	 */
 	public PlotDrawing(Surface context)
 	{
-		super(PlotDrawingRequestFactory.getDrawingRequest());
+		super(new DrawingRequest());
 		this.context = context;
 		this.axisPainters = null;
 		this.painters = null;
@@ -82,7 +82,7 @@ public class PlotDrawing extends Drawing
 	 */
 	public PlotDrawing(Spectrum numbers)
 	{
-		super(PlotDrawingRequestFactory.getDrawingRequest());
+		super(new DrawingRequest());
 		this.context = null;
 		this.axisPainters = null;
 		dr.dataHeight = 1;
@@ -96,7 +96,7 @@ public class PlotDrawing extends Drawing
 	 */
 	public PlotDrawing()
 	{
-		super(PlotDrawingRequestFactory.getDrawingRequest());
+		super(new DrawingRequest());
 		this.context = null;
 		this.axisPainters = null;
 		this.painters = null;

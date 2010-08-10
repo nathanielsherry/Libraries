@@ -32,6 +32,7 @@ public abstract class GraphicsPanel extends JPanel
 	@Override
 	public void paintComponent(Graphics g)
 	{
+		super.paintComponent(g);
 		draw(g);
 	}
 	

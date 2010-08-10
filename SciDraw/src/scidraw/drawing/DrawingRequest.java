@@ -58,6 +58,26 @@ public class DrawingRequest implements Serializable, Cloneable
 	 */
 	public float	unitSize;
 	
+	
+	
+	
+	public DrawingRequest()
+	{
+		dataHeight = 1;
+		dataWidth = 2048;
+
+		imageHeight = 1;
+		imageWidth = 1;
+
+		drawToVectorSurface = true;
+
+		maxYIntensity = -1;
+
+		viewTransform = ViewTransform.LINEAR;
+		unitSize = 10.0f;	
+	}
+	
+	
 	@Override
 	public DrawingRequest clone()
 	{

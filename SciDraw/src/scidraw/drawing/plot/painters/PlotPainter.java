@@ -146,13 +146,15 @@ public abstract class PlotPainter extends Painter{
 		float titleHeight = p.context.getFontHeight();
 		float penWidth = getPenWidth(getBaseUnitSize(dr), dr);
 		float totalHeight = (titleHeight + penWidth * 2);
-
+		
 		float farLeft = titleStart - penWidth * 2;
 		float width = textWidth + penWidth * 4;
 		float farRight = farLeft + width;
 
-		float leftChannel = (float)Math.floor(farLeft / channelSize);
-		float rightChannel = (float)Math.ceil(farRight / channelSize);
+		float leftChannel = (float)Math.max(0, Math.floor(farLeft / channelSize));
+		float rightChannel = (float)Math.min(p.dr.dataWidth-1, Math.ceil(farRight / channelSize));
+		
+		
 		
 		return new Coord<Bounds<Float>>(new Bounds<Float>(leftChannel, rightChannel), new Bounds<Float>(penWidth, totalHeight));
 		

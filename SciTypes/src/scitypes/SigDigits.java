@@ -51,6 +51,8 @@ public class SigDigits
 	public static String roundFloatTo(float value, int decimals)
 	{
 		
+		if (Float.isNaN(value)) return "-";
+		if (Float.isInfinite(value)) return "-";
 		BigDecimal bd = new BigDecimal(Float.toString(value));
 		bd = bd.setScale(decimals, BigDecimal.ROUND_HALF_EVEN);
 		

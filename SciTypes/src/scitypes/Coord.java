@@ -19,6 +19,11 @@ public class Coord<T> {
 		this.y = y;
 	}
 	
+	public Coord(Coord<T> copy)
+	{
+		this.x = copy.x;
+	}
+	
 	@Override
 	public String toString()
 	{

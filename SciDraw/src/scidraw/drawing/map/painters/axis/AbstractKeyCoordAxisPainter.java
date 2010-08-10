@@ -81,11 +81,12 @@ public abstract class AbstractKeyCoordAxisPainter extends AxisPainter
 	private void drawScaleBar(PainterData p)
 	{
 
-		float width = bottomRightCoord.x.floatValue() - bottomLeftCoord.x.floatValue();
+		float width = Math.abs(bottomRightCoord.x.floatValue() - bottomLeftCoord.x.floatValue());
 		if (width == 0d) return;
 		float totalWidth = width;
 		width /= 3.0;
 
+				
 		SISize units = coordinateUnits;
 
 		while (width < 1.0)

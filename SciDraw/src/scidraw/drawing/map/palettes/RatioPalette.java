@@ -49,12 +49,12 @@ public class RatioPalette extends AbstractPalette
 
 	@Override
 	public Color getFillColour(double intensity, double maximum)
-	{				
+	{	
 		double percentage = (intensity + maximum) / (2 * maximum);
 				
 		int index = (int) (spectrum.size() * percentage);
 		if (index == spectrum.size()) index--;
-
+		
 		return spectrum.get(index);
 	}
 

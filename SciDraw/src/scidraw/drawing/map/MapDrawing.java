@@ -116,6 +116,10 @@ public class MapDrawing extends Drawing
 		axisPainters = DataTypeFactory.<AxisPainter> list();
 		axisPainters.add(painter);
 	}
+	public void clearAxisPainters()
+	{
+		axisPainters = DataTypeFactory.<AxisPainter> list();
+	}
 	public void setPainters(List<MapPainter> painters) {
 		this.painters = painters;
 	}
@@ -136,6 +140,8 @@ public class MapDrawing extends Drawing
 	@Override
 	public void draw()
 	{
+		
+		if (context == null) return;
 		
 		float oldMaxIntensity = dr.maxYIntensity;
 
