@@ -44,7 +44,7 @@ public abstract class Drawing
 	{
 		return dr;
 	}
-	public void setDR(DrawingRequest dr)
+	public void setDrawingRequest(DrawingRequest dr)
 	{
 		this.dr = dr;
 	}

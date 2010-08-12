@@ -341,6 +341,37 @@ public class MapDrawing extends Drawing
 
 	}
 
+	
+
+	public Coord<Integer> getMapCoordinateAtPoint(float x, float y)
+	{
+
+
+		Coord<Bounds<Float>> borders = calcAxisBorders();
+		float topOffset, leftOffset;
+		topOffset = borders.y.start;
+		leftOffset = borders.x.start;
+
+		float mapX, mapY;
+		mapX = x - leftOffset;
+		mapY = y - topOffset;
+
+		Coord<Float> mapSize = calcMapSize();
+		float percentX, percentY;
+		percentX = mapX / mapSize.x;
+		percentY = mapY / mapSize.y;
+
+		percentY = 1.0f - percentY;
+
+		int indexX = (int) Math.floor(dr.dataWidth * percentX);
+		int indexY = (int) Math.floor(dr.dataHeight * percentY);
+
+		if (indexX < 0 || indexX >= dr.dataWidth) return null;
+		if (indexY < 0 || indexY >= dr.dataHeight) return null;
+		
+		return new Coord<Integer>(indexX, indexY);
+
+	}
 
 	public void needsMapRepaint() {
 		
@@ -354,9 +385,7 @@ public class MapDrawing extends Drawing
 	}
 
 
-	public void setDrawingRequest(DrawingRequest dr2) {
-		dr = dr2;
-	}
+
 
 
 }

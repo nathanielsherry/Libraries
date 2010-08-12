@@ -24,21 +24,21 @@ import scitypes.SpectrumCalculations;
  * @author Nathaniel Sherry, 2009
  */
 
-public class ThreadedRasterMapPainter extends MapPainter
+public class RasterSpectrumMapPainter extends MapPainter
 {
 
 	
 	protected Buffer 				buffer;
 
 	
-	public ThreadedRasterMapPainter(List<AbstractPalette> colourRules, Spectrum data)
+	public RasterSpectrumMapPainter(List<AbstractPalette> colourRules, Spectrum data)
 	{
 		super(colourRules, data);
 		
 	}
 
 
-	public ThreadedRasterMapPainter(AbstractPalette colourRule, Spectrum data)
+	public RasterSpectrumMapPainter(AbstractPalette colourRule, Spectrum data)
 	{
 		super(colourRule, data);
 	}
