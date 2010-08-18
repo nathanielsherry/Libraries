@@ -12,7 +12,7 @@ import scitypes.SISize;
 
 import fava.*;
 import fava.datatypes.Pair;
-import fava.signatures.FnCombine;
+import fava.signatures.FnFold;
 import static fava.Fn.*;
 import static fava.Functions.*;
 
@@ -82,7 +82,7 @@ public class LegendCoordsAxisPainter extends AbstractKeyCoordAxisPainter
 		}
 
 		float startX = offsetX + ((width - expectedTextWidth) / 2.0f);
-		foldr(entries, startX, new FnCombine<Pair<Color, String>, Float, Float>() {
+		foldr(entries, startX, new FnFold<Pair<Color, String>, Float>() {
 
 			public Float f(Pair<Color, String> entry, Float position)
 			{

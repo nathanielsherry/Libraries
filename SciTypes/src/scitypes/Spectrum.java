@@ -10,7 +10,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import fava.*;
-import fava.signatures.FnCombine;
+import fava.signatures.FnFold;
 import fava.signatures.FnEach;
 import fava.signatures.FnMap;
 
@@ -181,7 +181,7 @@ public class Spectrum extends Functionable<Float> implements Serializable
 	}
 	
 	@Override
-	public Float fold(FnCombine<Float, Float, Float> f)
+	public Float fold(FnFold<Float, Float> f)
 	{
 		
 		if (this.size == 0) return 0f;
@@ -198,7 +198,7 @@ public class Spectrum extends Functionable<Float> implements Serializable
 	}
 	
 	@Override
-	public <T2> T2 fold(T2 base, FnCombine<Float, T2, T2> f)
+	public <T2> T2 fold(T2 base, FnFold<Float, T2> f)
 	{
 		
 		T2 result = base;
@@ -213,7 +213,7 @@ public class Spectrum extends Functionable<Float> implements Serializable
 		return result;
 	}
 	
-	public Spectrum zipWith(Spectrum other, FnCombine<Float, Float, Float> f)
+	public Spectrum zipWith(Spectrum other, FnFold<Float, Float> f)
 	{
 		
 		Spectrum newSpectrum = new Spectrum(size);
