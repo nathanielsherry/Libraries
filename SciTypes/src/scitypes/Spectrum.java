@@ -10,9 +10,9 @@ import java.util.Iterator;
 import java.util.List;
 
 import fava.*;
-import fava.signatures.FunctionCombine;
-import fava.signatures.FunctionEach;
-import fava.signatures.FunctionMap;
+import fava.signatures.FnCombine;
+import fava.signatures.FnEach;
+import fava.signatures.FnMap;
 
 public class Spectrum extends Functionable<Float> implements Serializable
 {
@@ -152,7 +152,7 @@ public class Spectrum extends Functionable<Float> implements Serializable
 	}
 
 	@Override
-	public void each(FunctionEach<Float> f)
+	public void each(FnEach<Float> f)
 	{
 		for (int i = 0; i < size; i++)
 		{
@@ -160,7 +160,7 @@ public class Spectrum extends Functionable<Float> implements Serializable
 		}
 	}
 	
-	public void map_i(FunctionMap<Float, Float> f)
+	public void map_i(FnMap<Float, Float> f)
 	{
 		for (int i = 0; i < size; i++)
 		{
@@ -168,7 +168,7 @@ public class Spectrum extends Functionable<Float> implements Serializable
 		}
 	}
 	
-	public Spectrum map(FunctionMap<Float, Float> f)
+	public Spectrum map(FnMap<Float, Float> f)
 	{
 		
 		Spectrum newSpectrum = new Spectrum(size);
@@ -181,7 +181,7 @@ public class Spectrum extends Functionable<Float> implements Serializable
 	}
 	
 	@Override
-	public Float fold(FunctionCombine<Float, Float, Float> f)
+	public Float fold(FnCombine<Float, Float, Float> f)
 	{
 		
 		if (this.size == 0) return 0f;
@@ -198,7 +198,7 @@ public class Spectrum extends Functionable<Float> implements Serializable
 	}
 	
 	@Override
-	public <T2> T2 fold(T2 base, FunctionCombine<Float, T2, T2> f)
+	public <T2> T2 fold(T2 base, FnCombine<Float, T2, T2> f)
 	{
 		
 		T2 result = base;
@@ -213,7 +213,7 @@ public class Spectrum extends Functionable<Float> implements Serializable
 		return result;
 	}
 	
-	public Spectrum zipWith(Spectrum other, FunctionCombine<Float, Float, Float> f)
+	public Spectrum zipWith(Spectrum other, FnCombine<Float, Float, Float> f)
 	{
 		
 		Spectrum newSpectrum = new Spectrum(size);
@@ -225,11 +225,11 @@ public class Spectrum extends Functionable<Float> implements Serializable
 		
 	}
 
-	public static FunctionMap<Spectrum, byte[]> getEncoder()
+	public static FnMap<Spectrum, byte[]> getEncoder()
 	{
 
 		//Function to serialize a spectrum
-		return  new FunctionMap<Spectrum, byte[]>()
+		return  new FnMap<Spectrum, byte[]>()
 		{
 
 			public byte[] f(Spectrum s)
@@ -254,11 +254,11 @@ public class Spectrum extends Functionable<Float> implements Serializable
 		};
 	}
 
-	public static FunctionMap<byte[], Spectrum> getDecoder(){
+	public static FnMap<byte[], Spectrum> getDecoder(){
 
 		//Function to deserialize a spectrum
 
-		return new FunctionMap<byte[], Spectrum>()
+		return new FnMap<byte[], Spectrum>()
 		{
 
 			public Spectrum f(byte[] bs)

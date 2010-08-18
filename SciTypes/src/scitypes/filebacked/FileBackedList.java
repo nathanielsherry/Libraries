@@ -22,7 +22,7 @@ import fava.Functions;
 import fava.datatypes.Range;
 import fava.datatypes.RangeSet;
 import fava.lists.FList;
-import fava.signatures.FunctionMap;
+import fava.signatures.FnMap;
 
 /**
  * TempFileList is an implementation of the List interface which writes out values to a temporary file, rather than store elements in memory. This means that get operations are idempotent when there are no intervening set operations, even if the accessed elements are modified externally 
@@ -141,7 +141,7 @@ public class FileBackedList<T extends Serializable> implements List<T>
 			long writePosition = currentLength;
 			
 			final int encodedLength = encoded.length;
-			FList<Range> bigRanges = discardedRanges.getRanges().filter(new FunctionMap<Range, Boolean>() {
+			FList<Range> bigRanges = discardedRanges.getRanges().filter(new FnMap<Range, Boolean>() {
 
 				public Boolean f(Range r) {
 					return r.size() >= encodedLength;

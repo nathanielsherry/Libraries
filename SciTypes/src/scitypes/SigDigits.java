@@ -14,36 +14,18 @@ public class SigDigits
 		
 		if (significantDigits < 1) significantDigits = 1;
 		
-		int cutoff = (int)Math.pow(10, significantDigits);
-		int cutoffSmall = (int)Math.pow(10, significantDigits-1);
+		int upper = 	(int)Math.pow(10, significantDigits);
+		int lower = 	(int)Math.pow(10, significantDigits-1);
 		
 		int counts = 0;
-		if (value > cutoff) {
-			while (value > cutoff)
-			{
-				value /= 10.0;
-				counts++;
-			}
+		if (value > upper) {
+			while (value > upper) { value /= 10.0; counts++; }
 			value = Math.ceil(value);
-			while (counts > 0)
-			{
-				value *= 10.0;
-				counts--;
-			}
+			while (counts > 0) { value *= 10.0; counts--; }
 		} else {
-			while (value < cutoffSmall)
-			{
-				value *= 10.0;
-				counts++;
-			}
+			while (value < lower) { value *= 10.0; counts++; }
 			value = Math.ceil(value);
-			while (counts > 0)
-			{
-				value /= 10.0;
-				value = Math.ceil(value);
-				
-				counts--;
-			}
+			while (counts > 0) { value /= 10.0; value = Math.ceil(value); counts--; }
 		}
 		return (int)value;
 	}
@@ -59,5 +41,6 @@ public class SigDigits
 		return bd.toPlainString();
 		
 	}
+
 	
 }

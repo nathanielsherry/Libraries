@@ -343,7 +343,7 @@ public class MapDrawing extends Drawing
 
 	
 
-	public Coord<Integer> getMapCoordinateAtPoint(float x, float y)
+	public Coord<Integer> getMapCoordinateAtPoint(float x, float y, boolean allowOutOfBounds)
 	{
 
 
@@ -363,11 +363,11 @@ public class MapDrawing extends Drawing
 
 		percentY = 1.0f - percentY;
 
-		int indexX = (int) Math.floor(dr.dataWidth * percentX);
-		int indexY = (int) Math.floor(dr.dataHeight * percentY);
+		int indexX = (int) Math.floor(dr.uninterpolatedWidth * percentX);
+		int indexY = (int) Math.floor(dr.uninterpolatedHeight * percentY);
 
-		if (indexX < 0 || indexX >= dr.dataWidth) return null;
-		if (indexY < 0 || indexY >= dr.dataHeight) return null;
+		if (!allowOutOfBounds) if (indexX < 0 || indexX >= dr.uninterpolatedWidth) return null;
+		if (!allowOutOfBounds) if (indexY < 0 || indexY >= dr.uninterpolatedHeight) return null;
 		
 		return new Coord<Integer>(indexX, indexY);
 

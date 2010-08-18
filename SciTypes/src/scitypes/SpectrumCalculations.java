@@ -11,7 +11,7 @@ import plural.workers.executor.eachindex.EachIndexExecutor;
 import plural.workers.executor.eachindex.implementations.PluralEachIndexExecutor;
 
 
-import fava.signatures.FunctionCombine;
+import fava.signatures.FnCombine;
 import static fava.Fn.*;
 import static fava.Functions.*;
 
@@ -121,7 +121,7 @@ public class SpectrumCalculations
 	public static float maxDataset(List<Spectrum> dataset)
 	{
 
-		return foldr(dataset, max(dataset.get(0)), new FunctionCombine<Spectrum, Float, Float>() {
+		return foldr(dataset, max(dataset.get(0)), new FnCombine<Spectrum, Float, Float>() {
 
 			public Float f(Spectrum list, Float currentMax)
 			{

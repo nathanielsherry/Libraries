@@ -13,8 +13,8 @@ import scitypes.SigDigits;
 
 import fava.*;
 import fava.datatypes.Pair;
-import fava.signatures.FunctionCombine;
-import fava.signatures.FunctionEach;
+import fava.signatures.FnCombine;
+import fava.signatures.FnEach;
 import static fava.Fn.*;
 
 
@@ -169,7 +169,7 @@ public class SpectrumCoordsAxisPainter extends AbstractKeyCoordAxisPainter
 			
 
 			//concatenate the list of strings to display so we can check the width of the total string
-			String longestMarking = foldr(map(markings, Functions.<Float, String>second()), new FunctionCombine<String, String, String>() {
+			String longestMarking = foldr(map(markings, Functions.<Float, String>second()), new FnCombine<String, String, String>() {
 
 				public String f(String s1, String s2)
 				{
@@ -193,7 +193,7 @@ public class SpectrumCoordsAxisPainter extends AbstractKeyCoordAxisPainter
 
 			}
 
-			each(markings, new FunctionEach<Pair<Float, String>>() {
+			each(markings, new FnEach<Pair<Float, String>>() {
 
 				public void f(Pair<Float, String> element)
 				{
