@@ -188,6 +188,28 @@ public class SpectrumCalculations
 
 		return result;
 	}
+	
+	
+
+	/**
+	 * returns a copy of the given list with all values in the list multiplied by the given value
+	 * 
+	 * @param data
+	 * @param value
+	 * @return the given spectrum, now with altered values
+	 */
+	public static Spectrum multiplyBy_inplace(Spectrum source, final float value)
+	{
+
+		float newvalue;
+		for (int i = 0; i < source.size(); i++)
+		{
+			newvalue = source.get(i) * value;
+			source.set(i, newvalue);
+		}
+
+		return source;
+	}
 
 
 	/**

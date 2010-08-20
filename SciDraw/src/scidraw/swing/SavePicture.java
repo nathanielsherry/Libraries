@@ -4,6 +4,8 @@ package scidraw.swing;
 import java.awt.BorderLayout;
 import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,6 +21,7 @@ import javax.swing.JPanel;
 import swidget.dialogues.fileio.SwidgetIO;
 import swidget.icons.IconSize;
 import swidget.icons.StockIcon;
+import swidget.widgets.ButtonBox;
 import swidget.widgets.ClearPanel;
 import swidget.widgets.ImageButton;
 import swidget.widgets.Spacing;
@@ -68,15 +71,13 @@ public class SavePicture extends JDialog
 		controlsPanel.setLayout(new BorderLayout());
 		controlsPanel.add(createOptionsPane(), BorderLayout.CENTER);
 		controlsPanel.add(createControlPanel(), BorderLayout.SOUTH);
-
+		
 		add(controlsPanel);
 
-		int height = getPreferredSize().height;
-		setPreferredSize(new Dimension(500, height));
-
-		setResizable(false);
+		
 
 		pack();
+		setResizable(false);
 		setLocationRelativeTo(owner);
 		setModal(true);
 		setVisible(true);
@@ -86,8 +87,7 @@ public class SavePicture extends JDialog
 	public JPanel createControlPanel()
 	{
 
-		JPanel buttonBox = new ClearPanel();
-		buttonBox.setLayout(new BoxLayout(buttonBox, BoxLayout.LINE_AXIS));
+		ButtonBox buttonBox = new ButtonBox(Spacing.bHuge());
 
 
 		ImageButton ok = new ImageButton(StockIcon.DOCUMENT_SAVE, "Save", true);
@@ -117,12 +117,8 @@ public class SavePicture extends JDialog
 			}
 		});
 
-		buttonBox.add(Box.createHorizontalGlue());
-		buttonBox.add(ok);
-		buttonBox.add(Box.createHorizontalStrut(5));
-		buttonBox.add(cancel);
-
-		buttonBox.setBorder(Spacing.bHuge());
+		buttonBox.addRight(cancel);
+		buttonBox.addRight(ok);
 
 		return buttonBox;
 
@@ -132,16 +128,18 @@ public class SavePicture extends JDialog
 	public JPanel createOptionsPane()
 	{
 
-		JPanel panel = new ClearPanel();
-		panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
-
+		JPanel panel = new ClearPanel();		
+		panel.setLayout(new GridBagLayout());
+		GridBagConstraints c = new GridBagConstraints();
+		
+		
 		group = new ComplexToggleGroup();
 
 		ComplexToggle png, svg, pdf;
 
 		png = new ComplexToggle(StockIcon.MIME_RASTER, "Pixel Image (PNG)",
 				"Pixel based images are a grid of coloured dots. They have a fixed size and level of detail.", group);
-
+		
 		svg = new ComplexToggle(StockIcon.MIME_SVG, "Vector Image (SVG)",
 				"Vector images use points, lines, and curves to define an image. They can be scaled to any size.",
 				group);
@@ -150,14 +148,27 @@ public class SavePicture extends JDialog
 				group);
 
 
-		panel.add(png);
-		panel.add(svg);
-		panel.add(pdf);
+		
+		c.gridx = 0;
+		c.gridy = 0;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.anchor = GridBagConstraints.PAGE_START;
+		c.weighty = 0;
+		c.weightx = 0;
+		panel.add(png, c);
+		
+		c.gridy++;
+		panel.add(svg, c);
+		
+		c.gridy++;
+		panel.add(pdf, c);
+		
 
 		group.setToggled(0);
 
 		panel.setBorder(Spacing.bHuge());
 
+		
 		return panel;
 
 	}

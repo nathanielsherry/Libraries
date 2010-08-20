@@ -68,6 +68,19 @@ public class FileBackedList<T extends Serializable> implements List<T>
 		
 	}
 	
+	public static <T extends Serializable> List<T> create(String name)
+	{
+		try
+		{
+			return new FileBackedList<T>(name);
+		}
+		catch (IOException e)
+		{
+			//FList can also behave sparsely
+			return new FList<T>();
+		}
+	}
+	
 	
 	//stores the locations of all entries as offset/length pairs
 	private List<Range> elementPositions;
@@ -87,13 +100,12 @@ public class FileBackedList<T extends Serializable> implements List<T>
 	 */
 	public FileBackedList(String name) throws IOException
 	{
+		
 		elementPositions = new ArrayList<Range>();
 		discardedRanges = new RangeSet();
-		temp = File.createTempFile("peakaboo - " + name , "list");
-		raf = new RandomAccessFile(temp, "rw");
-		
+		temp = File.createTempFile(name + " - File Backed List [temp:", "]");
 		temp.deleteOnExit();
-				
+		raf = new RandomAccessFile(temp, "rw");		
 				
 	}
 	

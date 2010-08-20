@@ -58,6 +58,7 @@ public class ThermalScalePalette extends AbstractPalette
 	@Override
 	public Color getFillColour(double intensity, double maximum)
 	{
+		
 		double percentage;
 		if (hasNegatives) {
 			percentage = (intensity + maximum) / (2 * maximum);

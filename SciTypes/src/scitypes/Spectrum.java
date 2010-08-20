@@ -50,8 +50,11 @@ public class Spectrum extends Functionable<Float> implements Serializable
 
 	public Spectrum(int size)
 	{
-		this(size, 0.0f);
+		this.data = new float[size];
+		this.size = size;		
+		maxIndex = 0;
 	}
+
 	
 	public Spectrum(Spectrum copy)
 	{
@@ -188,7 +191,7 @@ public class Spectrum extends Functionable<Float> implements Serializable
 		
 		Float result = this.get(0);
 		
-		for (int i = 0; i < size; i++)
+		for (int i = 1; i < size; i++)
 		{
 			result = f.f(get(i), result);
 		}
@@ -286,6 +289,28 @@ public class Spectrum extends Functionable<Float> implements Serializable
 			}
 		};
 
+	}
+	
+	
+	@Override
+	public String toString()
+	{
+		StringBuilder sb = new StringBuilder();
+		boolean first = true;
+				
+		
+		for (Float f : this)
+		{
+			if (first) {
+				first = false;
+			} else {
+				sb.append(", ");
+			}
+			sb.append(f);
+		}
+				
+		return sb.toString();
+		
 	}
 
 }
