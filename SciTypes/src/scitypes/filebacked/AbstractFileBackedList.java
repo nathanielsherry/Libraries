@@ -208,7 +208,8 @@ public abstract class AbstractFileBackedList<T> implements List<T>{
 
 	public synchronized T get(int index)
 	{
-			
+		
+		if (index >= elementPositions.size()) return null;
 		Range position = elementPositions.get(index);
 		if (position == null) return null;
 		
