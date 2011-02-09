@@ -5,9 +5,9 @@ import fava.datatypes.Bounds;
 import fava.datatypes.Pair;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
-import scidraw.datatypes.DataTypeFactory;
 import scidraw.drawing.Drawing;
 import scidraw.drawing.DrawingRequest;
 import scidraw.drawing.backends.Buffer;
@@ -75,7 +75,7 @@ public class MapDrawing extends Drawing
 		
 		this.context = context;
 
-		List<AxisPainter> axisPainters = DataTypeFactory.<AxisPainter> list();
+		List<AxisPainter> axisPainters = new ArrayList<AxisPainter>();
 		axisPainters.add(axisPainter);
 		this.axisPainters = axisPainters;
 
@@ -95,7 +95,7 @@ public class MapDrawing extends Drawing
 	{
 		super(dr);
 		this.context = context;
-		axisPainters = DataTypeFactory.<AxisPainter> list();
+		axisPainters = new ArrayList<AxisPainter>();
 	}
 
 	
@@ -106,25 +106,25 @@ public class MapDrawing extends Drawing
 	public MapDrawing()
 	{
 		super();
-		axisPainters = DataTypeFactory.<AxisPainter> list();
+		axisPainters = new ArrayList<AxisPainter>();
 	}
 
 	public void setAxisPainters(List<AxisPainter> axisPainters) {
 		this.axisPainters = axisPainters;
 	}
 	public void setAxisPainters(AxisPainter painter) {
-		axisPainters = DataTypeFactory.<AxisPainter> list();
+		axisPainters = new ArrayList<AxisPainter>();
 		axisPainters.add(painter);
 	}
 	public void clearAxisPainters()
 	{
-		axisPainters = DataTypeFactory.<AxisPainter> list();
+		axisPainters = new ArrayList<AxisPainter>();
 	}
 	public void setPainters(List<MapPainter> painters) {
 		this.painters = painters;
 	}
 	public void setPainters(MapPainter painter) {
-		painters = DataTypeFactory.<MapPainter> list();
+		painters = new ArrayList<MapPainter>();
 		painters.add(painter);
 	}
 	

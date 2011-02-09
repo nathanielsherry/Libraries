@@ -4,13 +4,13 @@ import java.awt.Color;
 import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.geom.Area;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
 
 import fava.datatypes.Range;
 
-import scidraw.datatypes.DataTypeFactory;
 import scidraw.drawing.backends.Surface.LineJoin;
 import scidraw.drawing.map.palettes.AbstractPalette;
 import scidraw.drawing.painters.PainterData;
@@ -30,7 +30,7 @@ public class ContourMapPainter extends MapPainter
 
 	private int contourSteps;
 	
-	List<Shape> cache = DataTypeFactory.<Shape>list();
+	List<Shape> cache = new ArrayList<Shape>();
 	
 	
 	public ContourMapPainter(AbstractPalette colourRule, Spectrum data, int contourSteps)
@@ -70,8 +70,15 @@ public class ContourMapPainter extends MapPainter
 
 	private List<List<Threshold>> getThresholdCellsSet(PainterData p, final Spectrum list, final GridPerspective<Threshold> thresholdGrid)
 	{
-		final List<List<Threshold>> thresholds = DataTypeFactory.<Threshold> datasetInit(contourSteps);
+		final List<List<Threshold>> thresholds;// = DataTypeFactory.<Threshold> datasetInit(contourSteps);
+    	
+		thresholds = new ArrayList<List<Threshold>>();
+    	for (int i = 0; i < contourSteps; i++){
+    		thresholds.add(null);
+    	}
+    	
 
+    	
 		double listMax = p.dr.maxYIntensity; //ListCalculations.max(list);
 		if (listMax == 0) listMax = 1; // make sure that a map full of 0 doesn't get painted as high
 		final double increment = listMax / contourSteps;
@@ -91,7 +98,7 @@ public class ContourMapPainter extends MapPainter
 	private static List<Threshold> getThresholdMap(Spectrum list, double threshold, final GridPerspective<Threshold> grid)
 	{
 
-		List<Threshold> result = DataTypeFactory.<Threshold> list();
+		List<Threshold> result = new ArrayList<Threshold>();
 
 		for (int i = 0; i < list.size(); i++) {
 			result.add(list.get(i) >= threshold ? Threshold.ABOVE : Threshold.BELOW);

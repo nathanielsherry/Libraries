@@ -171,6 +171,7 @@ public class Spectrum extends Functionable<Float> implements Serializable
 		}
 	}
 	
+	/*
 	public Spectrum map(FnMap<Float, Float> f)
 	{
 		
@@ -182,6 +183,7 @@ public class Spectrum extends Functionable<Float> implements Serializable
 		return newSpectrum;
 		
 	}
+	*/
 	
 	@Override
 	public Float fold(FnFold<Float, Float> f)

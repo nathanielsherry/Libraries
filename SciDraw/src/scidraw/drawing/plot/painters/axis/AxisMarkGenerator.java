@@ -1,10 +1,10 @@
 package scidraw.drawing.plot.painters.axis;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import fava.datatypes.Pair;
 
-import scidraw.datatypes.DataTypeFactory;
 import scidraw.drawing.backends.Surface;
 import scitypes.SigDigits;
 
@@ -17,7 +17,7 @@ public class AxisMarkGenerator
 		
 	
 		float valueRange = valueRangeEnd - valueRangeStart;
-		List<Pair<Float, Integer>> ticks = DataTypeFactory.<Pair<Float, Integer>>list();
+		List<Pair<Float, Integer>> ticks = new ArrayList<Pair<Float, Integer>>();
 		
 		// Calculate the increment size;
 		if (maxTicks == 0) return ticks;
