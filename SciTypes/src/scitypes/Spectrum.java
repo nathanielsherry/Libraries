@@ -306,7 +306,7 @@ public class Spectrum extends Functionable<Float> implements Serializable
 			if (first) {
 				first = false;
 			} else {
-				sb.append(", ");
+				sb.append(" ");
 			}
 			sb.append(f);
 		}
