@@ -30,4 +30,5 @@ public class Coord<T> {
 		return "(" + x.toString() + "," + y.toString() + ")";
 	}
 	
+	
 }

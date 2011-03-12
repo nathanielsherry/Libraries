@@ -9,7 +9,8 @@ import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
 
-import fava.*;
+import fava.datatypes.Maybe;
+import fava.functionable.Functionable;
 import fava.signatures.FnFold;
 import fava.signatures.FnEach;
 import fava.signatures.FnMap;
@@ -171,7 +172,8 @@ public class Spectrum extends Functionable<Float> implements Serializable
 		}
 	}
 	
-	public Spectrum map(FnMap<Float, Float> f)
+	
+	public Spectrum map_spectrum(FnMap<Float, Float> f)
 	{
 		
 		Spectrum newSpectrum = new Spectrum(size);
@@ -182,6 +184,8 @@ public class Spectrum extends Functionable<Float> implements Serializable
 		return newSpectrum;
 		
 	}
+	
+	
 	
 	@Override
 	public Float fold(FnFold<Float, Float> f)
@@ -291,6 +295,25 @@ public class Spectrum extends Functionable<Float> implements Serializable
 
 	}
 	
+	@Override
+	public boolean equals(Object oother)
+	{
+		if (oother instanceof Spectrum) {
+			
+			Spectrum other = (Spectrum)oother;
+			
+			if (other.size() != size()) return false;
+			
+			for (int i = 0; i < size(); i++) if (other.get(i) != get(i)) return false;
+			
+		} else {
+			return false;
+		}
+		
+		return true;
+	}
+	
+	
 	
 	@Override
 	public String toString()
@@ -312,5 +335,6 @@ public class Spectrum extends Functionable<Float> implements Serializable
 		return sb.toString();
 		
 	}
+
 
 }

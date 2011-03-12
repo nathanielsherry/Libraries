@@ -21,7 +21,6 @@
 	<classpathentry kind="lib" path="Batik/xerces_2_5_0.jar"/>
 	<classpathentry kind="lib" path="Batik/xml-apis-ext.jar"/>
 	<classpathentry kind="lib" path="Batik/xml-apis.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/Fava"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Plural"/>
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/SciTypes"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Swidget"/>

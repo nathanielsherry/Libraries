@@ -13,9 +13,9 @@ import java.util.ListIterator;
 
 import fava.Fn;
 import fava.Functions;
-import fava.datatypes.Range;
-import fava.datatypes.RangeSet;
-import fava.lists.FList;
+import fava.functionable.FList;
+import fava.functionable.Range;
+import fava.functionable.RangeSet;
 import fava.signatures.FnMap;
 
 public abstract class AbstractFileBackedList<T> implements List<T>{

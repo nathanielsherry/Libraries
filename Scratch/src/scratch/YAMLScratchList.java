@@ -1,4 +1,4 @@
-package scitypes.filebacked;
+package scratch;
 
 import java.io.File;
 import java.io.IOException;
@@ -9,12 +9,13 @@ import java.util.List;
 import org.yaml.snakeyaml.Yaml;
 
 import fava.datatypes.Pair;
-import fava.lists.FList;
+import fava.functionable.FList;
 
 import scitypes.Spectrum;
+import scitypes.filebacked.AbstractFileBackedList;
 
 
-public class YAMLFileBackedList<V> extends AbstractFileBackedList<V> {
+public class YAMLScratchList<V> extends AbstractFileBackedList<V> {
 
 	
 
@@ -28,7 +29,7 @@ public class YAMLFileBackedList<V> extends AbstractFileBackedList<V> {
 		
 		try {
 			
-			YAMLFileBackedList<Pair<Integer, Integer>> list = new YAMLFileBackedList<Pair<Integer, Integer>>("test");
+			YAMLScratchList<Pair<Integer, Integer>> list = new YAMLScratchList<Pair<Integer, Integer>>("test");
 			
 			list.add(s1);
 			list.add(s5);
@@ -61,7 +62,7 @@ public class YAMLFileBackedList<V> extends AbstractFileBackedList<V> {
 	{
 		try
 		{
-			return new YAMLFileBackedList<T>(name);
+			return new YAMLScratchList<T>(name);
 		}
 		catch (IOException e)
 		{
@@ -74,17 +75,17 @@ public class YAMLFileBackedList<V> extends AbstractFileBackedList<V> {
 	
 	private Yaml y;
 	
-	public YAMLFileBackedList(File file) throws IOException {
+	public YAMLScratchList(File file) throws IOException {
 		super(file);
 		y = new Yaml();
 	}
 	
-	public YAMLFileBackedList(String name) throws IOException {
+	public YAMLScratchList(String name) throws IOException {
 		super(name);
 		y = new Yaml();
 	}
 
-	private YAMLFileBackedList()
+	private YAMLScratchList()
 	{
 		y = new Yaml();
 	}
@@ -106,7 +107,7 @@ public class YAMLFileBackedList<V> extends AbstractFileBackedList<V> {
 
 	@Override
 	public List<V> subList(int fromIndex, int toIndex) {
-		YAMLFileBackedList<V> sublist = new YAMLFileBackedList<V>();
+		YAMLScratchList<V> sublist = new YAMLScratchList<V>();
 		this.makeSublist(sublist, fromIndex, toIndex);
 		return sublist;
 	}

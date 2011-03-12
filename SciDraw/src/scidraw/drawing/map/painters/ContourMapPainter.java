@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Stack;
 
 
-import fava.datatypes.Range;
+import fava.functionable.Range;
 
 import scidraw.datatypes.DataTypeFactory;
 import scidraw.drawing.backends.Surface.LineJoin;

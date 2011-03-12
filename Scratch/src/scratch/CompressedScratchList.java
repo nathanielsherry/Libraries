@@ -1,4 +1,4 @@
-package scitypes.filebacked;
+package scratch;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -12,13 +12,14 @@ import java.util.zip.Inflater;
 import java.util.zip.InflaterInputStream;
 
 import scitypes.Spectrum;
+import scitypes.filebacked.FileBackedList;
 
 import com.sun.org.apache.bcel.internal.util.ByteSequence;
 
 import fava.datatypes.Pair;
-import fava.lists.FList;
+import fava.functionable.FList;
 
-public class CompressedFileBackedList<T extends Serializable> extends FileBackedList<T> {
+public class CompressedScratchList<T extends Serializable> extends FileBackedList<T> {
 
 
 	
@@ -34,7 +35,7 @@ public class CompressedFileBackedList<T extends Serializable> extends FileBacked
 		
 		try {
 			
-			CompressedFileBackedList<Spectrum> list = new CompressedFileBackedList<Spectrum>("test");
+			CompressedScratchList<Spectrum> list = new CompressedScratchList<Spectrum>("test");
 			
 			list.add(s1);
 			list.add(s5);
@@ -63,7 +64,7 @@ public class CompressedFileBackedList<T extends Serializable> extends FileBacked
 	{
 		try
 		{
-			return new CompressedFileBackedList<T>(name);
+			return new CompressedScratchList<T>(name);
 		}
 		catch (IOException e)
 		{
@@ -74,10 +75,10 @@ public class CompressedFileBackedList<T extends Serializable> extends FileBacked
 	}
 	
 	
-	public CompressedFileBackedList(String name) throws IOException {
+	public CompressedScratchList(String name) throws IOException {
 		super(name);
 	}
-	protected CompressedFileBackedList() {
+	protected CompressedScratchList() {
 	}
 	
 	@Override
@@ -113,7 +114,7 @@ public class CompressedFileBackedList<T extends Serializable> extends FileBacked
 
 	@Override
 	public List<T> subList(int fromIndex, int toIndex) {
-		CompressedFileBackedList<T> sublist = new CompressedFileBackedList<T>();
+		CompressedScratchList<T> sublist = new CompressedScratchList<T>();
 		makeSublist(sublist, fromIndex, toIndex);
 		return sublist;
 	}

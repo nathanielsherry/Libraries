@@ -3,31 +3,16 @@ package scitypes.filebacked;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.RandomAccessFile;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
-
-import commonenvironment.AbstractFile;
 
 import scitypes.Spectrum;
 
-import fava.Fn;
-import fava.Functions;
-import fava.datatypes.Maybe;
-import fava.datatypes.Range;
-import fava.datatypes.RangeSet;
-import fava.lists.FList;
-import fava.signatures.FnMap;
+import fava.functionable.FList;
+
 
 /**
  * TempFileList is an implementation of the List interface which writes out values to a temporary file, rather than store elements in memory. This means that get operations are idempotent when there are no intervening set operations, even if the accessed elements are modified externally 
@@ -121,6 +106,7 @@ public class FileBackedList<T extends Serializable> extends AbstractFileBackedLi
 		return baos.toByteArray();
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	protected T decodeObject(byte[] byteArray) throws IOException
 	{
