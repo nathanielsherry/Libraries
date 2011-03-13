@@ -172,8 +172,9 @@ public class Spectrum extends Functionable<Float> implements Serializable
 		}
 	}
 	
-	
-	public Spectrum map_spectrum(FnMap<Float, Float> f)
+
+	/*
+	public Spectrum map(FnMap<Float, Float> f)
 	{
 		
 		Spectrum newSpectrum = new Spectrum(size);
@@ -184,6 +185,7 @@ public class Spectrum extends Functionable<Float> implements Serializable
 		return newSpectrum;
 		
 	}
+	*/
 	
 	
 	
@@ -327,7 +329,7 @@ public class Spectrum extends Functionable<Float> implements Serializable
 			if (first) {
 				first = false;
 			} else {
-				sb.append(", ");
+				sb.append(" ");
 			}
 			sb.append(f);
 		}

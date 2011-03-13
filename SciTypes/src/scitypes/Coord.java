@@ -22,6 +22,7 @@ public class Coord<T> {
 	public Coord(Coord<T> copy)
 	{
 		this.x = copy.x;
+		this.y = copy.y;
 	}
 	
 	@Override

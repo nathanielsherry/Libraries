@@ -2,11 +2,9 @@ package scidraw.drawing.map.painters;
 
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.List;
 
-import scidraw.datatypes.DataTypeFactory;
-import scidraw.drawing.backends.Buffer;
-import scidraw.drawing.backends.Surface;
 import scidraw.drawing.map.MapDrawing;
 import scidraw.drawing.map.palettes.AbstractPalette;
 import scidraw.drawing.painters.Painter;
@@ -38,7 +36,7 @@ public abstract class MapPainter extends Painter
 	
 	public MapPainter(AbstractPalette colourRule, Spectrum data)
 	{
-		List<AbstractPalette> rules = DataTypeFactory.<AbstractPalette>list();
+		List<AbstractPalette> rules = new ArrayList<AbstractPalette>();
 		rules.add(colourRule);
 		this.colourRules = rules;
 		this.data = data;

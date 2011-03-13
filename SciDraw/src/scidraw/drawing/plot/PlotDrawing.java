@@ -1,12 +1,12 @@
 package scidraw.drawing.plot;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import fava.datatypes.Bounds;
 import fava.datatypes.Pair;
 
-import scidraw.datatypes.DataTypeFactory;
 import scidraw.drawing.Drawing;
 import scidraw.drawing.DrawingRequest;
 import scidraw.drawing.ViewTransform;
@@ -129,7 +129,7 @@ public class PlotDrawing extends Drawing
 	}
 	public void setAxisPainters(AxisPainter axisPainter)
 	{
-		axisPainters = DataTypeFactory.<AxisPainter> list();
+		axisPainters = new ArrayList<AxisPainter>();
 		axisPainters.add(axisPainter);
 	}
 	
@@ -140,7 +140,7 @@ public class PlotDrawing extends Drawing
 	
 	public void setPainters(PlotPainter painter)
 	{
-		painters = DataTypeFactory.<PlotPainter> list();
+		painters = new ArrayList<PlotPainter>();
 		painters.add(painter);
 	}
 	

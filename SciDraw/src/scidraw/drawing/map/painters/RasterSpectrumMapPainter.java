@@ -2,15 +2,13 @@ package scidraw.drawing.map.painters;
 
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.List;
 
-import plural.datatypes.DataTypeFactory;
 import plural.workers.PluralEachIndex;
 import plural.workers.executor.eachindex.implementations.PluralEachIndexExecutor;
 
 import scidraw.drawing.backends.Buffer;
-import scidraw.drawing.backends.Surface;
-import scidraw.drawing.map.MapDrawing;
 import scidraw.drawing.map.palettes.AbstractPalette;
 import scidraw.drawing.painters.PainterData;
 import scitypes.GridPerspective;
@@ -108,7 +106,7 @@ public class RasterSpectrumMapPainter extends MapPainter
 		
 		p.context.save();
 		
-		List<Color> handledColours = DataTypeFactory.<Color>list();
+		List<Color> handledColours = new ArrayList<Color>();
 		
 		// draw the map
 		for (int y = 0; y < p.dr.dataHeight; y++) {

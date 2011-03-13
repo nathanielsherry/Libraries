@@ -7,81 +7,93 @@ import fava.signatures.FnEach;
 import fava.signatures.FnFold;
 import fava.signatures.FnMap;
 
-public class DirectionVector {
 
-	private float distance, angle;
 
-	public DirectionVector(float distance, float angle) {
-		this.distance = distance;
-		this.angle = angle % 360;
-	}
+public class DirectionVector
+{
+
+	private Float direction;
+	private Float distance;
+		
 	
-	public DirectionVector(Coord<Float> coordinates)
+	public DirectionVector(float distance, float direction)
 	{
-		angle = (float)Math.atan2(coordinates.x, coordinates.y);
-		distance = (float)Math.sqrt(  coordinates.x*coordinates.x + coordinates.y*coordinates.y  );
+		this.direction = direction;
+		this.distance = distance;
 	}
-
 	
-	public float getDistance() {
-		return distance;
+	
+	public DirectionVector(DirectionVector copy)
+	{
+		this.distance = copy.distance;
+		this.direction = copy.direction;
 	}
-
-	public float getAngle() {
-		return angle;
+	
+	
+	public DirectionVector(Coord<Float> cartesian)
+	{
+		direction = (float)Math.toDegrees( Math.atan2(cartesian.y, cartesian.x) );
+		distance = (float)Math.sqrt(cartesian.x*cartesian.x + cartesian.y*cartesian.y);
+	}
+	
+	public Float getDirection()
+	{
+		return direction;
+	}
+	public Float getDistance()
+	{
+		return distance;
 	}
 	
 	public Coord<Float> toCartesian()
 	{
 		float x, y;
-		float modangle = angle % 90;
+
+		x = distance * (float)Math.cos(Math.toRadians(direction));
+		y = distance * (float)Math.sin(Math.toRadians(direction));
 		
-		y = (float)Math.sin(modangle) * distance;
-		x = (float)Math.cos(modangle) * distance;
-		
-		if (angle < 90)		{ return new Coord<Float>(x, y); }
-		if (angle < 180)	{ return new Coord<Float>(-x, y); }
-		if (angle < 270)		{ return new Coord<Float>(-x, -y); }
-		if (angle < 360)		{ return new Coord<Float>(-x, y); }
-		
-		return null;
+		return new Coord<Float>(x, y);
 		
 	}
+
 	
 	public DirectionVector add(DirectionVector other)
 	{
-		Coord<Float> c = toCartesian();
-		Coord<Float> cother = other.toCartesian();
-		return fromCartesian(c.x + cother.x, c.y + cother.y);	
+		Coord<Float> coord = this.toCartesian();
+		Coord<Float> ocoord = other.toCartesian();
+		
+		return new DirectionVector(new Coord<Float>(coord.x + ocoord.x, coord.y + ocoord.y));
 	}
 	
 	
-	public static DirectionVector fromCartesian(float x, float y)
+	public static DirectionVector add(List<DirectionVector> vectors)
 	{
-		DirectionVector d = new DirectionVector(0, 0);
-		d.angle = (float)Math.atan2(x, y);
-		d.distance = (float)Math.sqrt(  x*x + y*y  );
-		return d;
+		float x = 0;
+		float y = 0;
+		Coord<Float> coords;
+		
+		for (DirectionVector vector : vectors)
+		{
+			coords = vector.toCartesian();
+			x += coords.x;
+			y += coords.y;
+		}
+		
+		return new DirectionVector(new Coord<Float>(x, y));
+
+	}
+	
+	
+	
+	
+	public static void main(String args[])
+	{
+		DirectionVector d1 = new DirectionVector(10, 0);
+		DirectionVector d2 = new DirectionVector(5, 90);
+		DirectionVector d3 = d1.add(d2);
+		System.out.println(d3.toCartesian());
 		
 	}
 	
-	public static DirectionVector sumVectors(List<DirectionVector> vs)
-	{
-		
-		if (vs.size() == 0) return new DirectionVector(0, 0);
-		
-		return new DirectionVector(Fn.map(vs, new FnMap<DirectionVector, Coord<Float>>() {
-
-			public Coord<Float> f(DirectionVector v) {
-				return v.toCartesian();
-			}
-		}).fold(new FnFold<Coord<Float>, Coord<Float>>() {
-
-			public Coord<Float> f(Coord<Float> v1, Coord<Float> v2) {
-				return new Coord<Float>(v1.x+v2.x, v1.y+v2.y);
-			}
-		}));
-		
-	}
 	
 }
