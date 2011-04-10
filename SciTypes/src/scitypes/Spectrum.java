@@ -35,6 +35,19 @@ public class Spectrum extends Functionable<Float> implements Serializable
 		}
 		maxIndex = size - 1;
 	}
+	
+    public Spectrum(float[] fromArray)
+    {
+            this.data = new float[fromArray.length];
+            this.size = fromArray.length;
+
+            for (int i = 0; i < size; i++)
+            {
+                    data[i] = fromArray[i];
+            }
+            maxIndex = size - 1;
+    }
+
 
 	public Spectrum(List<Float> fromList)
 	{

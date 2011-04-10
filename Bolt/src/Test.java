@@ -116,7 +116,9 @@ public class Test {
 		
 		
 		
-		inc = new BoltMap<Integer, Integer>("js", "j = i+1;", "i", "j");
+		inc = new BoltMap<Integer, Integer>("js", "i", "j", 
+				"j = i+1"
+		);
 		
 		startTime = System.currentTimeMillis();
 		

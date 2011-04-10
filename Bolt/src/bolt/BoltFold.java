@@ -6,9 +6,8 @@ import fava.signatures.FnFold;
 public class BoltFold<T1, T2> extends Bolt implements FnFold<T1, T2>{
 
 	private String base, value, result;
-	private boolean allowSideEffects = false;
 
-	public BoltFold(String language, String script, String base, String value, String result) {
+	public BoltFold(String language, String base, String value, String result, String script) {
 		super(language, script);
 		
 		this.base = base;
@@ -17,15 +16,10 @@ public class BoltFold<T1, T2> extends Bolt implements FnFold<T1, T2>{
 		
 	}
 	
-	public BoltFold(String script, String base, String value, String result) {
-		this("jython", script, base, value, result);
+	public BoltFold(String base, String value, String result, String script) {
+		this(LANGUAGE, script, base, value, result);
 	}
 
-	
-	public void allowSideEffects(boolean allow)
-	{
-		this.allowSideEffects = allow;
-	}
 	
 	@Override
 	public T2 f(T1 v, T2 b) {

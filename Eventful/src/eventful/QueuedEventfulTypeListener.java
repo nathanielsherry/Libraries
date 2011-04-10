@@ -7,7 +7,7 @@ import java.util.ArrayList;
 /**
  * QueuedEventfulTypeListener stores events for up to a user-specified time interval, and
  * delivers the events in a list.
- * @author nathaniel
+ * @author Nathaniel Sherry, 2011
  *
  * @param <T>
  */

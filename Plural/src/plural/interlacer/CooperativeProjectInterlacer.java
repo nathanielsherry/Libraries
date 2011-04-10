@@ -1,12 +1,9 @@
 package plural.interlacer;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.Semaphore;
 
 
 
@@ -33,13 +30,18 @@ public class CooperativeProjectInterlacer<T>
 	private static int defaultDefaultPriority = 3;
 	private static int defaultIterationSize = 250;
 	private static int defaultNumThreads = Runtime.getRuntime().availableProcessors();
+	private static int defaultNumBackgroundJobs = Integer.MAX_VALUE;
 	
 	//Maps project name => work for project
 	private Map<String, Project<T>> projects;
 	
-	private int iterationSize = 250;
-	private int defaultPriority = 3;
-	private int threadCount = Runtime.getRuntime().availableProcessors();
+	private int iterationSize = defaultIterationSize;
+	private int defaultPriority = defaultDefaultPriority;
+	private int threadCount = defaultNumThreads;
+	private int numBackgroundJobs = defaultNumBackgroundJobs;
+	
+
+
 	private String DPName = "DP";
 
 	public static int availableCores()
@@ -181,6 +183,15 @@ public class CooperativeProjectInterlacer<T>
 		return data.priority;
 	}
 	
+	public int getNumBackgroundJobs() {
+		return numBackgroundJobs;
+	}
+
+
+	public void setNumBackgroundJobs(int numBackgroundJobs) {
+		this.numBackgroundJobs = numBackgroundJobs;
+	}
+	
 	public synchronized boolean projectExists(String projectName)
 	{
 		return (projects.get(projectName) != null);
@@ -193,7 +204,12 @@ public class CooperativeProjectInterlacer<T>
 
 	public synchronized InterlacerProject<T> getProject(String projectName)
 	{
-		return projects.get(projectName).jobs;
+		try {
+			return projects.get(projectName).jobs;
+		} catch(Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 		
 	public void doIteration()
@@ -261,8 +277,12 @@ public class CooperativeProjectInterlacer<T>
 				} else if(projectList.size() > 0) {
 					//there are no foreground projects, but there are background projects
 					//so we work on the background projects instead
-					blockSize = Math.max(1, iterationSize / projectList.size());
-					workingProjects = projectList.size();
+					workingProjects = Math.min(numBackgroundJobs, projectList.size());
+					blockSize = Math.max(1, iterationSize / workingProjects);
+					
+					//remove any projects above the cap for number of background projects
+					while (projectList.size() > numBackgroundJobs) projectList.remove(numBackgroundJobs);
+					
 				} else {
 					blockSize = 5;
 				}

@@ -161,7 +161,7 @@ public class ComplexToggle extends JToggleButton
 			}
 
 			icon.setBorder(Spacing.bNone());
-			this.setToolTipText(description);
+			this.setToolTipText(title);
 			
 		}
 

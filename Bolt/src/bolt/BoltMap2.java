@@ -5,9 +5,8 @@ import fava.signatures.FnMap2;
 public class BoltMap2<T1, T2, T3> extends Bolt implements FnMap2<T1, T2, T3>{
 
 	private String input1, input2, output;
-	private boolean allowSideEffects = false;
 
-	public BoltMap2(String language, String script, String input1, String input2, String output) {
+	public BoltMap2(String language, String input1, String input2, String output, String script) {
 		super(language, script);
 		
 		this.input1 = input1;
@@ -16,13 +15,8 @@ public class BoltMap2<T1, T2, T3> extends Bolt implements FnMap2<T1, T2, T3>{
 		
 	}
 	
-	public BoltMap2(String script, String input1, String input2, String output) {
-		this("jython", script, input1, input2, output);
-	}
-	
-	public void allowSideEffects(boolean allow)
-	{
-		this.allowSideEffects = allow;
+	public BoltMap2(String input1, String input2, String output, String script) {
+		this(LANGUAGE, script, input1, input2, output);
 	}
 	
 	@Override

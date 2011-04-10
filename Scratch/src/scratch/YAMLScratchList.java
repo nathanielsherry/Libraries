@@ -11,11 +11,8 @@ import org.yaml.snakeyaml.Yaml;
 import fava.datatypes.Pair;
 import fava.functionable.FList;
 
-import scitypes.Spectrum;
-import scitypes.filebacked.AbstractFileBackedList;
 
-
-public class YAMLScratchList<V> extends AbstractFileBackedList<V> {
+public class YAMLScratchList<V> extends AbstractScratchList<V> {
 
 	
 

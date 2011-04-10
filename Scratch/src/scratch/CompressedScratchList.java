@@ -5,21 +5,16 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
-import java.util.zip.DataFormatException;
 import java.util.zip.Deflater;
 import java.util.zip.DeflaterOutputStream;
-import java.util.zip.Inflater;
 import java.util.zip.InflaterInputStream;
 
 import scitypes.Spectrum;
-import scitypes.filebacked.FileBackedList;
 
-import com.sun.org.apache.bcel.internal.util.ByteSequence;
 
-import fava.datatypes.Pair;
 import fava.functionable.FList;
 
-public class CompressedScratchList<T extends Serializable> extends FileBackedList<T> {
+public class CompressedScratchList<T extends Serializable> extends ScratchList<T> {
 
 
 	

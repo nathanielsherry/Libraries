@@ -25,8 +25,9 @@ public class SpectrumCoordsAxisPainter extends AbstractKeyCoordAxisPainter
 	private List<AbstractPalette>		colourRules;
 	private boolean						negativeValues;
 	private List<Pair<Float, String>>	markings;
+	private int 						decimalPoints;
 
-
+	
 	public SpectrumCoordsAxisPainter(boolean drawCoords, Coord<Number> topLeftCoord, Coord<Number> topRightCoord,
 			Coord<Number> bottomLeftCoord, Coord<Number> bottomRightCoord, SISize coordinateUnits,
 			boolean drawSpectrum, int spectrumHeight, int spectrumSteps, List<AbstractPalette> palettes,
@@ -49,13 +50,42 @@ public class SpectrumCoordsAxisPainter extends AbstractKeyCoordAxisPainter
 		
 		this.spectrumSteps = spectrumSteps;
 		this.colourRules = palettes;
+		
+		this.decimalPoints = 1;
+
+	}
+
+	public SpectrumCoordsAxisPainter(boolean drawCoords, Coord<Number> topLeftCoord, Coord<Number> topRightCoord,
+			Coord<Number> bottomLeftCoord, Coord<Number> bottomRightCoord, SISize coordinateUnits,
+			boolean drawSpectrum, int spectrumHeight, int spectrumSteps, List<AbstractPalette> palettes,
+			boolean realDimensionsProvided, String descriptor, int decimalPoints)
+	{
+		super(
+			drawCoords,
+			topLeftCoord,
+			topRightCoord,
+			bottomLeftCoord,
+			bottomRightCoord,
+			coordinateUnits,
+			drawSpectrum,
+			spectrumHeight,
+			realDimensionsProvided,
+			descriptor);
+
+		this.markings = null;
+		this.negativeValues = false;
+		
+		this.spectrumSteps = spectrumSteps;
+		this.colourRules = palettes;
+		
+		this.decimalPoints = decimalPoints;
 
 	}
 	
 	public SpectrumCoordsAxisPainter(boolean drawCoords, Coord<Number> topLeftCoord, Coord<Number> topRightCoord,
 			Coord<Number> bottomLeftCoord, Coord<Number> bottomRightCoord, SISize coordinateUnits,
 			boolean drawSpectrum, int spectrumHeight, int spectrumSteps, List<AbstractPalette> palettes,
-			boolean realDimensionsProvided, String descriptor, boolean negativeValues)
+			boolean realDimensionsProvided, String descriptor, int decimalPoints, boolean negativeValues)
 	{
 		super(
 			drawCoords,
@@ -75,12 +105,14 @@ public class SpectrumCoordsAxisPainter extends AbstractKeyCoordAxisPainter
 		this.spectrumSteps = spectrumSteps;
 		this.colourRules = palettes;
 		
+		this.decimalPoints = decimalPoints;
+		
 	}
 	
 	public SpectrumCoordsAxisPainter(boolean drawCoords, Coord<Number> topLeftCoord, Coord<Number> topRightCoord,
 			Coord<Number> bottomLeftCoord, Coord<Number> bottomRightCoord, SISize coordinateUnits,
 			boolean drawSpectrum, int spectrumHeight, int spectrumSteps, List<AbstractPalette> palettes,
-			boolean realDimensionsProvided, String descriptor, boolean negativeValues, List<Pair<Float, String>> markings)
+			boolean realDimensionsProvided, String descriptor, int decimalPoints, boolean negativeValues, List<Pair<Float, String>> markings)
 	{
 		super(
 			drawCoords,
@@ -99,6 +131,9 @@ public class SpectrumCoordsAxisPainter extends AbstractKeyCoordAxisPainter
 
 		this.spectrumSteps = spectrumSteps;
 		this.colourRules = palettes;
+		
+		this.decimalPoints = decimalPoints;
+		
 	}
 
 
@@ -143,7 +178,7 @@ public class SpectrumCoordsAxisPainter extends AbstractKeyCoordAxisPainter
 			String maxIntensity;
 			if (maxIntensityFloat < 1)
 			{
-				maxIntensity = SigDigits.roundFloatTo(p.dr.maxYIntensity, 1);
+				maxIntensity = SigDigits.roundFloatTo(p.dr.maxYIntensity, decimalPoints);
 			} else  {
 				maxIntensity = String.valueOf((int) p.dr.maxYIntensity);
 			}

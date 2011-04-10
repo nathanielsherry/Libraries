@@ -18,6 +18,10 @@ public class Bolt {
 	private StringWriter stderr;
 	private StringWriter stdout;
 	
+	protected static final String LANGUAGE = "jython";
+	
+	protected boolean allowSideEffects = false;
+	
 	public Bolt(String language, String script)  {
 	
 		engine = new ScriptEngineManager().getEngineByName(language);
@@ -39,6 +43,12 @@ public class Bolt {
 		}
 	}
 	
+	
+	public void allowSideEffects(boolean allow)
+	{
+		this.allowSideEffects = allow;
+	}
+
 	
 	protected void clear()
 	{

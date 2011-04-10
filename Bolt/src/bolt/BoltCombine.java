@@ -6,10 +6,9 @@ import fava.signatures.FnCombine;
 public class BoltCombine<T1, T2> extends Bolt implements FnCombine<T1, T2> {
 
 	private String input1, input2, output;
-	private boolean allowSideEffects = false;
 
 	
-	public BoltCombine(String language, String script, String input1, String input2, String output) {
+	public BoltCombine(String language, String input1, String input2, String output, String script) {
 		super(language, script);
 		
 		this.input1 = input1;
@@ -18,14 +17,10 @@ public class BoltCombine<T1, T2> extends Bolt implements FnCombine<T1, T2> {
 		
 	}
 	
-	public BoltCombine(String script, String input1, String input2, String output) {
-		this("jython", script, input1, input2, output);
+	public BoltCombine(String input1, String input2, String output, String script) {
+		this(LANGUAGE, script, input1, input2, output);
 	}
-	
-	public void allowSideEffects(boolean allow)
-	{
-		this.allowSideEffects = allow;
-	}
+
 	
 	@Override
 	public T2 f(T1 v1, T1 v2) {

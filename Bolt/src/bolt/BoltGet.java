@@ -5,23 +5,17 @@ import fava.signatures.FnGet;
 public class BoltGet<T1> extends Bolt implements FnGet<T1>{
 
 	private String get;
-	private boolean allowSideEffects = false;
 	
-	public BoltGet(String engineName, String script, String get) {
-		super(engineName, script);
+	public BoltGet(String language, String get, String script) {
+		super(language, script);
 		
 		this.get = get;
 	
 	}
 	
 	
-	public BoltGet(String script, String get) {
-		this("jython", script, get);
-	}
-
-	public void allowSideEffects(boolean allow)
-	{
-		this.allowSideEffects = allow;
+	public BoltGet(String get, String script) {
+		this(LANGUAGE, script, get);
 	}
 	
 	@Override
