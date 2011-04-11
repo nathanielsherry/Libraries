@@ -17,7 +17,7 @@ public class BoltFold<T1, T2> extends Bolt implements FnFold<T1, T2>{
 	}
 	
 	public BoltFold(String base, String value, String result, String script) {
-		this(LANGUAGE, script, base, value, result);
+		this(LANGUAGE, base, value, result, script);
 	}
 
 	

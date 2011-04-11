@@ -16,7 +16,7 @@ public class BoltMap2<T1, T2, T3> extends Bolt implements FnMap2<T1, T2, T3>{
 	}
 	
 	public BoltMap2(String input1, String input2, String output, String script) {
-		this(LANGUAGE, script, input1, input2, output);
+		this(LANGUAGE, input1, input2, output, script);
 	}
 	
 	@Override

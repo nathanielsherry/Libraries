@@ -18,7 +18,7 @@ public class BoltCombine<T1, T2> extends Bolt implements FnCombine<T1, T2> {
 	}
 	
 	public BoltCombine(String input1, String input2, String output, String script) {
-		this(LANGUAGE, script, input1, input2, output);
+		this(LANGUAGE, input1, input2, output, script);
 	}
 
 	

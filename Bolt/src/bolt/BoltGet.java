@@ -15,7 +15,7 @@ public class BoltGet<T1> extends Bolt implements FnGet<T1>{
 	
 	
 	public BoltGet(String get, String script) {
-		this(LANGUAGE, script, get);
+		this(LANGUAGE, get, script);
 	}
 	
 	@Override

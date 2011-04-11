@@ -26,7 +26,7 @@ public class Test {
 		
 		
 		long startTime;
-		Range ints = new Range(1, 1000000);
+		Range ints = new Range(1, 1000);
 		
 		BoltMap<Integer, Integer> inc;
 		
@@ -131,7 +131,9 @@ public class Test {
 		
 		
 		
-		inc = new BoltMap<Integer, Integer>("python", "j = i+1;", "i", "j");
+		inc = new BoltMap<Integer, Integer>("python", "i", "j", 
+			"j = i+1;"
+		);
 		
 		startTime = System.currentTimeMillis();
 		
@@ -141,7 +143,16 @@ public class Test {
 		System.out.println(System.currentTimeMillis() - startTime);	
 		
 		
-	
+		inc = new BoltMap<Integer, Integer>("BeanShell", "i", "j", 
+			"j = i+1;"		
+		);
+		
+		startTime = System.currentTimeMillis();
+		
+			ints.map(inc);
+
+		System.out.println("\nJYTHON:");
+		System.out.println(System.currentTimeMillis() - startTime);	
 		
 
 		
