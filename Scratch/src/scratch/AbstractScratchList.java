@@ -229,7 +229,7 @@ public abstract class AbstractScratchList<T> extends Functionable<T> implements 
 
 	public synchronized T get(int index)
 	{
-			
+		if (index >= elementPositions.size()) return null;
 		Range position = elementPositions.get(index);
 		if (position == null) return null;
 		
