@@ -25,7 +25,7 @@ public class BoltCombine<T1, T2> extends Bolt implements FnCombine<T1, T2> {
 	@Override
 	public T2 f(T1 v1, T1 v2) {
 
-		if (!allowSideEffects) clear();
+		if (!hasSideEffects) clear();
 		set(input1, v1);
 		set(input2, v2);
 				

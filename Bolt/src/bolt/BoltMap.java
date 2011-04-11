@@ -24,7 +24,7 @@ public class BoltMap<T1, T2> extends Bolt implements FnMap<T1, T2>{
 	@Override
 	public T2 f(T1 v) {
 		
-		if (!allowSideEffects) clear();
+		if (!hasSideEffects) clear();
 		set(inputName, v);
 				
 		try {

@@ -24,7 +24,7 @@ public class BoltFold<T1, T2> extends Bolt implements FnFold<T1, T2>{
 	@Override
 	public T2 f(T1 v, T2 b) {
 		
-		if (!allowSideEffects) clear();
+		if (!hasSideEffects) clear();
 		set(base, b);
 		set(value, v);
 				

@@ -21,7 +21,7 @@ public class BoltGet<T1> extends Bolt implements FnGet<T1>{
 	@Override
 	public T1 f() {
 		
-		if (!allowSideEffects) clear();
+		if (!hasSideEffects) clear();
 		
 		try {
 			run();

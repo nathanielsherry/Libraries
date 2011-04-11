@@ -22,7 +22,7 @@ public class BoltMap2<T1, T2, T3> extends Bolt implements FnMap2<T1, T2, T3>{
 	@Override
 	public T3 f(T1 v1, T2 v2) {
 		
-		if (!allowSideEffects) clear();
+		if (!hasSideEffects) clear();
 		set(input1, v1);
 		set(input2, v2);
 				
