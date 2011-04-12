@@ -34,6 +34,7 @@ public class BoltMap<T1, T2> extends Bolt implements FnMap<T1, T2>{
 			return (T2)get(outputName);
 			
 		} catch (Exception e) {
+			e.printStackTrace();
 			throw new RuntimeException("Error executing script\n\n" + e.getMessage() + "\n-----\n" + getStdErr());
 		}
 		
