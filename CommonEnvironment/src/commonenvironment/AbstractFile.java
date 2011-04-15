@@ -14,6 +14,8 @@ import java.net.URL;
 
 import javax.jnlp.FileContents;
 
+import commonenvironment.zipfs.ZippedFile;
+
 
 
 public class AbstractFile implements Comparable<AbstractFile>
@@ -23,7 +25,7 @@ public class AbstractFile implements Comparable<AbstractFile>
 	
 	public enum ReadType
 	{
-		STRING, FILE_CONTENTS, URL
+		STRING, FILE_CONTENTS, URL, ZIP
 	}
 
 	private ReadType	type;
@@ -48,75 +50,63 @@ public class AbstractFile implements Comparable<AbstractFile>
 		type = ReadType.FILE_CONTENTS;
 		contents = filecontents;
 	}
-
+	
 	public AbstractFile(URL url)
 	{
 		type = ReadType.URL;
 		contents = url;
 	}
 	
+	public AbstractFile(ZippedFile file) {
+		type = ReadType.ZIP;
+		contents = file;
+	}
+	
 
 	public BufferedReader getReader()
 	{
-		if (type == ReadType.STRING)
-		{
-			try
-			{
-				return new BufferedReader(new FileReader((String) contents));
-			}
-			catch (FileNotFoundException e)
-			{
-				e.printStackTrace();
-				return null;
-			}
+		InputStream is;
+		try {
+			is = getInputStream();
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
 		}
-		else if (type == ReadType.FILE_CONTENTS)
-		{
-			try
-			{
-				return new BufferedReader(new InputStreamReader(((FileContents) contents).getInputStream()));
-			}
-			catch (IOException e)
-			{
-				return null;
-			}
-		} else if (type == ReadType.URL)
-		{
-			try
-			{
-				return new BufferedReader(new InputStreamReader(  ((URL)contents).openStream()  ));
-			}
-			catch (IOException e)
-			{
-				return null;
-			}
-		}
+		
+		return new BufferedReader(new InputStreamReader(is));
 
-		return null;
 	}
 
 
 	public InputStream getInputStream() throws IOException
 	{
-						
-		if (type == ReadType.STRING)
-		{
-			try
-			{
-				return new FileInputStream((String) contents);
-			}
-			catch (FileNotFoundException e)
-			{
-				throw new IOException();
-			}
-		}
-		else if (type == ReadType.FILE_CONTENTS)
-		{
-			return ((FileContents) contents).getInputStream();
 			
-		} else if (type == ReadType.URL)
-		{
-			return ((URL)contents).openStream();
+		switch (type) {
+		
+			case STRING:
+				
+				try
+				{
+					return new FileInputStream((String) contents);
+				}
+				catch (FileNotFoundException e)
+				{
+					throw new IOException();
+				}
+				
+			case FILE_CONTENTS:
+				
+				return ((FileContents) contents).getInputStream();
+				
+			case URL:
+				
+				return ((URL)contents).openStream();
+				
+			case ZIP:
+				
+				return ((ZippedFile)contents).getInputStream();
+		
+		
 		}
 		
 		return null;
