@@ -474,6 +474,7 @@ public class FList<T> extends Functionable<T> implements List<T> {
 	
 	public T head()
 	{
+		if (backing.size() == 0) return null;
 		return backing.get(0);
 	}
 	public FList<T> tail()
