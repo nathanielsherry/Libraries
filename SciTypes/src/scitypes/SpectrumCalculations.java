@@ -17,8 +17,8 @@ import static fava.Functions.*;
 
 
 /**
- * This class contains methods used to transform lists (eg log), or to find a specific piece of information about the
- * list (eg max) Not everything that operates on or reads a list needs to go here.
+ * This class contains methods used to transform Spectrum (eg log), or to find a specific piece of information about the
+ * Spectrum (eg max) Not everything that operates on or reads a Spectrum needs to go here.
  * 
  * @author Nathaniel Sherry, 2009
  */

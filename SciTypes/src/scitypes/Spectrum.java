@@ -60,6 +60,17 @@ public class Spectrum extends Functionable<Float> implements Serializable
     	}
     }
 
+	public Spectrum(double[] fromArray)
+	{
+        this.data = new float[fromArray.length];
+        this.size = fromArray.length;
+
+        for (int i = 0; i < size; i++)
+        {
+                data[i] = (float)fromArray[i];
+        }
+        maxIndex = size - 1;
+	}
 
 	public Spectrum(List<Float> fromList)
 	{
