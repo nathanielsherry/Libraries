@@ -283,8 +283,9 @@ public class Functions
 		};
 	}
 	
+
 	
-	public static FnFold<Integer, Integer>addi()
+	public static FnFold<Integer, Integer> addi()
 	{
 		return new FnFold<Integer, Integer>() {
 
@@ -293,7 +294,7 @@ public class Functions
 			}
 		};
 	}
-	public static FnFold<Long, Long>addl()
+	public static FnFold<Long, Long> addl()
 	{
 		return new FnFold<Long, Long>() {
 
@@ -302,7 +303,7 @@ public class Functions
 			}
 		};
 	}
-	public static FnFold<Short, Short>adds()
+	public static FnFold<Short, Short> adds()
 	{
 		return new FnFold<Short, Short>() {
 
@@ -311,7 +312,7 @@ public class Functions
 			}
 		};
 	}
-	public static FnFold<Float, Float>addf()
+	public static FnFold<Float, Float> addf()
 	{
 		return new FnFold<Float, Float>() {
 
@@ -320,7 +321,7 @@ public class Functions
 			}
 		};
 	}
-	public static FnFold<Double, Double>addd()
+	public static FnFold<Double, Double> addd()
 	{
 		return new FnFold<Double, Double>() {
 
@@ -329,7 +330,7 @@ public class Functions
 			}
 		};
 	}
-	public static FnFold<Byte, Byte>addb()
+	public static FnFold<Byte, Byte> addb()
 	{
 		return new FnFold<Byte, Byte>() {
 
@@ -338,7 +339,7 @@ public class Functions
 			}
 		};
 	}
-	public static FnFold<BigInteger, BigInteger>addbi()
+	public static FnFold<BigInteger, BigInteger> addbi()
 	{
 		return new FnFold<BigInteger, BigInteger>() {
 

@@ -4,9 +4,12 @@ package fava;
 
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
+import java.util.SortedSet;
 
 import fava.datatypes.Pair;
+import fava.functionable.FIterable;
 import fava.functionable.FList;
 import fava.signatures.FnCombine;
 import fava.signatures.FnFold;
@@ -15,7 +18,7 @@ import fava.signatures.FnMap;
 import fava.signatures.FnMap2;
 
 
-public class Fn
+public class Fn extends Functions
 {
 
 	private static <T1> FList<T1> list()
@@ -338,15 +341,17 @@ public class Fn
 
 	}
 	
-	public static <T1, T2, T3> FList<T3> zipWith_target(List<T1> l1, List<T2> l2, List<T3> target, FnMap2<T1, T2, T3> f)
+	public static <T1, T2, T3> FList<T3> zipWith_target(Iterable<T1> l1, Iterable<T2> l2, List<T3> target, FnMap2<T1, T2, T3> f)
 	{
 
 		if (l1 == null || l2 == null) return null;
-		int maxSize = Math.min(l1.size(), l2.size());
 
-		for (int i = 0; i < maxSize; i++)
+		Iterator<T1> t1i = l1.iterator();
+		Iterator<T2> t2i = l2.iterator();
+		
+		while (t1i.hasNext() && t2i.hasNext())
 		{
-			target.add(f.f(l1.get(i), l2.get(i)));
+			target.add(f.f(t1i.next(), t2i.next()));
 		}
 
 		return new FList<T3>(target);
@@ -367,7 +372,7 @@ public class Fn
 			}});
 	}
 	
-	public static <T1, T2> FList<Pair<T1, T2>> zipPair_target(List<T1> l1, List<T2> l2, List<Pair<T1, T2>> target)
+	public static <T1, T2> FList<Pair<T1, T2>> zipPair_target(Iterable<T1> l1, Iterable<T2> l2, List<Pair<T1, T2>> target)
 	{
 		return zipWith_target(l1, l2, target, new FnMap2<T1, T2, Pair<T1, T2>>(){
 
@@ -434,28 +439,27 @@ public class Fn
 
 	}
 	
-	public static <T1> FList<T1> uniqueBy_target(Iterable<T1> list, List<T1> target, FnCombine<T1, Boolean> f)
+	public static <T1> FList<T1> uniqueBy_target(Iterable<T1> sourceIter, List<T1> targetList, FnCombine<T1, Boolean> f)
 	{
-
+	
 		boolean inlist;
-		for (T1 elem : list)
+		for (T1 elem : sourceIter)
 		{
 			inlist = false;
-			for (T1 newelem : target)
+			for (T1 newelem : targetList)
 			{
 				inlist |= f.f(elem, newelem);
 				if (inlist) break;
 			}
 
-			if (!inlist) target.add(elem);
+			if (!inlist) targetList.add(elem);
 
 		}
 
-		return new FList<T1>(target);
+		return new FList<T1>(targetList);
 
 	}
-
-	
+		
 		
 	public static <T1, T2> void sortBy(List<T1> list, final Comparator<T2> c, final FnMap<T1, T2> f)
 	{

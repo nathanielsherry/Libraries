@@ -13,6 +13,14 @@ import fava.signatures.FnCombine;
 import fava.signatures.FnFold;
 import fava.signatures.FnMap;
 
+/**
+ * Experimental mechanism for defining complex processing of data without the data being
+ * available. Data can then be fed into the 
+ * @author nathaniel
+ *
+ * @param <T1>
+ */
+
 public class FStream<T1> extends Functionable<T1> 
 {
 
@@ -39,7 +47,7 @@ public class FStream<T1> extends Functionable<T1>
 	/**
 	 * Read data from an Iterable source into this stream. This call returns 
 	 * immediately, and may continue to reads elements from this Iterable afterwards. 
-	 * If the stream's buffer is full, no more elements will be added until there is room
+	 * If the stream's buffer is full, no more elements will be added until there is room.
 	 * 
 	 * @param source the source to read values from
 	 */
@@ -131,6 +139,10 @@ public class FStream<T1> extends Functionable<T1>
 	}
 	
 	
+	/**
+	 * Place an element into the stream
+	 * @param value
+	 */
 	public void put(T1 value)
 	{
 		try {
@@ -141,9 +153,13 @@ public class FStream<T1> extends Functionable<T1>
 		}
 	}
 	
-	public void putLive(T1 value)
+	/**
+	 * Place a value into the stream if there is room, discarding it otherwise.
+	 * @param value
+	 */
+	public boolean putLive(T1 value)
 	{
-		queue.add(new Maybe<T1>(value));
+		return queue.add(new Maybe<T1>(value));
 	}
 	
 	private void close()

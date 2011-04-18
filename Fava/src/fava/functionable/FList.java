@@ -61,6 +61,7 @@ public class FList<T> extends Functionable<T> implements List<T> {
 		}
 	}
 	
+	
 	public FList(Iterable<T> source)
 	{
 		this(source.iterator());
@@ -300,30 +301,30 @@ public class FList<T> extends Functionable<T> implements List<T> {
 	
 	
 	
-	public <T2, T3> FList<T3> zipWith(List<T2> other, FnMap2<T, T2, T3> f)
+	public <T2, T3> FList<T3> zipWith(Iterable<T2> other, FnMap2<T, T2, T3> f)
 	{
 		FList<T3> target = newTarget();
 		return Fn.zipWith_target(backing, other, target, f);
 	}
 	
-	public FList<T> zipWith_i(List<T> other, FnCombine<T, T> f)
+	public FList<T> zipWith_i(Iterable<T> other, FnCombine<T, T> f)
 	{
 		return Fn.zipWith_target(backing, other, backing, f);
 	}
 	
-	public FList<Boolean> zipEquivWith(List<T> other, FnCombine<T, Boolean> f)
+	public FList<Boolean> zipEquivWith(Iterable<T> other, FnCombine<T, Boolean> f)
 	{
 		FList<Boolean> target = newTarget();
 		return Fn.zipWith_target(backing, other, target, f);
 	}
 	
-	public FList<Boolean> zipEquiv(List<T> other)
+	public FList<Boolean> zipEquiv(Iterable<T> other)
 	{
 		FList<Boolean> target = newTarget();
 		return Fn.zipWith_target(backing, other, target, Functions.<T>equiv());
 	}
 	
-	public <T2> FList<Pair<T, T2>> zip(List<T2> other)
+	public <T2> FList<Pair<T, T2>> zip(Iterable<T2> other)
 	{
 		FList<Pair<T, T2>> target = newTarget();
 		return Fn.zipPair_target(backing, other, target);
