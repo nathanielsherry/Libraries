@@ -1,8 +1,8 @@
-package bolt;
+package bolt.scripting;
 
 import fava.signatures.FnGet;
 
-public class BoltGet<T1> extends Bolt implements FnGet<T1>{
+public class BoltGet<T1> extends BoltScripter implements FnGet<T1>{
 
 	private String get;
 	
@@ -21,7 +21,7 @@ public class BoltGet<T1> extends Bolt implements FnGet<T1>{
 	@Override
 	public T1 f() {
 		
-		if (!allowSideEffects) clear();
+		if (!hasSideEffects) clear();
 		
 		try {
 			run();

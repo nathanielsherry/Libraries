@@ -7,8 +7,8 @@ import javax.script.ScriptEngineFactory;
 import javax.script.ScriptEngineManager;
 
 
-import bolt.Bolt;
-import bolt.BoltMap;
+import bolt.scripting.BoltScripter;
+import bolt.scripting.BoltMap;
 
 import fava.functionable.FList;
 import fava.functionable.Range;
@@ -29,9 +29,9 @@ public class Test {
 		Range ints = new Range(1, 1000);
 		
 		BoltMap<Integer, Integer> inc;
-		
 		/*
-		inc = new BoltMap<Integer, Integer>(BoltLanguage.JRUBY, "$inc = $int+1", "int", "inc");
+		
+		inc = new BoltMap<Integer, Integer>("jruby", "int", "inc", "$inc = $int+1");
 				
 		startTime = System.currentTimeMillis();
 			
@@ -83,20 +83,23 @@ public class Test {
 			
 			
 			
-		/*
+		
 
-		inc = new BoltMap<Integer, Integer>("ruby", "$j = $i+1", "i", "j");
+		inc = new BoltMap<Integer, Integer>("jruby", "i", "j", "def inc(v)\n\tv+=1\nend\n\n$j = inc($i)");
 		
 		startTime = System.currentTimeMillis();
 			
 			ints.map(inc);
+			
+			//FList<Float> floats = new FList<Float>(1f, 2f, 3f);
+			//System.out.println(inc2.f(floats).get(0));
 			//System.out.println(ints.toSink().show());
 			//System.out.println(ints.map(inc).show());
 		System.out.println("\nJRUBY:");
 		System.out.println(System.currentTimeMillis() - startTime);	
-		*/
 		
 		
+		System.exit(0);
 		
 		
 		
@@ -142,7 +145,7 @@ public class Test {
 		System.out.println("\nJYTHON:");
 		System.out.println(System.currentTimeMillis() - startTime);	
 		
-		
+		/*
 		inc = new BoltMap<Integer, Integer>("BeanShell", "i", "j", 
 			"j = i+1;"		
 		);
@@ -154,7 +157,7 @@ public class Test {
 		System.out.println("\nJYTHON:");
 		System.out.println(System.currentTimeMillis() - startTime);	
 		
-
+*/
 		
 		
 		
@@ -172,7 +175,7 @@ public class Test {
         	try {
         		System.out.print(factory.getEngineName() + ": ");        		
         		
-        		Bolt b = new Bolt(factory.getLanguageName(), "");
+        		BoltScripter b = new BoltScripter(factory.getLanguageName(), "");
         		        		
         		System.out.println("PASS");
         		factories.add(factory);

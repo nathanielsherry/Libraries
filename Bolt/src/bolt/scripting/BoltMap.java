@@ -1,9 +1,9 @@
-package bolt;
+package bolt.scripting;
 
 import fava.signatures.FnMap;
 
 
-public class BoltMap<T1, T2> extends Bolt implements FnMap<T1, T2>{
+public class BoltMap<T1, T2> extends BoltScripter implements FnMap<T1, T2>{
 
 	private String inputName, outputName;
 
@@ -24,7 +24,7 @@ public class BoltMap<T1, T2> extends Bolt implements FnMap<T1, T2>{
 	@Override
 	public T2 f(T1 v) {
 		
-		if (!allowSideEffects) clear();
+		if (!hasSideEffects) clear();
 		set(inputName, v);
 				
 		try {
@@ -34,6 +34,7 @@ public class BoltMap<T1, T2> extends Bolt implements FnMap<T1, T2>{
 			return (T2)get(outputName);
 			
 		} catch (Exception e) {
+			e.printStackTrace();
 			throw new RuntimeException("Error executing script\n\n" + e.getMessage() + "\n-----\n" + getStdErr());
 		}
 		
