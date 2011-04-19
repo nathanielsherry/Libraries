@@ -185,15 +185,9 @@ class AvailablePlugins<T extends BoltPlugin>
 			{
 				throw new ClassNotFoundException("Can't get class loader.");
 			}
-			
-			
-			System.out.println(Env.classpath(c));
-			
+
 			String path = pckgname.replace('.', '/');
 
-			System.out.println(c.getProtectionDomain().getCodeSource().getLocation());
-			System.out.println(path);
-			
 			String abspath = c.getProtectionDomain().getCodeSource().getLocation() + path;
 			URI uri = new URI(abspath);
 					
