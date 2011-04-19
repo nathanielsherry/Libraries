@@ -2,21 +2,89 @@ package commonenvironment;
 
 
 
+import java.io.File;
+import java.net.URISyntaxException;
+import java.net.URL;
+
 import javax.jnlp.ServiceManager;
+
 
 
 
 public class Env
 {
 
-	public static boolean inJar()
+	public static boolean inJar(Class<?> classInJar)
 	{
 		Env env = new Env();
-		String className = env.getClass().getName().replace('.', '/');
+		String className = classInJar.getName().replace('.', '/');
 		String classJar = env.getClass().getResource("/" + className + ".class").toString();
 		return classJar.startsWith("jar:");
 	}
+	public static boolean inJar()
+	{
+		return inJar(Env.class);
+	}
+	
 
+	public static File jarFile(Class<?> classInJar)
+	{
+		if (!inJar(classInJar)) return null;
+		try {
+			return new File(classInJar.getProtectionDomain().getCodeSource().getLocation().toURI());
+		} catch (URISyntaxException e) {
+			return null;
+		}
+	}
+	
+	public static File jarFile()
+	{
+		return jarFile(Env.class);
+	}
+	
+	/**
+	 * Return the base path for the code
+	 * @param theclass
+	 * @return
+	 */
+	public static File codePath(Class<?> theclass)
+	{
+		if (inJar(theclass)) {
+			return jarFile(theclass);
+		} else {
+			try {
+				return new File(theclass.getProtectionDomain().getCodeSource().getLocation().toURI());
+			} catch (URISyntaxException e) {
+				return null;
+			}
+		}
+	}
+	
+	/**
+	 * Gets the file which would needed to be added to the classpath to include the given class
+	 * @param theclass
+	 * @return
+	 */
+	public static File classpath(Class<?> theclass)
+	{
+		if (inJar(theclass))
+		{
+			return jarFile(theclass);
+		} else {
+			
+			String pathname;
+			try {
+				pathname = theclass.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
+				String packageName = theclass.getName().replace(".", "/");
+				return new File(pathname + packageName + ".class");
+			} catch (URISyntaxException e) {
+				return null;
+			}
+
+			
+		}
+	}
+	
 
 	public static boolean isWindows()
 	{
