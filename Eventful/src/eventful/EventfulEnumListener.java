@@ -1,5 +1,7 @@
 package eventful;
 
+import java.util.EventListener;
+
 /**
  * 
  * Basic listener for a simple Model/View/Controller system. Receives an update when a change occurs.
@@ -8,7 +10,7 @@ package eventful;
  *
  */
 
-public interface EventfulEnumListener<T extends Enum<T>> {
+public interface EventfulEnumListener<T extends Enum<T>> extends EventListener {
 
 	public void change(T message);
 	
