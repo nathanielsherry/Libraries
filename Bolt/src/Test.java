@@ -6,7 +6,10 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineFactory;
 import javax.script.ScriptEngineManager;
 
+import commonenvironment.Env;
 
+
+import bolt.dynamiccompiling.BoltCompiler;
 import bolt.scripting.BoltScripter;
 import bolt.scripting.BoltMap;
 
@@ -21,8 +24,38 @@ public class Test {
 	{
 		
 		//listScriptingEngines();
+		compiling();
 		
+	}
 	
+	public static void compiling()
+	{
+		
+		BoltCompiler c = new BoltCompiler();
+		//c.addClassToClassPath(BoltCompiler.class);
+		c.addClassToClassPath(org.python.Version.class);
+		
+		c.setSourceCode("class TestCompile implements TestInterface{\npublic static int hello(){\nSystem.out.println(Env.inJar());\nreturn 5;\n}}");
+		
+		c.compile();
+		
+		
+		
+		/*
+		System.out.println("Code Path:");
+		System.out.println(Env.codePath(Test.class));
+		System.out.println(Env.codePath(org.python.Version.class));
+		
+		System.out.println();
+		System.out.println("Class Path");
+		System.out.println(Env.classpath(BoltCompiler.class));
+		System.out.println(Env.classpath(org.python.Version.class));
+		*/
+		
+	}
+	
+	public static void script()
+	{
 		
 		
 		long startTime;
@@ -84,7 +117,7 @@ public class Test {
 			
 			
 		
-
+/*
 		inc = new BoltMap<Integer, Integer>("jruby", "i", "j", "def inc(v)\n\tv+=1\nend\n\n$j = inc($i)");
 		
 		startTime = System.currentTimeMillis();
@@ -100,7 +133,7 @@ public class Test {
 		
 		
 		System.exit(0);
-		
+		*/
 		
 		
 		/*

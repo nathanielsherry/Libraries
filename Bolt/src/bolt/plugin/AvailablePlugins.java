@@ -40,56 +40,48 @@ class AvailablePlugins<T extends BoltPlugin>
 		if (availablePlugins == null)
 		{
 
-			if (Env.inJar())
+			if (Env.inJar(AvailablePlugins.class))
 			{
-				try {
-					File jarFile = new File(AvailablePlugins.class.getProtectionDomain().getCodeSource().getLocation().toURI());
-					
-					ZipFS g = new ZipFS(jarFile);
-					FList<ZippedFile> files = g.getChildren(g.getZippedFile(packageName.replace(".", "/") + "/"));
-					
-					availablePlugins = new ArrayList<Class<T>>();
-					
-					try {
-						
-						URL jarurl = new URL("jar", "","file:" + jarFile.getAbsolutePath()+"!/");
-						
-						URLClassLoader cl = URLClassLoader.newInstance(new URL[] {jarurl });
-						
-						
-						for (ZippedFile e : files)
-						{
-							String[] path = e.getName().split("/");
-							
-							String className = path[path.length - 1];
-							className = className.substring(0, className.length()-6);
-							
-							String classPath = packageName + "." + className;
-							
-							Class<?> loadedClass = cl.loadClass(classPath);
-							if (checkSuperclasses(loadedClass, c)) {
-								availablePlugins.add((Class<T>)loadedClass);
-							}
-						}
-						
-						
-					} catch (MalformedURLException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					} catch (ClassNotFoundException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
 
+				File jarFile = Env.jarFile(AvailablePlugins.class);
+				if (jarFile == null) return;
+				
+				ZipFS g = new ZipFS(jarFile);
+				FList<ZippedFile> files = g.getChildren(g.getZippedFile(packageName.replace(".", "/") + "/"));
+				
+				availablePlugins = new ArrayList<Class<T>>();
+				
+				try {
+					
+					URL jarurl = new URL("jar", "","file:" + jarFile.getAbsolutePath()+"!/");
+					
+					URLClassLoader cl = URLClassLoader.newInstance(new URL[] {jarurl });
 					
 					
+					for (ZippedFile e : files)
+					{
+						String[] path = e.getName().split("/");
+						
+						String className = path[path.length - 1];
+						className = className.substring(0, className.length()-6);
+						
+						String classPath = packageName + "." + className;
+						
+						Class<?> loadedClass = cl.loadClass(classPath);
+						if (checkSuperclasses(loadedClass, c)) {
+							availablePlugins.add((Class<T>)loadedClass);
+						}
+					}
 					
 					
-				} catch (URISyntaxException e) {
+				} catch (MalformedURLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (ClassNotFoundException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				//availablePlugins = generatePluginListStatic();
+
 			}
 			else
 			{
@@ -193,8 +185,15 @@ class AvailablePlugins<T extends BoltPlugin>
 			{
 				throw new ClassNotFoundException("Can't get class loader.");
 			}
+			
+			
+			System.out.println(Env.classpath(c));
+			
 			String path = pckgname.replace('.', '/');
 
+			System.out.println(c.getProtectionDomain().getCodeSource().getLocation());
+			System.out.println(path);
+			
 			String abspath = c.getProtectionDomain().getCodeSource().getLocation() + path;
 			URI uri = new URI(abspath);
 					
