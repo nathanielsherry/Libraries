@@ -8,10 +8,14 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineFactory;
 import javax.script.ScriptEngineManager;
 
+import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.jdt.core.compiler.batch.BatchCompiler;
+
 import commonenvironment.Env;
 
 
-import bolt.dynamiccompiling.BoltCompiler;
+import bolt.compiler.BoltJavaCompiler;
+import bolt.compiler.BoltJavaMap;
 import bolt.scripting.BoltScripter;
 import bolt.scripting.BoltMap;
 
@@ -23,7 +27,7 @@ import fava.signatures.FnMap;
 
 public class Test {
 
-	private static final int rangeSize = 1000000;
+	private static final int rangeSize = 10000;
 	
 	public static void main(String args[])
 	{
@@ -36,75 +40,30 @@ public class Test {
 	
 	public static void compiling()
 	{
-		
-		BoltCompiler c = new BoltCompiler("TestCompile");
-		//c.addClassToClassPath(BoltCompiler.class);
-		//c.addClassToClassPath(org.python.Version.class);
-		
-		String source = "" + 
-		"import fava.signatures.*;" +
-		"" +
-		"public class TestCompile implements TestInterface {" +
-		"" +
-		"  public static int hello(){" +
-		"    FnMap<String, String> mapper = new FnMap<String, String>() {" +
-		"      @Override" +
-		"      public String f(String v) {" +
-		"        return null;" +
-		"      }};" +
-		"" +
-		"    mapper.f(\"\");" +
-		"    return 5;" +
-		"  }" +
-		"}";
-		
-		source = "" + 
-		"import fava.signatures.*;" +
-		"" +
-		"public class TestCompile implements FnMap<Integer, Integer> {" +
-		"" +
-		"	public Integer f(Integer i) {" +
-		"		return i+1;" +
-		"	}" +
-		"}";
-		
-		c.setSourceCode(source);
-		
-		c.compile();
+
+		BoltJavaMap<Integer, Integer> inc = new BoltJavaMap<Integer, Integer>("i", Integer.class, Integer.class);
+		inc.setFunctionText("return i+1;");
 		
 		try {
-			
-			Class<?> cls = c.getMainClass();
-			
-			Object o = cls.newInstance();
-			Method myMethod = cls.getMethod("f", Integer.class);
-			
-			Range ints = new Range(1, rangeSize);
-			
-			long startTime = System.currentTimeMillis();
-			
-			Fn.map(ints, (FnMap<Integer, Integer>)o);
+			inc.f(1);
+		} catch (Exception e) {
 
-			System.out.println("BoltCompiler:");
-			System.out.println(System.currentTimeMillis() - startTime);
-			
-			//System.out.println(myMethod.invoke(o, new Integer(1)));
-			
-			
-		} catch (SecurityException e) {
-			e.printStackTrace();
-		} catch (NoSuchMethodException e) {
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (InstantiationException e) {
-			e.printStackTrace();
+			System.out.println(e.getMessage());
+
+			System.exit(1);
 		}
 		
+		Range ints = new Range(1, rangeSize);
 		
+		long startTime = System.currentTimeMillis();
 		
+		for (Integer i : ints)
+		{
+			inc.f(i);
+		}
+
+		System.out.println("BoltCompiler:");
+		System.out.println(System.currentTimeMillis() - startTime);
 		
 		
 		
@@ -169,13 +128,18 @@ public class Test {
 		
 		startTime = System.currentTimeMillis();
 			
-			ints.map(new FnMap<Integer, Integer>() {
+			FnMap<Integer, Integer> jinc = new FnMap<Integer, Integer>() {
 
 				@Override
 				public Integer f(Integer v) {
 					return v+1;
 				}
-			});
+			};
+			
+			for (Integer i : ints)
+			{
+				jinc.f(i);
+			}
 			//System.out.println(ints.toSink().show());
 			//System.out.println(ints.map(inc).show());
 		System.out.println("\nJAVA:");
@@ -223,7 +187,10 @@ public class Test {
 		
 		startTime = System.currentTimeMillis();
 		
-			ints.map(inc);
+		for (Integer i : ints)
+		{
+			inc.f(i);
+		}
 
 		System.out.println("\nJYTHON:");
 		System.out.println(System.currentTimeMillis() - startTime);	
@@ -238,7 +205,10 @@ public class Test {
 		
 		startTime = System.currentTimeMillis();
 		
-			ints.map(inc);
+		for (Integer i : ints)
+		{
+			inc.f(i);
+		}
 
 		System.out.println("\nJAVASCRIPT:");
 		System.out.println(System.currentTimeMillis() - startTime);	
