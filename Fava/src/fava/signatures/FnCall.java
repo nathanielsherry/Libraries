@@ -1,6 +1,6 @@
 package fava.signatures;
 
-public interface FnCall {
+public interface FnCall extends FnSignature {
 
 	public void f();
 	
