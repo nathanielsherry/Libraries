@@ -31,9 +31,9 @@ public class BoltJavaMap3<T1, T2, T3, T4> extends BoltJavaFunction implements Fn
 	{
 		return generateSourceCode(
 				"FnMap3",
-				t1.getName() + ", " + t2.getName() + ", " + t3.getName() + ", " + t4.getName(), 
-				t4.getName(), 
-				t1.getName() + " " + value1 + ", " + t2.getName() + " " + value2 + ", " + t3.getName() + " " + value3
+				t1.getSimpleName() + ", " + t2.getSimpleName() + ", " + t3.getSimpleName() + ", " + t4.getSimpleName(), 
+				t4.getSimpleName(), 
+				t1.getSimpleName() + " " + value1 + ", " + t2.getSimpleName() + " " + value2 + ", " + t3.getSimpleName() + " " + value3
 			);
 	}
 	

@@ -33,8 +33,10 @@ public class Test {
 	{
 		
 		//listScriptingEngines();
-		compiling();
-		script();
+		//compiling();
+		//script();
+		
+		System.out.println(Integer.class.getSimpleName());
 		
 	}
 	

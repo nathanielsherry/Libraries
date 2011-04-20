@@ -27,9 +27,9 @@ public class BoltJavaCombine<T1, T2> extends BoltJavaFunction implements FnCombi
 	{
 		return generateSourceCode(
 				"FnCombine",
-				t1.getName() + ", " + t2.getName(), 
-				t2.getName(), 
-				t1.getName() + " " + value1 + ", " + t1.getName() + " " + value2
+				t1.getSimpleName() + ", " + t2.getSimpleName(), 
+				t2.getSimpleName(), 
+				t1.getSimpleName() + " " + value1 + ", " + t1.getSimpleName() + " " + value2
 			);
 	}
 	

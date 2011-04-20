@@ -25,9 +25,9 @@ public class BoltJavaMap<T1, T2> extends BoltJavaFunction implements FnMap<T1, T
 	{
 		return generateSourceCode(
 				"FnMap",
-				t1.getName() + ", " + t2.getName(), 
-				t2.getName(), 
-				t1.getName() + " " + value
+				t1.getSimpleName() + ", " + t2.getSimpleName(), 
+				t2.getSimpleName(), 
+				t1.getSimpleName() + " " + value
 			);
 	}
 	

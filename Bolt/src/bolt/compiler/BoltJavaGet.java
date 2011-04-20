@@ -23,8 +23,8 @@ public class BoltJavaGet<T1> extends BoltJavaFunction implements FnGet<T1>{
 	{
 		return generateSourceCode(
 				"FnGet",
-				t1.getName(), 
-				t1.getName(), 
+				t1.getSimpleName(), 
+				t1.getSimpleName(), 
 				""
 			);
 	}

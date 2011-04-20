@@ -28,9 +28,9 @@ public class BoltJavaFold<T1, T2> extends BoltJavaFunction implements FnFold<T1,
 	{
 		return generateSourceCode(
 				"FnFold",
-				t1.getName() + ", " + t2.getName(), 
-				t2.getName(), 
-				t1.getName() + " " + value + ", " + t2.getName() + " " + base
+				t1.getSimpleName() + ", " + t2.getSimpleName(), 
+				t2.getSimpleName(), 
+				t1.getSimpleName() + " " + value + ", " + t2.getSimpleName() + " " + base
 			);
 	}
 	

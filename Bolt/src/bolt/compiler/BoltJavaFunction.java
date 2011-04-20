@@ -8,8 +8,9 @@ abstract class BoltJavaFunction {
 	private static int functionCount = 1;
 	
 	private String classname;
-	private String includeText;
-	private String functionText;
+	private String includeText = "";
+	private String functionText = "return null;";
+	private String otherText = "";
 	
 	private BoltJavaCompiler compiler;
 
@@ -44,6 +45,16 @@ abstract class BoltJavaFunction {
 		return functionText;
 	}
 	
+	public void setOtherText(String other)
+	{
+		otherText = other;
+		sourceCodeChanged();
+	}
+	public String getOtherText()
+	{
+		return otherText;
+	}
+	
 	public String getClassName()
 	{
 		return classname;
@@ -59,7 +70,9 @@ abstract class BoltJavaFunction {
 		getFunctionText() +
 		"\n" + 
 		"	}\n" +
-		"}";
+		"\n" +
+		otherText +
+		"\n}\n";
 	}
 	
 	protected FnSignature getFunctionObject()
@@ -81,6 +94,7 @@ abstract class BoltJavaFunction {
 			throw new RuntimeException("Error instantiating class");
 		}
 	}
+	
 	
 	
 	protected abstract String getSourceCode();
