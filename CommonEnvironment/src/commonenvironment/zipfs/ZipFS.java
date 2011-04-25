@@ -159,22 +159,5 @@ public class ZipFS {
 	}
 	
 	
-	public static void main(String args[]){
-		ZipFS t = new ZipFS("/home/nathaniel/Desktop/peakaboo_testing.jar");
-		
-		ZippedFile zhello = t.getZippedFile("license/LICENSE");
-		BufferedReader r = zhello.getBufferedReader();
-		try {
-			System.out.println(r.readLine());
-			System.out.println(r.readLine());
-			System.out.println(r.readLine());
-			System.out.println(r.readLine());
-			System.out.println(r.readLine());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
 }
 
