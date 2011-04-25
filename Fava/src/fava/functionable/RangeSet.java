@@ -2,6 +2,11 @@ package fava.functionable;
 
 import java.util.Iterator;
 
+/**
+ * 
+ * @author Nathaniel Sherry, 2010-2011
+ *
+ */
 
 
 public class RangeSet extends Functionable<Integer>
@@ -162,35 +167,6 @@ public class RangeSet extends Functionable<Integer>
 		return false;
 	}
 	
-	public static void main(String args[])
-	{
-		
-		
-		Range r1 = new Range(1, 6, -1);
-		Range r2 = new Range(11, 18, 3);
-				
-		RangeSet rs1 = new RangeSet();
-		
-		
-		rs1.addRange(r1);
-		rs1.addRange(r2);
-		
-		
-		
-		
-		Range r4 = new Range(14, 133, 3);
-				
-		RangeSet rs2 = new RangeSet();
-		
-		
-		rs2.addRange(r4);
-		
-		System.out.println(rs2.isTouching(rs1));
-
-		
-		
-		
-	}
 	
 	@Override
 	public String show()
@@ -205,6 +181,10 @@ public class RangeSet extends Functionable<Integer>
 	}
 	
 	
+	/**
+	 * Get a list of the {@link Range}s included in this RangeSet
+	 * @return a list of {@link Range}s making up this RangeSet
+	 */
 	public FList<Range> getRanges()
 	{
 		return ranges.toSink();

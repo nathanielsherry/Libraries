@@ -161,14 +161,29 @@ public class Range extends Sequence<Integer>
 	}
 
 	
-	
+	/**
+	 * The integer span of this Range. Note that for step sizes greater than 1, this is not the same as the number of elements in the range. To determine that value, call {@link Range#elementCount()}
+	 * @return the size of the span of the Range
+	 */
 	public int size()
 	{
 		return stop - start + 1;
 	}
 
+	/**
+	 * The number of elements contained in this Range. Note that for step sizes greater than 1, this is not the same as the size (span) of the Range.
+	 * @return the number of integer values included in this Range
+	 */
+	public int elementCount()
+	{
+		return (int)Math.ceil(size() / (float)step);
+	}
 
-
+	/**
+	 * Determines if this Range is overlapping with another Range. Ranges which overlap by start and end position, but which have different step sizes, or have the same step size, but out of phase, are considered to be not truly overlapping. This allows for the creation of more complex patterns using {@link RangeSet}, such as joining two ranges: eg (1, 4, 7, 10) and (2, 5, 8, 11) to produce (1, 2, 4, 5, 7, 8, 10, 11) 
+	 * @param other the other Range to compare against
+	 * @return true if the two Ranges contain common elements with a common step size, false otherwise 
+	 */
 	public boolean isOverlapping(Range other)
 	{
 		
@@ -196,7 +211,17 @@ public class Range extends Sequence<Integer>
 
 	}
 	
-	
+	/**
+	 * Determines if two Ranges are adjacent. Ranges are considered adjacent if 
+	 * <ul>
+	 * <li>Their step sizes match</li>
+	 * <li>They are in phase</li>
+	 * <li>The starting value of one is one step after the stopping value of the other</li>
+	 * </ul>
+	 * 
+	 * @param other the other Range to examine
+	 * @return true if the two Ranges are one step apart from each other, with the same step and phase, false otherwise
+	 */
 	public boolean isAdjacent(Range other)
 	{
 		if (other.step != step) return false;
@@ -204,20 +229,36 @@ public class Range extends Sequence<Integer>
 		return (other.start == stop + step || other.stop + step == start);
 	}
 	
+	/**
+	 * Equivalent to {@link Range#isOverlapping(Range)} OR {@link Range#isAdjacent(Range)}
+	 * @param other the Range to check this Range against
+	 * @return true if the two ranges are overlapping or touching, false otherwise
+	 */
 	public boolean isTouching(Range other)
 	{
 		return isOverlapping(other) || isAdjacent(other);
 	}
 	
+	
+	/**
+	 * Merges two Ranges for which {@link Range#isTouching(Range)} returns true. Returns null if the Ranges do not satisfy this requirement.
+	 * @param other the other Range to merge this Range with
+	 * @return a new Range representing the union of the elements of both
+	 */
 	public Range merge(Range other)
 	{
 		
-		if (! (isOverlapping(other) || isAdjacent(other)) ) return null;
+		if (! isTouching(other) ) return null;
 		
 		return new Range(Math.min(other.start, start), Math.max(other.stop, stop), step);
 		
 	}
 	
+	/**
+	 * Returns a RangeSet representing this Range with the elements in the other Range removed. The Ranges must satisfy {@link Range#isOverlapping(Range)}. If the Ranges are not overlapping, then the returned RangeSet will simply represent this Range
+	 * @param other the Range to remove from this Range
+	 * @return a RangeSet representing elements in this Range which are not in the other Range
+	 */
 	public RangeSet difference(Range other)
 	{
 		RangeSet result = new RangeSet();
@@ -245,16 +286,28 @@ public class Range extends Sequence<Integer>
 	}	
 
 	
+	/**
+	 * Get the start value of this Range
+	 * @return the lower bound and first element in this Range
+	 */
 	public int getStart() {
 		return start;
 	}
 
 
+	/**
+	 * Get the stop value of this Range
+	 * @return the upper bound of this Range
+	 */
 	public int getStop() {
 		return stop;
 	}
 
 
+	/**
+	 * Get the step size of this Range
+	 * @return the interval between consecutive elements in this Range 
+	 */
 	public int getStep() {
 		return step;
 	}

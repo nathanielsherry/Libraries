@@ -18,40 +18,75 @@ import fava.signatures.FnMap2;
 public class Functions
 {
 
-	
-	public static FnFold<String, String> strcat()
-	{
-		return new FnFold<String, String>() {
 
-			public String f(String s1, String s2)
-			{
-				return s1.toString() + s2;
-			}
-		};
-	}
-
-	public static <T1> FnFold<T1, String> strcatObj()
+	//////////////////////////////////////////////////////////
+	// STRING CONCAT
+	//////////////////////////////////////////////////////////
+	/**
+	 * Returns a function for use in fold calls for concatenating strings
+	 */
+	public static <T1> FnFold<T1, String> strcat()
 	{
 		return new FnFold<T1, String>() {
 
 			public String f(T1 s1, String s2)
 			{
-				return s1.toString() + s2;
+				return s2 + s1.toString();
+			}
+		};
+	}
+	
+	/**
+	 * Returns a function for use in fold calls for concatenating objects as strings
+	 */
+	public static <T1> FnFold<T1, String> strcat(final FnMap<T1, String> toString)
+	{
+		
+		return new FnFold<T1, String>() {
+
+			public String f(T1 s1, String s2)
+			{
+				return s2 + toString.f(s1);
 			}
 		};
 	}
 
+	/**
+	 * Returns a function for use in fold calls for concatenating strings with a separator
+	 */
 	public static FnFold<String, String> strcat(final String separator)
 	{
 		return new FnFold<String, String>() {
 
 			public String f(String s1, String s2)
 			{
-				return s1 + separator + s2;
+				return s2 + separator + s1;
 			}
 		};
 	}
 	
+	/**
+	 * Returns a function for use in fold calls for concatenating objects as strings with a separator
+	 */
+	public static <T1> FnFold<T1, String> strcat(final FnMap<T1, String> toString, final String separator)
+	{
+		
+		return new FnFold<T1, String>() {
+
+			public String f(T1 s1, String s2)
+			{
+				return s2 + separator + toString.f(s1);
+			}
+		};
+	}
+	
+	
+	
+	
+	
+	//////////////////////////////////////////////////////////
+	// LIST CONCAT
+	//////////////////////////////////////////////////////////
 	public static <T1> FnFold<List<T1>, List<T1>> listConcat()
 	{
 
@@ -59,15 +94,14 @@ public class Functions
 
 			public List<T1> f(List<T1> l1, List<T1> l2)
 			{
-				l1.addAll(l2);
-				return l1;
+				l2.addAll(l1);
+				return l2;
 			}
 
 		};
 
 	}
-	
-	
+		
 	public static <T1> FnFold<FList<T1>, FList<T1>> flistConcat()
 	{
 
@@ -75,8 +109,8 @@ public class Functions
 
 			public FList<T1> f(FList<T1> l1, FList<T1> l2)
 			{
-				l1.addAll(l2);
-				return l1;
+				l2.addAll(l1);
+				return l2;
 			}
 
 		};

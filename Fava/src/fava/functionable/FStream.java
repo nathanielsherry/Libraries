@@ -441,7 +441,7 @@ public class FStream<T1> extends Functionable<T1>
 			
 			private boolean keyInMap(final T1 value)
 			{
-				return Fn.include(equivmap.keySet(), compareFunction(value));
+				return Fn.includeBy(equivmap.keySet(), compareFunction(value));
 			}
 			
 			private FList<T1> putValueInMap(final T1 value)
@@ -493,75 +493,6 @@ public class FStream<T1> extends Functionable<T1>
 	
 	
 	
-	public static void main(String args[])
-	{
-		
-		
-		final FStream<Integer> s = new FStream<Integer>();
-		
-		
-
-		new Thread(new Runnable() {
-			
-			public void run() {
-				
-				int count = 1;
-				while (count < 2000){
-					
-					s.put(count);
-					count++;
-										
-				}
-				
-				s.close();
-				
-			}
-		}).start();
-		
-		
-		FStream<String> s2 = 
-		s.map(new FnMap<Integer, Integer>(){
-
-			public Integer f(Integer element) {
-				return element*2;
-			}
-		}).filter(new FnMap<Integer, Boolean>() {
-
-			public Boolean f(Integer element) {
-				return element % 4 == 0;
-			}
-		}).groupBy(new FnCombine<Integer, Boolean>() {
-
-			public Boolean f(Integer i1, Integer i2) {				
-				return i1%5 == i2%5;
-			}
-		}, 10).map(new FnMap<Functionable<Integer>, Functionable<Integer>>(){
-
-			public Functionable<Integer> f(Functionable<Integer> element) {
-				
-				//hard work to be done...
-				try {
-					Thread.sleep(100);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
-				return element;
-			}
-		}).map(Functions.<Functionable<Integer>>show());
-		
-		
-		
-		
-		for (String i : s2)
-		{
-			System.out.println(i);
-		}
-
-		System.out.println("closed");
-
-	}
 	
 	
 

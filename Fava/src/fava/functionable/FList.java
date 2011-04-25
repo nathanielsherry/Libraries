@@ -47,21 +47,28 @@ public class FList<T> extends Functionable<T> implements List<T> {
 	
 	public FList()
 	{
-		this(new ArrayList<T>());
+		backing = new ArrayList<T>();
+	}
+	
+	public FList(final FListComprehension<T> comprehension)
+	{
+		this(
+			Fn.filter(comprehension.in(), new FnMap<T, Boolean>() {
+	
+				@Override
+				public Boolean f(T v) {
+					return comprehension.where(v);
+				}
+			}).map(new FnMap<T, T>(){
+	
+				@Override
+				public T f(T v) {
+					return comprehension.let(v);
+				}
+			})
+		);
 	}
 		
-	public FList(List<T> backing)
-	{
-		//make sure we don't nest FLists inside other FLists
-		if (backing instanceof FList<?>){
-			FList<T> other = (FList<T>)backing;
-			this.backing = other.backing;
-		} else {
-			this.backing = backing;
-		}
-	}
-	
-	
 	public FList(Iterable<T> source)
 	{
 		this(source.iterator());
@@ -77,7 +84,7 @@ public class FList<T> extends Functionable<T> implements List<T> {
 		}
 
 	}
-	
+
 	public FList(T element)
 	{
 		this();
@@ -94,9 +101,28 @@ public class FList<T> extends Functionable<T> implements List<T> {
 	}
 	
 	
-	protected <C extends List<T>> FList(Class<C> c) throws InstantiationException, IllegalAccessException
+	public static <T> FList<T> wrap(List<T> list)
 	{
-		backing = c.newInstance();
+		FList<T> newlist = new FList<T>();
+		//make sure we don't nest FLists inside other FLists
+		if (list instanceof FList<?>){
+			FList<T> other = (FList<T>)list;
+			newlist.backing = other.backing;
+		} else {
+			newlist.backing = list;
+		}
+		
+		return newlist;
+	}
+	
+	
+	protected <C extends List<T>> FList(Class<C> c)
+	{
+		try {
+			backing = c.newInstance();
+		} catch (Exception e) {
+			backing = new ArrayList<T>();
+		}
 	}
 	
 	/**
@@ -106,16 +132,15 @@ public class FList<T> extends Functionable<T> implements List<T> {
 	 * @param backing list to use as template
 	 * @return a new list of type T2 of the same implementation as source
 	 */
-	@SuppressWarnings("unchecked")
 	protected static <T, T2> FList<T2> newTarget(List<T> backing)
 	{
 		try {
-			return (FList<T2>) backing.getClass().newInstance();
+			return (FList<T2>)(backing.getClass().newInstance());
 		} catch (Exception e) {
 			return new FList<T2>();
 		}
 	}
-	
+
 	protected <T2> FList<T2> newTarget()
 	{
 		return FList.<T, T2>newTarget(backing);
@@ -221,7 +246,7 @@ public class FList<T> extends Functionable<T> implements List<T> {
 	}
 
 	public FList<T> subList(int arg0, int arg1) {
-		return new FList<T>(backing.subList(arg0, arg1));
+		return FList.<T>wrap(backing.subList(arg0, arg1));
 	}
 
 	public Object[] toArray() {
@@ -346,9 +371,9 @@ public class FList<T> extends Functionable<T> implements List<T> {
 		return Fn.include(backing, element);
 	}
 	
-	public boolean include(T element, FnMap<T, Boolean> f)
+	public boolean includeBy(T element, FnMap<T, Boolean> f)
 	{
-		return Fn.include(backing, f);
+		return Fn.includeBy(backing, f);
 	}
 	
 	
@@ -480,7 +505,7 @@ public class FList<T> extends Functionable<T> implements List<T> {
 	}
 	public FList<T> tail()
 	{
-		return new FList<T>(backing.subList(1, backing.size()));
+		return FList.<T>wrap(backing.subList(1, backing.size()));
 	}
 	
 	
@@ -569,13 +594,9 @@ public class FList<T> extends Functionable<T> implements List<T> {
 		return list.map(new FnMap<List<T>, Functionable<T>>() {
 
 			public Functionable<T> f(List<T> element) {
-				return new FList<T>(element);
+				return FList.<T>wrap(element);
 			}
 		});
 	}
-	
-	
-	
-	
-	
+		
 }

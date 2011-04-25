@@ -1,5 +1,6 @@
 package fava.functionable;
 
+import java.util.Iterator;
 import java.util.List;
 
 import fava.Fn;
@@ -9,38 +10,80 @@ import fava.signatures.FnFold;
 import fava.signatures.FnEach;
 import fava.signatures.FnMap;
 
+/**
+ * This is a base abstract class which provides a default implementation of some of the most common functional commands. Objects extending this class gain access to these methods, but will be required to implement the Iterable interface
+ * @author Nathaniel Sherry, 2010-2011
+ *
+ * @param <T1>
+ */
+
 public abstract class Functionable<T1> implements Iterable<T1> {
 
+	/**
+	 * Applies the given {@link FnEach} function to each contained element. 
+	 * @param f
+	 */
 	public void each(FnEach<T1> f)
 	{
 		Fn.each(this, f);
 	}
 	
+	/**
+	 * Applies the given {@link FnMap} function to each contained element. Returns a Functionable object representing the results of those applications. 
+	 * @param <T2>
+	 * @param f the mapping function to apply
+	 * @return a Functionable object containing the results of applying the {@link FnMap} to the elements in this Functionable object
+	 */
 	public <T2> Functionable<T2> map(FnMap<T1, T2> f)
 	{
 		return Fn.map(this, f);
 	}
 	
+	/**
+	 * Applies the given {@link FnMap} function to each contained element. Returns a Functionable object containing the elements of this object for which the given function returned true.
+	 * @param f the condition function to apply
+	 * @return a Functionable object containing only those elements in this Functionable object for which the given function returned true
+	 */
 	public Functionable<T1> filter(FnMap<T1, Boolean> f)
 	{
 		return Fn.filter(this, f);
 	}
 	
+	/**
+	 * Applies the given {@link FnFold} function to consecutive contained elements, also threading a running sum or result from call to call. When the function has been applied to every element, the result will be a single value. 
+	 * @param f the folding function to apply
+	 * @return the result of applying this function to all elements as if it were an n-ary function 
+	 */
 	public T1 fold(FnFold<T1, T1> f)
 	{
 		return Fn.fold(this, f);
 	}
 	
+	/**
+	 * Applies the given {@link FnFold} function to consecutive contained elements, also threading a running sum or result from call to call. When the function has been applied to every element, the result will be a single value. Since the return value may be of a different type than the contained elements, a starting value of that type is requried 
+	 * @param f the folding function to apply
+	 * @return the result of applying this function to all elements as if it were an n-ary function 
+	 */
 	public <T2> T2 fold(T2 base, FnFold<T1, T2> f)
 	{
 		return Fn.fold(this, base, f);
 	}
 	
+	/**
+	 * Remove and return the first 'number' elements from this Functionalbe object
+	 * @param number the number of elements to take
+	 * @return a Functionalbe object containing the first 'number' elements from this Functionable object
+	 */
 	public Functionable<T1> take(int number)
 	{
 		return Fn.take(this, number);
 	}
 	
+	/**
+	 * Remove and return elements from this Functionable object while the elements satisfy the given condition function.
+	 * @param f the condition function to apply
+	 * @return a Functionable object containing elements from this Functionable object up until the point where an element fails to satisfy the given condition
+	 */
 	public Functionable<T1> takeWhile(FnMap<T1, Boolean>f)
 	{
 		return Fn.takeWhile(this, f);
@@ -106,7 +149,7 @@ public abstract class Functionable<T1> implements Iterable<T1> {
 		return list.map(new FnMap<List<T>, Functionable<T>>() {
 
 			public Functionable<T> f(List<T> element) {
-				return new FList<T>(element);
+				return FList.<T>wrap(element);
 			}
 		});
 	}

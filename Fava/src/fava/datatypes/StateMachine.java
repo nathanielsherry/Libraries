@@ -32,8 +32,8 @@ public abstract class StateMachine<STATE, INPUT> {
 	/**
 	 * This method should be implemented by implementations of StateMachine. This is
 	 * where specific state machines define their behaviour on input.
-	 * @param i the input to the state machine
-	 * @param s the current state
+	 * @param input the input to the state machine
+	 * @param state the current state
 	 * @return the new state of the StateMachine
 	 */
 	protected abstract STATE processInput(INPUT input, STATE state);
@@ -146,7 +146,7 @@ public abstract class StateMachine<STATE, INPUT> {
 	 * <br/><br/>
 	 * Note: if a StateMachine updates a data structure rather than returning
 	 * a new state value, a call to speculate will have the same effect as
-	 * a call to {@link StateMachine#transition(INPUT i)}
+	 * a call to {@link StateMachine#transition(INPUT i))}
 	 * @param i the input to the StateMachine
 	 * @return the state of the StateMachine, were it to be given this input
 	 */
@@ -179,7 +179,7 @@ public abstract class StateMachine<STATE, INPUT> {
 	 * Note: if a StateMachine updates a data structure rather than returning
 	 * a new state value, a call to speculate will have the same effect as
 	 * a call to {@link StateMachine#transition(INPUT i)}
-	 * @param i the input to the StateMachine
+	 * @param is the inputs to the StateMachine
 	 * @return the state of the StateMachine, were it to be given this input
 	 */
 	public STATE speculate(List<INPUT> is)
@@ -204,7 +204,7 @@ public abstract class StateMachine<STATE, INPUT> {
 	 * Note: if a StateMachine updates a data structure rather than returning
 	 * a new state value, a call to speculate will have the same effect as
 	 * a call to {@link StateMachine#transition(INPUT i)}
-	 * @param i the input to the StateMachine
+	 * @param is the inputs to the StateMachine
 	 * @return the state of the StateMachine, were it to be given this input
 	 */
 	public STATE speculate(INPUT[] is)
@@ -218,81 +218,6 @@ public abstract class StateMachine<STATE, INPUT> {
 		}
 		
 		return temp;
-	}
-	
-	
-	
-	
-	
-	
-	public static void main(String args[])
-	{
-		/*
-		StateMachine<Boolean, String> oddBs = new StateMachine<Boolean, String>(false) {
-
-			@Override
-			protected Boolean processInput(String i, Boolean s) {
-				if ("B".equals(i)) return !s;
-				return s;
-			}
-		};
-		
-		String input;
-		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-		while (true)
-		{
-			try {
-				input = reader.readLine();
-				
-				if (input == null) break;
-				
-				oddBs.resetState();
-				oddBs.transition(input.split("|"));
-				System.out.println(oddBs.getState());
-				
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-			
-		}
-		
-		*/
-		
-		StateMachine<LinkedList<Integer>, Integer> listSM = new StateMachine<LinkedList<Integer>, Integer>(new LinkedList<Integer>()) {
-
-			@Override
-			protected LinkedList<Integer> processInput(Integer input, LinkedList<Integer> state) {
-				
-				state.addFirst(input);
-				return state;
-				
-			}
-			
-			@Override
-			public void resetState()
-			{
-				resetState(new LinkedList<Integer>());
-			}
-			
-		};
-		
-		
-		listSM.transition(1);
-		listSM.transition(3);
-		listSM.transition(2);
-		
-		listSM.resetState();
-
-		listSM.transition(1);
-		listSM.transition(3);
-		listSM.transition(2);
-		
-		System.out.println(new FList<Integer>(listSM.getState()).show());
-		
-		
-		
 	}
 	
 	

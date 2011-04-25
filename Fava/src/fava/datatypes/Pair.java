@@ -21,18 +21,30 @@ public class Pair<T, S> implements Serializable
 	public T	first;
 	public S	second;
 	
+	/**
+	 * Constructor to create a Pair with preset values
+	 * @param first
+	 * @param second
+	 */
 	public Pair(T first, S second)
 	{	
 		this.first = first;
 		this.second = second;
 	}
 	
+	/**
+	 * Constructor to create an empty Pair
+	 */
 	public Pair()
 	{
 		first = null;
 		second = null;
 	}
 	
+	/**
+	 * Converts this Pair into a human-readable String representation
+	 * @return a human-readable String representation of this Pair
+	 */
 	public String show()
 	{
 		String firstString, secondString;
@@ -40,5 +52,6 @@ public class Pair<T, S> implements Serializable
 		secondString = (second instanceof Functionable<?>) ? ((Functionable<?>)second).show() : second.toString();
 		return "(" + firstString + "," + secondString + ")";
 	}
+	
 	
 }

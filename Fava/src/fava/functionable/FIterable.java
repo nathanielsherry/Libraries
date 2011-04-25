@@ -8,11 +8,18 @@ public class FIterable<T> extends Functionable<T>
 
 	private Iterable<T> backing;
 	
+	/**
+	 * Create a new FIterable out of an {@link Iterable}
+	 * @param iterable
+	 */
 	public FIterable(Iterable<T> iterable) {
 		backing = iterable;
 	}
 
-	
+	/**
+	 * Create a new FIterable out of an old {@link Enumeration}
+	 * @param enumeration
+	 */
 	public FIterable(final Enumeration<T> enumeration) {
 		backing = new Iterable<T>() {
 
