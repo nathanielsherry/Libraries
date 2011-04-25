@@ -4,11 +4,11 @@ package scidraw.drawing.plot.painters.axis;
 import java.util.ArrayList;
 import java.util.List;
 
-import fava.datatypes.Bounds;
 
 import scidraw.drawing.painters.axis.AxisPainter;
 import scidraw.drawing.painters.axis.LineAxisPainter;
 import scidraw.drawing.painters.axis.TitleAxisPainter;
+import scitypes.Bounds;
 
 
 public class AxisFactory

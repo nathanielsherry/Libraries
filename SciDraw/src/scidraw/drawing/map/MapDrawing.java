@@ -1,7 +1,6 @@
 package scidraw.drawing.map;
 
 
-import fava.datatypes.Bounds;
 import fava.datatypes.Pair;
 
 
@@ -16,6 +15,7 @@ import scidraw.drawing.backends.graphics2d.ImageBuffer;
 import scidraw.drawing.map.painters.MapPainter;
 import scidraw.drawing.painters.PainterData;
 import scidraw.drawing.painters.axis.AxisPainter;
+import scitypes.Bounds;
 import scitypes.Coord;
 
 /**

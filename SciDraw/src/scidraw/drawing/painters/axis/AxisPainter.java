@@ -3,7 +3,6 @@ package scidraw.drawing.painters.axis;
 
 import java.util.List;
 
-import fava.datatypes.Bounds;
 import fava.datatypes.Pair;
 
 
@@ -11,6 +10,7 @@ import scidraw.drawing.DrawingRequest;
 import scidraw.drawing.backends.Surface;
 import scidraw.drawing.painters.Painter;
 import scidraw.drawing.painters.PainterData;
+import scitypes.Bounds;
 import scitypes.Coord;
 
 /**

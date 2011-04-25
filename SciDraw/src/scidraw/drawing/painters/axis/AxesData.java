@@ -1,6 +1,7 @@
 package scidraw.drawing.painters.axis;
 
-import fava.datatypes.Bounds;
+import scitypes.Bounds;
+
 
 
 

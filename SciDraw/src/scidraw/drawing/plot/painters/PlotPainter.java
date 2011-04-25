@@ -1,13 +1,13 @@
 package scidraw.drawing.plot.painters;
 
 
-import fava.datatypes.Bounds;
 import scidraw.drawing.DrawingRequest;
 import scidraw.drawing.ViewTransform;
 import scidraw.drawing.backends.Surface;
 import scidraw.drawing.painters.Painter;
 import scidraw.drawing.painters.PainterData;
 import scidraw.drawing.plot.PlotDrawing;
+import scitypes.Bounds;
 import scitypes.Coord;
 import scitypes.Spectrum;
 import scitypes.SpectrumCalculations;

@@ -2,12 +2,12 @@ package scidraw.drawing.plot.painters.axis;
 
 import java.util.List;
 
-import fava.datatypes.Bounds;
 import fava.datatypes.Pair;
 
 import scidraw.drawing.painters.PainterData;
 import scidraw.drawing.plot.PlotDrawing;
 import scidraw.drawing.plot.painters.PlotPainter;
+import scitypes.Bounds;
 
 
 public class GridlinePainter extends PlotPainter
