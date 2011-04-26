@@ -82,6 +82,17 @@ public class IOOperations
 		return readerToString(file.getReader());
 	}
 	
+	/**
+	 * Given a {@link File}, it will return a String representation of the contents of the file
+	 * 
+	 * @param filename
+	 * @return the contents of filename
+	 */
+	public static String fileToString(File file)
+	{
+		return fileToString(new AbstractFile(file));
+	}
+	
 
 	/**
 	 * Given a BufferedReader, it will return a String representation of the contents of the Reader, and will close the BufferedReader
