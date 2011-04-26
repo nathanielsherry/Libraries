@@ -35,6 +35,15 @@ public class Fn
 	//////////////////////////////////////////////////////////
 	// MAP
 	//////////////////////////////////////////////////////////
+	
+	/**
+	 * Transforms the elements of type T1 in 'list' using the given {@link FnMap} function, and returns the results
+	 * @param <T1>
+	 * @param <T2>
+	 * @param list the input list
+	 * @param f the transformation function
+	 * @return an FList<T2> containing the results of the transformation 
+	 */
 	public static <T1, T2> FList<T2> map(Iterable<T1> list, FnMap<T1, T2> f)
 	{
 
@@ -47,13 +56,21 @@ public class Fn
 
 	}
 
-	public static <T1, T2> FList<T2> map(T1 list[], FnMap<T1, T2> f)
+	/**
+	 * Transforms the elements of type T1 in 'array' using the given {@link FnMap} function, and returns the results
+	 * @param <T1>
+	 * @param <T2>
+	 * @param array the input array
+	 * @param f the transformation function
+	 * @return an FList<T2> containing the results of the transformation 
+	 */
+	public static <T1, T2> FList<T2> map(T1 array[], FnMap<T1, T2> f)
 	{
 
-		if (list == null) return null;
+		if (array == null) return null;
 		FList<T2> newlist = Fn.<T2> list();
 
-		map_target(Arrays.asList(list), newlist, f);
+		map_target(Arrays.asList(array), newlist, f);
 		
 		return newlist;
 

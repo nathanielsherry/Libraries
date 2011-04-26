@@ -5,10 +5,21 @@ import java.util.Iterator;
 import fava.datatypes.Maybe;
 import fava.signatures.FnGet;
 
+/**
+ * Generates a sequence of elements of type T. Similar to {@link Sequence}, but does not directly rely on the previous element to generate the next.
+ * @author Nathaniel Sherry, 2010-2011
+ *
+ * @param <T>
+ */
+
 public class Generator<T> extends Functionable<T>{
 
 	private FnGet<Maybe<T>> generate;
 	
+	/**
+	 * Create a new Generator with the given {@link FnGet} function to generate new values
+	 * @param generate the {@link FnGet} function to generate values
+	 */
 	public Generator(FnGet<Maybe<T>> generate)
 	{
 		this.generate = generate;
@@ -70,6 +81,7 @@ public class Generator<T> extends Functionable<T>{
 	{
 		return "[Generator]";
 	}	
+	
 	
 
 }

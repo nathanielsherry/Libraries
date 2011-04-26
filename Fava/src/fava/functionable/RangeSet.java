@@ -14,11 +14,19 @@ public class RangeSet extends Functionable<Integer>
 
 	private FList<Range> ranges;
 	
+	/**
+	 * Create a new RangeSet containing no {@link Range}s
+	 */
 	public RangeSet()
 	{
 		ranges = new FList<Range>();
 	}
 	
+
+	/**
+	 * Add the given {@link Range}
+	 * @param range the Range to add to this RangeSet
+	 */
 	public void addRange(Range range)
 	{
 		Iterator<Range> i;
@@ -42,7 +50,12 @@ public class RangeSet extends Functionable<Integer>
 		ranges.add(range);		
 		
 	}
-	
+		
+
+	/**
+	 * Add all of the {@link Range}s from the given RangeSet to this RangeSet
+	 * @param rangeset the RangeSet to add the elements from
+	 */
 	public void addRangeSet(RangeSet rangeset)
 	{
 		for (Range r : rangeset.getRanges())
@@ -51,6 +64,10 @@ public class RangeSet extends Functionable<Integer>
 		}
 	}
 	
+	/**
+	 * Removes this {@link Range} from the RangeSet. This does not simply remove the given Range object, rather it modifies the collection of Ranges so that none of the elements contained in the given Range are contained in this RangeSet anymore. Eg: [1..20:2,6..30:2].removeRange(2..29:1).toSink() => [1, 30] 
+	 * @param range the Range the elements of which should be removed from this RangeSet
+	 */
 	public void removeRange(Range range)
 	{
 		Iterator<Range> i;
@@ -77,6 +94,9 @@ public class RangeSet extends Functionable<Integer>
 		
 	}
 	
+	/**
+	 * Remove all {@link Range}s from this RangeSet
+	 */
 	public void clear()
 	{
 		ranges.clear();
@@ -120,6 +140,11 @@ public class RangeSet extends Functionable<Integer>
 		
 	}
 	
+	/**
+	 * Determines if this RangeSet is touching the given {@link Range}. For a definition of touching, see {@link Range#isTouching(Range)}
+	 * @param other the Range to compare
+	 * @return true if the given Range is touching this RangeSet, false otherwise
+	 */
 	public boolean isTouching(Range other)
 	{
 		
@@ -132,6 +157,11 @@ public class RangeSet extends Functionable<Integer>
 		
 	}
 	
+	/**
+	 * Determines if this RangeSet is touching the given other RangeSet. For a definition of touching, see {@link Range#isTouching(Range)}
+	 * @param other the RangeSet to compare
+	 * @return true if the given RangeSet is touching this RangeSet, false otherwise
+	 */
 	public boolean isTouching(RangeSet other)
 	{
 		
@@ -143,7 +173,11 @@ public class RangeSet extends Functionable<Integer>
 		return false;
 	}
 	
-	
+	/**
+	 * Determines if this RangeSet is overlapping the given {@link Range}. For a definition of overlapping, see {@link Range#isOverlapping(Range)}
+	 * @param other the Range to compare
+	 * @return true if the given Range is overlapping this RangeSet, false otherwise
+	 */
 	public boolean isOverlapping(Range other)
 	{
 		
@@ -156,6 +190,11 @@ public class RangeSet extends Functionable<Integer>
 		
 	}
 	
+	/**
+	 * Determines if this RangeSet is overlapping the given other RangeSet. For a definition of overlapping, see {@link Range#isOverlapping(Range)}
+	 * @param other the RangeSet to compare
+	 * @return true if the given other RangeSet is overlapping this RangeSet, false otherwise
+	 */
 	public boolean isOverlapping(RangeSet other)
 	{
 		

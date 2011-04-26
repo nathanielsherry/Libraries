@@ -180,7 +180,7 @@ public class Range extends Sequence<Integer>
 	}
 
 	/**
-	 * Determines if this Range is overlapping with another Range. Ranges which overlap by start and end position, but which have different step sizes, or have the same step size, but out of phase, are considered to be not truly overlapping. This allows for the creation of more complex patterns using {@link RangeSet}, such as joining two ranges: eg (1, 4, 7, 10) and (2, 5, 8, 11) to produce (1, 2, 4, 5, 7, 8, 10, 11) 
+	 * Determines if this Range is overlapping with another Range. Ranges which overlap by start and end position, but which have different step sizes, or have the same step size, but out of phase, are considered to be not truly overlapping. This allows for the creation of more complex patterns using {@link RangeSet}, such as joining two ranges: eg 1..10:3 => [1, 4, 7, 10] and 2..11:3 => [2, 5, 8, 11] to produce [1, 2, 4, 5, 7, 8, 10, 11] 
 	 * @param other the other Range to compare against
 	 * @return true if the two Ranges contain common elements with a common step size, false otherwise 
 	 */
@@ -232,7 +232,7 @@ public class Range extends Sequence<Integer>
 	/**
 	 * Equivalent to {@link Range#isOverlapping(Range)} OR {@link Range#isAdjacent(Range)}
 	 * @param other the Range to check this Range against
-	 * @return true if the two ranges are overlapping or touching, false otherwise
+	 * @return true if the two ranges are touching, false otherwise
 	 */
 	public boolean isTouching(Range other)
 	{

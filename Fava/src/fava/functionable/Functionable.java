@@ -89,6 +89,11 @@ public abstract class Functionable<T1> implements Iterable<T1> {
 		return Fn.takeWhile(this, f);
 	}
 	
+	/**
+	 * Converts the contents of this object to a String representation, using the given separator. 
+	 * @param separator the separator shown between elements 
+	 * @return a String representation of the contained elements
+	 */
 	public String show(String separator)
 	{
 		final StringBuilder sb = new StringBuilder();
@@ -107,10 +112,15 @@ public abstract class Functionable<T1> implements Iterable<T1> {
 		return sb.substring(0, sb.length()-1) + "]";
 	}
 	
+	/**
+	 * Converts the contents of this object to a String representation. 
+	 * @return a String representation of the contained elements
+	 */
 	public String show()
 	{
 		return show(",");
 	}
+	
 	
 	@Override
 	public String toString()
@@ -127,23 +137,42 @@ public abstract class Functionable<T1> implements Iterable<T1> {
 		return Fn.map(this, Functions.<T1>id());
 	}
 	
+	/**
+	 * Group elements into collections of the given size based on their ordering. Eg: (1,2,3,4,5,6).chunk(2) => ((1, 2), (3, 4), (5, 6))
+	 * @param size the size of a collection of elements
+	 * @return nested collections of elements of the given size
+	 */
 	public Functionable<Functionable<T1>> chunk(int size)
 	{
 		
 		return Functionable.mapToFunctionable(Fn.chunk(this, size));		
 	}
 	
+	/**
+	 * Group the elements into collections based on equality. Eg: (1, 2, 1, 2, 3).group() => ((1, 1), (2, 2), (3))
+	 * @return nested collections of equivalent elements
+	 */
 	public Functionable<Functionable<T1>> group()
 	{
 		return Functionable.mapToFunctionable(Fn.group(this));
 	}
 	
+	/**
+	 * Group the elements into collections based on the supplied FnCombine, which should accept two elements and return true if the elements belong in the same group
+	 * @param f the {@link FnCombine} function for determining if two elements belong in the same group
+	 * @return nested collections of elements which belong in the same group
+	 */
 	public Functionable<Functionable<T1>> groupBy(FnCombine<T1, Boolean> f)
 	{
 		return Functionable.mapToFunctionable(Fn.groupBy(this, f));
 	}
 	
-	
+	/**
+	 * For internal use, maps a Functionable object containing {@link List}s to a Functionable object containing other Functionable objects
+	 * @param <T>
+	 * @param list
+	 * @return
+	 */
 	protected static <T> Functionable<Functionable<T>> mapToFunctionable(Functionable<List<T>> list)
 	{
 		return list.map(new FnMap<List<T>, Functionable<T>>() {
