@@ -20,6 +20,7 @@ public abstract class InterlacerProject<T>
 	private List<T> staging;
 	private Queue<T> jobs;
 	
+	private boolean done = false; 
 	
 	public InterlacerProject()
 	{
@@ -29,7 +30,7 @@ public abstract class InterlacerProject<T>
 	
 	protected abstract boolean doJob(T job);
 	protected abstract boolean doJobs(List<T> jobs);
-	
+	protected abstract void done();
 	
 	public boolean runJobs(List<T> jobs)
 	{
@@ -78,8 +79,10 @@ public abstract class InterlacerProject<T>
 	{
 		synchronized (staging)
 		{
-			staging.addAll(jobs);
-			
+			for (T job : jobs){
+				staging.add(job);
+			}
+							
 			if (staging.size() > stagingSize) {
 				//inner lock
 				commitJobs();
@@ -102,19 +105,13 @@ public abstract class InterlacerProject<T>
 		synchronized (jobs)
 		{
 			job = jobs.poll();
-		}
-		
-		if (job == null) {
-			commitJobs();
-
-			synchronized (jobs)
-			{
-				job = jobs.poll();
-			}
 			
+			if (job == null) {
+				commitJobs();
+				job = jobs.poll();				
+			}
 		}
 
-		
 		return job;
 	}
 	
@@ -178,6 +175,17 @@ public abstract class InterlacerProject<T>
 		
 	}
 	
+	
+	public void markDone()
+	{
+		commitJobs();
+		done = true;
+	}
+	
+	public boolean isDone()
+	{
+		return done;
+	}
 	
 	
 }

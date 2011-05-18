@@ -1,9 +1,13 @@
 package plural.interlacer;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
+import fava.functionable.FList;
 
 
 
@@ -30,7 +34,7 @@ public class CooperativeProjectInterlacer<T>
 	private static int defaultDefaultPriority = 3;
 	private static int defaultIterationSize = 250;
 	private static int defaultNumThreads = Runtime.getRuntime().availableProcessors();
-	private static int defaultNumBackgroundJobs = Integer.MAX_VALUE;
+	private static int defaultNumBackgroundJobs = 100;
 	
 	//Maps project name => work for project
 	private Map<String, Project<T>> projects;
@@ -40,6 +44,8 @@ public class CooperativeProjectInterlacer<T>
 	private int threadCount = defaultNumThreads;
 	private int numBackgroundJobs = defaultNumBackgroundJobs;
 	
+	
+	private boolean runAtLeastOnce = false;
 
 
 	private String DPName = "DP";
@@ -109,6 +115,17 @@ public class CooperativeProjectInterlacer<T>
 		
 	}
 	
+	public void setRunAtLeastOnce()
+	{
+		runAtLeastOnce = true;
+	}
+	
+	public void setRunAtMostOnce()
+	{
+		runAtLeastOnce = false;
+	}
+	
+	
 	public void start()
 	{
 		for (int i = 0; i < threadCount; i++) {
@@ -120,15 +137,7 @@ public class CooperativeProjectInterlacer<T>
 	
 	public void addJob(String projectName, T job)
 	{
-		InterlacerProject<T> jobset = getProject(projectName);
-		if (jobset == null) return;
-		
-		jobset.addJob(job);
-
-		synchronized (this) {
-			notifyAll();
-		}
-		
+		addJobs(projectName, new FList<T>(job));
 	}
 	
 	
@@ -139,12 +148,18 @@ public class CooperativeProjectInterlacer<T>
 		InterlacerProject<T> jobset = getProject(projectName);
 		if (jobset == null) return;
 		
-		jobset.addJobs(jobs);
+		addJobs(jobset, jobs);
+
+		
+	}
+	
+	private void addJobs(InterlacerProject<T> project, List<T> jobs)
+	{
+		project.addJobs(jobs);
 
 		synchronized (this) {
 			notifyAll();	
 		}
-		
 	}
 	
 	
@@ -159,6 +174,7 @@ public class CooperativeProjectInterlacer<T>
 		Project<T> data = new Project<T>();
 		data.jobs = job;
 		data.priority = defaultPriority;
+		data.projectName = projectName;
 		
 		projects.put(projectName, data);
 	}
@@ -202,6 +218,11 @@ public class CooperativeProjectInterlacer<T>
 		projects.remove(projectName);
 	}
 
+	public synchronized void markProjectComplete(String projectName)
+	{
+		projects.get(projectName).jobs.markDone();
+	}
+	
 	public synchronized InterlacerProject<T> getProject(String projectName)
 	{
 		try {
@@ -217,16 +238,22 @@ public class CooperativeProjectInterlacer<T>
 		
 		Project<T> project;
 		List<Project<T>> projectList = new ArrayList<Project<T>>();
+		List<Project<T>> completedProjects = new ArrayList<Project<T>>();
 		List<T> jobList = new ArrayList<T>();
 		
 		int totalPriority = 0;
 		int workingProjects = 0;
-		int blockSize;
+		float blockSize;
 		
 		try {
 			
 			projectList.clear();
+			completedProjects.clear();
 			
+			
+			////////////////////////////////////////////////////////////
+			// PLANNING
+			////////////////////////////////////////////////////////////
 			
 			/* lock against this object to make sure there are no new projects created and no 
 			 * modifications made to existing projects while we are deciding what jobs to run
@@ -235,13 +262,20 @@ public class CooperativeProjectInterlacer<T>
 			{
 				while (true) {
 					
+					
 					for (String projectName : projects.keySet()){
 						project = projects.get(projectName);
 						
 						if (project.jobs.hasJobs()) {
+							
+							//add this project to the list of projects this thread will work on
 							projectList.add(project);
+							
+							//mark this project has being worked on by this thread
+							project.workingThreads.add(Thread.currentThread());
 						}
 					}
+					
 					
 					if (projectList.size() > 0) break;
 					
@@ -273,12 +307,12 @@ public class CooperativeProjectInterlacer<T>
 				
 				if (workingProjects > 0) {
 					//there are foreground projects
-					blockSize = Math.max(5, iterationSize / totalPriority);
+					blockSize = Math.max(5, (float)iterationSize / (float)totalPriority);
 				} else if(projectList.size() > 0) {
 					//there are no foreground projects, but there are background projects
 					//so we work on the background projects instead
 					workingProjects = Math.min(numBackgroundJobs, projectList.size());
-					blockSize = Math.max(1, iterationSize / workingProjects);
+					blockSize = Math.max(1, (float)iterationSize / (float)workingProjects);
 					
 					//remove any projects above the cap for number of background projects
 					while (projectList.size() > numBackgroundJobs) projectList.remove(numBackgroundJobs);
@@ -288,32 +322,94 @@ public class CooperativeProjectInterlacer<T>
 				}
 				
 			}//synchronize
-				
+			
+			
+			
+			////////////////////////////////////////////////////////////
+			// RUNNING
+			////////////////////////////////////////////////////////////
+			
 			//run jobs on the projects we have in our list. We time them for logging purposes.
 			long totalTime = 0;
 			long t1, t2;
 			int jobCount, jobsExecuted = 0;
+			boolean success = false;
+			
 			for (Project<T> currentProject : projectList)
 			{
 				
 				if (totalPriority > 0) {
-					jobCount = blockSize * currentProject.priority;
+					jobCount = Math.round(blockSize * currentProject.priority);
 				} else {
-					jobCount = blockSize;
+					jobCount = Math.round(blockSize);
 				}
 				
 				
 				t1 = System.currentTimeMillis();
+				
+				
 				jobList = currentProject.jobs.getJobs(jobCount);
-				if (!currentProject.jobs.runJobs(jobList)) break;
+				jobsExecuted += jobList.size();
+				
+				success = currentProject.jobs.runJobs(jobList);
+				
+				//if this run failed, but this is configured to make sure every job runs at least once
+				//place the jobs back in the project's job list
+				if (!success && runAtLeastOnce)
+				{
+					//this will lock internally
+					addJobs(currentProject.jobs, jobList);
+				}
+				
 				t2 = System.currentTimeMillis();
 				totalTime += (t2 - t1);
-				jobsExecuted += jobList.size();
+				
 			}
+
+			if (projectList.size() > 0 && debugOutput) System.out.println(DPName + " " + Thread.currentThread() + ": Processed " + jobsExecuted + " Jobs from " + workingProjects + " projects in " + totalTime/1000f + "s");
 			
-			if (projectList.size() > 0) {
-				if (debugOutput) System.out.println(DPName + " " + Thread.currentThread() + ": Processed " + jobsExecuted + " Jobs from " + workingProjects + " projects in " + totalTime/1000f + "s");
-			}	
+			
+			
+			
+			////////////////////////////////////////////////////////////
+			// CLEAN-UP
+			////////////////////////////////////////////////////////////
+			
+			//all the projects in the set, mark them as us not working on them anymore, then clean up finished ones
+			synchronized (this) {
+				
+				for (Project<T> currentProject : projects.values())
+				{
+					currentProject.workingThreads.remove(Thread.currentThread());
+					
+					//if there are no more jobs left, and it is marked as complete, AND there 
+					//are no threads marked as working on it anymore, add it to the list of projects
+					//to remove
+					if (  
+							!currentProject.jobs.hasJobs() && 
+							currentProject.jobs.isDone() &&
+							currentProject.workingThreads.size() == 0
+					) 
+					{
+						completedProjects.add(currentProject);
+					}
+					
+				}
+				
+				
+				for (Project<T> currentProject : completedProjects)
+				{
+					
+					//allow the project to clean up before being removed
+					currentProject.jobs.done();
+					projects.remove(currentProject.projectName);					
+					
+				}
+				
+				completedProjects.clear();
+				
+			}			
+
 			
 		} catch (Exception e) {
 			
@@ -329,8 +425,10 @@ public class CooperativeProjectInterlacer<T>
 class Project<T>
 {
 	
+	public String projectName;
 	public int priority;
 	public InterlacerProject<T> jobs;
+	public Set<Thread> workingThreads = new HashSet<Thread>();
 	
 }
 
