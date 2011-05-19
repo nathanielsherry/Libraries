@@ -1,4 +1,4 @@
-package plural.workers.executor;
+package plural.executor;
 
 import java.util.ArrayList;
 import java.util.List;

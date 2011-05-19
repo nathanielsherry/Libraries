@@ -1,11 +1,14 @@
-package plural.workers.executor.eachindex.implementations;
+package plural.executor.maps.implementations;
 
 
-import plural.workers.PluralEachIndex;
-import plural.workers.PluralMap;
-import plural.workers.executor.TicketManager;
-import plural.workers.executor.eachindex.EachIndexExecutor;
-import plural.workers.executor.maps.MapExecutor;
+import java.util.List;
+
+import fava.signatures.FnMap;
+
+import plural.executor.Plural;
+import plural.executor.ExecutorState;
+import plural.executor.TicketManager;
+import plural.executor.maps.MapExecutor;
 
 /**
  * 
@@ -16,20 +19,37 @@ import plural.workers.executor.maps.MapExecutor;
  * 
  */
 
-public class PluralEachIndexExecutor extends EachIndexExecutor
+public class PluralMapExecutor<T1, T2> extends MapExecutor<T1, T2>
 {
 
 	protected int			threadCount;
+	
 	protected TicketManager	ticketManager;
 
 
-	public PluralEachIndexExecutor(int size, PluralEachIndex pluralEachIndex)
+	public PluralMapExecutor(List<T1> sourceData, FnMap<T1, T2> t)
 	{
-		super(size, pluralEachIndex);
+		super(sourceData, t);
 		
+		init(super.sourceData, super.targetList, t);
+	}
+
+
+	public PluralMapExecutor(List<T1> sourceData, List<T2> targetList, FnMap<T1, T2> t)
+	{
+		super(sourceData, targetList, null);
+		
+		init(super.sourceData, super.targetList, t);
+	}
+
+
+	private void init(List<T1> sourceData, List<T2> targetList, FnMap<T1, T2> t)
+	{
+
 		threadCount = calcNumThreads();
+
 		ticketManager = new TicketManager(super.getDataSize(), getDesiredBlockSize());
-		
+
 	}
 
 
@@ -37,15 +57,16 @@ public class PluralEachIndexExecutor extends EachIndexExecutor
 	 * Sets the {@link PluralMap} for this {@link SplittingMapExecutor}. Setting the PluralMap after creation of the
 	 * {@link MapExecutor} allows the associated {@link PluralMap} to query the {@link SplittingMapExecutor} for
 	 * information about the work block for each thread. This method will return without setting the PluralMap if
-	 * the current PluralMap's state is not {@link PluralMap.State#UNSTARTED}
+	 * the current PluralMap's state is not {@link PluralMap.ExecutorState#UNSTARTED}
 	 * 
 	 * @param map
 	 *            the {@link PluralMap} to execute.
 	 */
-	public void setEachIndex(PluralEachIndex eachIndex)
+	public void setMap(FnMap<T1, T2> map)
 	{
-		if (super.pluralEachIndex != null && super.pluralEachIndex.getState() != PluralMap.State.UNSTARTED) return;
-		super.pluralEachIndex = eachIndex;
+
+		if (super.map != null && super.plural.getState() != ExecutorState.UNSTARTED) return;
+		super.map = map;
 	}
 
 	
@@ -64,10 +85,12 @@ public class PluralEachIndexExecutor extends EachIndexExecutor
 	 * Executes the {@link Task}, blocking until complete. This method will return without executing the Task if the Task is null.
 	 */
 	@Override
-	public void executeBlocking()
+	public List<T2> executeBlocking()
 	{
-		if (super.pluralEachIndex == null) return;
+		if (super.map == null) return null;
 		super.execute(threadCount);
+		
+		return super.targetList;
 
 	}
 
@@ -79,14 +102,15 @@ public class PluralEachIndexExecutor extends EachIndexExecutor
 	{
 		int blockIndex;
 		blockIndex = ticketManager.getTicketBlockIndex();
-		if (blockIndex == -1) return;
 		
 		int start = ticketManager.getBlockStart(blockIndex);
 		int size = ticketManager.getBlockSize(blockIndex);
-
+		
+		T2 t2;
 		for (int i = start; i < start + size; i++)
 		{
-			pluralEachIndex.f(i);
+			t2 = map.f(sourceData.get(i));
+			targetList.set(i, t2);
 		}
 	}
 

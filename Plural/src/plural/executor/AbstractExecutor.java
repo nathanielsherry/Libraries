@@ -1,7 +1,15 @@
-package plural.workers.executor;
+package plural.executor;
 
-public abstract class AbstractExecutor<T1> {
 
+public abstract class AbstractExecutor{
+
+	protected Plural plural;
+	
+	public AbstractExecutor() {
+		plural = new Plural();
+	}
+	
+	
 	/**
 	 * This method will be called once by each ThreadWorker after being dispatched from
 	 * {@link MapExecutor#execute(int threadCount)}. Work should be assigned to the {@link Task} from
@@ -58,8 +66,14 @@ public abstract class AbstractExecutor<T1> {
 	}
 	
 	
+	protected Plural getPlural()
+	{
+		return plural;
+	}
+	
+	
 	/**
-	 * The size of the data set that the provided {@link AbstractPlural} will be operating on.
+	 * The size of the data set that the provided {@link Plural} will be operating on.
 	 * 
 	 * @return number of required iterations.
 	 */

@@ -1,15 +1,17 @@
-package plural.workers.executor.maps;
+package plural.executor.maps;
 
 
 import java.util.ArrayList;
 import java.util.List;
 
-import plural.workers.PluralMap;
-import plural.workers.PluralSet;
-import plural.workers.executor.AbstractExecutor;
-import plural.workers.executor.maps.implementations.PluralMapExecutor;
-import plural.workers.executor.maps.implementations.PluralUIMapExecutor;
-import plural.workers.executor.maps.implementations.SimpleMapExecutor;
+import fava.signatures.FnMap;
+
+import plural.executor.AbstractExecutor;
+import plural.executor.Plural;
+import plural.executor.PluralSet;
+import plural.executor.maps.implementations.PluralMapExecutor;
+import plural.executor.maps.implementations.PluralUIMapExecutor;
+import plural.executor.maps.implementations.SimpleMapExecutor;
 
 /**
  * 
@@ -23,23 +25,25 @@ import plural.workers.executor.maps.implementations.SimpleMapExecutor;
  * 
  */
 
-public abstract class MapExecutor<T1, T2> extends AbstractExecutor<T1>
+public abstract class MapExecutor<T1, T2> extends AbstractExecutor
 {
 
-	protected PluralMap<T1, T2>		pluralMap;
+	protected FnMap<T1, T2>			map;
 	protected List<T1>				sourceData;
 	protected List<T2>				targetList;
 	
 
-	public MapExecutor(List<T1> sourceData, PluralMap<T1, T2> map)
+	public MapExecutor(List<T1> sourceData, FnMap<T1, T2> map)
 	{
 		this(sourceData, null, map);
 	}
 	
-	public MapExecutor(List<T1> sourceData, List<T2> target, PluralMap<T1, T2> map)
+	public MapExecutor(List<T1> sourceData, List<T2> target, FnMap<T1, T2> map)
 	{
+		super();
+		
 		this.sourceData = sourceData;
-		this.pluralMap = map;
+		this.map = map;
 		this.targetList = target;
 
 		//if the target list is not given, create and populate with nulls
@@ -54,7 +58,7 @@ public abstract class MapExecutor<T1, T2> extends AbstractExecutor<T1>
 			target.add(null);
 		}
 		
-		pluralMap.setWorkUnits(sourceData.size());
+		plural.setWorkUnits(sourceData.size());
 		
 	}
 	

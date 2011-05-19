@@ -1,10 +1,11 @@
-package plural.workers.executor.eachindex.implementations;
+package plural.executor.eachindex.implementations;
 
 
-import plural.workers.PluralEachIndex;
-import plural.workers.PluralMap;
-import plural.workers.executor.eachindex.EachIndexExecutor;
-import plural.workers.executor.maps.MapExecutor;
+import fava.signatures.FnEach;
+import plural.executor.Plural;
+import plural.executor.ExecutorState;
+import plural.executor.eachindex.EachIndexExecutor;
+import plural.executor.maps.MapExecutor;
 
 /**
  * 
@@ -20,7 +21,7 @@ public class SimpleEachIndexExecutor extends EachIndexExecutor
 
 	protected int			threadCount;
 	
-	public SimpleEachIndexExecutor(int size, PluralEachIndex pluralEachIndex)
+	public SimpleEachIndexExecutor(int size, FnEach<Integer> pluralEachIndex)
 	{
 		super(size, pluralEachIndex);
 	}
@@ -30,15 +31,15 @@ public class SimpleEachIndexExecutor extends EachIndexExecutor
 	 * Sets the {@link PluralMap} for this {@link SplittingMapExecutor}. Setting the PluralMap after creation of the
 	 * {@link MapExecutor} allows the associated {@link PluralMap} to query the {@link SplittingMapExecutor} for
 	 * information about the work block for each thread. This method will return without setting the PluralMap if
-	 * the current PluralMap's state is not {@link PluralMap.State#UNSTARTED}
+	 * the current PluralMap's state is not {@link PluralMap.ExecutorState#UNSTARTED}
 	 * 
 	 * @param map
 	 *            the {@link PluralMap} to execute.
 	 */
-	public void setEachIndex(PluralEachIndex eachIndex)
+	public void setEachIndex(FnEach<Integer> eachIndex)
 	{
-		if (super.pluralEachIndex != null && super.pluralEachIndex.getState() != PluralMap.State.UNSTARTED) return;
-		super.pluralEachIndex = eachIndex;
+		if (super.eachIndex != null && super.plural.getState() != ExecutorState.UNSTARTED) return;
+		super.eachIndex = eachIndex;
 	}
 
 	
@@ -61,7 +62,7 @@ public class SimpleEachIndexExecutor extends EachIndexExecutor
 	{
 		for (int i = 0; i < super.getDataSize(); i++)
 		{
-			pluralEachIndex.f(i);
+			eachIndex.f(i);
 		}
 	}
 

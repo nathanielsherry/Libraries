@@ -21,8 +21,9 @@ import javax.swing.WindowConstants;
 
 import eventful.EventfulListener;
 
-import plural.workers.AbstractPlural;
-import plural.workers.PluralSet;
+import plural.executor.Plural;
+import plural.executor.PluralSet;
+import plural.executor.ExecutorState;
 import swidget.icons.StockIcon;
 import swidget.widgets.ImageButton;
 import swidget.widgets.Spacing;
@@ -76,7 +77,7 @@ public class PluralSetView extends JDialog {
         
 
 		PluralView view;
-		for (AbstractPlural pl : tasks){
+		for (Plural pl : tasks){
 			
 			c.gridy += 1;
 			
@@ -177,12 +178,12 @@ public class PluralSetView extends JDialog {
 	
 	protected void updateProgressBar(){
 				
-		for (AbstractPlural t : tasks){
-			if (t.getState() == AbstractPlural.State.WORKING){
+		for (Plural t : tasks){
+			if (t.getState() == ExecutorState.WORKING){
 				progress.setValue((int)(t.getProgress() * 100));
 				progress.setIndeterminate(false);
 				break;
-			} else if (t.getState() == AbstractPlural.State.STALLED){
+			} else if (t.getState() == ExecutorState.STALLED){
 				progress.setIndeterminate(true);
 			}
 		}

@@ -1,4 +1,4 @@
-package plural.workers.executor;
+package plural.executor;
 
 
 import java.util.HashMap;
@@ -18,13 +18,13 @@ import java.util.concurrent.Semaphore;
  * 
  */
 
-class ThreadWorkerS extends Thread
+class ThreadWorker extends Thread
 {
 
 	// this queue is used to cause this thread to block until an executor is looking to run on it
-	private LinkedBlockingQueue<AbstractExecutor<?>>	workQueue	= new LinkedBlockingQueue<AbstractExecutor<?>>();
+	private LinkedBlockingQueue<AbstractExecutor>	workQueue	= new LinkedBlockingQueue<AbstractExecutor>();
 
-	private Map<AbstractExecutor<?>, Semaphore>			locks		= new HashMap<AbstractExecutor<?>, Semaphore>();
+	private Map<AbstractExecutor, Semaphore>			locks		= new HashMap<AbstractExecutor, Semaphore>();
 
 
 	/**
@@ -34,7 +34,7 @@ class ThreadWorkerS extends Thread
 	 *            the {@link MapExecutor} to work for
 	 * @throws InterruptedException
 	 */
-	public void workForExecutor(AbstractExecutor<?> executor) throws InterruptedException
+	public void workForExecutor(AbstractExecutor executor) throws InterruptedException
 	{
 		// this will be used to block called to finishWorkForExecutor until the work for this TaskExecutor has
 		// been completed
@@ -59,7 +59,7 @@ class ThreadWorkerS extends Thread
 	public void run()
 	{
 		while (true) {
-			AbstractExecutor<?> t;
+			AbstractExecutor t;
 			try {
 				t = workQueue.take();
 				if (t == null) break;
@@ -84,7 +84,7 @@ class ThreadWorkerS extends Thread
 	 *            the {@link MapExecutor} to work for
 	 * @throws InterruptedException
 	 */
-	public void finishWorkForExecutor(AbstractExecutor<?> executor) throws InterruptedException
+	public void finishWorkForExecutor(AbstractExecutor executor) throws InterruptedException
 	{
 		// get the semaphore from the lock set
 		Semaphore s;

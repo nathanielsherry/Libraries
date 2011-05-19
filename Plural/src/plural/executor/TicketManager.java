@@ -1,9 +1,7 @@
-package plural.workers.executor;
+package plural.executor;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import plural.workers.PluralMap;
 
 public class TicketManager {
 

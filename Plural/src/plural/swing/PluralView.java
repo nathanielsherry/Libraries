@@ -9,7 +9,7 @@ import javax.swing.JPanel;
 
 import eventful.EventfulListener;
 
-import plural.workers.AbstractPlural;
+import plural.executor.Plural;
 import swidget.icons.IconSize;
 import swidget.icons.StockIcon;
 import swidget.widgets.Spacing;
@@ -19,9 +19,9 @@ public class PluralView extends JPanel{
 
 	private JLabel label;
 	private JLabel icon;
-	private AbstractPlural task;
+	private Plural task;
 	
-	public PluralView(AbstractPlural task){
+	public PluralView(Plural task){
 		this.task = task;
 		
 		this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));

@@ -1,10 +1,11 @@
-package plural.workers.executor.maps.implementations;
+package plural.executor.maps.implementations;
 
 
 import java.util.List;
 
-import plural.workers.PluralMap;
-import plural.workers.PluralSet;
+import fava.signatures.FnMap;
+
+import plural.executor.PluralSet;
 
 /**
  * 
@@ -21,42 +22,38 @@ import plural.workers.PluralSet;
 public class PluralUIMapExecutor<T1, T2> extends PluralMapExecutor<T1, T2>
 {
 
-	private PluralSet<?>	mapSet;
-
 	/**
 	 * Creates a new TicketingTaskExecutor.
 	 * @param ticketCount the number of work tickets needed
-	 * @param pluralMap the {@link Task} to be executed.
+	 * @param map the {@link Task} to be executed.
 	 * @param mapSet the {@link PluralSet} to monitor for an abort status
 	 */
-	public PluralUIMapExecutor(List<T1> sourceData, PluralMap<T1, T2> map, PluralSet<?> mapSet)
+	public PluralUIMapExecutor(List<T1> sourceData, FnMap<T1, T2> map)
 	{
 		super(sourceData, map);
-		this.mapSet = mapSet;
 	}
 	
-	public PluralUIMapExecutor(List<T1> sourceData, List<T2> targetList, PluralMap<T1, T2> map, PluralSet<?> mapSet)
+	public PluralUIMapExecutor(List<T1> sourceData, List<T2> targetList, FnMap<T1, T2> map)
 	{
 		super(sourceData, targetList, map);
-		this.mapSet = mapSet;
 	}
-
+		
 
 	@Override
 	public List<T2> executeBlocking()
 	{
 
-		super.pluralMap.advanceState();
+		super.plural.advanceState();
 
 		super.execute(super.threadCount);
 		
-		if (mapSet != null && mapSet.isAbortRequested()) {
-			mapSet.aborted(); 
+		if (plural.pluralSet != null && plural.pluralSet.isAbortRequested()) {
+			plural.pluralSet.aborted(); 
 		}
 
-		super.pluralMap.advanceState();
+		super.plural.advanceState();
 		
-		if (mapSet != null && mapSet.isAborted()) return null;
+		if (plural.pluralSet != null && plural.pluralSet.isAborted()) return null;
 		return super.targetList;
 		
 	
@@ -85,12 +82,12 @@ public class PluralUIMapExecutor<T1, T2> extends PluralMapExecutor<T1, T2>
 			
 			//do work
 			for (int i = blockStart; i < blockEnd; i++) {
-				targetList.set(i, super.pluralMap.f(super.sourceData.get(i)));
+				super.targetList.set(i, super.map.f(super.sourceData.get(i)));
 			}
 			
-			if (mapSet != null) {
-				pluralMap.workUnitCompleted(blockEnd - blockStart);
-				if (mapSet.isAbortRequested()) return;
+			if (plural.pluralSet != null) {
+				super.plural.workUnitCompleted(blockEnd - blockStart);
+				if (plural.pluralSet.isAbortRequested()) return;
 			}
 
 		}

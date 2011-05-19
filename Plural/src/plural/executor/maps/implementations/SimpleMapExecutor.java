@@ -1,11 +1,12 @@
-package plural.workers.executor.maps.implementations;
+package plural.executor.maps.implementations;
 
 
 import java.util.List;
 
-import plural.workers.PluralMap;
-import plural.workers.PluralSet;
-import plural.workers.executor.maps.MapExecutor;
+import fava.signatures.FnMap;
+
+import plural.executor.PluralSet;
+import plural.executor.maps.MapExecutor;
 
 /**
  * 
@@ -21,12 +22,12 @@ import plural.workers.executor.maps.MapExecutor;
 public class SimpleMapExecutor<T1, T2> extends MapExecutor<T1, T2>
 {
 
-	public SimpleMapExecutor(List<T1> sourceData, PluralMap<T1, T2> t)
+	public SimpleMapExecutor(List<T1> sourceData, FnMap<T1, T2> t)
 	{
 		super(sourceData, t);
 	}
 
-	public SimpleMapExecutor(List<T1> sourceData, List<T2> targetList, PluralMap<T1, T2> t)
+	public SimpleMapExecutor(List<T1> sourceData, List<T2> targetList, FnMap<T1, T2> t)
 	{
 		super(sourceData, targetList, t);
 	}
@@ -54,7 +55,7 @@ public class SimpleMapExecutor<T1, T2> extends MapExecutor<T1, T2>
 		T2 t2;
 		for (int i = 0; i < sourceData.size(); i++)
 		{
-			t2 = pluralMap.f(sourceData.get(i));
+			t2 = map.f(sourceData.get(i));
 			targetList.set(i, t2);
 		}
 	}

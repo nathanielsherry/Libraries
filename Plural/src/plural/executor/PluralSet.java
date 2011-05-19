@@ -1,9 +1,10 @@
-package plural.workers;
+package plural.executor;
 
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
 
 import eventful.Eventful;
 import eventful.EventfulListener;
@@ -23,16 +24,16 @@ import eventful.EventfulListener;
  *            The kind of data that the TaskList will return from its {@link #doMaps()} method
  */
 
-public abstract class PluralSet<T> extends Eventful implements Iterable<AbstractPlural>
+public abstract class PluralSet<T> extends Eventful implements Iterable<Plural>
 {
 
-	private List<AbstractPlural>	plurals;
-	private T			result;
-	private String		description;
-	private Thread		worker;
-	private boolean		isAbortRequested	= false;
-	private boolean		aborted				= false;
-	private boolean		completed			= false;
+	private List<Plural>	plurals;
+	private T				result;
+	private String			description;
+	private Thread			worker;
+	private boolean			isAbortRequested	= false;
+	private boolean			aborted				= false;
+	private boolean			completed			= false;
 
 
 	/**
@@ -43,7 +44,7 @@ public abstract class PluralSet<T> extends Eventful implements Iterable<Abstract
 	 */
 	public PluralSet(String description)
 	{
-		plurals = new ArrayList<AbstractPlural>();
+		plurals = new ArrayList<Plural>();
 		result = null;
 		this.description = description;
 
@@ -96,15 +97,41 @@ public abstract class PluralSet<T> extends Eventful implements Iterable<Abstract
 	}
 
 
+	public synchronized void addExecutor(AbstractExecutor e, String name)
+	{
+		addPlural(e.getPlural(), name);
+	}
+	
+	
+
+	public synchronized void addExecutor(AbstractExecutor e)
+	{
+		addPlural(e.getPlural());
+	}
+	
 	/**
 	 * Adds a new {@link Task} to this TaskList. Tasks are listed in a UI in the order they are added.
 	 * 
 	 * @param t
 	 *            {@link Task} to add.
 	 */
-	public synchronized void addTask(AbstractPlural t)
+	private synchronized void addPlural(Plural t, String name)
 	{
-
+		t.name = name;
+		addPlural(t);
+	}
+	
+	
+	/**
+	 * Adds a new {@link Task} to this TaskList. Tasks are listed in a UI in the order they are added.
+	 * 
+	 * @param t
+	 *            {@link Task} to add.
+	 */
+	private synchronized void addPlural(Plural t)
+	{
+		t.pluralSet = this;
+		
 		t.addListener(new EventfulListener() {
 
 			public void change()
@@ -119,7 +146,7 @@ public abstract class PluralSet<T> extends Eventful implements Iterable<Abstract
 	/**
 	 * Returns an Iterator over the {@link Task}s in this TaskList
 	 */
-	public synchronized Iterator<AbstractPlural> iterator()
+	public synchronized Iterator<Plural> iterator()
 	{
 		return plurals.iterator();
 	}
@@ -205,7 +232,7 @@ public abstract class PluralSet<T> extends Eventful implements Iterable<Abstract
 	 */
 	public synchronized void finished()
 	{
-		for (AbstractPlural m : plurals)
+		for (Plural m : plurals)
 		{
 			m.removeAllListeners();
 		}

@@ -1,4 +1,4 @@
-package plural.workers.executor;
+package plural.executor;
 
 /**
  * Static class to monitor the number of clients that the Thread Pool has. 
@@ -7,7 +7,7 @@ package plural.workers.executor;
  * @author nathaniel
  *
  */
-public class ThreadPoolUsers {
+class ThreadPoolUsers {
 	
 	private static int users;
 	private static boolean persistent = false;

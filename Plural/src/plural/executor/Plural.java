@@ -1,4 +1,4 @@
-package plural.workers;
+package plural.executor;
 
 import eventful.Eventful;
 
@@ -15,38 +15,33 @@ import eventful.Eventful;
  * 
  */
 
-public abstract class AbstractPlural extends Eventful implements Cloneable
+public class Plural extends Eventful implements Cloneable
 {
 
-	protected String	name;
+	protected String		name;
 
-	protected State		state;
-	protected int		workUnits;
-	protected int		workUnitsCompleted;
+	protected ExecutorState	state;
+	protected int			workUnits;
+	protected int			workUnitsCompleted;
 	
-	/**
-	 * The various states that a {@link Task} can be in.
-	 * 
-	 * @author Nathaniel Sherry, 2009
-	 * 
-	 */
-	public enum State
-	{
-		COMPLETED, WORKING, STALLED, UNSTARTED, SKIPPED
-	}
+	public PluralSet<?>		pluralSet;
+	
+	private boolean			stalling = false; 
+	
+	
 
-	public AbstractPlural() {
+	public Plural() {
 		init("", -1);
 	}
 	
-	public AbstractPlural(String name) {
+	public Plural(String name) {
 		init(name, -1);
 	}
 	
 	private void init(String name, int size)
 	{
 		this.name = name;
-		state = State.UNSTARTED;
+		state = ExecutorState.UNSTARTED;
 		workUnitsCompleted = 0;
 		setWorkUnits(size);
 	}
@@ -62,30 +57,37 @@ public abstract class AbstractPlural extends Eventful implements Cloneable
 		return name;
 	}
 
+	
+	public void setStalling(boolean stalling)
+	{
+		this.stalling = stalling;
+	}
 
+	
 	/**
-	 * Gets the {@link State} of this Task
+	 * Gets the {@link ExecutorState} of this Task
 	 * 
 	 * @return the current State of this Task
 	 */
-	public synchronized State getState()
+	public synchronized ExecutorState getState()
 	{
 		return state;
 	}
 
 
 	/**
-	 * Advances the {@link State} of the current Task by 1
+	 * Advances the {@link ExecutorState} of the current Task by 1
 	 */
 	public synchronized void advanceState()
 	{
 
 		switch (state) {
 			case UNSTARTED:
-				state = State.WORKING;
+				state = stalling? ExecutorState.STALLED : ExecutorState.WORKING;
 				break;
 			case WORKING:
-				state = State.COMPLETED;
+			case STALLED:
+				state = ExecutorState.COMPLETED;
 				break;
 			default:
 				break;
@@ -97,11 +99,11 @@ public abstract class AbstractPlural extends Eventful implements Cloneable
 
 
 	/**
-	 * Mark this Task as having been {@link State#SKIPPED}
+	 * Mark this Task as having been {@link ExecutorState#SKIPPED}
 	 */
 	public synchronized void markTaskSkipped()
 	{
-		state = State.SKIPPED;
+		state = ExecutorState.SKIPPED;
 		updateListeners();
 	}
 
@@ -163,7 +165,7 @@ public abstract class AbstractPlural extends Eventful implements Cloneable
 	 */
 	public synchronized void setWorkUnits(int units)
 	{
-		if (state == State.WORKING || state == State.STALLED) return;
+		if (state == ExecutorState.WORKING || state == ExecutorState.STALLED) return;
 		if (units < workUnitsCompleted) return;
 		if (units < 0) return;
 		workUnits = units;

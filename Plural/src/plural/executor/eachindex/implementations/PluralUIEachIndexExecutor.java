@@ -1,32 +1,29 @@
-package plural.workers.executor.eachindex.implementations;
+package plural.executor.eachindex.implementations;
 
 
-import plural.workers.PluralEachIndex;
-import plural.workers.PluralSet;
+import fava.signatures.FnEach;
+import plural.executor.PluralSet;
 
 public class PluralUIEachIndexExecutor extends PluralEachIndexExecutor{
 
-	PluralSet<?>	pluralSet;
-	
-	public PluralUIEachIndexExecutor(int size, PluralEachIndex pluralEachIndex, PluralSet<?> pluralSet) {
+	public PluralUIEachIndexExecutor(int size, FnEach<Integer> pluralEachIndex) {
 		super(size, pluralEachIndex);
-		this.pluralSet = pluralSet;
 	}
 	
-	
+		
 	@Override
 	public void executeBlocking()
 	{
 
-		super.pluralEachIndex.advanceState();
+		super.plural.advanceState();
 
 		super.execute(super.threadCount);
 		
-		if (pluralSet != null && pluralSet.isAbortRequested()) {
-			pluralSet.aborted(); 
+		if (plural.pluralSet != null && plural.pluralSet.isAbortRequested()) {
+			plural.pluralSet.aborted(); 
 		}
 
-		super.pluralEachIndex.advanceState();
+		super.plural.advanceState();
 				
 	
 	}
@@ -55,13 +52,13 @@ public class PluralUIEachIndexExecutor extends PluralEachIndexExecutor{
 			
 			//do work
 			for (int i = blockStart; i < blockEnd; i++) {
-				super.pluralEachIndex.f(i);
+				super.eachIndex.f(i);
 			}
 			
-			if (pluralSet != null) {
+			if (plural.pluralSet != null) {
 
-				pluralEachIndex.workUnitCompleted(blockEnd - blockStart);
-				if (pluralSet.isAbortRequested()) return;
+				super.plural.workUnitCompleted(blockEnd - blockStart);
+				if (plural.pluralSet.isAbortRequested()) return;
 			}
 
 		}
