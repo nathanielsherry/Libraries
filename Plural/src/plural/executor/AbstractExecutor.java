@@ -1,13 +1,166 @@
 package plural.executor;
 
+import eventful.Eventful;
 
-public abstract class AbstractExecutor{
 
-	protected Plural plural;
+public abstract class AbstractExecutor extends Eventful implements PluralExecutor{
+
+	private String			name;
+
+	private ExecutorState	state;
+	private int				workUnits;
+	private int				workUnitsCompleted;
+	
+	protected ExecutorSet<?>	executorSet;
+	
+	private boolean			stalling = false; 
+	
 	
 	public AbstractExecutor() {
-		plural = new Plural();
+		state = ExecutorState.UNSTARTED;
+		workUnitsCompleted = 0;
+		setWorkUnits(-1);
 	}
+	
+	/* (non-Javadoc)
+	 * @see plural.executor.PluralExecutor#getName()
+	 */
+	@Override
+	public String getName() 
+	{
+		return name;
+	}
+	
+	@Override
+	public void setName(String name) 
+	{
+		this.name = name;
+	}
+
+	
+	/* (non-Javadoc)
+	 * @see plural.executor.PluralExecutor#setStalling(boolean)
+	 */
+	@Override
+	public void setStalling(boolean stalling)
+	{
+		this.stalling = stalling;
+	}
+	
+	
+
+	
+	/* (non-Javadoc)
+	 * @see plural.executor.PluralExecutor#getState()
+	 */
+	@Override
+	public synchronized ExecutorState getState()
+	{
+		return state;
+	}
+
+
+	@Override
+	public ExecutorSet<?> getExecutorSet() {
+		return executorSet;
+	}
+
+	@Override
+	public void setExecutorSet(ExecutorSet<?> executorSet) {
+		this.executorSet = executorSet;
+	}
+
+	/* (non-Javadoc)
+	 * @see plural.executor.PluralExecutor#advanceState()
+	 */
+	@Override
+	public synchronized void advanceState()
+	{
+
+		switch (state) {
+			case UNSTARTED:
+				state = stalling? ExecutorState.STALLED : ExecutorState.WORKING;
+				break;
+			case WORKING:
+			case STALLED:
+				state = ExecutorState.COMPLETED;
+				break;
+			default:
+				break;
+		}
+
+		updateListeners();
+
+	}
+
+
+	/* (non-Javadoc)
+	 * @see plural.executor.PluralExecutor#markTaskSkipped()
+	 */
+	@Override
+	public synchronized void markTaskSkipped()
+	{
+		state = ExecutorState.SKIPPED;
+		updateListeners();
+	}
+
+
+	/* (non-Javadoc)
+	 * @see plural.executor.PluralExecutor#workUnitCompleted()
+	 */
+	@Override
+	public synchronized void workUnitCompleted()
+	{
+		workUnitCompleted(1);
+	}
+
+
+	/* (non-Javadoc)
+	 * @see plural.executor.PluralExecutor#workUnitCompleted(int)
+	 */
+	@Override
+	public synchronized void workUnitCompleted(int unitCount)
+	{
+		this.workUnitsCompleted += unitCount;
+		updateListeners();
+	}
+
+
+	/* (non-Javadoc)
+	 * @see plural.executor.PluralExecutor#getProgress()
+	 */
+	@Override
+	public synchronized double getProgress()
+	{
+		return ((double) workUnitsCompleted) / workUnits;
+	}
+
+
+	/* (non-Javadoc)
+	 * @see plural.executor.PluralExecutor#getWorkUnits()
+	 */
+	@Override
+	public synchronized int getWorkUnits()
+	{
+		return workUnits;
+	}
+	
+	
+
+
+
+	/* (non-Javadoc)
+	 * @see plural.executor.PluralExecutor#setWorkUnits(int)
+	 */
+	@Override
+	public synchronized void setWorkUnits(int units)
+	{
+		if (state == ExecutorState.WORKING || state == ExecutorState.STALLED) return;
+		if (units < workUnitsCompleted) return;
+		if (units < 0) return;
+		workUnits = units;
+	}
+	
 	
 	
 	/**
@@ -65,18 +218,12 @@ public abstract class AbstractExecutor{
 		return calcNumThreads(1.0);
 	}
 	
+		
 	
-	protected Plural getPlural()
-	{
-		return plural;
-	}
-	
-	
-	/**
-	 * The size of the data set that the provided {@link Plural} will be operating on.
-	 * 
-	 * @return number of required iterations.
+	/* (non-Javadoc)
+	 * @see plural.executor.PluralExecutor#getDataSize()
 	 */
+	@Override
 	public abstract int getDataSize();
 	
 }

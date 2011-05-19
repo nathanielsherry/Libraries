@@ -9,20 +9,20 @@ import javax.swing.JPanel;
 
 import eventful.EventfulListener;
 
-import plural.executor.Plural;
+import plural.executor.PluralExecutor;
 import swidget.icons.IconSize;
 import swidget.icons.StockIcon;
 import swidget.widgets.Spacing;
 
 
-public class PluralView extends JPanel{
+public class ExecutorView extends JPanel{
 
 	private JLabel label;
 	private JLabel icon;
-	private Plural task;
+	private PluralExecutor executor;
 	
-	public PluralView(Plural task){
-		this.task = task;
+	public ExecutorView(PluralExecutor task){
+		this.executor = task;
 		
 		this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		
@@ -52,7 +52,7 @@ public class PluralView extends JPanel{
 	
 	protected void setState(){
 		
-		switch (task.getState()){
+		switch (executor.getState()){
 		
 		case COMPLETED:
 			icon.setIcon(StockIcon.CHOOSE_OK.toImageIcon(IconSize.BUTTON));

@@ -24,10 +24,10 @@ import eventful.EventfulListener;
  *            The kind of data that the TaskList will return from its {@link #doMaps()} method
  */
 
-public abstract class PluralSet<T> extends Eventful implements Iterable<Plural>
+public abstract class ExecutorSet<T> extends Eventful implements Iterable<PluralExecutor>
 {
 
-	private List<Plural>	plurals;
+	private List<PluralExecutor>	executors;
 	private T				result;
 	private String			description;
 	private Thread			worker;
@@ -42,9 +42,9 @@ public abstract class PluralSet<T> extends Eventful implements Iterable<Plural>
 	 * @param description
 	 *            the description of this list of {@link Task}s. Useful for displaying the progress in a UI.
 	 */
-	public PluralSet(String description)
+	public ExecutorSet(String description)
 	{
-		plurals = new ArrayList<Plural>();
+		executors = new ArrayList<PluralExecutor>();
 		result = null;
 		this.description = description;
 
@@ -97,58 +97,36 @@ public abstract class PluralSet<T> extends Eventful implements Iterable<Plural>
 	}
 
 
-	public synchronized void addExecutor(AbstractExecutor e, String name)
+	public synchronized void addExecutor(PluralExecutor e, String name)
 	{
-		addPlural(e.getPlural(), name);
+		e.setName(name);
+		addExecutor(e);
 	}
 	
 	
 
-	public synchronized void addExecutor(AbstractExecutor e)
+	public synchronized void addExecutor(PluralExecutor e)
 	{
-		addPlural(e.getPlural());
-	}
-	
-	/**
-	 * Adds a new {@link Task} to this TaskList. Tasks are listed in a UI in the order they are added.
-	 * 
-	 * @param t
-	 *            {@link Task} to add.
-	 */
-	private synchronized void addPlural(Plural t, String name)
-	{
-		t.name = name;
-		addPlural(t);
-	}
-	
-	
-	/**
-	 * Adds a new {@link Task} to this TaskList. Tasks are listed in a UI in the order they are added.
-	 * 
-	 * @param t
-	 *            {@link Task} to add.
-	 */
-	private synchronized void addPlural(Plural t)
-	{
-		t.pluralSet = this;
+		e.setExecutorSet(this);
 		
-		t.addListener(new EventfulListener() {
+		e.addListener(new EventfulListener() {
 
 			public void change()
 			{
 				updateListeners();
 			}
 		});
-		plurals.add(t);
+		executors.add(e);
 	}
-
+	
+	
 
 	/**
 	 * Returns an Iterator over the {@link Task}s in this TaskList
 	 */
-	public synchronized Iterator<Plural> iterator()
+	public synchronized Iterator<PluralExecutor> iterator()
 	{
-		return plurals.iterator();
+		return executors.iterator();
 	}
 
 
@@ -197,7 +175,7 @@ public abstract class PluralSet<T> extends Eventful implements Iterable<Plural>
 
 	/**
 	 * Methid is used to mark this TaskList as having been aborted. UIs looking to abort a TaskList should not
-	 * call this method, but rather call {@link PluralSet#requestAbortWorking()}
+	 * call this method, but rather call {@link ExecutorSet#requestAbortWorking()}
 	 */
 	public void aborted()
 	{
@@ -232,11 +210,11 @@ public abstract class PluralSet<T> extends Eventful implements Iterable<Plural>
 	 */
 	public synchronized void finished()
 	{
-		for (Plural m : plurals)
+		for (PluralExecutor e : executors)
 		{
-			m.removeAllListeners();
+			e.removeAllListeners();
 		}
-		plurals.clear();
+		executors.clear();
 		removeAllListeners();
 		worker = null;
 	}

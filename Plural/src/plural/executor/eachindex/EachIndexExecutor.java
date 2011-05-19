@@ -3,29 +3,27 @@ package plural.executor.eachindex;
 
 import fava.signatures.FnEach;
 import plural.executor.AbstractExecutor;
-import plural.executor.Plural;
 
 public abstract class EachIndexExecutor extends AbstractExecutor {
 
 	protected FnEach<Integer>		eachIndex;
 	
 	
-	public EachIndexExecutor(int size, FnEach<Integer> pluralEachIndex)
+	public EachIndexExecutor(int size, FnEach<Integer> eachIndex)
 	{
 
 		super();
 		
-		this.eachIndex = pluralEachIndex;
+		this.eachIndex = eachIndex;
 		
-		plural = new Plural();
-		plural.setWorkUnits(size);
+		super.setWorkUnits(size);
 		
 	}
 	
 	@Override
 	public int getDataSize()
 	{
-		return plural.getWorkUnits();
+		return super.getWorkUnits();
 	}
 
 

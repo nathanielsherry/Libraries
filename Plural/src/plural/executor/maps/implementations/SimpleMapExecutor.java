@@ -5,14 +5,14 @@ import java.util.List;
 
 import fava.signatures.FnMap;
 
-import plural.executor.PluralSet;
+import plural.executor.ExecutorSet;
 import plural.executor.maps.MapExecutor;
 
 /**
  * 
  * This {@link MapExecutor} executes a given {@link Task} on a single thread, and assigns work to the given
  * {@link Task} based on a ticket (number) representing one element of the problem set as defined by a
- * supplied problem size.This TaskExecutor does not accept a {@link PluralSet}, and will not update the given
+ * supplied problem size.This TaskExecutor does not accept a {@link ExecutorSet}, and will not update the given
  * {@link Task} as to the completion progress.
  * 
  * @author Nathaniel Sherry, 2009
@@ -42,9 +42,18 @@ public class SimpleMapExecutor<T1, T2> extends MapExecutor<T1, T2>
 	@Override
 	public List<T2> executeBlocking()
 	{
+		super.advanceState();
+
 		workForExecutor();
 		
-		return targetList;
+		if (super.executorSet != null && super.executorSet.isAbortRequested()) {
+			super.executorSet.aborted(); 
+		}
+
+		super.advanceState();
+		
+		if (super.executorSet != null && super.executorSet.isAborted()) return null;
+		return super.targetList;
 		
 	}
 
@@ -52,11 +61,12 @@ public class SimpleMapExecutor<T1, T2> extends MapExecutor<T1, T2>
 	@Override
 	protected void workForExecutor()
 	{
-		T2 t2;
-		for (int i = 0; i < sourceData.size(); i++)
-		{
-			t2 = map.f(sourceData.get(i));
-			targetList.set(i, t2);
+		for (int i = 0; i < super.getDataSize(); i++) {
+			
+			super.targetList.set(  i, super.map.f(super.sourceData.get(i))  );
+			super.workUnitCompleted();
+			
+			if (super.executorSet.isAbortRequested()) return;
 		}
 	}
 

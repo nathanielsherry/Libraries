@@ -32,10 +32,9 @@ class PluralThreadPool
 	
 		ExecutorService exec = getExecutorService();
 		
-		
-		
+	
 		List<Future<?>> futures = new ArrayList<Future<?>>();
-		
+			
 		for (int i = 0; i < numThreads; i++) futures.add(exec.submit(r));
 		
 		for (Future<?> f : futures){

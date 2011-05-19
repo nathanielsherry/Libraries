@@ -3,9 +3,9 @@ package plural.executor.maps.implementations;
 
 import java.util.List;
 
+import fava.functionable.Range;
 import fava.signatures.FnMap;
 
-import plural.executor.Plural;
 import plural.executor.ExecutorState;
 import plural.executor.TicketManager;
 import plural.executor.maps.MapExecutor;
@@ -31,7 +31,7 @@ public class PluralMapExecutor<T1, T2> extends MapExecutor<T1, T2>
 	{
 		super(sourceData, t);
 		
-		init(super.sourceData, super.targetList, t);
+		init(super.sourceData, super.targetList, t, -1);
 	}
 
 
@@ -39,14 +39,30 @@ public class PluralMapExecutor<T1, T2> extends MapExecutor<T1, T2>
 	{
 		super(sourceData, targetList, null);
 		
-		init(super.sourceData, super.targetList, t);
+		init(super.sourceData, super.targetList, t, -1);
+	}
+
+	
+	public PluralMapExecutor(List<T1> sourceData, FnMap<T1, T2> t, int threads)
+	{
+		super(sourceData, t);
+		
+		init(super.sourceData, super.targetList, t, threads);
 	}
 
 
-	private void init(List<T1> sourceData, List<T2> targetList, FnMap<T1, T2> t)
+	public PluralMapExecutor(List<T1> sourceData, List<T2> targetList, FnMap<T1, T2> t, int threads)
+	{
+		super(sourceData, targetList, null);
+		
+		init(super.sourceData, super.targetList, t, threads);
+	}
+	
+
+	private void init(List<T1> sourceData, List<T2> targetList, FnMap<T1, T2> t, int threads)
 	{
 
-		threadCount = calcNumThreads();
+		threadCount = threads == -1 ? calcNumThreads() : threads;
 
 		ticketManager = new TicketManager(super.getDataSize(), getDesiredBlockSize());
 
@@ -65,7 +81,7 @@ public class PluralMapExecutor<T1, T2> extends MapExecutor<T1, T2>
 	public void setMap(FnMap<T1, T2> map)
 	{
 
-		if (super.map != null && super.plural.getState() != ExecutorState.UNSTARTED) return;
+		if (super.map != null && super.getState() != ExecutorState.UNSTARTED) return;
 		super.map = map;
 	}
 
@@ -77,7 +93,7 @@ public class PluralMapExecutor<T1, T2> extends MapExecutor<T1, T2>
 	 */
 	protected int getDesiredBlockSize()
 	{
-		return (int)Math.ceil(super.getDataSize() / (double)threadCount);
+		return (int)Math.ceil(super.getDataSize() / ((double)threadCount * 50));
 	}
 
 
@@ -88,8 +104,20 @@ public class PluralMapExecutor<T1, T2> extends MapExecutor<T1, T2>
 	public List<T2> executeBlocking()
 	{
 		if (super.map == null) return null;
+		
+		super.advanceState();
+		
+		
 		super.execute(threadCount);
 		
+		
+		if (super.executorSet != null && super.executorSet.isAbortRequested()) {
+			super.executorSet.aborted(); 
+		}
+
+		super.advanceState();
+		
+		if (super.executorSet != null && super.executorSet.isAborted()) return null;
 		return super.targetList;
 
 	}
@@ -100,17 +128,24 @@ public class PluralMapExecutor<T1, T2> extends MapExecutor<T1, T2>
 	@Override
 	protected void workForExecutor()
 	{
-		int blockIndex;
-		blockIndex = ticketManager.getTicketBlockIndex();
-		
-		int start = ticketManager.getBlockStart(blockIndex);
-		int size = ticketManager.getBlockSize(blockIndex);
-		
-		T2 t2;
-		for (int i = start; i < start + size; i++)
-		{
-			t2 = map.f(sourceData.get(i));
-			targetList.set(i, t2);
+
+		while(true){
+			
+			Range block = ticketManager.getBlockAsRange();
+			if (block == null) return;
+			
+			T2 t2;
+			for (Integer i : block)
+			{
+				t2 = map.f(sourceData.get(i));
+				targetList.set(i, t2);
+			}
+			
+			if (super.executorSet != null) {
+				super.workUnitCompleted(block.size());
+				if (super.executorSet.isAbortRequested()) return;
+			}
+			
 		}
 	}
 

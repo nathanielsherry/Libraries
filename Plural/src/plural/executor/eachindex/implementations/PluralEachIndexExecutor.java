@@ -1,8 +1,9 @@
 package plural.executor.eachindex.implementations;
 
 
+import fava.Fn;
+import fava.functionable.Range;
 import fava.signatures.FnEach;
-import plural.executor.Plural;
 import plural.executor.ExecutorState;
 import plural.executor.TicketManager;
 import plural.executor.eachindex.EachIndexExecutor;
@@ -32,6 +33,15 @@ public class PluralEachIndexExecutor extends EachIndexExecutor
 		ticketManager = new TicketManager(super.getDataSize(), getDesiredBlockSize());
 		
 	}
+	
+	public PluralEachIndexExecutor(int size, FnEach<Integer> pluralEachIndex, int threads)
+	{
+		super(size, pluralEachIndex);
+		
+		threadCount = threads;
+		ticketManager = new TicketManager(super.getDataSize(), getDesiredBlockSize());
+		
+	}
 
 
 	/**
@@ -45,7 +55,7 @@ public class PluralEachIndexExecutor extends EachIndexExecutor
 	 */
 	public void setEachIndex(FnEach<Integer> eachIndex)
 	{
-		if (super.eachIndex != null && super.plural.getState() != ExecutorState.UNSTARTED) return;
+		if (super.eachIndex != null && super.getState() != ExecutorState.UNSTARTED) return;
 		super.eachIndex = eachIndex;
 	}
 
@@ -55,9 +65,9 @@ public class PluralEachIndexExecutor extends EachIndexExecutor
 	 * class can overload this method
 	 * @return
 	 */
-	protected int getDesiredBlockSize()
+	public int getDesiredBlockSize()
 	{
-		return (int)Math.ceil(super.getDataSize() / (double)threadCount);
+		return Math.max(super.getDataSize() / (threadCount * 50), 1);
 	}
 
 
@@ -68,7 +78,16 @@ public class PluralEachIndexExecutor extends EachIndexExecutor
 	public void executeBlocking()
 	{
 		if (super.eachIndex == null) return;
+		
+		super.advanceState();
+
 		super.execute(threadCount);
+		
+		if (super.executorSet != null && super.executorSet.isAbortRequested()) {
+			super.executorSet.aborted(); 
+		}
+
+		super.advanceState();
 
 	}
 
@@ -78,17 +97,21 @@ public class PluralEachIndexExecutor extends EachIndexExecutor
 	@Override
 	protected void workForExecutor()
 	{
-		int blockIndex;
-		blockIndex = ticketManager.getTicketBlockIndex();
-		if (blockIndex == -1) return;
-		
-		int start = ticketManager.getBlockStart(blockIndex);
-		int size = ticketManager.getBlockSize(blockIndex);
 
-		for (int i = start; i < start + size; i++)
-		{
-			eachIndex.f(i);
+		while (true) {
+			
+			Range block = ticketManager.getBlockAsRange();
+			if (block == null) return;
+			Fn.each(block, eachIndex);
+			
+			if (super.executorSet != null) {
+
+				super.workUnitCompleted(block.size());
+				if (super.executorSet.isAbortRequested()) return;
+			}
+
 		}
+		
 	}
 
 

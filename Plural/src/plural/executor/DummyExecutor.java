@@ -8,12 +8,12 @@ public class DummyExecutor extends AbstractExecutor{
 	
 	public DummyExecutor(boolean stall) {
 		super();
-		super.plural.setStalling(stall);
+		super.setStalling(stall);
 	}
 	
 	public DummyExecutor(int workunits) {
 		super();
-		super.plural.setWorkUnits(workunits);
+		super.setWorkUnits(workunits);
 	}
 	
 	@Override
@@ -27,22 +27,22 @@ public class DummyExecutor extends AbstractExecutor{
 	
 	public void advanceState()
 	{
-		super.plural.advanceState();
+		super.advanceState();
 	}
 	
 	public void setWorkUnits(int count)
 	{
-		super.plural.setWorkUnits(count);
+		super.setWorkUnits(count);
 	}
 	
 	public void workUnitCompleted(int count)
 	{
-		super.plural.workUnitCompleted(count);
+		super.workUnitCompleted(count);
 	}
 	
 	public void workUnitCompleted()
 	{
-		super.plural.workUnitCompleted();
+		super.workUnitCompleted();
 	}
 
 }

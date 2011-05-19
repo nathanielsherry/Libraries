@@ -2,7 +2,6 @@ package plural.executor.eachindex.implementations;
 
 
 import fava.signatures.FnEach;
-import plural.executor.Plural;
 import plural.executor.ExecutorState;
 import plural.executor.eachindex.EachIndexExecutor;
 import plural.executor.maps.MapExecutor;
@@ -38,7 +37,7 @@ public class SimpleEachIndexExecutor extends EachIndexExecutor
 	 */
 	public void setEachIndex(FnEach<Integer> eachIndex)
 	{
-		if (super.eachIndex != null && super.plural.getState() != ExecutorState.UNSTARTED) return;
+		if (super.eachIndex != null && super.getState() != ExecutorState.UNSTARTED) return;
 		super.eachIndex = eachIndex;
 	}
 
@@ -51,7 +50,15 @@ public class SimpleEachIndexExecutor extends EachIndexExecutor
 	@Override
 	public void executeBlocking()
 	{
+		super.advanceState();
+
 		workForExecutor();
+		
+		if (super.executorSet != null && super.executorSet.isAbortRequested()) {
+			super.executorSet.aborted(); 
+		}
+
+		super.advanceState();
 	}
 
 
@@ -60,10 +67,15 @@ public class SimpleEachIndexExecutor extends EachIndexExecutor
 	@Override
 	protected void workForExecutor()
 	{
-		for (int i = 0; i < super.getDataSize(); i++)
-		{
-			eachIndex.f(i);
+
+		for (int i = 0; i < super.getDataSize(); i++) {
+			
+			super.eachIndex.f(i);
+			super.workUnitCompleted();
+			
+			if (super.executorSet.isAbortRequested()) return;
 		}
+		
 	}
 
 
