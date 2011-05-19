@@ -45,11 +45,19 @@ public class FList<T> extends Functionable<T> implements List<T> {
 	// Constructors & Internal Methods
 	////////////////////////////////////////////////
 	
+	/**
+	 * Create a new FList with the default backing {@link List} type, {@link ArrayList}
+	 */
 	public FList()
 	{
 		backing = new ArrayList<T>();
 	}
 	
+	
+	/**
+	 * Create a new FList containing the elements described by the given {@link FListComprehension}
+	 * @param comprehension the list comprehension definition
+	 */
 	public FList(final FListComprehension<T> comprehension)
 	{
 		this(
@@ -68,12 +76,20 @@ public class FList<T> extends Functionable<T> implements List<T> {
 			})
 		);
 	}
-		
+	
+	/**
+	 * Create a new FList containing the elements in source
+	 * @param source an Iterable containing elements intended for this FList
+	 */
 	public FList(Iterable<T> source)
 	{
 		this(source.iterator());
 	}
 	
+	/**
+	 * Create a new FList containing the elements supplied by the Iterator
+	 * @param source the Iterator containing the elements to be added to this FList
+	 */
 	public FList(Iterator<T> source)
 	{
 		this();

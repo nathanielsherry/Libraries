@@ -2,19 +2,10 @@ package scidraw.drawing.map.painters;
 
 
 import java.awt.Color;
-import java.util.List;
 
-import plural.workers.PluralEachIndex;
-import plural.workers.executor.eachindex.implementations.PluralEachIndexExecutor;
-
-import scidraw.drawing.backends.Buffer;
-import scidraw.drawing.map.MapDrawing;
-import scidraw.drawing.map.palettes.AbstractPalette;
 import scidraw.drawing.map.palettes.SingleColourPalette;
 import scidraw.drawing.painters.PainterData;
-import scitypes.GridPerspective;
-import scitypes.Spectrum;
-import scitypes.SpectrumCalculations;
+
 
 /**
  * 

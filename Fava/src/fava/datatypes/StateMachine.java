@@ -22,6 +22,10 @@ public abstract class StateMachine<STATE, INPUT> {
 	private STATE current;
 	private STATE original;
 
+	/**
+	 * Constructs a new state machine with the given state
+	 * @param initial the initial state
+	 */
 	public StateMachine(STATE initial)
 	{
 		resetState(initial);

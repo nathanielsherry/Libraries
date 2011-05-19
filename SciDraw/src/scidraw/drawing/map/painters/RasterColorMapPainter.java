@@ -4,8 +4,9 @@ package scidraw.drawing.map.painters;
 import java.awt.Color;
 import java.util.List;
 
-import plural.workers.PluralEachIndex;
-import plural.workers.executor.eachindex.implementations.PluralEachIndexExecutor;
+import fava.signatures.FnEach;
+
+import plural.executor.eachindex.implementations.PluralEachIndexExecutor;
 
 
 import scidraw.drawing.backends.Buffer;
@@ -68,7 +69,7 @@ public class RasterColorMapPainter extends MapPainter
 		final Buffer b = p.context.getImageBuffer(p.dr.dataWidth, p.dr.dataHeight);
 
 		
-		final PluralEachIndex drawPixel = new PluralEachIndex() {
+		final FnEach<Integer> drawPixel = new FnEach<Integer>() {
 
 			public void f(Integer ordinal)
 			{			

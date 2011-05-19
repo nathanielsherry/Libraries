@@ -6,11 +6,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import plural.workers.PluralEachIndex;
-import plural.workers.executor.eachindex.EachIndexExecutor;
-import plural.workers.executor.eachindex.implementations.PluralEachIndexExecutor;
+import plural.executor.eachindex.EachIndexExecutor;
+import plural.executor.eachindex.implementations.PluralEachIndexExecutor;
 
 
+import fava.signatures.FnEach;
 import fava.signatures.FnFold;
 import static fava.Fn.*;
 import static fava.Functions.*;
@@ -226,7 +226,7 @@ public class SpectrumCalculations
 
 		final Spectrum result = new Spectrum(data.size());
 
-		PluralEachIndex eachtask = new PluralEachIndex() {
+		FnEach<Integer> eachtask = new FnEach<Integer>() {
 
 			public void f(Integer ordinal)
 			{
@@ -297,7 +297,7 @@ public class SpectrumCalculations
 
 		final Spectrum result = new Spectrum(data.size());
 
-		PluralEachIndex eachtask = new PluralEachIndex() {
+		FnEach<Integer> eachtask = new FnEach<Integer>() {
 
 			public void f(Integer ordinal)
 			{
@@ -402,7 +402,7 @@ public class SpectrumCalculations
 
 		final Spectrum result = new Spectrum(data.size());
 
-		PluralEachIndex eachtask = new PluralEachIndex() {
+		FnEach<Integer> eachtask = new FnEach<Integer>() {
 
 			public void f(Integer ordinal)
 			{
@@ -481,7 +481,7 @@ public class SpectrumCalculations
 
 		final Spectrum result = new Spectrum(l1.size());
 
-		PluralEachIndex eachtask = new PluralEachIndex() {
+		FnEach<Integer> eachtask = new FnEach<Integer>() {
 
 			public void f(Integer ordinal)
 			{
@@ -590,7 +590,7 @@ public class SpectrumCalculations
 
 		final Spectrum result = new Spectrum(l1.size());
 
-		PluralEachIndex eachtask = new PluralEachIndex() {
+		FnEach<Integer> eachtask = new FnEach<Integer>() {
 
 			public void f(Integer ordinal)
 			{
@@ -648,7 +648,7 @@ public class SpectrumCalculations
 
 		final Spectrum result = new Spectrum(l1.size());
 
-		PluralEachIndex eachtask = new PluralEachIndex() {
+		FnEach<Integer> eachtask = new FnEach<Integer>() {
 
 			public void f(Integer ordinal)
 			{
@@ -796,7 +796,7 @@ public class SpectrumCalculations
 
 		final Spectrum result = new Spectrum(data.size(), 0.0f);
 
-		PluralEachIndex eachtask = new PluralEachIndex() {
+		FnEach<Integer> eachtask = new FnEach<Integer>() {
 
 			public void f(Integer ordinal)
 			{
