@@ -15,7 +15,7 @@ import java.util.Comparator;
  *
  */
 
-class AlphaNumericComparitor implements Comparator<String> {
+public class AlphaNumericComparitor implements Comparator<String> {
 
 	private int numberAndLetter;
 	private int letterAndNumber;
