@@ -1,9 +1,10 @@
-package plural.executor.maps;
+package plural.executor.fold;
 
 
 import java.util.ArrayList;
 import java.util.List;
 
+import fava.signatures.FnFold;
 import fava.signatures.FnMap;
 
 import plural.executor.AbstractExecutor;
@@ -21,39 +22,21 @@ import plural.executor.ExecutorSet;
  * 
  */
 
-public abstract class MapExecutor<T1, T2> extends AbstractExecutor
+public abstract class FoldExecutor<T1> extends AbstractExecutor
 {
 
-	protected FnMap<T1, T2>			map;
+	protected FnFold<T1, T1>		fold;
 	protected List<T1>				sourceData;
-	protected List<T2>				targetList;
+	protected T1					result;
 	
-
-	public MapExecutor(List<T1> sourceData, FnMap<T1, T2> map)
-	{
-		this(sourceData, null, map);
-	}
 	
-	public MapExecutor(List<T1> sourceData, List<T2> target, FnMap<T1, T2> map)
+	public FoldExecutor(List<T1> sourceData, FnFold<T1, T1> fold)
 	{
 		super();
 		
 		this.sourceData = sourceData;
-		this.map = map;
-		this.targetList = target;
-
-		//if the target list is not given, create and populate with nulls
-		if (targetList == null)
-		{
-			targetList = new ArrayList<T2>(sourceData.size());
-			for (int i = 0; i < sourceData.size(); i++){ targetList.add(null); }
-		}
-		
-		for (int i = target.size(); i < sourceData.size(); i++)
-		{
-			target.add(null);
-		}
-		
+		this.fold = fold;
+				
 		super.setWorkUnits(sourceData.size());
 		
 	}
@@ -69,6 +52,6 @@ public abstract class MapExecutor<T1, T2> extends AbstractExecutor
 	/**
 	 * Executes the MapExecutor, waiting until the processing is complete.
 	 */
-	public abstract List<T2> executeBlocking();
+	public abstract T1 executeBlocking();
 
 }

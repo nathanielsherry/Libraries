@@ -1,4 +1,4 @@
-package plural.executor.maps.implementations;
+package plural.executor.map.implementations;
 
 
 import java.util.List;
@@ -8,7 +8,7 @@ import fava.signatures.FnMap;
 
 import plural.executor.ExecutorState;
 import plural.executor.TicketManager;
-import plural.executor.maps.MapExecutor;
+import plural.executor.map.MapExecutor;
 
 /**
  * 
@@ -135,7 +135,7 @@ public class PluralMapExecutor<T1, T2> extends MapExecutor<T1, T2>
 			if (block == null) return;
 			
 			T2 t2;
-			for (Integer i : block)
+			for (int i = block.getStart(); i <= block.getStop(); i++)
 			{
 				t2 = map.f(sourceData.get(i));
 				targetList.set(i, t2);

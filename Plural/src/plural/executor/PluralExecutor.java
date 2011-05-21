@@ -1,7 +1,7 @@
 package plural.executor;
 
 import eventful.IEventful;
-import plural.executor.maps.implementations.PluralMapExecutor;
+import plural.executor.map.implementations.PluralMapExecutor;
 
 public interface PluralExecutor extends IEventful{
 

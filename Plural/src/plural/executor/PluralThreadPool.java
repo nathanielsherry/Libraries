@@ -12,30 +12,16 @@ import java.util.concurrent.Future;
 class PluralThreadPool
 {
 
-	private static ExecutorService executorService;
+	private static ExecutorService executorService = Executors.newCachedThreadPool(new PluralThreadFactory());
 
-	private synchronized static ExecutorService getExecutorService()
-	{
-		if (executorService == null) executorService = Executors.newCachedThreadPool(new PluralThreadFactory());
-		ThreadPoolUsers.incrementUsers();
-		return executorService;
-	}
-	
-	private synchronized static void finishedUsingExecutorService()
-	{
-		//if the thread-pool has no users, and has not been set to persistent, destroy it.
-		if (ThreadPoolUsers.decrementUsers() == 0 && ! ThreadPoolUsers.isPersistent()) destroyThreadPool();
-	}
 	
 	
 	public static void execute(Runnable r, int numThreads){
-	
-		ExecutorService exec = getExecutorService();
 		
 	
 		List<Future<?>> futures = new ArrayList<Future<?>>();
 			
-		for (int i = 0; i < numThreads; i++) futures.add(exec.submit(r));
+		for (int i = 0; i < numThreads; i++) futures.add(executorService.submit(r));
 		
 		for (Future<?> f : futures){
 			try {
@@ -47,15 +33,7 @@ class PluralThreadPool
 			}
 		}
 		
-		finishedUsingExecutorService();
-		
 	}
 	
-	public static void destroyThreadPool()
-	{
-		if (executorService == null) return;
-		executorService.shutdown();
-		executorService = null;
-	}
 	
 }

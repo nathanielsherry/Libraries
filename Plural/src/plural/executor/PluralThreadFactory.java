@@ -10,8 +10,9 @@ class PluralThreadFactory implements ThreadFactory
 	{
 
 		Thread t = new Thread(r);
+		t.setDaemon(true);
 		t.setPriority(Thread.MIN_PRIORITY);
-		return new Thread(r);
+		return t;
 
 	}
 

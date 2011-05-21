@@ -1,4 +1,4 @@
-package plural.executor.maps.implementations;
+package plural.executor.map.implementations;
 
 
 import java.util.List;
@@ -6,7 +6,7 @@ import java.util.List;
 import fava.signatures.FnMap;
 
 import plural.executor.ExecutorSet;
-import plural.executor.maps.MapExecutor;
+import plural.executor.map.MapExecutor;
 
 /**
  * 

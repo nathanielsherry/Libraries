@@ -1,12 +1,16 @@
-package plural.executor.eachindex.implementations;
+package plural.executor.fold.implementations;
 
+
+import java.util.List;
 
 import fava.Fn;
 import fava.functionable.Range;
-import fava.signatures.FnEach;
+import fava.signatures.FnFold;
+import fava.signatures.FnMap;
+
 import plural.executor.ExecutorState;
 import plural.executor.TicketManager;
-import plural.executor.eachindex.EachIndexExecutor;
+import plural.executor.fold.FoldExecutor;
 import plural.executor.map.MapExecutor;
 
 /**
@@ -18,29 +22,37 @@ import plural.executor.map.MapExecutor;
  * 
  */
 
-public class PluralEachIndexExecutor extends EachIndexExecutor
+public class PluralFoldExecutor<T1> extends FoldExecutor<T1>
 {
 
 	protected int			threadCount;
+	
 	protected TicketManager	ticketManager;
 
 
-	public PluralEachIndexExecutor(int size, FnEach<Integer> pluralEachIndex)
+	public PluralFoldExecutor(List<T1> sourceData, FnFold<T1, T1> t)
 	{
-		super(size, pluralEachIndex);
+		super(sourceData, t);
 		
-		threadCount = calcNumThreads();
-		ticketManager = new TicketManager(super.getDataSize(), getDesiredBlockSize());
+		init(super.sourceData, t, -1);
+	}
+
+	
+	public PluralFoldExecutor(List<T1> sourceData, FnFold<T1, T1> t, int threads)
+	{
+		super(sourceData, t);
 		
+		init(super.sourceData, t, threads);
 	}
 	
-	public PluralEachIndexExecutor(int size, FnEach<Integer> pluralEachIndex, int threads)
+
+	private void init(List<T1> sourceData, FnFold<T1, T1> t, int threads)
 	{
-		super(size, pluralEachIndex);
-		
-		threadCount = threads;
+
+		threadCount = threads == -1 ? calcNumThreads() : threads;
+
 		ticketManager = new TicketManager(super.getDataSize(), getDesiredBlockSize());
-		
+
 	}
 
 
@@ -48,15 +60,16 @@ public class PluralEachIndexExecutor extends EachIndexExecutor
 	 * Sets the {@link PluralMap} for this {@link SplittingMapExecutor}. Setting the PluralMap after creation of the
 	 * {@link MapExecutor} allows the associated {@link PluralMap} to query the {@link SplittingMapExecutor} for
 	 * information about the work block for each thread. This method will return without setting the PluralMap if
-	 * the current PluralMap's state is not {@link ExecutorState.State#UNSTARTED}
+	 * the current PluralMap's state is not {@link PluralMap.ExecutorState#UNSTARTED}
 	 * 
 	 * @param map
 	 *            the {@link PluralMap} to execute.
 	 */
-	public void setEachIndex(FnEach<Integer> eachIndex)
+	public void setFold(FnFold<T1, T1> fold)
 	{
-		if (super.eachIndex != null && super.getState() != ExecutorState.UNSTARTED) return;
-		super.eachIndex = eachIndex;
+
+		if (super.fold != null && super.getState() != ExecutorState.UNSTARTED) return;
+		super.fold = fold;
 	}
 
 	
@@ -65,9 +78,9 @@ public class PluralEachIndexExecutor extends EachIndexExecutor
 	 * class can overload this method
 	 * @return
 	 */
-	public int getDesiredBlockSize()
+	protected int getDesiredBlockSize()
 	{
-		return Math.max(super.getDataSize() / (threadCount * 50), 1);
+		return (int)Math.ceil(super.getDataSize() / ((double)threadCount));
 	}
 
 
@@ -75,19 +88,24 @@ public class PluralEachIndexExecutor extends EachIndexExecutor
 	 * Executes the {@link Task}, blocking until complete. This method will return without executing the Task if the Task is null.
 	 */
 	@Override
-	public void executeBlocking()
+	public T1 executeBlocking()
 	{
-		if (super.eachIndex == null) return;
+		if (super.fold == null) return null;
 		
 		super.advanceState();
-
+		
+		
 		super.execute(threadCount);
+		
 		
 		if (super.executorSet != null && super.executorSet.isAbortRequested()) {
 			super.executorSet.aborted(); 
 		}
-
+		
 		super.advanceState();
+		
+		if (super.executorSet != null && super.executorSet.isAborted()) return null;
+		return super.result;
 
 	}
 
@@ -98,20 +116,34 @@ public class PluralEachIndexExecutor extends EachIndexExecutor
 	protected void workForExecutor()
 	{
 
-		while (true) {
+		while(true){
 			
 			Range block = ticketManager.getBlockAsRange();
 			if (block == null) return;
-			Fn.each(block, eachIndex);
+			
+			T1 runningTotal = null;
+			boolean first = true;
+			for (int i = block.getStart(); i <= block.getStop(); i++)
+			{
+				if (first) {
+					runningTotal = sourceData.get(i);
+					first = false;
+				} else {
+					runningTotal = fold.f(sourceData.get(i), runningTotal);
+				}
+
+			}
+			
+			synchronized (this) {
+				result = (  (result == null) ? runningTotal : fold.f(result, runningTotal)  );	
+			}
 			
 			if (super.executorSet != null) {
-
 				super.workUnitCompleted(block.size());
 				if (super.executorSet.isAbortRequested()) return;
 			}
-
+			
 		}
-		
 	}
 
 
