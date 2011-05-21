@@ -292,13 +292,24 @@ public class FList<T> extends Functionable<T> implements List<T> {
 	@Override
 	public <T2> FList<T2> map(FnMap<T, T2> f)
 	{
+		//FList<T2> target = newTarget();
+		//return Fn.map_target(backing, target, f);
+		
 		FList<T2> target = newTarget();
-		return Fn.map_target(backing, target, f);
+		for (int i = 0; i < backing.size(); i++)
+		{
+			target.add(f.f(backing.get(i)));
+		}
+		return target;
 	}
 	
 	public FList<T> map_i(FnMap<T, T> f)
 	{
-		return Fn.map_target(backing, backing, f);
+		for (int i = 0; i < backing.size(); i++)
+		{
+			backing.set(i, f.f(backing.get(i)));
+		}
+		return this;
 	}
 
 	
@@ -331,14 +342,13 @@ public class FList<T> extends Functionable<T> implements List<T> {
 	public FList<T> filter(FnMap<T, Boolean> f)
 	{
 		FList<T> target = newTarget();
-		return Fn.filter_target(backing, target, f);
+		for (int i = 0; i < backing.size(); i++)
+		{
+			if (f.f(backing.get(i))) target.add(backing.get(i));
+		}
+		return target;
 	}
-	
-	public FList<T> filter_i(FnMap<T, Boolean> f)
-	{
-		return Fn.filter_target(backing, backing, f);
-	}
-	
+		
 	
 	
 	
@@ -348,10 +358,6 @@ public class FList<T> extends Functionable<T> implements List<T> {
 		return Fn.zipWith_target(backing, other, target, f);
 	}
 	
-	public FList<T> zipWith_i(Iterable<T> other, FnCombine<T, T> f)
-	{
-		return Fn.zipWith_target(backing, other, backing, f);
-	}
 	
 	public FList<Boolean> zipEquivWith(Iterable<T> other, FnCombine<T, Boolean> f)
 	{
