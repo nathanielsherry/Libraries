@@ -338,6 +338,7 @@ public class FList<T> extends Functionable<T> implements List<T> {
 	
 	
 	
+	
 	@Override
 	public FList<T> filter(FnMap<T, Boolean> f)
 	{
@@ -390,7 +391,8 @@ public class FList<T> extends Functionable<T> implements List<T> {
 	
 	public boolean include(T element)
 	{
-		return Fn.include(backing, element);
+		return backing.contains(element);
+		//return Fn.include(backing, element);
 	}
 	
 	public boolean includeBy(T element, FnMap<T, Boolean> f)
