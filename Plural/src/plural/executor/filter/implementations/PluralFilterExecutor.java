@@ -7,6 +7,7 @@ import java.util.List;
 
 import fava.Fn;
 import fava.functionable.Range;
+import fava.signatures.FnCondition;
 import fava.signatures.FnFold;
 import fava.signatures.FnMap;
 
@@ -33,7 +34,7 @@ public class PluralFilterExecutor<T1> extends FilterExecutor<T1>
 	protected TicketManager	ticketManager;
 
 
-	public PluralFilterExecutor(List<T1> sourceData, FnMap<T1, Boolean> t)
+	public PluralFilterExecutor(List<T1> sourceData, FnCondition<T1> t)
 	{
 		super(sourceData, t);
 		
@@ -41,7 +42,7 @@ public class PluralFilterExecutor<T1> extends FilterExecutor<T1>
 	}
 
 	
-	public PluralFilterExecutor(List<T1> sourceData, FnMap<T1, Boolean> t, int threads)
+	public PluralFilterExecutor(List<T1> sourceData, FnCondition<T1> t, int threads)
 	{
 		super(sourceData, t);
 		
@@ -49,7 +50,7 @@ public class PluralFilterExecutor<T1> extends FilterExecutor<T1>
 	}
 	
 
-	private void init(List<T1> sourceData, FnMap<T1, Boolean> t, int threads)
+	private void init(List<T1> sourceData, FnCondition<T1> t, int threads)
 	{
 
 		threadCount = threads == -1 ? calcNumThreads() : threads;
@@ -68,7 +69,7 @@ public class PluralFilterExecutor<T1> extends FilterExecutor<T1>
 	 * @param map
 	 *            the {@link PluralMap} to execute.
 	 */
-	public void setFold(FnMap<T1, Boolean> fitler)
+	public void setFilter(FnCondition<T1> fitler)
 	{
 
 		if (super.filter != null && super.getState() != ExecutorState.UNSTARTED) return;

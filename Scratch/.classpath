@@ -3,7 +3,9 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Plural"/>
-	<classpathentry kind="lib" path="snakeyaml-1.6.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/SciTypes"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Fava"/>
+	<classpathentry kind="lib" path="jars/guava-r09.jar"/>
+	<classpathentry kind="lib" path="jars/snakeyaml-1.6.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

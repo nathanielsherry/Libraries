@@ -1,6 +1,5 @@
 package fava.functionable;
 
-import java.util.Iterator;
 import java.util.List;
 
 import fava.Fn;
@@ -84,7 +83,7 @@ public abstract class Functionable<T1> implements Iterable<T1> {
 	 * @param f the condition function to apply
 	 * @return a Functionable object containing elements from this Functionable object up until the point where an element fails to satisfy the given condition
 	 */
-	public Functionable<T1> takeWhile(FnMap<T1, Boolean>f)
+	public Functionable<T1> takeWhile(FnMap<T1, Boolean> f)
 	{
 		return Fn.takeWhile(this, f);
 	}

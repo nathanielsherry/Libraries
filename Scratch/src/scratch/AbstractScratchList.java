@@ -17,6 +17,8 @@ import fava.functionable.FList;
 import fava.functionable.Functionable;
 import fava.functionable.Range;
 import fava.functionable.RangeSet;
+import fava.signatures.FnCondition;
+import fava.signatures.FnFold;
 import fava.signatures.FnMap;
 
 
@@ -38,7 +40,7 @@ public abstract class AbstractScratchList<T> extends Functionable<T> implements 
 
 	
 	//stores the locations of all entries as offset/length pairs
-	private List<Range> elementPositions;
+	private FList<Range> elementPositions;
 	private RangeSet discardedRanges;
 	
 
@@ -70,7 +72,7 @@ public abstract class AbstractScratchList<T> extends Functionable<T> implements 
 	
 	private void init() throws FileNotFoundException
 	{
-		elementPositions = new ArrayList<Range>();
+		elementPositions = new FList<Range>();
 		discardedRanges = new RangeSet();
 		raf = new RandomAccessFile(file, "rw");		
 	}
@@ -82,7 +84,7 @@ public abstract class AbstractScratchList<T> extends Functionable<T> implements 
 	
 	protected AbstractScratchList(File temp, RandomAccessFile raf, List<Range> positions, RangeSet discarded)
 	{
-		elementPositions = positions;
+		elementPositions = FList.wrap(positions);
 		discardedRanges = discarded;
 		this.file = temp;
 		this.raf = raf;
@@ -115,7 +117,7 @@ public abstract class AbstractScratchList<T> extends Functionable<T> implements 
 			byte[] encoded = encodeObject(element);
 			final int encodedLength = encoded.length;
 			
-			FList<Range> bigRanges = discardedRanges.getRanges().filter(new FnMap<Range, Boolean>() {
+			FList<Range> bigRanges = discardedRanges.getRanges().filter(new FnCondition<Range>() {
 
 				public Boolean f(Range r) {
 					return r.size() >= encodedLength;
@@ -518,5 +520,16 @@ public abstract class AbstractScratchList<T> extends Functionable<T> implements 
 		}
 	}
 	
+	
+	public long filesize()
+	{
+		return elementPositions.foldr(0, new FnFold<Range, Integer>(){
+
+			@Override
+			public Integer f(Range r, Integer i) {
+				return i + r.size();
+			}});
+
+	}
 	
 }

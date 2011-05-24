@@ -16,6 +16,7 @@ import org.jgrapht.graph.SimpleDirectedGraph;
 
 import fava.Fn;
 import fava.functionable.FList;
+import fava.signatures.FnCondition;
 import fava.signatures.FnEach;
 import fava.signatures.FnFold;
 import fava.signatures.FnMap;
@@ -142,7 +143,7 @@ public class ZipFS {
 	public ZippedFile getChild(final ZippedFile z, final String child) 
 	{
 		
-		return Fn.filter(getChildren(z), new FnMap<ZippedFile, Boolean>() {
+		return Fn.filter(getChildren(z), new FnCondition<ZippedFile>() {
 
 			@Override
 			public Boolean f(ZippedFile zc) {

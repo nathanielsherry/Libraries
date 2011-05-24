@@ -7,6 +7,7 @@ import plural.executor.filter.implementations.PluralFilterExecutor;
 import plural.executor.fold.implementations.PluralFoldExecutor;
 import plural.executor.map.implementations.PluralMapExecutor;
 
+import fava.signatures.FnCondition;
 import fava.signatures.FnEach;
 import fava.signatures.FnFold;
 import fava.signatures.FnMap;
@@ -30,7 +31,7 @@ public class Plural {
 		new PluralEachIndexExecutor(size, each).executeBlocking();
 	}
 	
-	public static <T1> List<T1> filter(List<T1> elements, FnMap<T1, Boolean> filter)
+	public static <T1> List<T1> filter(List<T1> elements, FnCondition<T1> filter)
 	{
 		return new PluralFilterExecutor<T1>(elements, filter).executeBlocking();
 	}

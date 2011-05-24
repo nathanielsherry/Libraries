@@ -10,6 +10,7 @@ import fava.Fn;
 import fava.Functions;
 import fava.datatypes.Maybe;
 import fava.signatures.FnCombine;
+import fava.signatures.FnCondition;
 import fava.signatures.FnFold;
 import fava.signatures.FnMap;
 
@@ -316,7 +317,7 @@ public class FStream<T1> extends Functionable<T1>
 	}
 	
 	@Override
-	public FStream<T1> takeWhile(final FnMap<T1, Boolean>f)
+	public FStream<T1> takeWhile(final FnMap<T1, Boolean> f)
 	{
 		final FStream<T1> target = new FStream<T1>(queueSize);
 		
@@ -422,9 +423,9 @@ public class FStream<T1> extends Functionable<T1>
 			FStream<T1> source = FStream.this;
 			
 
-			private FnMap<T1, Boolean> compareFunction(final T1 value)
+			private FnCondition<T1> compareFunction(final T1 value)
 			{
-				return new FnMap<T1, Boolean>(){
+				return new FnCondition<T1>(){
 
 					public Boolean f(T1 element) {
 						return f.f(value, element);

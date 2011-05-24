@@ -9,6 +9,7 @@ import java.util.List;
 import fava.datatypes.Pair;
 import fava.functionable.FList;
 import fava.signatures.FnCombine;
+import fava.signatures.FnCondition;
 import fava.signatures.FnFold;
 import fava.signatures.FnEach;
 import fava.signatures.FnMap;
@@ -118,9 +119,9 @@ public class Functions
 	}
 
 	
-	public static <T1> FnMap<T1, Boolean> equiv(final T1 item)
+	public static <T1> FnCondition<T1> equiv(final T1 item)
 	{
-		return new FnMap<T1, Boolean>() {
+		return new FnCondition<T1>() {
 
 			public Boolean f(T1 s1)
 			{
@@ -140,7 +141,7 @@ public class Functions
 		};
 	}
 
-	public static <T1> FnMap<T1, Boolean> notEquiv(final T1 item)
+	public static <T1> FnCondition<T1> notEquiv(final T1 item)
 	{
 		return compose(not(), equiv(item));
 	}
@@ -176,9 +177,9 @@ public class Functions
 
 	
 
-	public static <T1> FnMap<T1, Boolean> bTrue()
+	public static <T1> FnCondition<T1> bTrue()
 	{
-		return new FnMap<T1, Boolean>() {
+		return new FnCondition<T1>() {
 
 			public Boolean f(T1 element)
 			{
@@ -188,9 +189,9 @@ public class Functions
 		};
 	}
 
-	public static <T1> FnMap<T1, Boolean> bFalse()
+	public static <T1> FnCondition<T1> bFalse()
 	{
-		return new FnMap<T1, Boolean>() {
+		return new FnCondition<T1>() {
 
 			public Boolean f(T1 element)
 			{
@@ -216,9 +217,9 @@ public class Functions
 
 	
 
-	public static <T1> FnMap<T1, Boolean> notNull()
+	public static <T1> FnCondition<T1> notNull()
 	{
-		return new FnMap<T1, Boolean>() {
+		return new FnCondition<T1>() {
 
 			public Boolean f(T1 element)
 			{
@@ -252,9 +253,9 @@ public class Functions
 		};
 	}
 
-	public static FnMap<Boolean, Boolean> not()
+	public static FnCondition<Boolean> not()
 	{
-		return new FnMap<Boolean, Boolean>() {
+		return new FnCondition<Boolean>() {
 
 
 			public Boolean f(Boolean element) {
@@ -292,6 +293,15 @@ public class Functions
 		return new FnMap<T1, T3>(){
 
 			public T3 f(T1 element) {
+				return h.f(g.f(element));
+			}};
+	}
+	
+	public static <T1, T2> FnCondition<T1> compose(final FnCondition<T2> h, final FnMap<T1, T2> g)
+	{
+		return new FnCondition<T1>(){
+
+			public Boolean f(T1 element) {
 				return h.f(g.f(element));
 			}};
 	}
@@ -393,18 +403,18 @@ public class Functions
 	}
 
 	
-	public static <T1 extends Number> FnMap<T1, Boolean> lt(final Number compare)
+	public static <T1 extends Number> FnCondition<T1> lt(final Number compare)
 	{
-		return new FnMap<T1, Boolean>(){
+		return new FnCondition<T1>(){
 
 			public Boolean f(T1 num) {
 				return (num.doubleValue() < compare.doubleValue());
 			}};
 	}
 	
-	public static <T1 extends Number> FnMap<T1, Boolean> gt(final Number compare)
+	public static <T1 extends Number> FnCondition<T1> gt(final Number compare)
 	{
-		return new FnMap<T1, Boolean>(){
+		return new FnCondition<T1>(){
 
 			public Boolean f(T1 num) {
 				return (num.doubleValue() > compare.doubleValue());

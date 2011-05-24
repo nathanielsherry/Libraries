@@ -4,6 +4,7 @@ package plural.executor.filter.implementations;
 import java.util.ArrayList;
 import java.util.List;
 
+import fava.signatures.FnCondition;
 import fava.signatures.FnFold;
 import fava.signatures.FnMap;
 
@@ -26,7 +27,7 @@ import plural.executor.map.MapExecutor;
 public class SimpleFilterExecutor<T1> extends FilterExecutor<T1>
 {
 
-	public SimpleFilterExecutor(List<T1> sourceData, FnMap<T1, Boolean> t)
+	public SimpleFilterExecutor(List<T1> sourceData, FnCondition<T1> t)
 	{
 		super(sourceData, t);
 	}

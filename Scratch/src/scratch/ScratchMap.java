@@ -9,12 +9,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
+
 
 public class ScratchMap<K, V extends Serializable> implements Map<K, V>{
 
 	
-	List<V> valueList;
-	Map<K, Integer> indexMap;
+	AbstractScratchList<V> valueList;
+	BiMap<K, Integer> indexMap;
 	
 	public static <K, V extends Serializable> Map<K, V> create(String name)
 	{
@@ -59,7 +62,9 @@ public class ScratchMap<K, V extends Serializable> implements Map<K, V>{
 			valueList = list;
 			valueList.clear();
 		}
-		indexMap = new LinkedHashMap<K, Integer>(10, 0.75f, accesOrder);
+		
+		
+		indexMap = HashBiMap.create(); //new LinkedHashMap<K, Integer>(10, 0.75f, accesOrder);
 	}
 	
 	public void clear() {
@@ -112,9 +117,22 @@ public class ScratchMap<K, V extends Serializable> implements Map<K, V>{
 		Integer i = indexMap.get(key);
 		if (i == null) return null;
 		
+		//get the value (to return it later), and remove the key from
+		//the mapping of keys to list indices
 		V v = valueList.get(i);
-		valueList.remove(i);
 		indexMap.remove(key);
+		
+		//compact the list by moving the last element into the empty space
+		//and adjusting the index mapping accordingly
+		V lastValueInList = valueList.get(valueList.size()-1);
+		int lastIndex = valueList.size()-1;
+		if (lastIndex != i) {
+			valueList.set((int)i, lastValueInList);
+			K lastKey = indexMap.inverse().get(lastIndex);
+			indexMap.put(lastKey, i);
+			valueList.remove(lastIndex);
+		}
+		
 		return v;
 	}
 
@@ -147,6 +165,11 @@ public class ScratchMap<K, V extends Serializable> implements Map<K, V>{
 		return valueList;
 	}
 
+	public long filesize()
+	{
+		return valueList.filesize();
+	}
+	
 }
 
 

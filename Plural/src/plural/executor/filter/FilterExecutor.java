@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import fava.signatures.FnCondition;
 import fava.signatures.FnMap;
 
 import plural.executor.AbstractExecutor;
@@ -25,7 +26,7 @@ import plural.executor.ExecutorSet;
 public abstract class FilterExecutor<T1> extends AbstractExecutor
 {
 
-	protected FnMap<T1, Boolean>	filter;
+	protected FnCondition<T1>		filter;
 	protected List<T1>				sourceData;
 	
 	protected List<LinkedList<T1>>	acceptedLists;
@@ -33,7 +34,7 @@ public abstract class FilterExecutor<T1> extends AbstractExecutor
 	
 
 
-	public FilterExecutor(List<T1> sourceData, FnMap<T1, Boolean> filter)
+	public FilterExecutor(List<T1> sourceData, FnCondition<T1> filter)
 	{
 		super();
 		
