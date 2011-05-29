@@ -532,6 +532,12 @@ public class FList<T> extends Functionable<T> implements List<T> {
 		return FList.<T>wrap(backing.subList(1, backing.size()));
 	}
 	
+	public T shift()
+	{
+		if (backing.size() == 0) return null;
+		return backing.remove(0);
+	}
+	
 	
 	@Override
 	public FList<T> take(int count)
