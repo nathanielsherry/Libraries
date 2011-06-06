@@ -1,5 +1,6 @@
 package fava.functionable;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -26,7 +27,7 @@ import fava.signatures.FnMap2;
  *
  * @param <T>
  */
-public class FList<T> extends Functionable<T> implements List<T> {
+public class FList<T> extends Functionable<T> implements List<T>, Serializable{
 
 	
 	protected List<T> backing;
