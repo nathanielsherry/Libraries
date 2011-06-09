@@ -45,8 +45,7 @@ public class AlphaNumericComparitor implements Comparator<String> {
 		string0 = string0.toLowerCase();
 		string1 = string1.toLowerCase();
 		
-		int length = string0.length();
-		if (string1.length() < length) length = string1.length();
+		int length = Math.max(string0.length(), string1.length());
 		
 		String buffer0 = "", buffer1 = "";
 		char char0, char1;
@@ -57,9 +56,23 @@ public class AlphaNumericComparitor implements Comparator<String> {
 		//go over these two strings one character at a time
 		for (int i = 0; i < length; i++){
 
-			//get the characters at this location
-			char0 = string0.charAt(i);
-			char1 = string1.charAt(i);
+
+			
+			//get the characters at this location. If this string has terminated, consider
+			//it a 0 character
+			if (string0.length() > i) {
+				char0 = string0.charAt(i);
+			} else {
+				char0 = 0;
+			}
+			
+			if (string1.length() > i) {
+				char1 = string1.charAt(i);
+			} else {
+				char1 = 0;
+			}
+			
+			
 			
 			char0IsDigit = Character.isDigit(char0);
 			char1IsDigit = Character.isDigit(char1);
