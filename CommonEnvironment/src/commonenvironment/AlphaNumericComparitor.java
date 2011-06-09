@@ -42,6 +42,8 @@ public class AlphaNumericComparitor implements Comparator<String> {
 	
 	public int compare(String string0, String string1) {	
 		
+		string0 = string0.toLowerCase();
+		string1 = string1.toLowerCase();
 		
 		int length = string0.length();
 		if (string1.length() < length) length = string1.length();
@@ -125,7 +127,7 @@ public class AlphaNumericComparitor implements Comparator<String> {
 					if (char0 == char1){
 						//they are the same character
 					} else {
-						return char1 - char0;
+						return char0 - char1;
 					}
 					
 				}
