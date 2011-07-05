@@ -1,13 +1,10 @@
 package commonenvironment.zipfs;
-import java.io.BufferedReader;
+
+
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.Comparator;
 import java.util.Enumeration;
-import java.util.List;
-import java.util.Set;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
@@ -18,7 +15,6 @@ import fava.Fn;
 import fava.functionable.FList;
 import fava.signatures.FnCondition;
 import fava.signatures.FnEach;
-import fava.signatures.FnFold;
 import fava.signatures.FnMap;
 
 
