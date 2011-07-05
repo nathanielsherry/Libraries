@@ -1,7 +1,6 @@
 package swidget.dialogues.fileio;
 
 
-
 import java.awt.Window;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -17,7 +16,6 @@ import javax.jnlp.FileSaveService;
 import javax.jnlp.ServiceManager;
 import javax.jnlp.UnavailableServiceException;
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import commonenvironment.AbstractFile;
@@ -26,9 +24,6 @@ import commonenvironment.Env;
 import fava.Fn;
 import fava.signatures.FnMap;
 
-
-
-import swidget.icons.IconFactory;
 import swidget.icons.IconSize;
 import swidget.icons.StockIcon;
 

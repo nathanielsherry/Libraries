@@ -1,5 +1,6 @@
 package swidget.dialogues;
 
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
@@ -30,7 +31,6 @@ import swidget.icons.StockIcon;
 import swidget.widgets.ButtonBox;
 import swidget.widgets.ImageButton;
 import swidget.widgets.Spacing;
-import swidget.widgets.ImageButton.Layout;
 
 
 public class AboutDialogue extends JDialog

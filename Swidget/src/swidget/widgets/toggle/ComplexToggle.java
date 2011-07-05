@@ -1,7 +1,6 @@
 package swidget.widgets.toggle;
 
 
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -12,7 +11,6 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import javax.swing.BoxLayout;
 import javax.swing.ButtonModel;
 import javax.swing.Icon;
 import javax.swing.JLabel;

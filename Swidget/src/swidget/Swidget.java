@@ -5,8 +5,6 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.UIManager;
 
-import swidget.widgets.Spacing;
-
 import commonenvironment.Env;
 
 
@@ -17,16 +15,12 @@ public class Swidget
 	{
 		
 		System.getProperties().setProperty("swing.aatext", "true");
-		boolean isNimbus = false;
 		//if this version of the JVM is new enough to support the Nimbus Look and Feel, use it
 		try
 		{
 			if (! Env.isMac() && !Env.isWindows()){
 				UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
-				isNimbus = true;
-			}
-			
-			if (Env.isMac() || Env.isWindows()) {
+			} else {
 				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 			}
 		}

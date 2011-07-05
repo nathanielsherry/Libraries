@@ -10,8 +10,6 @@ import java.util.Map;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JSeparator;
-import javax.swing.border.EmptyBorder;
 
 import swidget.icons.StockIcon;
 import swidget.widgets.ButtonBox;
