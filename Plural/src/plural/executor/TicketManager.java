@@ -38,22 +38,22 @@ public class TicketManager {
 	
 	/**
 	 * Returns the starting index for the block of work to be done by the {@link PluralMap} for this thread.
-	 * @param threadNum the thread number.
+	 * @param blockNum the block number.
 	 * @return the starting index for the associated block of work
 	 */
-	public int getBlockStart(int threadNum)
+	public int getBlockStart(int blockNum)
 	{
-		return ticketBlockStart.get(threadNum);
+		return ticketBlockStart.get(blockNum);
 	}
 
 	/**
 	 * Returns the size of the block of work to be done by the {@link PluralMap} for this thread.
-	 * @param threadNum the thread number.
+	 * @param blockNum the block number.
 	 * @return the size of the associated block of work
 	 */
-	public int getBlockSize(int threadNum)
+	public int getBlockSize(int blockNum)
 	{
-		return ticketBlockSize.get(threadNum);
+		return ticketBlockSize.get(blockNum);
 
 	}
 	

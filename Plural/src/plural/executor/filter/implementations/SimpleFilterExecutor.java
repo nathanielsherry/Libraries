@@ -1,17 +1,14 @@
 package plural.executor.filter.implementations;
 
 
-import java.util.ArrayList;
 import java.util.List;
 
 import fava.signatures.FnCondition;
-import fava.signatures.FnFold;
-import fava.signatures.FnMap;
 
 import plural.executor.ExecutorSet;
 import plural.executor.filter.FilterExecutor;
-import plural.executor.fold.FoldExecutor;
 import plural.executor.map.MapExecutor;
+
 
 /**
  * 

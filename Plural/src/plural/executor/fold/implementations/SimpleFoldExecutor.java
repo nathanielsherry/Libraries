@@ -4,7 +4,6 @@ package plural.executor.fold.implementations;
 import java.util.List;
 
 import fava.signatures.FnFold;
-import fava.signatures.FnMap;
 
 import plural.executor.ExecutorSet;
 import plural.executor.fold.FoldExecutor;

@@ -1,11 +1,9 @@
 package plural.executor.fold;
 
 
-import java.util.ArrayList;
 import java.util.List;
 
 import fava.signatures.FnFold;
-import fava.signatures.FnMap;
 
 import plural.executor.AbstractExecutor;
 import plural.executor.ExecutorSet;

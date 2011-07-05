@@ -6,7 +6,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import fava.signatures.FnCondition;
-import fava.signatures.FnMap;
 
 import plural.executor.AbstractExecutor;
 import plural.executor.ExecutorSet;

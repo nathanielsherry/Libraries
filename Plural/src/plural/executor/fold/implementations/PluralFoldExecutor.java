@@ -3,10 +3,8 @@ package plural.executor.fold.implementations;
 
 import java.util.List;
 
-import fava.Fn;
 import fava.functionable.Range;
 import fava.signatures.FnFold;
-import fava.signatures.FnMap;
 
 import plural.executor.ExecutorState;
 import plural.executor.TicketManager;
