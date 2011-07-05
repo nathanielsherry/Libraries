@@ -1,10 +1,8 @@
 package fava.datatypes;
 
-import java.util.LinkedList;
+
 import java.util.List;
 
-import fava.Fn;
-import fava.functionable.FList;
 
 
 /**

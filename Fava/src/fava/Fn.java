@@ -1,19 +1,15 @@
 package fava;
 
 
-
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.SortedSet;
 
 import fava.datatypes.Pair;
-import fava.functionable.FIterable;
 import fava.functionable.FList;
 import fava.signatures.FnCombine;
 import fava.signatures.FnFold;

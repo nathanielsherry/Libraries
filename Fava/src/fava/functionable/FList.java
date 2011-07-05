@@ -584,15 +584,7 @@ public class FList<T> extends Functionable<T> implements List<T>, Serializable{
 	}
 	
 	
-	
-	public void sort()
-	{
-		try{
-			Collections.sort((List<Comparable>)backing);
-		} catch (Exception e) {
-			
-		}
-	}
+
 	
 	public void sort(Comparator<T> comparator) {
 		
