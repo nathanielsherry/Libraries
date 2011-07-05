@@ -2,36 +2,21 @@ package bolt.compiler;
 
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.io.Writer;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.tools.DiagnosticCollector;
-import javax.tools.JavaCompiler;
-import javax.tools.JavaCompiler.CompilationTask;
-import javax.tools.JavaFileManager;
-import javax.tools.JavaFileObject;
-import javax.tools.SimpleJavaFileObject;
-import javax.tools.StandardJavaFileManager;
-import javax.tools.StandardLocation;
-import javax.tools.ToolProvider;
-
 import org.eclipse.jdt.core.compiler.batch.BatchCompiler;
 
-import commonenvironment.Env;
-import fava.functionable.FList;
 
 public class BoltJavaCompiler {
 	
-	private List<File> classpath = new ArrayList<File>();
 	private String sourcecode;
 	private String classname;
 	

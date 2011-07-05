@@ -1,25 +1,10 @@
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.script.ScriptContext;
-import javax.script.ScriptEngine;
 import javax.script.ScriptEngineFactory;
 import javax.script.ScriptEngineManager;
 
-import org.eclipse.jdt.core.JavaCore;
-import org.eclipse.jdt.core.compiler.batch.BatchCompiler;
-
-import commonenvironment.Env;
-
-
-import bolt.compiler.BoltJavaCompiler;
 import bolt.compiler.BoltJavaMap;
 import bolt.scripting.BoltScripter;
 import bolt.scripting.BoltMap;
 
-import fava.Fn;
 import fava.functionable.FList;
 import fava.functionable.Range;
 import fava.signatures.FnMap;
@@ -247,7 +232,7 @@ public class Test {
         	try {
         		System.out.print(factory.getEngineName() + ": ");        		
         		
-        		BoltScripter b = new BoltScripter(factory.getLanguageName(), "");
+        		new BoltScripter(factory.getLanguageName(), "");
         		        		
         		System.out.println("PASS");
         		factories.add(factory);

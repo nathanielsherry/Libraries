@@ -1,23 +1,17 @@
 package bolt.plugin;
 
 
-
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.zip.ZipEntry;
-
-
 
 import commonenvironment.Env;
 import commonenvironment.zipfs.ZipFS;
 import commonenvironment.zipfs.ZippedFile;
-
 
 import fava.Fn;
 import fava.functionable.FList;
@@ -158,9 +152,9 @@ class AvailablePlugins<T extends BoltPlugin>
 
 	}
 
-	private boolean checkSuperclasses(Class c, Class target)
+	private boolean checkSuperclasses(Class<?> c, Class<?> target)
 	{
-		Class sc = c.getSuperclass();
+		Class<?> sc = c.getSuperclass();
 		
 		while (sc != Object.class) {
 			if (sc == target) return true;

@@ -1,6 +1,5 @@
 package bolt.compiler;
 
-import fava.signatures.FnCombine;
 import fava.signatures.FnGet;
 
 public class BoltJavaGet<T1> extends BoltJavaFunction implements FnGet<T1>{

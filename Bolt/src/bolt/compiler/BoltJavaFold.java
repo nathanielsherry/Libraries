@@ -1,7 +1,6 @@
 package bolt.compiler;
 
 import fava.signatures.FnFold;
-import fava.signatures.FnMap;
 
 public class BoltJavaFold<T1, T2> extends BoltJavaFunction implements FnFold<T1, T2>{
 
