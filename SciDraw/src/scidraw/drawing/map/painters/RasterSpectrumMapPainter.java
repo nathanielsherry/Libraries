@@ -100,14 +100,11 @@ public class RasterSpectrumMapPainter extends MapPainter
 	private void drawAsScalar(PainterData p, Spectrum data, float cellSize, final float maxIntensity)
 	{
 		float intensity;
-		Color c, cp;
+		Color c;
 		int index;
-		
-		//int span = 1;
-		
+
 		p.context.save();
 		
-		List<Color> handledColours = new ArrayList<Color>();
 		
 		// draw the map
 		for (int y = 0; y < p.dr.dataHeight; y++) {

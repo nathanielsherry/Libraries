@@ -10,7 +10,6 @@ import plural.executor.eachindex.implementations.PluralEachIndexExecutor;
 
 
 import scidraw.drawing.backends.Buffer;
-import scidraw.drawing.map.MapDrawing;
 import scidraw.drawing.map.palettes.ThermalScalePalette;
 import scidraw.drawing.painters.PainterData;
 

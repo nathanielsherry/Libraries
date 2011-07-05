@@ -1,20 +1,18 @@
 package scidraw.drawing.map.painters;
 
+
 import java.awt.Color;
 import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.geom.Area;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Stack;
-
 
 import fava.functionable.Range;
 
 import scidraw.drawing.backends.Surface.LineJoin;
 import scidraw.drawing.map.palettes.AbstractPalette;
 import scidraw.drawing.painters.PainterData;
-import scitypes.Coord;
 import scitypes.GridPerspective;
 import scitypes.Spectrum;
 import scitypes.SpectrumCalculations;

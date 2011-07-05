@@ -2,8 +2,6 @@ package scratch;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 import scitypes.Cache;
 import scitypes.HashCache;

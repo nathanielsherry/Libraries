@@ -3,15 +3,12 @@ package scidraw.drawing.map;
 
 import fava.datatypes.Pair;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
 import scidraw.drawing.Drawing;
 import scidraw.drawing.DrawingRequest;
-import scidraw.drawing.backends.Buffer;
 import scidraw.drawing.backends.Surface;
-import scidraw.drawing.backends.graphics2d.ImageBuffer;
 import scidraw.drawing.map.painters.MapPainter;
 import scidraw.drawing.painters.PainterData;
 import scidraw.drawing.painters.axis.AxisPainter;
@@ -360,12 +357,12 @@ public class MapDrawing extends Drawing
 		float percentX, percentY;
 		percentX = mapX / mapSize.x;
 		percentY = mapY / mapSize.y;
-
+		
 		percentY = 1.0f - percentY;
-
+		
 		int indexX = (int) Math.floor(dr.uninterpolatedWidth * percentX);
 		int indexY = (int) Math.floor(dr.uninterpolatedHeight * percentY);
-
+		
 		if (!allowOutOfBounds) if (indexX < 0 || indexX >= dr.uninterpolatedWidth) return null;
 		if (!allowOutOfBounds) if (indexY < 0 || indexY >= dr.uninterpolatedHeight) return null;
 		

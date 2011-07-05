@@ -1,12 +1,7 @@
 package scitypes;
 
+
 import java.util.List;
-
-import fava.Fn;
-import fava.signatures.FnEach;
-import fava.signatures.FnFold;
-import fava.signatures.FnMap;
-
 
 
 public class DirectionVector

@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -19,7 +18,6 @@ import fava.functionable.Range;
 import fava.functionable.RangeSet;
 import fava.signatures.FnCondition;
 import fava.signatures.FnFold;
-import fava.signatures.FnMap;
 
 
 /**
