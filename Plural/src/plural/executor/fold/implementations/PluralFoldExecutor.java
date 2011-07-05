@@ -118,12 +118,19 @@ public class PluralFoldExecutor<T1> extends FoldExecutor<T1>
 
 		while(true){
 			
-			Range block = ticketManager.getBlockAsRange();
-			if (block == null) return;
+			int blockNum = ticketManager.getTicketBlockIndex();
+			if (blockNum == -1) break;
+			
+			int start, size, end;
+			start = ticketManager.getBlockStart(blockNum);
+			size = ticketManager.getBlockSize(blockNum);
+			end = start + size;
+			
+			
 			
 			T1 runningTotal = null;
 			boolean first = true;
-			for (int i = block.getStart(); i <= block.getStop(); i++)
+			for (int i = start; i < end; i++)
 			{
 				if (first) {
 					runningTotal = sourceData.get(i);
@@ -139,7 +146,7 @@ public class PluralFoldExecutor<T1> extends FoldExecutor<T1>
 			}
 			
 			if (super.executorSet != null) {
-				super.workUnitCompleted(block.size());
+				super.workUnitCompleted(size);
 				if (super.executorSet.isAbortRequested()) return;
 			}
 			

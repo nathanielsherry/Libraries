@@ -64,6 +64,7 @@ public class TicketManager {
 	}
 	
 	
+	/*
 	public Range getBlockAsRange()
 	{
 		int blockStart, blockEnd, blockNum;
@@ -80,5 +81,7 @@ public class TicketManager {
 		
 		return new Range(blockStart, blockEnd-1);
 	}
+	*/
+	
 	
 }

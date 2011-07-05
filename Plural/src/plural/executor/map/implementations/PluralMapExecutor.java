@@ -131,18 +131,24 @@ public class PluralMapExecutor<T1, T2> extends MapExecutor<T1, T2>
 
 		while(true){
 			
-			Range block = ticketManager.getBlockAsRange();
-			if (block == null) return;
+			int blockNum = ticketManager.getTicketBlockIndex();
+			if (blockNum == -1) break;
+			
+			int start, size, end;
+			start = ticketManager.getBlockStart(blockNum);
+			size = ticketManager.getBlockSize(blockNum);
+			end = start + size;
+
 			
 			T2 t2;
-			for (int i = block.getStart(); i <= block.getStop(); i++)
+			for (int i = start; i < end; i++)
 			{
 				t2 = map.f(sourceData.get(i));
 				targetList.set(i, t2);
 			}
 			
 			if (super.executorSet != null) {
-				super.workUnitCompleted(block.size());
+				super.workUnitCompleted(size);
 				if (super.executorSet.isAbortRequested()) return;
 			}
 			
