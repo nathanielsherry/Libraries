@@ -100,6 +100,8 @@ public class Spectrum extends Functionable<Float> implements Serializable
 		this.maxIndex = copy.maxIndex;		
 	}
 	
+	private Spectrum(){}
+	
 	public void copy(Spectrum s)
 	{
 		int maxindex;

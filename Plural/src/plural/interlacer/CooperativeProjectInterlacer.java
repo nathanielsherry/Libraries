@@ -233,7 +233,7 @@ public class CooperativeProjectInterlacer<T>
 		}
 	}
 		
-	public void doIteration()
+	public void doWork()
 	{
 		
 		Project<T> project;
@@ -241,182 +241,187 @@ public class CooperativeProjectInterlacer<T>
 		List<Project<T>> completedProjects = new ArrayList<Project<T>>();
 		List<T> jobList = new ArrayList<T>();
 		
-		int totalPriority = 0;
-		int workingProjects = 0;
-		float blockSize;
 		
-		try {
+		while(true) {
 			
-			projectList.clear();
-			completedProjects.clear();
+			int totalPriority = 0;
+			int workingProjects = 0;
+			float blockSize;
 			
-			
-			////////////////////////////////////////////////////////////
-			// PLANNING
-			////////////////////////////////////////////////////////////
-			
-			/* lock against this object to make sure there are no new projects created and no 
-			 * modifications made to existing projects while we are deciding what jobs to run
-			 */
-			synchronized (this)
-			{
-				while (true) {
-					
-					
-					for (String projectName : projects.keySet()){
-						project = projects.get(projectName);
-						
-						if (project.jobs.hasJobs()) {
-							
-							//add this project to the list of projects this thread will work on
-							projectList.add(project);
-							
-							//mark this project has being worked on by this thread
-							project.workingThreads.add(Thread.currentThread());
-						}
-					}
-					
-					
-					if (projectList.size() > 0) break;
-					
-					if (debugOutput) System.out.println(DPName + " " + Thread.currentThread() + ": Waiting");
-					wait();
-					if (debugOutput) System.out.println(DPName + " " + Thread.currentThread() + ": Awoken");
-				}
+			try {
 				
-				
-				
-				
-				/* calculate the size of a single block of work.
-				 * if a project has a priority of p, then it will be
-				 * allowed to execute p blocks of work. The total
-				 * number of blocks of work should be <= iterationSize.
-				 * We don't allow the block size to dip below 5 in order to 
-				 * make sure that we don't waste too much time on disk seeking
-				 * or cache misses or whatnot caused by jumping from project to 
-				 * project too quickly
-				 */
-				totalPriority = 0;
-				workingProjects = 0;
-				for (Project<T> currentProject : projectList)
-				{
-					totalPriority += currentProject.priority;
-					if (currentProject.priority > 0) workingProjects++;
-				}
-							
-				
-				if (workingProjects > 0) {
-					//there are foreground projects
-					blockSize = Math.max(5, (float)iterationSize / (float)totalPriority);
-				} else if(projectList.size() > 0) {
-					//there are no foreground projects, but there are background projects
-					//so we work on the background projects instead
-					workingProjects = Math.min(numBackgroundJobs, projectList.size());
-					blockSize = Math.max(1, (float)iterationSize / (float)workingProjects);
-					
-					//remove any projects above the cap for number of background projects
-					while (projectList.size() > numBackgroundJobs) projectList.remove(numBackgroundJobs);
-					
-				} else {
-					blockSize = 5;
-				}
-				
-			}//synchronize
-			
-			
-			
-			////////////////////////////////////////////////////////////
-			// RUNNING
-			////////////////////////////////////////////////////////////
-			
-			//run jobs on the projects we have in our list. We time them for logging purposes.
-			long totalTime = 0;
-			long t1, t2;
-			int jobCount, jobsExecuted = 0;
-			boolean success = false;
-			
-			for (Project<T> currentProject : projectList)
-			{
-				
-				if (totalPriority > 0) {
-					jobCount = Math.round(blockSize * currentProject.priority);
-				} else {
-					jobCount = Math.round(blockSize);
-				}
-				
-				
-				t1 = System.currentTimeMillis();
-				
-				
-				jobList = currentProject.jobs.getJobs(jobCount);
-				jobsExecuted += jobList.size();
-				
-				success = currentProject.jobs.runJobs(jobList);
-				
-				//if this run failed, but this is configured to make sure every job runs at least once
-				//place the jobs back in the project's job list
-				if (!success && runAtLeastOnce)
-				{
-					//this will lock internally
-					addJobs(currentProject.jobs, jobList);
-				}
-				
-				t2 = System.currentTimeMillis();
-				totalTime += (t2 - t1);
-				
-			}
-
-			if (projectList.size() > 0 && debugOutput) System.out.println(DPName + " " + Thread.currentThread() + ": Processed " + jobsExecuted + " Jobs from " + workingProjects + " projects in " + totalTime/1000f + "s");
-			
-			
-			
-			
-			////////////////////////////////////////////////////////////
-			// CLEAN-UP
-			////////////////////////////////////////////////////////////
-			
-			//all the projects in the set, mark them as us not working on them anymore, then clean up finished ones
-			synchronized (this) {
-				
-				for (Project<T> currentProject : projects.values())
-				{
-					currentProject.workingThreads.remove(Thread.currentThread());
-					
-					//if there are no more jobs left, and it is marked as complete, AND there 
-					//are no threads marked as working on it anymore, add it to the list of projects
-					//to remove
-					if (  
-							!currentProject.jobs.hasJobs() && 
-							currentProject.jobs.isDone() &&
-							currentProject.workingThreads.size() == 0
-					) 
-					{
-						completedProjects.add(currentProject);
-					}
-					
-				}
-				
-				
-				for (Project<T> currentProject : completedProjects)
-				{
-					
-					//allow the project to clean up before being removed
-					currentProject.jobs.done();
-					projects.remove(currentProject.projectName);					
-					
-				}
-				
+				projectList.clear();
 				completedProjects.clear();
 				
-			}			
-
-			
-		} catch (Exception e) {
-			
-			e.printStackTrace();
+				
+				////////////////////////////////////////////////////////////
+				// PLANNING
+				////////////////////////////////////////////////////////////
+				
+				/* lock against this object to make sure there are no new projects created and no 
+				 * modifications made to existing projects while we are deciding what jobs to run
+				 */
+				synchronized (this)
+				{
+					while (true) {
+						
+						
+						for (String projectName : projects.keySet()){
+							project = projects.get(projectName);
 							
-		}
-		
+							if (project.jobs.hasJobs()) {
+								
+								//add this project to the list of projects this thread will work on
+								projectList.add(project);
+								
+								//mark this project has being worked on by this thread
+								project.workingThreads.add(Thread.currentThread());
+							}
+						}
+						
+						
+						if (projectList.size() > 0) break;
+						
+						if (debugOutput) System.out.println(DPName + " " + Thread.currentThread() + ": Waiting");
+						wait();
+						if (debugOutput) System.out.println(DPName + " " + Thread.currentThread() + ": Awoken");
+					}
+					
+					
+					
+					
+					/* calculate the size of a single block of work.
+					 * if a project has a priority of p, then it will be
+					 * allowed to execute p blocks of work. The total
+					 * number of blocks of work should be <= iterationSize.
+					 * We don't allow the block size to dip below 5 in order to 
+					 * make sure that we don't waste too much time on disk seeking
+					 * or cache misses or whatnot caused by jumping from project to 
+					 * project too quickly
+					 */
+					totalPriority = 0;
+					workingProjects = 0;
+					for (Project<T> currentProject : projectList)
+					{
+						totalPriority += currentProject.priority;
+						if (currentProject.priority > 0) workingProjects++;
+					}
+								
+					
+					if (workingProjects > 0) {
+						//there are foreground projects
+						blockSize = Math.max(5, (float)iterationSize / (float)totalPriority);
+					} else if(projectList.size() > 0) {
+						//there are no foreground projects, but there are background projects
+						//so we work on the background projects instead
+						workingProjects = Math.min(numBackgroundJobs, projectList.size());
+						blockSize = Math.max(1, (float)iterationSize / (float)workingProjects);
+						
+						//remove any projects above the cap for number of background projects
+						while (projectList.size() > numBackgroundJobs) projectList.remove(numBackgroundJobs);
+						
+					} else {
+						blockSize = 5;
+					}
+					
+				}//synchronize
+				
+				
+				
+				////////////////////////////////////////////////////////////
+				// RUNNING
+				////////////////////////////////////////////////////////////
+				
+				//run jobs on the projects we have in our list. We time them for logging purposes.
+				long totalTime = 0;
+				long t1, t2;
+				int jobCount, jobsExecuted = 0;
+				boolean success = false;
+				
+				for (Project<T> currentProject : projectList)
+				{
+					
+					if (totalPriority > 0) {
+						jobCount = Math.round(blockSize * currentProject.priority);
+					} else {
+						jobCount = Math.round(blockSize);
+					}
+					
+					
+					t1 = System.currentTimeMillis();
+					
+					
+					jobList = currentProject.jobs.getJobs(jobCount);
+					jobsExecuted += jobList.size();
+					
+					success = currentProject.jobs.runJobs(jobList);
+					
+					//if this run failed, but this is configured to make sure every job runs at least once
+					//place the jobs back in the project's job list
+					if (!success && runAtLeastOnce)
+					{
+						//this will lock internally
+						addJobs(currentProject.jobs, jobList);
+					}
+					
+					t2 = System.currentTimeMillis();
+					totalTime += (t2 - t1);
+					
+				}
+	
+				if (projectList.size() > 0 && debugOutput) System.out.println(DPName + " " + Thread.currentThread() + ": Processed " + jobsExecuted + " Jobs from " + workingProjects + " projects in " + totalTime/1000f + "s");
+				
+				
+				
+				
+				////////////////////////////////////////////////////////////
+				// CLEAN-UP
+				////////////////////////////////////////////////////////////
+				
+				//all the projects in the set, mark them as us not working on them anymore, then clean up finished ones
+				synchronized (this) {
+					
+					for (Project<T> currentProject : projects.values())
+					{
+						currentProject.workingThreads.remove(Thread.currentThread());
+						
+						//if there are no more jobs left, and it is marked as complete, AND there 
+						//are no threads marked as working on it anymore, add it to the list of projects
+						//to remove
+						if (  
+								!currentProject.jobs.hasJobs() && 
+								currentProject.jobs.isDone() &&
+								currentProject.workingThreads.size() == 0
+						) 
+						{
+							completedProjects.add(currentProject);
+						}
+						
+					}
+					
+					
+					for (Project<T> currentProject : completedProjects)
+					{
+						
+						//allow the project to clean up before being removed
+						currentProject.jobs.done();
+						projects.remove(currentProject.projectName);					
+						
+					}
+					
+					completedProjects.clear();
+					
+				}			
+	
+				
+			} catch (Exception e) {
+				
+				e.printStackTrace();
+								
+			}
+			
+		}//while
+			
 	}
 	
 	
@@ -446,9 +451,7 @@ class DataProcessorThread<T> extends Thread
 	
 	public void run()
 	{
-		while (true) {
-			dp.doIteration();
-		}
+		dp.doWork();
 	}
 	
 	public String toString()
