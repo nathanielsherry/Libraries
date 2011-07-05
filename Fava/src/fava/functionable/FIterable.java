@@ -49,6 +49,19 @@ public class FIterable<T> extends Functionable<T>
 	}
 	
 	
+	public FIterable(final Iterator<T> iterator) {
+		backing = new Iterable<T>() {
+
+			@Override
+			public Iterator<T> iterator() {
+				
+				return iterator;
+				
+			}
+		};
+	}
+	
+	
 	@Override
 	public Iterator<T> iterator() {
 		return backing.iterator();
