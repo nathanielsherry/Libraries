@@ -1,4 +1,4 @@
-package fava.functionable;
+package fava.wip;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -9,6 +9,8 @@ import java.util.concurrent.LinkedBlockingQueue;
 import fava.Fn;
 import fava.Functions;
 import fava.datatypes.Maybe;
+import fava.functionable.FList;
+import fava.functionable.Functionable;
 import fava.signatures.FnCombine;
 import fava.signatures.FnCondition;
 import fava.signatures.FnFold;
@@ -22,7 +24,7 @@ import fava.signatures.FnMap;
  * @param <T1>
  */
 
-public class FStream<T1> extends Functionable<T1> 
+class FStream<T1> extends Functionable<T1> 
 {
 
 	private LinkedBlockingQueue<Maybe<T1>> queue;

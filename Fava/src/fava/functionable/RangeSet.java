@@ -65,7 +65,9 @@ public class RangeSet extends Functionable<Integer>
 	}
 	
 	/**
-	 * Removes this {@link Range} from the RangeSet. This does not simply remove the given Range object, rather it modifies the collection of Ranges so that none of the elements contained in the given Range are contained in this RangeSet anymore. Eg: [1..20:2,6..30:2].removeRange(2..29:1).toSink() => [1, 30] 
+	 * Removes this {@link Range} from the RangeSet. This does not simply remove the given Range object, rather it 
+	 * modifies the collection of Ranges so that none of the elements contained in the given Range are contained in this 
+	 * RangeSet anymore. Eg: [1..20:2,6..30:2].removeRange(2..29:1).toSink() => [1, 30] 
 	 * @param range the Range the elements of which should be removed from this RangeSet
 	 */
 	public void removeRange(Range range)

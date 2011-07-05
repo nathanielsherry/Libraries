@@ -10,7 +10,8 @@ import fava.signatures.FnEach;
 import fava.signatures.FnMap;
 
 /**
- * This is a base abstract class which provides a default implementation of some of the most common functional commands. Objects extending this class gain access to these methods, but will be required to implement the Iterable interface
+ * This is a base abstract class which provides a default implementation of some of the most common functional commands. 
+ * Objects extending this class gain access to these methods, but will be required to implement the Iterable interface
  * @author Nathaniel Sherry, 2010-2011
  *
  * @param <T1>
@@ -28,7 +29,8 @@ public abstract class Functionable<T1> implements Iterable<T1> {
 	}
 	
 	/**
-	 * Applies the given {@link FnMap} function to each contained element. Returns a Functionable object representing the results of those applications. 
+	 * Applies the given {@link FnMap} function to each contained element. Returns a Functionable object representing 
+	 * the results of those applications. 
 	 * @param <T2>
 	 * @param f the mapping function to apply
 	 * @return a Functionable object containing the results of applying the {@link FnMap} to the elements in this Functionable object
@@ -39,9 +41,11 @@ public abstract class Functionable<T1> implements Iterable<T1> {
 	}
 	
 	/**
-	 * Applies the given {@link FnMap} function to each contained element. Returns a Functionable object containing the elements of this object for which the given function returned true.
+	 * Applies the given {@link FnMap} function to each contained element. Returns a Functionable object containing the 
+	 * elements of this object for which the given function returned true.
 	 * @param f the condition function to apply
-	 * @return a Functionable object containing only those elements in this Functionable object for which the given function returned true
+	 * @return a Functionable object containing only those elements in this Functionable object for which the given 
+	 * function returned true
 	 */
 	public Functionable<T1> filter(FnMap<T1, Boolean> f)
 	{
@@ -49,7 +53,8 @@ public abstract class Functionable<T1> implements Iterable<T1> {
 	}
 	
 	/**
-	 * Applies the given {@link FnFold} function to consecutive contained elements, also threading a running sum or result from call to call. When the function has been applied to every element, the result will be a single value. 
+	 * Applies the given {@link FnFold} function to consecutive contained elements, also threading a running sum or 
+	 * result from call to call. When the function has been applied to every element, the result will be a single value. 
 	 * @param f the folding function to apply
 	 * @return the result of applying this function to all elements as if it were an n-ary function 
 	 */
@@ -59,7 +64,9 @@ public abstract class Functionable<T1> implements Iterable<T1> {
 	}
 	
 	/**
-	 * Applies the given {@link FnFold} function to consecutive contained elements, also threading a running sum or result from call to call. When the function has been applied to every element, the result will be a single value. Since the return value may be of a different type than the contained elements, a starting value of that type is requried 
+	 * Applies the given {@link FnFold} function to consecutive contained elements, also threading a running sum or 
+	 * result from call to call. When the function has been applied to every element, the result will be a single value. 
+	 * Since the return value may be of a different type than the contained elements, a starting value of that type is requried 
 	 * @param f the folding function to apply
 	 * @return the result of applying this function to all elements as if it were an n-ary function 
 	 */
@@ -81,7 +88,8 @@ public abstract class Functionable<T1> implements Iterable<T1> {
 	/**
 	 * Remove and return elements from this Functionable object while the elements satisfy the given condition function.
 	 * @param f the condition function to apply
-	 * @return a Functionable object containing elements from this Functionable object up until the point where an element fails to satisfy the given condition
+	 * @return a Functionable object containing elements from this Functionable object up until the point where an element 
+	 * fails to satisfy the given condition
 	 */
 	public Functionable<T1> takeWhile(FnMap<T1, Boolean> f)
 	{
@@ -157,7 +165,8 @@ public abstract class Functionable<T1> implements Iterable<T1> {
 	}
 	
 	/**
-	 * Group the elements into collections based on the supplied FnCombine, which should accept two elements and return true if the elements belong in the same group
+	 * Group the elements into collections based on the supplied FnCombine, which should accept two elements and return 
+	 * true if the elements belong in the same group
 	 * @param f the {@link FnCombine} function for determining if two elements belong in the same group
 	 * @return nested collections of elements which belong in the same group
 	 */

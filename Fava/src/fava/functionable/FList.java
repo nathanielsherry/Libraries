@@ -21,8 +21,9 @@ import fava.signatures.FnMap2;
 /**
  * FList is a class which implements the List interface and acts as a pass-through
  * to another list object. This allows FList to adopt any List implementation (eg Array, Linked).
- * FList can imitate a sparse list's behaviour (although not runtime for sparse data) Eg. FList<String> l = new FList<String>(); l.add(4, "hello");
- * is a legitimate sequence of instructions, and will insert null values in the intervening elements.
+ * FList can imitate a sparse list's behaviour (although not runtime for sparse data) Eg. new 
+ * FList&lt;String&gt;().add(4, "hello"); is a legitimate instruction, and will insert null values in 
+ * the intervening elements.
  * @author Nathaniel Sherry
  *
  * @param <T>
@@ -149,6 +150,7 @@ public class FList<T> extends Functionable<T> implements List<T>, Serializable{
 	 * @param backing list to use as template
 	 * @return a new list of type T2 of the same implementation as source
 	 */
+	@SuppressWarnings("unchecked")
 	protected static <T, T2> FList<T2> newTarget(List<T> backing)
 	{
 		try {
@@ -380,6 +382,24 @@ public class FList<T> extends Functionable<T> implements List<T>, Serializable{
 	}
 	
 	
+	public <T1, T2> Pair<FList<T1>, FList<T2>> unzipWith(FnMap<T, Pair<T1, T2>> f)
+	{
+		Pair<T1, T2> p;
+		
+		FList<T1> t1s = new FList<T1>();
+		FList<T2> t2s = new FList<T2>();
+		
+		for (T t : backing)
+		{
+			p = f.f(t);
+			t1s.add(p.first);
+			t2s.add(p.second);			
+		}
+		
+		return new Pair<FList<T1>, FList<T2>>(t1s, t2s);
+	}
+	
+	
 	
 	@Override
 	public void each(FnEach<T> f)
@@ -532,12 +552,41 @@ public class FList<T> extends Functionable<T> implements List<T>, Serializable{
 	{
 		return FList.<T>wrap(backing.subList(1, backing.size()));
 	}
+	public T last()
+	{
+		if (backing.size() == 0) return null;
+		return backing.get(backing.size() - 1);
+	}
+	public FList<T> initial()
+	{
+		return FList.<T>wrap(backing.subList(0, backing.size()-1));
+	}
+	
+	
+	
 	
 	public T shift()
 	{
 		if (backing.size() == 0) return null;
-		return backing.remove(0);
+		T t = take(1).get(0);
+		backing.remove(0);
+		return t;
 	}
+
+	public FList<T> shift(int count)
+	{
+		FList<T> ts = take(count);
+		for (Integer i : new Range(0, count-1)) backing.remove(0);
+		return ts;
+	}
+	
+	public FList<T> shiftWhile(FnMap<T, Boolean> condition)
+	{
+		FList<T> ts = takeWhile(condition);
+		for (Integer i : new Range(0, ts.size()-1)) backing.remove(0);
+		return ts;
+	}
+	
 	
 	
 	@Override
@@ -584,7 +633,6 @@ public class FList<T> extends Functionable<T> implements List<T>, Serializable{
 	}
 	
 	
-
 	
 	public void sort(Comparator<T> comparator) {
 		

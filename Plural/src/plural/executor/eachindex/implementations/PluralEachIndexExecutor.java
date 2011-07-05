@@ -100,13 +100,19 @@ public class PluralEachIndexExecutor extends EachIndexExecutor
 
 		while (true) {
 			
-			Range block = ticketManager.getBlockAsRange();
-			if (block == null) return;
-			Fn.each(block, eachIndex);
+			int blockNum = ticketManager.getTicketBlockIndex();
+			if (blockNum == -1) break;
+			
+			int start, size, end;
+			start = ticketManager.getBlockStart(blockNum);
+			size = ticketManager.getBlockSize(blockNum);
+			end = start + size;
+			
+			for (int i = start; i < end; i++) { eachIndex.f(i); }
 			
 			if (super.executorSet != null) {
 
-				super.workUnitCompleted(block.size());
+				super.workUnitCompleted(size);
 				if (super.executorSet.isAbortRequested()) return;
 			}
 

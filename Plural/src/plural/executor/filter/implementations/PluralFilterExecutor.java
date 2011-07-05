@@ -140,10 +140,16 @@ public class PluralFilterExecutor<T1> extends FilterExecutor<T1>
 			
 			LinkedList<T1> accepted = new LinkedList<T1>();
 						
-			Range block = ticketManager.getBlockAsRange();
-			if (block == null) return;
 			
-			for (int i = block.getStart(); i <= block.getStop(); i++)
+			int blockNum = ticketManager.getTicketBlockIndex();
+			if (blockNum == -1) break;
+			
+			int start, size, end;
+			start = ticketManager.getBlockStart(blockNum);
+			size = ticketManager.getBlockSize(blockNum);
+			end = start + size;
+			
+			for (int i = start; i < end; i++)
 			{
 
 				if(  filter.f(sourceData.get(i))  ){
@@ -158,7 +164,7 @@ public class PluralFilterExecutor<T1> extends FilterExecutor<T1>
 			}
 			
 			if (super.executorSet != null) {
-				super.workUnitCompleted(block.size());
+				super.workUnitCompleted(size);
 				if (super.executorSet.isAbortRequested()) return;
 			}
 			

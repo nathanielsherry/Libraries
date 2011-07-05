@@ -162,7 +162,8 @@ public class Range extends Sequence<Integer>
 
 	
 	/**
-	 * The integer span of this Range. Note that for step sizes greater than 1, this is not the same as the number of elements in the range. To determine that value, call {@link Range#elementCount()}
+	 * The integer span of this Range. Note that for step sizes greater than 1, this is not the same as the number of 
+	 * elements in the range. To determine that value, call {@link Range#elementCount()}
 	 * @return the size of the span of the Range
 	 */
 	public int size()
@@ -171,7 +172,8 @@ public class Range extends Sequence<Integer>
 	}
 
 	/**
-	 * The number of elements contained in this Range. Note that for step sizes greater than 1, this is not the same as the size (span) of the Range.
+	 * The number of elements contained in this Range. Note that for step sizes greater than 1, this is not the same 
+	 * as the size (span) of the Range.
 	 * @return the number of integer values included in this Range
 	 */
 	public int elementCount()
@@ -180,7 +182,10 @@ public class Range extends Sequence<Integer>
 	}
 
 	/**
-	 * Determines if this Range is overlapping with another Range. Ranges which overlap by start and end position, but which have different step sizes, or have the same step size, but out of phase, are considered to be not truly overlapping. This allows for the creation of more complex patterns using {@link RangeSet}, such as joining two ranges: eg 1..10:3 => [1, 4, 7, 10] and 2..11:3 => [2, 5, 8, 11] to produce [1, 2, 4, 5, 7, 8, 10, 11] 
+	 * Determines if this Range is overlapping with another Range. Ranges which overlap by start and end position, 
+	 * but which have different step sizes, or have the same step size, but out of phase, are considered to be not 
+	 * truly overlapping. This allows for the creation of more complex patterns using {@link RangeSet}, such as 
+	 * joining two ranges: eg 1..10:3 => [1, 4, 7, 10] and 2..11:3 => [2, 5, 8, 11] to produce [1, 2, 4, 5, 7, 8, 10, 11] 
 	 * @param other the other Range to compare against
 	 * @return true if the two Ranges contain common elements with a common step size, false otherwise 
 	 */
@@ -241,7 +246,8 @@ public class Range extends Sequence<Integer>
 	
 	
 	/**
-	 * Merges two Ranges for which {@link Range#isTouching(Range)} returns true. Returns null if the Ranges do not satisfy this requirement.
+	 * Merges two Ranges for which {@link Range#isTouching(Range)} returns true. Returns null if the Ranges do not 
+	 * satisfy this requirement.
 	 * @param other the other Range to merge this Range with
 	 * @return a new Range representing the union of the elements of both
 	 */
@@ -255,7 +261,9 @@ public class Range extends Sequence<Integer>
 	}
 	
 	/**
-	 * Returns a RangeSet representing this Range with the elements in the other Range removed. The Ranges must satisfy {@link Range#isOverlapping(Range)}. If the Ranges are not overlapping, then the returned RangeSet will simply represent this Range
+	 * Returns a RangeSet representing this Range with the elements in the other Range removed. The Ranges must satisfy 
+	 * {@link Range#isOverlapping(Range)}. If the Ranges are not overlapping, then the returned RangeSet will simply 
+	 * represent this Range
 	 * @param other the Range to remove from this Range
 	 * @return a RangeSet representing elements in this Range which are not in the other Range
 	 */
