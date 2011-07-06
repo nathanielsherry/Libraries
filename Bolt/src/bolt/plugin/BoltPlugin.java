@@ -11,19 +11,6 @@ public abstract class BoltPlugin {
 	}
 	
 	
-	
-	protected static List<BoltPlugin> getAvailablePlugins(String packageName)
-	{
-		return getAvailablePlugins(BoltPlugin.class, packageName);
-	}
-	
-	protected static <T extends BoltPlugin> List<T> getAvailablePlugins(Class<T> c, String packageName)
-	{
-		AvailablePlugins<T> available = new AvailablePlugins<T>(c, packageName);
-		return available.getNewInstancesForAllPlugins();
-	}
-
-	
 	protected static <S extends BoltPlugin> S createNewInstance(S f)
 	{
 		return createNewInstanceFromClass((Class<S>)f.getClass());
