@@ -12,6 +12,16 @@ public class ZippedFile{
 	private ZipEntry entry;
 	private ZipFile file;
 	
+	private boolean isDummy;
+	private String dummyName;
+	
+	public ZippedFile(String name)
+	{
+		isDummy = true;
+		dummyName = name;
+	}
+	
+	
 	public ZippedFile(ZipEntry entry, ZipFile file) {
 		this.entry = entry;
 		this.file = file;
@@ -40,12 +50,24 @@ public class ZippedFile{
 	
 	public String getName()
 	{
+		if (isDummy) return dummyName;
 		return entry.getName();
 	}
 	
 	public boolean isDirectory()
 	{
+		if (isDummy) return true;
 		return entry.isDirectory();
+	}
+	
+	public String toString()
+	{
+		return getName();
+	}
+	
+	public boolean isDummy()
+	{
+		return isDummy;
 	}
 	
 }

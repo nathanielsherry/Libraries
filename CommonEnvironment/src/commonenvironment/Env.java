@@ -83,6 +83,19 @@ public class Env
 	}
 	
 	
+	public static File appDataDirectory(String appname)
+	{
+		
+		if (isWindows())
+		{
+			return new File(System.getenv("APPDATA") + "\\" + appname);
+		} else if (isMac()) {
+			return new File(System.getProperty("user.home") + "/Library/Application Support/" + appname);
+		} else {
+			return new File(System.getProperty("user.home") + "/.config/" + appname);
+		}
+	}
+	
 	public static void perOS(PerOS action)
 	{
 		if (isWindows()) 	{ action.windows(); return; }

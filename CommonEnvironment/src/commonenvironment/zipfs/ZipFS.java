@@ -20,8 +20,8 @@ import fava.signatures.FnMap;
 
 public class ZipFS {
 
-	private ZipEntry root;
-	private DirectedGraph<ZipEntry, Object> g;
+	private ZippedFile root;
+	private DirectedGraph<ZippedFile, Object> g;
 	private ZipFile zf;
 	
 	public ZipFS(String filename) {
@@ -37,10 +37,11 @@ public class ZipFS {
 			
 			Enumeration<? extends ZipEntry> entries = zf.entries();
 			
-			g = new SimpleDirectedGraph<ZipEntry, Object>(Object.class);
+			
+			g = new SimpleDirectedGraph<ZippedFile, Object>(Object.class);
 			
 			
-			root = new ZipEntry("");
+			root = wrap(new ZipEntry(""));
 			g.addVertex(root);
 			
 			
@@ -62,7 +63,7 @@ public class ZipFS {
 
 				@Override
 				public void f(ZipEntry z) {
-					addChild(z);
+					addChild(wrap(z));
 				}
 			});
 
@@ -78,18 +79,22 @@ public class ZipFS {
 		
 	}
 	
-	private void addChild(ZipEntry child)
+	private void addChild(ZippedFile child)
 	{
 		String name = child.getName();
 
 		int lastSlash = name.substring(0, name.length() - 1).lastIndexOf("/");
 		String parentName = (lastSlash == -1) ? "" : name.substring(0, lastSlash+1);
 
-		ZipEntry parent = unwrap(getZippedFile(parentName));
+		//get the parent for this entry
+		ZippedFile parent = getZippedFile(parentName);
+		if (parent == null) {
+			parent = new ZippedFile(parentName);
+			addChild(parent);
+		}
 				
 		g.addVertex(child);
 		g.addEdge(parent, child);
-		
 		
 	}
 	
@@ -100,37 +105,38 @@ public class ZipFS {
 	
 	private ZipEntry unwrap(ZippedFile zippedFile)
 	{
+		if (zippedFile == null) return null;
 		return zippedFile.getEntry();
 	}
 	
 	public ZippedFile getZippedFile(String name) {
 		
-		if (name == "") return wrap(root);
+		if (name == "") return root;
 		
 		boolean isDir = name.lastIndexOf("/") == name.length()-1;
 		
 		String[] path = name.split("/");
 		
-		ZipEntry entry = root;
+		ZippedFile entry = root;
 		for (int i = 0; i < path.length; i++){
 
-			entry = unwrap(getChild(wrap(entry), path[i] + ((!isDir && i == path.length - 1) ? "" : "/")));
+			entry = getChild(entry, path[i] + ((!isDir && i == path.length - 1) ? "" : "/"));
 			if (entry == null) {
-				System.out.println("null child");
+				return null;
 			}
 		}
 		
-		return wrap(entry);
+		return entry;
 		
 	}
 	
 	public FList<ZippedFile> getChildren(ZippedFile z)
 	{
-		return Fn.map(g.outgoingEdgesOf(unwrap(z)), new FnMap<Object, ZippedFile>() {
+		return Fn.map(g.outgoingEdgesOf(z), new FnMap<Object, ZippedFile>() {
 
 			@Override
 			public ZippedFile f(Object e) {
-				return wrap(g.getEdgeTarget(e));
+				return g.getEdgeTarget(e);
 			}
 		});
 		
@@ -143,8 +149,8 @@ public class ZipFS {
 
 			@Override
 			public Boolean f(ZippedFile zc) {
-				String childname = unwrap(z).getName() + child;
-				return unwrap(zc).getName().equals(childname);
+				String childname = z.getName() + child;
+				return zc.getName().equals(childname);
 			}
 		}).head();
 		
@@ -153,6 +159,11 @@ public class ZipFS {
 	public boolean hasChildren(final ZippedFile z, final String child)
 	{
 		return (unwrap(getChild(z, child)) != null);
+	}
+	
+	public FList<ZippedFile> getAllFiles()
+	{
+		return new FList<ZippedFile>(g.vertexSet());
 	}
 	
 	
