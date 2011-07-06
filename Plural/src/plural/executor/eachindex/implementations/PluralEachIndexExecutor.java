@@ -44,20 +44,6 @@ public class PluralEachIndexExecutor extends EachIndexExecutor
 	}
 
 
-	/**
-	 * Sets the {@link PluralMap} for this {@link SplittingMapExecutor}. Setting the PluralMap after creation of the
-	 * {@link MapExecutor} allows the associated {@link PluralMap} to query the {@link SplittingMapExecutor} for
-	 * information about the work block for each thread. This method will return without setting the PluralMap if
-	 * the current PluralMap's state is not {@link ExecutorState.State#UNSTARTED}
-	 * 
-	 * @param map
-	 *            the {@link PluralMap} to execute.
-	 */
-	public void setEachIndex(FnEach<Integer> eachIndex)
-	{
-		if (super.eachIndex != null && super.getState() != ExecutorState.UNSTARTED) return;
-		super.eachIndex = eachIndex;
-	}
 
 	
 	/**

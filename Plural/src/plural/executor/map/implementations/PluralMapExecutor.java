@@ -69,21 +69,7 @@ public class PluralMapExecutor<T1, T2> extends MapExecutor<T1, T2>
 	}
 
 
-	/**
-	 * Sets the {@link PluralMap} for this {@link SplittingMapExecutor}. Setting the PluralMap after creation of the
-	 * {@link MapExecutor} allows the associated {@link PluralMap} to query the {@link SplittingMapExecutor} for
-	 * information about the work block for each thread. This method will return without setting the PluralMap if
-	 * the current PluralMap's state is not {@link PluralMap.ExecutorState#UNSTARTED}
-	 * 
-	 * @param map
-	 *            the {@link PluralMap} to execute.
-	 */
-	public void setMap(FnMap<T1, T2> map)
-	{
 
-		if (super.map != null && super.getState() != ExecutorState.UNSTARTED) return;
-		super.map = map;
-	}
 
 	
 	/**

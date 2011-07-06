@@ -28,7 +28,12 @@ public class SimpleFoldExecutor<T1> extends FoldExecutor<T1>
 		super(sourceData, t);
 	}
 
-
+	public SimpleFoldExecutor(List<T1> sourceData, T1 base, FnFold<T1, T1> t)
+	{
+		super(sourceData, base, t);
+	}
+	
+	
 	@Override
 	public int calcNumThreads()
 	{

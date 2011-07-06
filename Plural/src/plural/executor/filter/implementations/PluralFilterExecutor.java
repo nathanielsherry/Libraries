@@ -58,22 +58,6 @@ public class PluralFilterExecutor<T1> extends FilterExecutor<T1>
 	}
 
 
-	/**
-	 * Sets the {@link PluralMap} for this {@link SplittingMapExecutor}. Setting the PluralMap after creation of the
-	 * {@link MapExecutor} allows the associated {@link PluralMap} to query the {@link SplittingMapExecutor} for
-	 * information about the work block for each thread. This method will return without setting the PluralMap if
-	 * the current PluralMap's state is not {@link PluralMap.ExecutorState#UNSTARTED}
-	 * 
-	 * @param map
-	 *            the {@link PluralMap} to execute.
-	 */
-	public void setFilter(FnCondition<T1> fitler)
-	{
-
-		if (super.filter != null && super.getState() != ExecutorState.UNSTARTED) return;
-		super.filter = filter;
-	}
-
 	
 	/**
 	 * Returns the desired size of a block of work to be done. Subclasses looking to change the behaviour of this

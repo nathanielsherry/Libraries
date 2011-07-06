@@ -15,6 +15,8 @@ import plural.executor.map.MapExecutor;
  * 
  * The PluralMapExecutor is a multi-threaded {@link MapExecutor} which assigns work to the given
  * {@link PluralMap} based on the current thread number.
+ * Due to the nature of the parallelism used, the FnFold<T1, T1> fold operator must be associative 
+ * and commutative.  
  * 
  * @author Nathaniel Sherry, 2009-2010
  * 
@@ -31,7 +33,6 @@ public class PluralFoldExecutor<T1> extends FoldExecutor<T1>
 	public PluralFoldExecutor(List<T1> sourceData, FnFold<T1, T1> t)
 	{
 		super(sourceData, t);
-		
 		init(super.sourceData, t, -1);
 	}
 
@@ -39,36 +40,37 @@ public class PluralFoldExecutor<T1> extends FoldExecutor<T1>
 	public PluralFoldExecutor(List<T1> sourceData, FnFold<T1, T1> t, int threads)
 	{
 		super(sourceData, t);
-		
 		init(super.sourceData, t, threads);
 	}
 	
 
+	
+	public PluralFoldExecutor(List<T1> sourceData, T1 base, FnFold<T1, T1> t)
+	{
+		super(sourceData, base, t);
+		init(super.sourceData, t, -1);
+	}
+
+	
+	public PluralFoldExecutor(List<T1> sourceData, T1 base, FnFold<T1, T1> t, int threads)
+	{
+		super(sourceData, base, t);
+		init(super.sourceData, t, threads);
+	}
+	
+	
+	
 	private void init(List<T1> sourceData, FnFold<T1, T1> t, int threads)
 	{
 
 		threadCount = threads == -1 ? calcNumThreads() : threads;
-
+		
 		ticketManager = new TicketManager(super.getDataSize(), getDesiredBlockSize());
 
 	}
 
 
-	/**
-	 * Sets the {@link PluralMap} for this {@link SplittingMapExecutor}. Setting the PluralMap after creation of the
-	 * {@link MapExecutor} allows the associated {@link PluralMap} to query the {@link SplittingMapExecutor} for
-	 * information about the work block for each thread. This method will return without setting the PluralMap if
-	 * the current PluralMap's state is not {@link PluralMap.ExecutorState#UNSTARTED}
-	 * 
-	 * @param map
-	 *            the {@link PluralMap} to execute.
-	 */
-	public void setFold(FnFold<T1, T1> fold)
-	{
 
-		if (super.fold != null && super.getState() != ExecutorState.UNSTARTED) return;
-		super.fold = fold;
-	}
 
 	
 	/**
@@ -140,7 +142,7 @@ public class PluralFoldExecutor<T1> extends FoldExecutor<T1>
 			}
 			
 			synchronized (this) {
-				result = (  (result == null) ? runningTotal : fold.f(result, runningTotal)  );	
+				result = (  (result == null) ? runningTotal : fold.f(runningTotal, result)  );	
 			}
 			
 			if (super.executorSet != null) {

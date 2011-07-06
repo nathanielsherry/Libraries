@@ -7,6 +7,8 @@ import fava.signatures.FnFold;
 
 import plural.executor.AbstractExecutor;
 import plural.executor.ExecutorSet;
+import plural.executor.ExecutorState;
+import plural.executor.map.MapExecutor;
 
 /**
  * 
@@ -39,6 +41,15 @@ public abstract class FoldExecutor<T1> extends AbstractExecutor
 		
 	}
 	
+	
+	public FoldExecutor(List<T1> sourceData, T1 base, FnFold<T1, T1> fold)
+	{
+		this(sourceData, fold);
+		
+		this.result = base;
+		
+	}
+	
 
 	@Override
 	public int getDataSize()
@@ -47,6 +58,29 @@ public abstract class FoldExecutor<T1> extends AbstractExecutor
 	}
 
 
+	/**
+	 * Sets the {@link PluralMap} for this {@link SplittingMapExecutor}. Setting the PluralMap after creation of the
+	 * {@link MapExecutor} allows the associated {@link PluralMap} to query the {@link SplittingMapExecutor} for
+	 * information about the work block for each thread. This method will return without setting the PluralMap if
+	 * the current PluralMap's state is not {@link PluralMap.ExecutorState#UNSTARTED}
+	 * 
+	 * @param map
+	 *            the {@link PluralMap} to execute.
+	 */
+	public void setFold(FnFold<T1, T1> fold)
+	{
+
+		if (this.fold != null && super.getState() != ExecutorState.UNSTARTED) return;
+		this.fold = fold;
+	}
+	
+	
+	public void setBase(T1 base)
+	{
+		if (super.getState() != ExecutorState.UNSTARTED) return;
+		this.result = base;
+	}
+	
 	/**
 	 * Executes the MapExecutor, waiting until the processing is complete.
 	 */

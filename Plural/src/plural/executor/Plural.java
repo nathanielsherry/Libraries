@@ -18,6 +18,20 @@ public class Plural {
 	{
 		return new PluralFoldExecutor<T1>(elements, fold).executeBlocking();
 	}
+
+	/**
+	 * Due to the nature of the parallelism used, the FnFold<T1, T1> fold operator
+	 * must be associative and commutative.  
+	 * @param <T1>
+	 * @param elements
+	 * @param base
+	 * @param fold
+	 * @return
+	 */
+	public static <T1> T1 fold(List<T1> elements, T1 base, FnFold<T1, T1> fold)
+	{
+		return new PluralFoldExecutor<T1>(elements, base, fold).executeBlocking();
+	}
 	
 	
 	public static <T1, T2> List<T2> map(List<T1> elements, FnMap<T1, T2> map)
