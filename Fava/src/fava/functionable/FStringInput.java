@@ -11,12 +11,12 @@ import java.io.LineNumberReader;
 import java.io.Reader;
 import java.io.StringReader;
 import java.nio.channels.ReadableByteChannel;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
-import javax.xml.ws.WebServiceException;
-
+import fava.Functions;
 import fava.signatures.FnMap;
 
 import sun.nio.ch.ChannelInputStream;
@@ -35,6 +35,9 @@ public class FStringInput extends Functionable<String> implements Closeable{
 	private CustomReader reader;
 	
 	
+
+	private FStringInput() {}
+
 	private FStringInput(File file, Pattern delim) throws FileNotFoundException {
 		scanner = new Scanner(file).useDelimiter(delim);
 	}
@@ -80,35 +83,35 @@ public class FStringInput extends Functionable<String> implements Closeable{
 
 	
 	public static FStringInput lines(File file) throws FileNotFoundException {
-		FStringInput f = new FStringInput(file, linebreakPattern);
+		FStringInput f = new FStringInput();
 		f.scannerMode = false;
 		f.reader = new LinesReader(file);
 		return f;
 	}
 	
 	public static FStringInput lines(Readable readable) {
-		FStringInput f =  new FStringInput(readable, linebreakPattern);
+		FStringInput f =  new FStringInput();
 		f.scannerMode = false;
 		f.reader = new LinesReader(readable);
 		return f;
 	}
 	
 	public static FStringInput lines(InputStream instream) {
-		FStringInput f =  new FStringInput(instream, linebreakPattern);
+		FStringInput f =  new FStringInput();
 		f.scannerMode = false;
 		f.reader = new LinesReader(instream);
 		return f;
 	}
 	
 	public static FStringInput lines(ReadableByteChannel channel) {
-		FStringInput f =  new FStringInput(channel, linebreakPattern);
+		FStringInput f =  new FStringInput();
 		f.scannerMode = false;
 		f.reader = new LinesReader(channel);
 		return f;
 	}
 	
 	public static FStringInput lines(String source) {
-		FStringInput f =  new FStringInput(source, linebreakPattern);
+		FStringInput f =  new FStringInput();
 		f.scannerMode = false;
 		f.reader = new LinesReader(source);
 		return f;
@@ -118,43 +121,66 @@ public class FStringInput extends Functionable<String> implements Closeable{
 	
 	
 	public static FStringInput words(File file) throws FileNotFoundException {
-		FStringInput f = new FStringInput(file, whitespacePattern);
+		FStringInput f = new FStringInput();
 		f.scannerMode = false;
 		f.reader = new WordsReader(file);
 		return f;
 	}
 	
 	public static FStringInput words(Readable readable) {
-		FStringInput f =  new FStringInput(readable, whitespacePattern);
+		FStringInput f =  new FStringInput();
 		f.scannerMode = false;
 		f.reader = new WordsReader(readable);
 		return f;
 	}
 	
 	public static FStringInput words(InputStream instream) {
-		FStringInput f =  new FStringInput(instream, whitespacePattern);
+		FStringInput f =  new FStringInput();
 		f.scannerMode = false;
 		f.reader = new WordsReader(instream);
 		return f;
 	}
 	
 	public static FStringInput words(ReadableByteChannel channel) {
-		FStringInput f =  new FStringInput(channel, whitespacePattern);
+		FStringInput f =  new FStringInput();
 		f.scannerMode = false;
 		f.reader = new WordsReader(channel);
 		return f;
 	}
 	
 	public static FStringInput words(String source) {
-		FStringInput f =  new FStringInput(source, whitespacePattern);
+		FStringInput f =  new FStringInput();
 		f.scannerMode = false;
 		f.reader = new WordsReader(source);
 		return f;
 	}
 
-	
+
 	
 	/*
+
+	public static FStringInput lines(File file) throws FileNotFoundException {
+		return new FStringInput(file, linebreakPattern);
+	}
+	
+	public static FStringInput lines(Readable readable) {
+		return new FStringInput(readable, linebreakPattern);
+	}
+	
+	public static FStringInput lines(InputStream instream) {
+		return new FStringInput(instream, linebreakPattern);
+	}
+	
+	public static FStringInput lines(ReadableByteChannel channel) {
+		return new FStringInput(channel, linebreakPattern);
+	}
+	
+	public static FStringInput lines(String source) {
+		return new FStringInput(source, linebreakPattern);
+	}
+	
+	
+
 	public static FStringInput words(File file) throws FileNotFoundException {
 		return new FStringInput(file, whitespacePattern);
 	}
@@ -303,114 +329,138 @@ public class FStringInput extends Functionable<String> implements Closeable{
 	}
 	
 	
-	public static void main(String[] args) throws FileNotFoundException {
-		
-		
-		
+	public static void test(boolean verbose, int times, String filename) throws FileNotFoundException
+	{
+
 		long t1, t2;
 		
-		
-		
-		File file = new File("/home/nathaniel/Projects/Peakaboo Data/ScratchPlainText.txt");
+		File file = new File(filename);
 		
 		FStringInput f;
-		String output = "";
+		FList<String> o1 = null;
+		FList<String> o2 = null;
 		
 		
 		t1 = System.currentTimeMillis();
-		for (int i = 0; i < 100; i++){ 
+		for (int i = 0; i < 1; i++){ 
 			
 			f = FStringInput.lines(file);
 			//f = new FStringInput(file, FStringInput.linebreakPattern);
 			
-			output = f.map(new FnMap<String, Integer>() {
+			o1 = f.map(new FnMap<String, String>() {
 	
 				@Override
-				public Integer f(String v) {
-					return v.length();
+				public String f(String v) {
+					return v;
 				}
-			}).take(100).show();
+			}).toSink();
 			
 		}
 		
-		System.out.println(output);
-		
+				
 		t2 = System.currentTimeMillis();
-		System.out.println("Custom - Lines: " + (t2-t1));
+		if (verbose) System.out.println("Custom - Lines: " + (t2-t1));
 		
 		
 		
 		
 		t1 = System.currentTimeMillis();
-		for (int i = 0; i < 100; i++){ 
+		for (int i = 0; i < 1; i++){ 
 			
 			//f = FStringInput.lines(file);
 			f = new FStringInput(file, FStringInput.linebreakPattern);
 			
-			output = f.map(new FnMap<String, Integer>() {
+			o2 = f.map(new FnMap<String, String>() {
 	
 				@Override
-				public Integer f(String v) {
-					return v.length();
+				public String f(String v) {
+					return v;
 				}
-			}).take(100).show();
+			}).toSink();
 			
 		}
 		
-		System.out.println(output);
 		
 		t2 = System.currentTimeMillis();
-		System.out.println("Scanner - Lines: " + (t2-t1));
+		if (verbose) System.out.println("Scanner - Lines: " + (t2-t1));
+		
+		if (verbose) System.out.println(o1.zipEquiv(o2).fold(Functions.and()));
+		
+		
+		
 		
 		
 		
 		
 		t1 = System.currentTimeMillis();
-		for (int i = 0; i < 100; i++){ 
+		for (int i = 0; i < 1; i++){ 
 			
 			f = FStringInput.words(file);
 			//f = new FStringInput(file, FStringInput.linebreakPattern);
 			
-			output = f.map(new FnMap<String, String>() {
+			o1 = f.map(new FnMap<String, String>() {
 				
 				@Override
 				public String f(String v) {
 					return v;
 				}
-			}).take(100).show();
+			}).toSink();
 			
 		}
 		
-		System.out.println(output);
 		
 		t2 = System.currentTimeMillis();
-		System.out.println("Custom - Words: " + (t2-t1));
+		if (verbose) System.out.println("Custom - Words: " + (t2-t1));
 		
 		
 		
 		
 		t1 = System.currentTimeMillis();
-		for (int i = 0; i < 100; i++){ 
+		for (int i = 0; i < 1; i++){ 
 			
 			//f = FStringInput.lines(file);
 			f = new FStringInput(file, FStringInput.whitespace);
 			
-			output = f.map(new FnMap<String, String>() {
+			o2 = f.map(new FnMap<String, String>() {
 	
 				@Override
 				public String f(String v) {
 					return v;
 				}
-			}).take(100).show();
+			}).toSink();
 			
 		}
 		
-		System.out.println(output);
+		
+		
 		
 		t2 = System.currentTimeMillis();
-		System.out.println("Scanner - Words: " + (t2-t1));
+		if (verbose) System.out.println("Scanner - Words: " + (t2-t1));
+		
+		//System.out.println(o1.show());
+		//System.out.println(o2.show());
+		
+		if (verbose) System.out.println(o1.zipEquiv(o2).fold(Functions.and()));
 		
 	}
+	
+	
+	public static void main(String[] args) throws FileNotFoundException {
+		
+		
+		test(false, 1, "/home/nathaniel/Projects/Peakaboo/Datasets/Lovina7PlainText.txt");
+		test(true, 1, "/home/nathaniel/Projects/Peakaboo/Datasets/Lovina7PlainText.txt");
+		
+		System.out.println("**********");
+		
+		test(false, 1, "/home/nathaniel/Projects/Lorem Ipsum.txt");
+		test(true, 1, "/home/nathaniel/Projects/Lorem Ipsum.txt");
+		
+	}
+		
+		
+		
+		
 
 	
 }
@@ -464,17 +514,34 @@ class LinesReader implements CustomReader
 			public boolean hasNext() {
 				
 				if (line != null) return true;
-				if (done) return false;
+				if (done) {
+					try {
+						close();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+					return false;
+				}
 				
 				//so line is null
 				try {
 					line = reader.readLine();
 					if (line == null) {
 						done = true;
+						try {
+							close();
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
 						return false;
 					}
 				} catch (IOException e) {
 					done = true;
+					try {
+						close();
+					} catch (IOException e2) {
+						e.printStackTrace();
+					}
 					return false;
 				}
 				
@@ -549,19 +616,28 @@ class WordsReader implements CustomReader
 		return new Iterator<String>(){
 
 			FList<String> words = new FList<String>();
+			int wordIndex = 0;
 			
 			@Override
 			public boolean hasNext() {
 				
-				if (words.size() > 0) return true;
+				if (wordIndex < words.size()) return true;
 				
 				//words is empty
-				while (words.size() == 0) {
+				//while word is empty, or only holding a blank line
+				while (wordIndex >= words.size() || words.size() == 0 || (words.size() == 1 && words.get(0).equals(""))) {
 					if (linesIterator.hasNext()){
-						words = new FList<String>(linesIterator.next().split(FStringInput.whitespace));
+						words = FList.wrap(Arrays.asList(linesIterator.next().split(FStringInput.whitespace)));
+						wordIndex = 0;
 					} else {
+						try {
+							close();
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
 						return false;
 					}
+										
 				}
 				
 				return true;
@@ -571,7 +647,7 @@ class WordsReader implements CustomReader
 			@Override
 			public String next() {
 				if (!hasNext()) throw new IndexOutOfBoundsException();
-				return words.shift();
+				return words.get(wordIndex++);
 			}
 
 			@Override
