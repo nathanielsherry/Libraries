@@ -24,15 +24,15 @@ import sun.nio.ch.ChannelInputStream;
 
 public class FStringInput extends Functionable<String> implements Closeable{
 
-	private static String linebreak = "\r\n|[\n\r\u2028\u2029\u0085]";
-	private static String whitespace = "\\s+";
+	static String linebreak = "\r\n|[\n\r\u2028\u2029\u0085]";
+	static String whitespace = "\\s+";
 	
-	private static Pattern linebreakPattern = Pattern.compile(linebreak);
-	private static Pattern whitespacePattern = Pattern.compile(whitespace);
+	static Pattern linebreakPattern = Pattern.compile(linebreak);
+	static Pattern whitespacePattern = Pattern.compile(whitespace);
 	
 	private boolean scannerMode = true;
 	private Scanner scanner;
-	private LinesReader linesReader;
+	private CustomReader reader;
 	
 	
 	private FStringInput(File file, Pattern delim) throws FileNotFoundException {
@@ -82,42 +82,79 @@ public class FStringInput extends Functionable<String> implements Closeable{
 	public static FStringInput lines(File file) throws FileNotFoundException {
 		FStringInput f = new FStringInput(file, linebreakPattern);
 		f.scannerMode = false;
-		f.linesReader = new LinesReader(file);
+		f.reader = new LinesReader(file);
 		return f;
 	}
 	
 	public static FStringInput lines(Readable readable) {
 		FStringInput f =  new FStringInput(readable, linebreakPattern);
 		f.scannerMode = false;
-		f.linesReader = new LinesReader(readable);
+		f.reader = new LinesReader(readable);
 		return f;
 	}
 	
 	public static FStringInput lines(InputStream instream) {
 		FStringInput f =  new FStringInput(instream, linebreakPattern);
 		f.scannerMode = false;
-		f.linesReader = new LinesReader(instream);
+		f.reader = new LinesReader(instream);
 		return f;
 	}
 	
 	public static FStringInput lines(ReadableByteChannel channel) {
 		FStringInput f =  new FStringInput(channel, linebreakPattern);
 		f.scannerMode = false;
-		f.linesReader = new LinesReader(channel);
+		f.reader = new LinesReader(channel);
 		return f;
 	}
 	
 	public static FStringInput lines(String source) {
 		FStringInput f =  new FStringInput(source, linebreakPattern);
 		f.scannerMode = false;
-		f.linesReader = new LinesReader(source);
+		f.reader = new LinesReader(source);
 		return f;
 	}
 	
+	
+	
+	
+	public static FStringInput words(File file) throws FileNotFoundException {
+		FStringInput f = new FStringInput(file, whitespacePattern);
+		f.scannerMode = false;
+		f.reader = new WordsReader(file);
+		return f;
+	}
+	
+	public static FStringInput words(Readable readable) {
+		FStringInput f =  new FStringInput(readable, whitespacePattern);
+		f.scannerMode = false;
+		f.reader = new WordsReader(readable);
+		return f;
+	}
+	
+	public static FStringInput words(InputStream instream) {
+		FStringInput f =  new FStringInput(instream, whitespacePattern);
+		f.scannerMode = false;
+		f.reader = new WordsReader(instream);
+		return f;
+	}
+	
+	public static FStringInput words(ReadableByteChannel channel) {
+		FStringInput f =  new FStringInput(channel, whitespacePattern);
+		f.scannerMode = false;
+		f.reader = new WordsReader(channel);
+		return f;
+	}
+	
+	public static FStringInput words(String source) {
+		FStringInput f =  new FStringInput(source, whitespacePattern);
+		f.scannerMode = false;
+		f.reader = new WordsReader(source);
+		return f;
+	}
 
 	
 	
-	
+	/*
 	public static FStringInput words(File file) throws FileNotFoundException {
 		return new FStringInput(file, whitespacePattern);
 	}
@@ -137,7 +174,7 @@ public class FStringInput extends Functionable<String> implements Closeable{
 	public static FStringInput words(String source) {
 		return new FStringInput(source, whitespacePattern);
 	}
-	
+	*/
 	
 	
 	
@@ -250,7 +287,7 @@ public class FStringInput extends Functionable<String> implements Closeable{
 		if (scannerMode){
 			return scanner;
 		} else {
-			return linesReader.iterator();
+			return reader.iterator();
 		}
 	}
 
@@ -260,7 +297,7 @@ public class FStringInput extends Functionable<String> implements Closeable{
 		if (scannerMode) { 
 			scanner.close(); 
 		} else { 
-			linesReader.close();
+			reader.close();
 		}
 		
 	}
@@ -275,57 +312,116 @@ public class FStringInput extends Functionable<String> implements Closeable{
 		
 		
 		File file = new File("/home/nathaniel/Projects/Peakaboo Data/ScratchPlainText.txt");
+		
 		FStringInput f;
+		String output = "";
+		
 		
 		t1 = System.currentTimeMillis();
-		for (int i = 0; i < 10; i++){ 
+		for (int i = 0; i < 100; i++){ 
 			
 			f = FStringInput.lines(file);
 			//f = new FStringInput(file, FStringInput.linebreakPattern);
 			
-			f.map(new FnMap<String, Integer>() {
+			output = f.map(new FnMap<String, Integer>() {
 	
 				@Override
 				public Integer f(String v) {
 					return v.length();
 				}
-			});
+			}).take(100).show();
 			
 		}
 		
+		System.out.println(output);
+		
 		t2 = System.currentTimeMillis();
-		System.out.println("LineNumberReader: " + (t2-t1));
+		System.out.println("Custom - Lines: " + (t2-t1));
 		
 		
 		
 		
 		t1 = System.currentTimeMillis();
-		for (int i = 0; i < 10; i++){ 
+		for (int i = 0; i < 100; i++){ 
 			
 			//f = FStringInput.lines(file);
 			f = new FStringInput(file, FStringInput.linebreakPattern);
 			
-			f.map(new FnMap<String, Integer>() {
+			output = f.map(new FnMap<String, Integer>() {
 	
 				@Override
 				public Integer f(String v) {
 					return v.length();
 				}
-			});
+			}).take(100).show();
 			
 		}
 		
+		System.out.println(output);
+		
 		t2 = System.currentTimeMillis();
-		System.out.println("Scanner: " + (t2-t1));
+		System.out.println("Scanner - Lines: " + (t2-t1));
+		
+		
+		
+		
+		t1 = System.currentTimeMillis();
+		for (int i = 0; i < 100; i++){ 
+			
+			f = FStringInput.words(file);
+			//f = new FStringInput(file, FStringInput.linebreakPattern);
+			
+			output = f.map(new FnMap<String, String>() {
+				
+				@Override
+				public String f(String v) {
+					return v;
+				}
+			}).take(100).show();
+			
+		}
+		
+		System.out.println(output);
+		
+		t2 = System.currentTimeMillis();
+		System.out.println("Custom - Words: " + (t2-t1));
+		
+		
+		
+		
+		t1 = System.currentTimeMillis();
+		for (int i = 0; i < 100; i++){ 
+			
+			//f = FStringInput.lines(file);
+			f = new FStringInput(file, FStringInput.whitespace);
+			
+			output = f.map(new FnMap<String, String>() {
+	
+				@Override
+				public String f(String v) {
+					return v;
+				}
+			}).take(100).show();
+			
+		}
+		
+		System.out.println(output);
+		
+		t2 = System.currentTimeMillis();
+		System.out.println("Scanner - Words: " + (t2-t1));
 		
 	}
 
 	
 }
 
+interface CustomReader extends Iterable<String>, Closeable
+{
+	
+}
 
 
-class LinesReader implements Iterable<String>, Closeable
+class LinesReader implements CustomReader
 {
 
 	private LineNumberReader reader;
@@ -408,6 +504,81 @@ class LinesReader implements Iterable<String>, Closeable
 	
 	public void close() throws IOException{
 		reader.close();
+	}
+	
+}
+
+class WordsReader implements CustomReader
+{
+	private LinesReader linesReader;
+	private Iterator<String> linesIterator;
+
+	public WordsReader(Reader r) {
+		linesReader = new LinesReader(r);
+		linesIterator = linesReader.iterator();
+	}
+	
+	public WordsReader(String s) {
+		this(new StringReader(s));
+	}
+	
+	public WordsReader(ReadableByteChannel r) {
+		this(new ChannelInputStream(r));
+	}
+	
+	public WordsReader(File f) throws FileNotFoundException {
+		this(new FileReader(f));
+	}
+	
+	public WordsReader(InputStream i) {
+		this(new InputStreamReader(i));
+	}
+	
+	public WordsReader(Readable r) {
+		this(new ReadableReader(r));
+	}
+	
+	@Override
+	public void close() throws IOException {
+		linesReader.close();
+	}
+
+	@Override
+	public Iterator<String> iterator() {
+		
+		return new Iterator<String>(){
+
+			FList<String> words = new FList<String>();
+			
+			@Override
+			public boolean hasNext() {
+				
+				if (words.size() > 0) return true;
+				
+				//words is empty
+				while (words.size() == 0) {
+					if (linesIterator.hasNext()){
+						words = new FList<String>(linesIterator.next().split(FStringInput.whitespace));
+					} else {
+						return false;
+					}
+				}
+				
+				return true;
+				
+			}
+
+			@Override
+			public String next() {
+				if (!hasNext()) throw new IndexOutOfBoundsException();
+				return words.shift();
+			}
+
+			@Override
+			public void remove() {
+				throw new UnsupportedOperationException();
+			}};
+		
 	}
 	
 }
