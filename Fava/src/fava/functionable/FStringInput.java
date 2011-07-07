@@ -3,14 +3,23 @@ package fava.functionable;
 import java.io.Closeable;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.LineNumberReader;
+import java.io.Reader;
+import java.io.StringReader;
 import java.nio.channels.ReadableByteChannel;
 import java.util.Iterator;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
 import javax.xml.ws.WebServiceException;
+
+import fava.signatures.FnMap;
+
+import sun.nio.ch.ChannelInputStream;
 
 
 public class FStringInput extends Functionable<String> implements Closeable{
@@ -21,7 +30,9 @@ public class FStringInput extends Functionable<String> implements Closeable{
 	private static Pattern linebreakPattern = Pattern.compile(linebreak);
 	private static Pattern whitespacePattern = Pattern.compile(whitespace);
 	
+	private boolean scannerMode = true;
 	private Scanner scanner;
+	private LinesReader linesReader;
 	
 	
 	private FStringInput(File file, Pattern delim) throws FileNotFoundException {
@@ -69,23 +80,38 @@ public class FStringInput extends Functionable<String> implements Closeable{
 
 	
 	public static FStringInput lines(File file) throws FileNotFoundException {
-		return new FStringInput(file, linebreakPattern);
+		FStringInput f = new FStringInput(file, linebreakPattern);
+		f.scannerMode = false;
+		f.linesReader = new LinesReader(file);
+		return f;
 	}
 	
 	public static FStringInput lines(Readable readable) {
-		return new FStringInput(readable, linebreakPattern);
+		FStringInput f =  new FStringInput(readable, linebreakPattern);
+		f.scannerMode = false;
+		f.linesReader = new LinesReader(readable);
+		return f;
 	}
 	
 	public static FStringInput lines(InputStream instream) {
-		return new FStringInput(instream, linebreakPattern);
+		FStringInput f =  new FStringInput(instream, linebreakPattern);
+		f.scannerMode = false;
+		f.linesReader = new LinesReader(instream);
+		return f;
 	}
 	
 	public static FStringInput lines(ReadableByteChannel channel) {
-		return new FStringInput(channel, linebreakPattern);
+		FStringInput f =  new FStringInput(channel, linebreakPattern);
+		f.scannerMode = false;
+		f.linesReader = new LinesReader(channel);
+		return f;
 	}
 	
 	public static FStringInput lines(String source) {
-		return new FStringInput(source, linebreakPattern);
+		FStringInput f =  new FStringInput(source, linebreakPattern);
+		f.scannerMode = false;
+		f.linesReader = new LinesReader(source);
+		return f;
 	}
 	
 
@@ -165,35 +191,55 @@ public class FStringInput extends Functionable<String> implements Closeable{
 	public static String contents(File file) throws FileNotFoundException {
 		FStringInput sin = tokens(file, "\\Z");
 		String str = sin.iterator().next();
-		sin.close();
+		try {
+			sin.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		return str;
 	}
 	
 	public static String contents(Readable readable) { 
 		FStringInput sin = tokens(readable, "\\Z");
 		String str = sin.iterator().next();
-		sin.close();
+		try {
+			sin.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		return str;
 	}
 	
 	public static String contents(InputStream instream) { 
 		FStringInput sin = tokens(instream, "\\Z");
 		String str = sin.iterator().next();
-		sin.close();
+		try {
+			sin.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		return str;
 	}
 	
 	public static String contents(ReadableByteChannel channel) { 
 		FStringInput sin = tokens(channel, "\\Z");
 		String str = sin.iterator().next();
-		sin.close();
+		try {
+			sin.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		return str;
 	}
 	
 	public static String contents(String source) { 
 		FStringInput sin = tokens(source, "\\Z");
 		String str = sin.iterator().next();
-		sin.close();
+		try {
+			sin.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		return str;
 	}
 	
@@ -201,14 +247,167 @@ public class FStringInput extends Functionable<String> implements Closeable{
 
 	@Override
 	public Iterator<String> iterator() {
-		return scanner;
+		if (scannerMode){
+			return scanner;
+		} else {
+			return linesReader.iterator();
+		}
 	}
 
 
 	@Override
-	public void close() throws WebServiceException {
-		scanner.close();
+	public void close() throws IOException{
+		if (scannerMode) { 
+			scanner.close(); 
+		} else { 
+			linesReader.close();
+		}
+		
+	}
+	
+	
+	public static void main(String[] args) throws FileNotFoundException {
+		
+		
+		
+		long t1, t2;
+		
+		
+		
+		File file = new File("/home/nathaniel/Projects/Peakaboo Data/ScratchPlainText.txt");
+		FStringInput f;
+		
+		t1 = System.currentTimeMillis();
+		for (int i = 0; i < 10; i++){ 
+			
+			f = FStringInput.lines(file);
+			//f = new FStringInput(file, FStringInput.linebreakPattern);
+			
+			f.map(new FnMap<String, Integer>() {
+	
+				@Override
+				public Integer f(String v) {
+					return v.length();
+				}
+			});
+			
+		}
+		
+		t2 = System.currentTimeMillis();
+		System.out.println("LineNumberReader: " + (t2-t1));
+		
+		
+		
+		
+		t1 = System.currentTimeMillis();
+		for (int i = 0; i < 10; i++){ 
+			
+			//f = FStringInput.lines(file);
+			f = new FStringInput(file, FStringInput.linebreakPattern);
+			
+			f.map(new FnMap<String, Integer>() {
+	
+				@Override
+				public Integer f(String v) {
+					return v.length();
+				}
+			});
+			
+		}
+		
+		t2 = System.currentTimeMillis();
+		System.out.println("Scanner: " + (t2-t1));
+		
 	}
 
+	
+}
+
+
+
+class LinesReader implements Iterable<String>, Closeable
+{
+
+	private LineNumberReader reader;
+	
+	public LinesReader(Reader r) {
+		reader = new LineNumberReader(r);
+	}
+	
+	public LinesReader(String s) {
+		this(new StringReader(s));
+	}
+	
+	public LinesReader(ReadableByteChannel r) {
+		this(new ChannelInputStream(r));
+	}
+	
+	public LinesReader(File f) throws FileNotFoundException {
+		this(new FileReader(f));
+	}
+	
+	public LinesReader(InputStream i) {
+		this(new InputStreamReader(i));
+	}
+	
+	public LinesReader(Readable r) {
+		this(new ReadableReader(r));
+	}
+	
+	@Override
+	public Iterator<String> iterator() {
+		
+		return new Iterator<String>(){
+
+			private boolean done = false;
+			private String line = null;
+			
+			//hasnext guaranteed to make the next line available in 'line'
+			//if it isn't already there
+			@Override
+			public boolean hasNext() {
+				
+				if (line != null) return true;
+				if (done) return false;
+				
+				//so line is null
+				try {
+					line = reader.readLine();
+					if (line == null) {
+						done = true;
+						return false;
+					}
+				} catch (IOException e) {
+					done = true;
+					return false;
+				}
+				
+				return true;
+				
+				
+			}
+
+			@Override
+			public String next() {
+				
+				if (!hasNext()) throw new IndexOutOfBoundsException();
+				
+				String curLine = line;
+				line = null;
+				return curLine;
+								
+			}
+
+			@Override
+			public void remove() {
+				throw new UnsupportedOperationException();
+			}
+		};
+		
+	}
+	
+	public void close() throws IOException{
+		reader.close();
+	}
 	
 }
