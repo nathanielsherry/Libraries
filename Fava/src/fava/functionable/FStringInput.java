@@ -359,7 +359,7 @@ public class FStringInput extends Functionable<String> implements Closeable{
 		
 				
 		t2 = System.currentTimeMillis();
-		if (verbose) System.out.println("Custom - Lines: " + (t2-t1));
+		if (verbose) System.out.println("Custom - Lines: " + (t2-t1) + "ms");
 		
 		
 		
@@ -382,7 +382,7 @@ public class FStringInput extends Functionable<String> implements Closeable{
 		
 		
 		t2 = System.currentTimeMillis();
-		if (verbose) System.out.println("Scanner - Lines: " + (t2-t1));
+		if (verbose) System.out.println("Scanner - Lines: " + (t2-t1) + "ms");
 		
 		if (verbose) System.out.println(o1.zipEquiv(o2).fold(Functions.and()));
 		
@@ -410,7 +410,7 @@ public class FStringInput extends Functionable<String> implements Closeable{
 		
 		
 		t2 = System.currentTimeMillis();
-		if (verbose) System.out.println("Custom - Words: " + (t2-t1));
+		if (verbose) System.out.println("Custom - Words: " + (t2-t1) + "ms");
 		
 		
 		
@@ -435,7 +435,7 @@ public class FStringInput extends Functionable<String> implements Closeable{
 		
 		
 		t2 = System.currentTimeMillis();
-		if (verbose) System.out.println("Scanner - Words: " + (t2-t1));
+		if (verbose) System.out.println("Scanner - Words: " + (t2-t1) + "ms");
 		
 		//System.out.println(o1.show());
 		//System.out.println(o2.show());
