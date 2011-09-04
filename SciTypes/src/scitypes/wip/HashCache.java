@@ -1,10 +1,12 @@
-package scitypes;
+package scitypes.wip;
 
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
+
+import scitypes.Cache;
 
 import fava.datatypes.Maybe;
 
