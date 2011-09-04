@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import fava.Fn;
+import fava.functionable.FList;
 import fava.functionable.Range;
 import fava.signatures.FnCondition;
 import fava.signatures.FnFold;
@@ -91,7 +91,7 @@ public class PluralFilterExecutor<T1> extends FilterExecutor<T1>
 		
 		
 		//super.result = Fn.fold(results, fold);
-		int size = Fn.fold(acceptedLists, 0, new FnFold<LinkedList<T1>, Integer>() {
+		int size = FList.wrap(acceptedLists).fold(0, new FnFold<LinkedList<T1>, Integer>() {
 
 			@Override
 			public Integer f(LinkedList<T1> list, Integer sum) {
