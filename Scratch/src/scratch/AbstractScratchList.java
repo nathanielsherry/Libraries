@@ -10,7 +10,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
-import fava.Fn;
 import fava.Functions;
 import fava.functionable.FList;
 import fava.functionable.Functionable;
@@ -72,7 +71,7 @@ public abstract class AbstractScratchList<T> extends Functionable<T> implements 
 	{
 		elementPositions = new FList<Range>();
 		discardedRanges = new RangeSet();
-		raf = new RandomAccessFile(file, "rw");		
+		raf = new RandomAccessFile(file, "rw");
 	}
 	
 	protected AbstractScratchList()
@@ -124,7 +123,7 @@ public abstract class AbstractScratchList<T> extends Functionable<T> implements 
 			
 			
 						
-			Fn.sortBy(bigRanges, new Comparator<Range>() {
+			bigRanges.sort(new Comparator<Range>() {
 
 				public int compare(Range o1, Range o2) {
 					Integer s1 = o1.size();

@@ -1,10 +1,12 @@
-package scratch;
+package scratch.wip;
 
 import java.io.IOException;
 import java.io.Serializable;
 
 import scitypes.Cache;
-import scitypes.HashCache;
+import scitypes.wip.HashCache;
+import scratch.AbstractScratchList;
+import scratch.ScratchMap;
 
 public class ScratchCache<K, V extends Serializable> extends HashCache<K, V> {
 
