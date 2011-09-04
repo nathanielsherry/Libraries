@@ -1,6 +1,9 @@
 package fava.functionable;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 import fava.signatures.FnMap;
 
@@ -18,6 +21,25 @@ public class Sequence<T> extends Functionable<T>
 	private FnMap<T, T> f;
 	private T start;
 		
+	
+	
+	
+	
+	protected <T2> Collection<T2> getNewCollection()
+	{
+		return new ArrayList<T2>();
+	}
+	
+	protected <T2> FList<T2> wrapNewCollection(Collection<T2> col)
+	{
+		if (! (col instanceof List)) throw new ClassCastException();
+		return FList.wrap((ArrayList<T2>)col);
+	}
+
+	
+	
+	
+	
 	/**
 	 * Creates a new Sequence with the given starting value and {@link FnMap} to compute the following values
 	 * @param start the initial value
@@ -100,5 +122,55 @@ public class Sequence<T> extends Functionable<T>
 			}
 		};
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	////////////////////////////////////////////////
+	// Overriding Functionable Methods
+	////////////////////////////////////////////////
+
+	public <T2> FList<T2> map(FnMap<T, T2> f)
+	{
+		
+		Collection<T2> target = getNewCollection();		
+		map(this, f, target);
+		return wrapNewCollection(target);
+		
+	}
+	
+
+	public FList<T> filter(FnMap<T, Boolean> f)
+	{
+		Collection<T> target = getNewCollection();		
+		filter(this, f, target);
+		return wrapNewCollection(target);
+	}
+	
+	
+	public FList<T> take(int number)
+	{
+		Collection<T> target = getNewCollection();
+		take(this, number, target);
+		return wrapNewCollection(target);
+	}
+	
+	
+	public FList<T> takeWhile(FnMap<T, Boolean> f)
+	{
+		Collection<T> target = getNewCollection();
+		takeWhile(this, f, target);
+		return wrapNewCollection(target);
+	}
+	
+	
+	
+	
 
 }

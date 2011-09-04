@@ -1,13 +1,16 @@
 package fava.functionable;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
-import fava.Fn;
 import fava.Functions;
 import fava.signatures.FnCombine;
+import fava.signatures.FnCondition;
 import fava.signatures.FnFold;
 import fava.signatures.FnEach;
 import fava.signatures.FnMap;
+import fava.wip.FCollection;
 
 /**
  * This is a base abstract class which provides a default implementation of some of the most common functional commands. 
@@ -19,14 +22,31 @@ import fava.signatures.FnMap;
 
 public abstract class Functionable<T1> implements Iterable<T1> {
 
+	
+	protected <T> Collection<T> getNewCollection()
+	{
+		return new ArrayList<T>();
+	}
+	
+	protected <T> Functionable<T> wrapNewCollection(Collection<T> col)
+	{
+		if (! (col instanceof List)) throw new ClassCastException();
+		return FList.wrap((ArrayList<T>)col);
+	}
+
+	
+
+	
+	
 	/**
 	 * Applies the given {@link FnEach} function to each contained element. 
 	 * @param f
 	 */
 	public void each(FnEach<T1> f)
 	{
-		Fn.each(this, f);
+		each(this, f);
 	}
+	
 	
 	/**
 	 * Applies the given {@link FnMap} function to each contained element. Returns a Functionable object representing 
@@ -37,8 +57,14 @@ public abstract class Functionable<T1> implements Iterable<T1> {
 	 */
 	public <T2> Functionable<T2> map(FnMap<T1, T2> f)
 	{
-		return Fn.map(this, f);
+		
+		Collection<T2> target = getNewCollection();		
+		map(this, f, target);
+		return wrapNewCollection(target);
+		
 	}
+	
+
 	
 	/**
 	 * Applies the given {@link FnMap} function to each contained element. Returns a Functionable object containing the 
@@ -49,7 +75,9 @@ public abstract class Functionable<T1> implements Iterable<T1> {
 	 */
 	public Functionable<T1> filter(FnMap<T1, Boolean> f)
 	{
-		return Fn.filter(this, f);
+		Collection<T1> target = getNewCollection();		
+		filter(this, f, target);
+		return wrapNewCollection(target);
 	}
 	
 	/**
@@ -60,7 +88,7 @@ public abstract class Functionable<T1> implements Iterable<T1> {
 	 */
 	public T1 fold(FnFold<T1, T1> f)
 	{
-		return Fn.fold(this, f);
+		return fold(this, f);
 	}
 	
 	/**
@@ -72,7 +100,7 @@ public abstract class Functionable<T1> implements Iterable<T1> {
 	 */
 	public <T2> T2 fold(T2 base, FnFold<T1, T2> f)
 	{
-		return Fn.fold(this, base, f);
+		return fold(this, base, f);
 	}
 	
 	/**
@@ -82,7 +110,9 @@ public abstract class Functionable<T1> implements Iterable<T1> {
 	 */
 	public Functionable<T1> take(int number)
 	{
-		return Fn.take(this, number);
+		Collection<T1> target = getNewCollection();
+		take(this, number, target);
+		return wrapNewCollection(target);
 	}
 	
 	/**
@@ -93,7 +123,9 @@ public abstract class Functionable<T1> implements Iterable<T1> {
 	 */
 	public Functionable<T1> takeWhile(FnMap<T1, Boolean> f)
 	{
-		return Fn.takeWhile(this, f);
+		Collection<T1> target = getNewCollection();
+		takeWhile(this, f, target);
+		return wrapNewCollection(target);
 	}
 	
 	/**
@@ -105,7 +137,7 @@ public abstract class Functionable<T1> implements Iterable<T1> {
 	{
 		final StringBuilder sb = new StringBuilder();
 		
-		sb.append("[");
+		
 		
 		this.map(Functions.<T1>show()).each(new FnEach<String>() {
 
@@ -116,7 +148,7 @@ public abstract class Functionable<T1> implements Iterable<T1> {
 		});
 		
 		
-		return sb.substring(0, sb.length()-1) + "]";
+		return "[" + sb.substring(0, Math.max(sb.length()-1, 0)) + "]";
 	}
 	
 	/**
@@ -141,55 +173,110 @@ public abstract class Functionable<T1> implements Iterable<T1> {
 	 */
 	public FList<T1> toSink()
 	{
-		return Fn.map(this, Functions.<T1>id());
+		return new FList<T1>(this);
 	}
 	
-	/**
-	 * Group elements into collections of the given size based on their ordering. Eg: (1,2,3,4,5,6).chunk(2) => ((1, 2), (3, 4), (5, 6))
-	 * @param size the size of a collection of elements
-	 * @return nested collections of elements of the given size
-	 */
-	public Functionable<Functionable<T1>> chunk(int size)
-	{
-		
-		return Functionable.mapToFunctionable(Fn.chunk(this, size));		
-	}
 	
-	/**
-	 * Group the elements into collections based on equality. Eg: (1, 2, 1, 2, 3).group() => ((1, 1), (2, 2), (3))
-	 * @return nested collections of equivalent elements
-	 */
-	public Functionable<Functionable<T1>> group()
-	{
-		return Functionable.mapToFunctionable(Fn.group(this));
-	}
 	
-	/**
-	 * Group the elements into collections based on the supplied FnCombine, which should accept two elements and return 
-	 * true if the elements belong in the same group
-	 * @param f the {@link FnCombine} function for determining if two elements belong in the same group
-	 * @return nested collections of elements which belong in the same group
-	 */
-	public Functionable<Functionable<T1>> groupBy(FnCombine<T1, Boolean> f)
-	{
-		return Functionable.mapToFunctionable(Fn.groupBy(this, f));
-	}
 	
-	/**
-	 * For internal use, maps a Functionable object containing {@link List}s to a Functionable object containing other Functionable objects
-	 * @param <T>
-	 * @param list
-	 * @return
-	 */
-	protected static <T> Functionable<Functionable<T>> mapToFunctionable(Functionable<List<T>> list)
-	{
-		return list.map(new FnMap<List<T>, Functionable<T>>() {
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
-			public Functionable<T> f(List<T> element) {
-				return FList.<T>wrap(element);
-			}
-		});
+	protected static <S1> void each(Iterable<S1> source, FnEach<S1> f)
+	{
+		for (S1 s : source)
+		{
+			f.f(s);
+		}
+
 	}
+	
+	protected static <S1, S2> Collection<S2> map(Iterable<S1> source, FnMap<S1, S2> f, Collection<S2> target)
+	{
+		for (S1 s : source)
+		{
+			target.add(f.f(s));
+		}
+		
+		return target;
+	}
+	
+	
+	protected static <S1> Collection<S1> filter(Iterable<S1> source, FnMap<S1, Boolean> f, Collection<S1> target)
+	{
+		for (S1 s : source)
+		{
+			if (f.f(s)) target.add(s);
+		}
+		
+		return target;
+	}
+	
+	
+	protected static <S1> S1 fold(Iterable<S1> source, FnFold<S1, S1> f)
+	{
+		S1 acc = null;
+		boolean first = true;
+		
+		for (S1 s : source)
+		{
+			if (first) { acc = s; }
+			else { acc = f.f(s, acc); }
+		}
+		
+		return acc;
+	}
+	
+	
+	protected static <S1, S2> S2 fold(Iterable<S1> source, S2 base, FnFold<S1, S2> f)
+	{
+		S2 acc = base;
+		
+		for (S1 s : source)
+		{
+			acc = f.f(s, acc);
+		}
+		
+		return acc;
+	}
+	
+	
+	
+	
+	protected static <S1> Collection<S1> take(Iterable<S1> source, int number, Collection<S1> target)
+	{
+		int count = 0;
+		for (S1 s : source)
+		{
+			target.add(s);
+			count++;
+			if (count == number) break;
+		}
+		
+		return target;
+	}
+	
+	
+	protected static <S1> Collection<S1> takeWhile(Iterable<S1> source, FnMap<S1, Boolean> f, Collection<S1> target)
+	{
+		for (S1 s : source)
+		{
+			if (!f.f(s)) break;
+			target.add(s);
+		}
+		
+		return target;
+	}
+	
 	
 	
 	

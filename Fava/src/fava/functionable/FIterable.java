@@ -16,6 +16,13 @@ public class FIterable<T> extends Functionable<T>
 		backing = iterable;
 	}
 
+	
+	public static <T> FIterable<T> wrap(Iterable<T> it)
+	{
+		if (it instanceof FIterable) return (FIterable<T>)it;
+		return new FIterable<T>(it);
+	}
+	
 	/**
 	 * Create a new FIterable out of an old {@link Enumeration}
 	 * @param enumeration
@@ -48,18 +55,6 @@ public class FIterable<T> extends Functionable<T>
 		};
 	}
 	
-	
-	public FIterable(final Iterator<T> iterator) {
-		backing = new Iterable<T>() {
-
-			@Override
-			public Iterator<T> iterator() {
-				
-				return iterator;
-				
-			}
-		};
-	}
 	
 	
 	@Override
