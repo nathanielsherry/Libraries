@@ -3,23 +3,14 @@ package commonenvironment;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.List;
 
-import javax.jnlp.FileContents;
-import javax.jnlp.FileOpenService;
-import javax.jnlp.FileSaveService;
-import javax.jnlp.ServiceManager;
-import javax.jnlp.UnavailableServiceException;
-
-import fava.Fn;
 import fava.Functions;
 import fava.functionable.FList;
 import fava.functionable.FStringInput;
-import fava.signatures.FnMap;
 
 
 

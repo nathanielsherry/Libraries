@@ -30,7 +30,7 @@ public class Apps
 		} catch (Exception e)
 		{
 						
-			//this must be java 5
+			//this must be java 5 or earlier
 			openDocument(url);
 			
 		}
@@ -40,51 +40,42 @@ public class Apps
 
 	private static void openDocument(final String location)
 	{
-		Env.perOS(new Env.PerOS(){
-			
-			public void windows()
-			{
+		switch (Env.getOS()) 
+		{
+			case WINDOWS:
 				try
 				{
 					//proper way of launching a webpage viewer
 					Runtime.getRuntime().exec("start " + location);
 				}
-				catch (IOException e)
-				{
-				}
-			}
-			
-		
-			public void unix()
-			{
-				try
-				{
-					//proper way of launching a webpage viewer
-					Runtime.getRuntime().exec("xdg-open " + location);
-				}
-				catch (IOException e)
-				{						
-				}
-			}
-			
-		
-			public void other()
-			{					
-			}
-			
-			
-			public void mac()
-			{
+				catch (IOException e){}
+				break;
+				
+			case MAC:
+				
 				try
 				{
 					//proper way of launching a webpage viewer
 					Runtime.getRuntime().exec("open " + location);
 				}
-				catch (IOException e)
+				catch (IOException e){}
+				break;
+			
+			case UNIX:
+			case OTHER:
+			default:
+				
+				try
 				{
+					//proper way of launching a webpage viewer
+					Runtime.getRuntime().exec("xdg-open " + location);
 				}
-			}
-		});
+				catch (IOException e){}
+				break;
+
+			
+		}
+
 	}
 	
 }

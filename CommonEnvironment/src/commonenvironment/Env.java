@@ -13,22 +13,25 @@ import javax.jnlp.ServiceManager;
 public class Env
 {
 
-	public static boolean inJar(Class<?> classInJar)
+	public enum OS {
+		WINDOWS,
+		MAC,
+		UNIX,
+		OTHER
+	}
+	
+	public static boolean isClassInJar(Class<?> classInJar)
 	{
 		Env env = new Env();
 		String className = classInJar.getName().replace('.', '/');
 		String classJar = env.getClass().getResource("/" + className + ".class").toString();
 		return classJar.startsWith("jar:");
 	}
-	public static boolean inJar()
-	{
-		return inJar(Env.class);
-	}
 	
 
-	public static File jarFile(Class<?> classInJar)
+	public static File getJarForClass(Class<?> classInJar)
 	{
-		if (!inJar(classInJar)) return null;
+		if (!isClassInJar(classInJar)) return null;
 		try {
 			return new File(classInJar.getProtectionDomain().getCodeSource().getLocation().toURI());
 		} catch (URISyntaxException e) {
@@ -36,11 +39,7 @@ public class Env
 		}
 	}
 	
-	public static File jarFile()
-	{
-		return jarFile(Env.class);
-	}
-	
+
 
 	public static boolean isWindows()
 	{
@@ -71,6 +70,14 @@ public class Env
 
 	}
 
+	
+	public static Env.OS getOS()
+	{
+		if (isWindows()) return OS.WINDOWS;
+		if (isMac()) return OS.MAC;
+		if (isUnix()) return OS.UNIX;
+		return OS.OTHER;
+	}
 
 	public static boolean isWebStart()
 	{
@@ -79,38 +86,29 @@ public class Env
 	
 	public static int heapSize()
 	{
-		return (int)(Runtime.getRuntime().maxMemory() / 1024f / 1024f);
+		return (int)(heapSizeBytes() / 1024f / 1024f);
+	}
+	
+	public static int heapSizeBytes()
+	{
+		return (int) Runtime.getRuntime().maxMemory();
 	}
 	
 	
 	public static File appDataDirectory(String appname)
 	{
-		
-		if (isWindows())
+		switch (getOS())
 		{
-			return new File(System.getenv("APPDATA") + "\\" + appname);
-		} else if (isMac()) {
-			return new File(System.getProperty("user.home") + "/Library/Application Support/" + appname);
-		} else {
-			return new File(System.getProperty("user.home") + "/.config/" + appname);
+			case WINDOWS: return new File(System.getenv("APPDATA") + "\\" + appname);
+			case MAC: return new File(System.getProperty("user.home") + "/Library/Application Support/" + appname);
+			
+			case OTHER:
+			case UNIX:
+			default:
+				return new File(System.getProperty("user.home") + "/.config/" + appname);
 		}
-	}
-	
-	public static void perOS(PerOS action)
-	{
-		if (isWindows()) 	{ action.windows(); return; }
-		if (isMac()) 		{ action.mac(); 	return; }
-		if (isUnix()) 		{ action.unix();	return; }
-		
-		action.other();
-	}
 
-	public interface PerOS
-	{
-		public void windows();
-		public void mac();
-		public void unix();
-		public void other();
 	}
 	
+
 }
