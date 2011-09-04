@@ -21,7 +21,7 @@ import javax.swing.JOptionPane;
 import commonenvironment.AbstractFile;
 import commonenvironment.Env;
 
-import fava.Fn;
+import fava.functionable.FList;
 import fava.signatures.FnMap;
 
 import swidget.icons.IconSize;
@@ -73,7 +73,7 @@ public class SwidgetIO
 			int returnVal = chooser.showOpenDialog(parent);
 			if (returnVal == JFileChooser.APPROVE_OPTION)
 			{
-				return Fn.map(chooser.getSelectedFiles(), new FnMap<File, AbstractFile>() {
+				return new FList<File>(chooser.getSelectedFiles()).map(new FnMap<File, AbstractFile>() {
 
 					public AbstractFile f(File f)
 					{
@@ -218,7 +218,7 @@ public class SwidgetIO
 		{
 			fos = (FileOpenService) ServiceManager.lookup("javax.jnlp.FileOpenService");
 			
-			return Fn.map(fos.openMultiFileDialog(path, extensions), new FnMap<FileContents, AbstractFile>(){
+			return new FList<FileContents>(fos.openMultiFileDialog(path, extensions)).map(new FnMap<FileContents, AbstractFile>(){
 
 				
 				public AbstractFile f(FileContents element)

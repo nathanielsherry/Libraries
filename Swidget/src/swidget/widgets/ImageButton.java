@@ -19,7 +19,6 @@ import javax.swing.JButton;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 
-import fava.Fn;
 import fava.Functions;
 import fava.functionable.FList;
 
@@ -428,7 +427,7 @@ public class ImageButton extends JButton
 		String line = "";
 		Graphics g = c.getGraphics();
 		
-		FList<String> chars = Fn.map(text.split(" "), Functions.<String>id());
+		FList<String> chars = new FList<String>(text.split(" "));
 		
 		
 		lines.clear();
