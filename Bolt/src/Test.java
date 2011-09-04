@@ -4,6 +4,7 @@ import javax.script.ScriptEngineManager;
 import bolt.compiler.BoltJavaMap;
 import bolt.scripting.BoltScripter;
 import bolt.scripting.BoltMap;
+import bolt.scripting.languages.Language;
 
 import fava.functionable.FList;
 import fava.functionable.Range;
@@ -12,16 +13,16 @@ import fava.signatures.FnMap;
 
 public class Test {
 
-	private static final int rangeSize = 10000;
+	private static final int rangeSize = 1000000;
 	
 	public static void main(String args[])
 	{
 		
 		//listScriptingEngines();
-		//compiling();
-		//script();
+		compiling();
+		script();
 		
-		System.out.println(Integer.class.getSimpleName());
+		//System.out.println(Integer.class.getSimpleName());
 		
 	}
 	
@@ -168,7 +169,7 @@ public class Test {
 		*/
 		
 		
-		inc = new BoltMap<Integer, Integer>("python", "i", "j", 
+		inc = new BoltMap<Integer, Integer>(Language.python(), "i", "j", 
 			"j = i+1;"
 		);
 		
@@ -186,7 +187,7 @@ public class Test {
 		
 		
 		
-		inc = new BoltMap<Integer, Integer>("js", "i", "j", 
+		inc = new BoltMap<Integer, Integer>(Language.javascript(), "i", "j", 
 				"j = i+1"
 		);
 		
@@ -232,7 +233,7 @@ public class Test {
         	try {
         		System.out.print(factory.getEngineName() + ": ");        		
         		
-        		new BoltScripter(factory.getLanguageName(), "");
+        		new BoltScripter(factory.getLanguageName(), false, "");
         		        		
         		System.out.println("PASS");
         		factories.add(factory);

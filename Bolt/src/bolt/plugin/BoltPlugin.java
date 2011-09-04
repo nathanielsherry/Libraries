@@ -26,11 +26,13 @@ public abstract class BoltPlugin {
 		catch (InstantiationException e)
 		{
 			e.printStackTrace();
+			System.out.println(f);
 			return null;
 		}
 		catch (IllegalAccessException e)
 		{
 			e.printStackTrace();
+			System.out.println(f);
 			return null;
 		}
 	}
