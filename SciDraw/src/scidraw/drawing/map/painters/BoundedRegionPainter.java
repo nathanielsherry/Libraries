@@ -12,16 +12,14 @@ public class BoundedRegionPainter extends MapPainter
 
 	private Coord<Integer> cstart, cend;
 	private Color c;
-	private boolean flipY;
 	
-	public BoundedRegionPainter(Color c, Coord<Integer> cstart, Coord<Integer> cend, boolean flipY)
+	public BoundedRegionPainter(Color c, Coord<Integer> cstart, Coord<Integer> cend)
 	{
 		super(new SingleColourPalette(c), null);
 		
 		this.cstart = cstart;
 		this.cend = cend;
 		this.c = c;
-		this.flipY = flipY;
 	}
 
 	@Override
@@ -32,25 +30,20 @@ public class BoundedRegionPainter extends MapPainter
 		
 		startX 	= cstart.x;
 		endX 	= cend.x;
-		startY 	= flipY ? p.dr.uninterpolatedHeight - cstart.y 	: cstart.y;
-		endY 	= flipY ? p.dr.uninterpolatedHeight - (cend.y) 		: cend.y;
+		startY 	= cstart.y;
+		endY 	= cend.y;
 		
 		if (startX > endX) 
 			startX+=1;
 		else
 			endX +=1;
 		
-		if (flipY) {
-			if (startY < endY)
-				startY -=1;
-			else
-				endY -=1;
-		} else {
-			if (startY > endY)
-				startY +=1;
-			else
-				endY +=1;
-		}
+
+		if (startY > endY)
+			startY +=1;
+		else
+			endY +=1;
+
 
 		
 		p.context.setLineWidth(rawCellSize/4);

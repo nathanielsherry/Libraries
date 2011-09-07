@@ -90,23 +90,28 @@ public class RasterColorMapPainter extends MapPainter
 
 	private void drawAsScalar(PainterData p, List<Color> data, float cellSize)
 	{
+
+		p.context.save();
+
+		p.context.rectangle(0, 0, p.plotSize.x, p.plotSize.y);
+		p.context.clip();
+		
 		// draw the map
 		for (int y = 0; y < p.dr.dataHeight; y++) {
 			for (int x = 0; x < p.dr.dataWidth; x++) {
 
-				p.context.save();
 
-				p.context.rectangle(0, 0, p.plotSize.x, p.plotSize.y);
-				p.context.clip();
 
 				int index = y * p.dr.dataWidth + x;
 				p.context.rectangle(x * cellSize, y * cellSize, cellSize + 1, cellSize + 1);
 				p.context.setSource(data.get(index));
 				p.context.fill();
 
-				p.context.restore();
+				
 			}
 		}
+		
+		p.context.restore();
 	}
 
 	

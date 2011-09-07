@@ -35,7 +35,7 @@ public abstract class Functionable<T1> implements Iterable<T1> {
 	 * @param f the mapping function to apply
 	 * @return a Functionable object containing the results of applying the {@link FnMap} to the elements in this Functionable object
 	 */
-	public <T2> Functionable<T2> map(FnMap<T1, T2> f)
+	public <T2> FList<T2> map(FnMap<T1, T2> f)
 	{
 		return Fn.map(this, f);
 	}
@@ -47,7 +47,7 @@ public abstract class Functionable<T1> implements Iterable<T1> {
 	 * @return a Functionable object containing only those elements in this Functionable object for which the given 
 	 * function returned true
 	 */
-	public Functionable<T1> filter(FnMap<T1, Boolean> f)
+	public FList<T1> filter(FnMap<T1, Boolean> f)
 	{
 		return Fn.filter(this, f);
 	}
@@ -80,7 +80,7 @@ public abstract class Functionable<T1> implements Iterable<T1> {
 	 * @param number the number of elements to take
 	 * @return a Functionalbe object containing the first 'number' elements from this Functionable object
 	 */
-	public Functionable<T1> take(int number)
+	public FList<T1> take(int number)
 	{
 		return Fn.take(this, number);
 	}
@@ -91,7 +91,7 @@ public abstract class Functionable<T1> implements Iterable<T1> {
 	 * @return a Functionable object containing elements from this Functionable object up until the point where an element 
 	 * fails to satisfy the given condition
 	 */
-	public Functionable<T1> takeWhile(FnMap<T1, Boolean> f)
+	public FList<T1> takeWhile(FnMap<T1, Boolean> f)
 	{
 		return Fn.takeWhile(this, f);
 	}
@@ -149,7 +149,7 @@ public abstract class Functionable<T1> implements Iterable<T1> {
 	 * @param size the size of a collection of elements
 	 * @return nested collections of elements of the given size
 	 */
-	public Functionable<Functionable<T1>> chunk(int size)
+	public FList<Functionable<T1>> chunk(int size)
 	{
 		
 		return Functionable.mapToFunctionable(Fn.chunk(this, size));		
@@ -159,7 +159,7 @@ public abstract class Functionable<T1> implements Iterable<T1> {
 	 * Group the elements into collections based on equality. Eg: (1, 2, 1, 2, 3).group() => ((1, 1), (2, 2), (3))
 	 * @return nested collections of equivalent elements
 	 */
-	public Functionable<Functionable<T1>> group()
+	public FList<Functionable<T1>> group()
 	{
 		return Functionable.mapToFunctionable(Fn.group(this));
 	}
@@ -170,7 +170,7 @@ public abstract class Functionable<T1> implements Iterable<T1> {
 	 * @param f the {@link FnCombine} function for determining if two elements belong in the same group
 	 * @return nested collections of elements which belong in the same group
 	 */
-	public Functionable<Functionable<T1>> groupBy(FnCombine<T1, Boolean> f)
+	public FList<Functionable<T1>> groupBy(FnCombine<T1, Boolean> f)
 	{
 		return Functionable.mapToFunctionable(Fn.groupBy(this, f));
 	}
@@ -181,7 +181,7 @@ public abstract class Functionable<T1> implements Iterable<T1> {
 	 * @param list
 	 * @return
 	 */
-	protected static <T> Functionable<Functionable<T>> mapToFunctionable(Functionable<List<T>> list)
+	protected static <T> FList<Functionable<T>> mapToFunctionable(Functionable<List<T>> list)
 	{
 		return list.map(new FnMap<List<T>, Functionable<T>>() {
 

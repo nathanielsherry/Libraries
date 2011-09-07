@@ -19,6 +19,10 @@ public class Bounds<T extends Number> {
 	}
 	
 	
+	public String toString()
+	{
+		return show(", ");
+	}
 	
 	public String show(String separator)
 	{
