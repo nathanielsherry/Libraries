@@ -11,11 +11,11 @@ import java.util.zip.ZipFile;
 import org.jgrapht.DirectedGraph;
 import org.jgrapht.graph.SimpleDirectedGraph;
 
-import fava.Fn;
 import fava.functionable.FList;
 import fava.signatures.FnCondition;
 import fava.signatures.FnEach;
 import fava.signatures.FnMap;
+import fava.wip.FSet;
 
 
 public class ZipFS {
@@ -132,20 +132,20 @@ public class ZipFS {
 	
 	public FList<ZippedFile> getChildren(ZippedFile z)
 	{
-		return Fn.map(g.outgoingEdgesOf(z), new FnMap<Object, ZippedFile>() {
+		return FSet.wrap(g.outgoingEdgesOf(z)).map(new FnMap<Object, ZippedFile>() {
 
 			@Override
 			public ZippedFile f(Object e) {
 				return g.getEdgeTarget(e);
 			}
-		});
+		}).toSink();
 		
 	}
 	
 	public ZippedFile getChild(final ZippedFile z, final String child) 
 	{
 		
-		return Fn.filter(getChildren(z), new FnCondition<ZippedFile>() {
+		return getChildren(z).filter(new FnCondition<ZippedFile>() {
 
 			@Override
 			public Boolean f(ZippedFile zc) {

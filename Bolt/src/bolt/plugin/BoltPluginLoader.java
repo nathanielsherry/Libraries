@@ -2,6 +2,7 @@ package bolt.plugin;
 
 
 import java.io.File;
+import java.lang.reflect.Modifier;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
@@ -10,13 +11,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ServiceLoader;
 
-import commonenvironment.ClassOperations;
 import commonenvironment.Env;
 import commonenvironment.zipfs.ZipFS;
 import commonenvironment.zipfs.ZippedFile;
 
-import fava.Fn;
 import fava.functionable.FList;
+import fava.signatures.FnCondition;
 import fava.signatures.FnMap;
 
 
@@ -25,21 +25,46 @@ import fava.signatures.FnMap;
 public class BoltPluginLoader<T extends BoltPlugin>
 {
 
-	public List<Class<T>>	availablePlugins;
+	public FList<Class<T>>	availablePlugins;
 
 	private Class<T> parentClass;
 
+	private FnCondition<Class<T>> filter;
+	
+	
+	private BoltPluginLoader()
+	{
+		availablePlugins = new FList<Class<T>>();
+	}
 	
 	/**
 	 * Creates a PluginLoader which will locate any plugins which are subclasses of parentClass
 	 * @param parentClass
 	 * @throws ClassInheritanceException
 	 */
-	public BoltPluginLoader(Class<T> parentClass) throws ClassInheritanceException
+	public BoltPluginLoader(final Class<T> parentClass) throws ClassInheritanceException
 	{
 		
-		availablePlugins = new ArrayList<Class<T>>();
+		this();
+		
 		this.parentClass = parentClass;
+		
+		filter = new FnCondition<Class<T>>() {
+
+			@Override
+			public Boolean f(Class<T> c) {
+				
+				//make sure the plugin is a subclass of the given class
+				if (!checkSuperclasses(c, parentClass)) return false;
+				
+				//make sure its not an interface or an abstract class
+				if (!isActualPlugin(c)) return false;
+				
+				//if its not annotated as a plugin, return false.
+				if (c.getAnnotation(Plugin.class) == null) return false;
+				
+				return true;
+			}};
 		
 		if (!checkSuperclasses(parentClass, BoltPlugin.class)) {
 			throw new ClassInheritanceException();
@@ -47,15 +72,78 @@ public class BoltPluginLoader<T extends BoltPlugin>
 		
 	}
 	
+	public BoltPluginLoader(final String pluginGroup) {
+		
+		this();
+		
+		this.parentClass = (Class<T>)BoltPlugin.class;
+		
+		
+		filter = new FnCondition<Class<T>>() {
+
+			@Override
+			public Boolean f(Class<T> c) {
+				
+				//make sure the plugin is a subclass of BoltPlugin
+				if (!checkSuperclasses(c, BoltPlugin.class)) return false;
+				
+				//make sure its not an interface or an abstract class
+				if (!isActualPlugin(c)) return false;
+				
+				//if its not annotated as a plugin with the right group, return false.
+				if (c.getAnnotation(Plugin.class) == null) return false;
+				if (! pluginGroup.equals(c.getAnnotation(Plugin.class).group())) return false;
+				
+				return true;
+				
+			}};
+		
+	}
+	
+	
+	public BoltPluginLoader(final Class<T> parentClass, final String pluginGroup) throws ClassInheritanceException
+	{
+		
+		this();
+		
+		this.parentClass = parentClass;
+		
+		filter = new FnCondition<Class<T>>() {
+
+			@Override
+			public Boolean f(Class<T> c) {
+				
+				//make sure the plugin is a subclass of the given class
+				if (!checkSuperclasses(c, parentClass)) return false;
+				
+				//make sure its not an interface or an abstract class
+				if (!isActualPlugin(c)) return false;
+				
+				//if its not annotated as a plugin with the right group, return false.
+				if (c.getAnnotation(Plugin.class) == null) return false;
+				if (! pluginGroup.equals(c.getAnnotation(Plugin.class).group())) return false;
+				
+				return true;
+				
+				
+			}};
+		
+		if (!checkSuperclasses(parentClass, BoltPlugin.class)) {
+			throw new ClassInheritanceException();
+		}
+		
+	}
+	
+	
 	public List<Class<T>> getAvailablePlugins()
 	{
-		return availablePlugins;
+		return availablePlugins.toSink();
 	}
 
 
 	public List<T> getNewInstancesForAllPlugins()
 	{
-		return Fn.map(availablePlugins, new FnMap<Class<T>, T>() {
+		return availablePlugins.map(new FnMap<Class<T>, T>() {
 
 			public T f(Class<T> f)
 			{
@@ -71,10 +159,10 @@ public class BoltPluginLoader<T extends BoltPlugin>
 	public void loadLocalPlugins(String packageName)
 	{
 
-		if (Env.inJar(BoltPluginLoader.class))
+		if (Env.isClassInJar(BoltPluginLoader.class))
 		{
 
-			File jarFile = Env.jarFile(BoltPluginLoader.class);
+			File jarFile = Env.getJarForClass(BoltPluginLoader.class);
 			if (jarFile == null) return;
 			
 			loadPluginsFromJar(jarFile, packageName);
@@ -128,8 +216,10 @@ public class BoltPluginLoader<T extends BoltPlugin>
 				//build a qualified class name out of the filename. If packageName is not null, we have
 				//to check to make sure that the package names match 
 				if (packageName != null){
-				
-					String thisPackageName = qualifiedClassName.substring(0, qualifiedClassName.lastIndexOf('.'));
+								
+					int lastDot = qualifiedClassName.lastIndexOf('.');
+					if (lastDot == -1) continue;
+					String thisPackageName = qualifiedClassName.substring(0, lastDot);
 					if (! thisPackageName.equals(packageName)) continue;
 					
 				}
@@ -139,16 +229,18 @@ public class BoltPluginLoader<T extends BoltPlugin>
 				Class<?> loadedClass;
 				try{
 					loadedClass = cl.loadClass(qualifiedClassName);
-				} catch (ClassNotFoundException exception) {
+				} catch (Throwable exception) {
 					continue;
 				}
-				if (checkSuperclasses(loadedClass, parentClass)) {
-					Class<T> clazz = (Class<T>)loadedClass;
+				Class<T> clazz = (Class<T>)loadedClass;
+				if (filter.f(clazz)) {
 					if (isEnabledPlugin(clazz)) foundPlugins.add(clazz);
 				}
 			}
 			
 			availablePlugins.addAll( foundPlugins );
+			availablePlugins = availablePlugins.unique();
+			
 			
 		} catch (MalformedURLException e1) {
 			e1.printStackTrace();
@@ -204,23 +296,20 @@ public class BoltPluginLoader<T extends BoltPlugin>
 			e.printStackTrace();
 		}
 
-		Class<T> f;
 
 		if (classes != null)
 		{
 			for (int i = 0; i < classes.size(); i++)
 			{
-				if (checkSuperclasses(classes.get(i), parentClass))
-				{
-
-					f = (Class<T>) classes.get(i);
-					if (isEnabledPlugin(f)) foundPlugins.add(f);
-
+				Class<T> clazz = (Class<T>)classes.get(i);
+				if (filter.f(clazz)) {
+					if (isEnabledPlugin(clazz)) foundPlugins.add(clazz);
 				}
 			}
 		}
 
 		availablePlugins.addAll( foundPlugins );
+		availablePlugins = availablePlugins.unique();
 
 	}
 
@@ -235,15 +324,30 @@ public class BoltPluginLoader<T extends BoltPlugin>
 	
 	private boolean checkSuperclasses(Class<?> c, Class<?> target)
 	{
+		
+		if (c == null) return false;
+		
+		if (Modifier.isInterface(	c.getModifiers()  )) return false;
 		Class<?> sc = c.getSuperclass();
 		
 		while (sc != Object.class) {
+
+			if (Modifier.isInterface(	sc.getModifiers()  )) return false;
 			if (sc == target) return true;
 			sc = sc.getSuperclass();
 		}
 		
 		return false;
 				
+	}
+	
+	private boolean isActualPlugin(Class<?> c)
+	{
+
+		if (Modifier.isInterface(	c.getModifiers()  )) return false;
+		if (Modifier.isAbstract(	c.getModifiers()  )) return false;
+		
+		return true;
 	}
 
 	

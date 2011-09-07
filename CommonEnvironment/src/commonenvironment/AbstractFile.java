@@ -15,6 +15,7 @@ import javax.jnlp.FileContents;
 
 import commonenvironment.zipfs.ZippedFile;
 
+//TODO: remake this using subclassing
 
 
 public class AbstractFile implements Comparable<AbstractFile>

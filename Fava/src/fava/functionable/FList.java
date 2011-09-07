@@ -6,8 +6,10 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Set;
 
 import fava.Fn;
 import fava.Functions;
@@ -17,6 +19,7 @@ import fava.signatures.FnFold;
 import fava.signatures.FnEach;
 import fava.signatures.FnMap;
 import fava.signatures.FnMap2;
+import fava.wip.FSet;
 
 /**
  * FList is a class which implements the List interface and acts as a pass-through
@@ -32,6 +35,49 @@ public class FList<T> extends Functionable<T> implements List<T>, Serializable{
 
 	
 	protected List<T> backing;
+	
+	
+	
+	
+	
+	
+	
+	////////////////////////////////////////////////
+	// Functionable subclassing stuff
+	////////////////////////////////////////////////
+	
+	protected <T> Collection<T> getNewCollection()
+	{
+		return newTarget();
+	}
+	
+	protected <T> FList<T> wrapNewCollection(Collection<T> col)
+	{
+		if (! (col instanceof List)) throw new ClassCastException();
+		return FList.wrap((List<T>)col);
+	}
+	
+	/**
+	 * Attempts to create a new target list by creating a new instance of source's class (eg ArrayList)
+	 * @param <T> Type of source
+	 * @param <T2> Type of new list to create.
+	 * @param backing list to use as template
+	 * @return a new list of type T2 of the same implementation as source
+	 */
+	@SuppressWarnings("unchecked")
+	protected static <T, T2> FList<T2> newTarget(List<T> backing)
+	{
+		try {
+			return (FList<T2>)(backing.getClass().newInstance());
+		} catch (Exception e) {
+			return new FList<T2>();
+		}
+	}
+
+	protected <T2> FList<T2> newTarget()
+	{
+		return FList.<T, T2>newTarget(backing);
+	}
 	
 	
 	
@@ -57,28 +103,14 @@ public class FList<T> extends Functionable<T> implements List<T>, Serializable{
 	
 	
 	/**
-	 * Create a new FList containing the elements described by the given {@link FListComprehension}
-	 * @param comprehension the list comprehension definition
+	 * Create a new FList with the default backing {@link List} type, {@link ArrayList} with the given initial size
 	 */
-	public FList(final FListComprehension<T> comprehension)
+	public FList(int size)
 	{
-		this(
-			Fn.filter(comprehension.in(), new FnMap<T, Boolean>() {
-	
-				@Override
-				public Boolean f(T v) {
-					return comprehension.where(v);
-				}
-			}).map(new FnMap<T, T>(){
-	
-				@Override
-				public T f(T v) {
-					return comprehension.let(v);
-				}
-			})
-		);
+		backing = new ArrayList<T>(size);
 	}
 	
+		
 	/**
 	 * Create a new FList containing the elements in source
 	 * @param source an Iterable containing elements intended for this FList
@@ -121,16 +153,9 @@ public class FList<T> extends Functionable<T> implements List<T>, Serializable{
 	
 	public static <T> FList<T> wrap(List<T> list)
 	{
-		FList<T> newlist = new FList<T>();
 		//make sure we don't nest FLists inside other FLists
-		if (list instanceof FList<?>){
-			FList<T> other = (FList<T>)list;
-			newlist.backing = other.backing;
-		} else {
-			newlist.backing = list;
-		}
-		
-		return newlist;
+		if (list instanceof FList<?>) return (FList<T>)list;
+		return new FList<T>(list);
 	}
 	
 	
@@ -143,27 +168,7 @@ public class FList<T> extends Functionable<T> implements List<T>, Serializable{
 		}
 	}
 	
-	/**
-	 * Attempts to create a new target list by creating a new instance of source's class (eg ArrayList)
-	 * @param <T> Type of source
-	 * @param <T2> Type of new list to create.
-	 * @param backing list to use as template
-	 * @return a new list of type T2 of the same implementation as source
-	 */
-	@SuppressWarnings("unchecked")
-	protected static <T, T2> FList<T2> newTarget(List<T> backing)
-	{
-		try {
-			return (FList<T2>)(backing.getClass().newInstance());
-		} catch (Exception e) {
-			return new FList<T2>();
-		}
-	}
 
-	protected <T2> FList<T2> newTarget()
-	{
-		return FList.<T, T2>newTarget(backing);
-	}
 	
 	
 	
@@ -281,30 +286,56 @@ public class FList<T> extends Functionable<T> implements List<T>, Serializable{
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
 	////////////////////////////////////////////////
-	// Functional Methods
+	// Overriding Functionable Methods
 	////////////////////////////////////////////////
-	@Override
+
 	public <T2> FList<T2> map(FnMap<T, T2> f)
 	{
-		//FList<T2> target = newTarget();
-		//return Fn.map_target(backing, target, f);
 		
-		FList<T2> target = newTarget();
-		for (int i = 0; i < backing.size(); i++)
-		{
-			target.add(f.f(backing.get(i)));
-		}
-		return target;
+		Collection<T2> target = getNewCollection();		
+		map(this, f, target);
+		return wrapNewCollection(target);
+		
 	}
+	
+
+	public FList<T> filter(FnMap<T, Boolean> f)
+	{
+		Collection<T> target = getNewCollection();		
+		filter(this, f, target);
+		return wrapNewCollection(target);
+	}
+	
+	
+	public FList<T> take(int number)
+	{
+		Collection<T> target = getNewCollection();
+		take(this, number, target);
+		return wrapNewCollection(target);
+	}
+	
+	
+	public FList<T> takeWhile(FnMap<T, Boolean> f)
+	{
+		Collection<T> target = getNewCollection();
+		takeWhile(this, f, target);
+		return wrapNewCollection(target);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	////////////////////////////////////////////////
+	// Extended Functional Methods
+	////////////////////////////////////////////////
+	
 	
 	public FList<T> map_i(FnMap<T, T> f)
 	{
@@ -315,8 +346,6 @@ public class FList<T> extends Functionable<T> implements List<T>, Serializable{
 		return this;
 	}
 
-	
-	
 	
 	public T foldr(FnFold<T, T> f)
 	{
@@ -340,20 +369,7 @@ public class FList<T> extends Functionable<T> implements List<T>, Serializable{
 	
 	
 	
-	
-	
-	@Override
-	public FList<T> filter(FnMap<T, Boolean> f)
-	{
-		FList<T> target = newTarget();
-		for (int i = 0; i < backing.size(); i++)
-		{
-			if (f.f(backing.get(i))) target.add(backing.get(i));
-		}
-		return target;
-	}
-		
-	
+
 	
 	
 	public <T2, T3> FList<T3> zipWith(Iterable<T2> other, FnMap2<T, T2, T3> f)
@@ -441,7 +457,6 @@ public class FList<T> extends Functionable<T> implements List<T>, Serializable{
 	
 
 	
-	@Override
 	public FList<Functionable<T>> group()
 	{
 		FList<List<T>> result = newTarget();
@@ -455,7 +470,6 @@ public class FList<T> extends Functionable<T> implements List<T>, Serializable{
 		return FList.mapToFunctionable(result);
 	}
 	
-	@Override
 	public FList<Functionable<T>> groupBy(FnCombine<T, Boolean> f)
 	{
 		FList<List<T>> result = newTarget();
@@ -589,19 +603,7 @@ public class FList<T> extends Functionable<T> implements List<T>, Serializable{
 	
 	
 	
-	@Override
-	public FList<T> take(int count)
-	{
-		FList<T> target = newTarget();
-		return Fn.take_target(backing, target, count);
-	}
-	
-	@Override
-	public FList<T> takeWhile(FnMap<T, Boolean> f)
-	{
-		FList<T> target = newTarget();
-		return Fn.takeWhile_target(backing, target, f);
-	}
+
 	
 	
 	public FList<T> reverse()
@@ -611,7 +613,6 @@ public class FList<T> extends Functionable<T> implements List<T>, Serializable{
 	}
 	
 	
-	@Override
 	public FList<Functionable<T>> chunk(int size)
 	{
 		return FList.mapToFunctionable(Fn.chunk(backing, size));

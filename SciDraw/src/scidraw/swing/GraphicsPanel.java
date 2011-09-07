@@ -2,6 +2,10 @@ package scidraw.swing;
 
 
 import java.awt.Graphics;
+import java.awt.GraphicsConfiguration;
+import java.awt.Transparency;
+import java.awt.image.BufferedImage;
+import java.awt.image.VolatileImage;
 import java.io.IOException;
 import java.io.OutputStream;
 
@@ -24,16 +28,54 @@ import scidraw.drawing.backends.SurfaceType;
 public abstract class GraphicsPanel extends JPanel
 {
 
+	private boolean buffer = false;
+	private float bufferSlack = 1.2f;
+	private VolatileImage bimage;
 
 	public GraphicsPanel()
 	{
+		System.setProperty("sun.java2d.opengl", "True");
+	}
+	
+	public GraphicsPanel(boolean buffered)
+	{
+		this();
+		buffer = buffered;
 	}
 
 	@Override
 	public void paintComponent(Graphics g)
 	{
 		super.paintComponent(g);
-		draw(g);
+
+		if (buffer) {
+			if (
+					bimage == null || 
+					bimage.getWidth() < getWidth() || bimage.getWidth() > getWidth() * (bufferSlack*bufferSlack) ||
+					bimage.getHeight() < getHeight() || bimage.getHeight() > getHeight() * (bufferSlack*bufferSlack)
+					){
+				createBackBuffer();
+			}
+					
+			Graphics bg = bimage.getGraphics();
+			draw(bg);
+			g.drawImage(bimage, 0, 0, this);
+		
+		} else {
+
+			draw(g);
+			
+		}
+	}
+	
+	private void createBackBuffer()
+	{
+		bimage = getGraphicsConfiguration().createCompatibleVolatileImage(
+					(int)(getWidth()*bufferSlack), 
+					(int)(getHeight()*bufferSlack), 
+					Transparency.OPAQUE
+				);
+		bimage.setAccelerationPriority(1f);
 	}
 	
 	private void draw(Object drawContext)

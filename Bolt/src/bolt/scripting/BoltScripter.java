@@ -9,23 +9,24 @@ import javax.script.ScriptContext;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
+import javax.script.SimpleScriptContext;
+
+import bolt.scripting.languages.Language;
 
 
 public class BoltScripter {
 
-	protected static final String LANGUAGE = "jython";
-	
-	
-	
+	 
 	
 	private LinkedHashMap<Thread, ScriptEngine> threadEngines;
 	private LinkedHashMap<Thread, CompiledScript> threadCompiledScripts;
+	
 	private ScriptEngine defaultEngine;
 	
 	private StringWriter writer, errorWriter;
 	
-	private String language;
-	private String script;
+	private Language language;
+	protected String script;
 	private CompiledScript defaultCompiledScript = null;
 	
 	protected boolean hasSideEffects = false;
@@ -33,8 +34,14 @@ public class BoltScripter {
 	
 	
 	
-	public BoltScripter(String language, String script)  {
+	public BoltScripter(final String language, final boolean compilable, String script)  {
+		
+		this(customLanguage(language, compilable), script);
+		
+	}
 	
+	public BoltScripter(Language language, String script)  {
+		
 		this.language = language;
 		
 		threadEngines = new LinkedHashMap<Thread, ScriptEngine>();
@@ -48,9 +55,12 @@ public class BoltScripter {
 		
 	}
 	
-	private ScriptEngine createEngine()
+	protected ScriptEngine createEngine()
 	{
-		ScriptEngine engine = new ScriptEngineManager().getEngineByName(language);
+		
+		ScriptEngine engine = new ScriptEngineManager().getEngineByName(language.getName());
+		ScriptContext context1 = new SimpleScriptContext();
+		engine.setContext(context1);
 		engine.getContext().setBindings(engine.createBindings(), ScriptContext.GLOBAL_SCOPE);
 		engine.getContext().setBindings(engine.createBindings(), ScriptContext.ENGINE_SCOPE);
 		engine.getContext().setWriter(writer);
@@ -66,12 +76,15 @@ public class BoltScripter {
 	}
 	
 	private ScriptEngine getEngine(Thread t) {
+		
+
 		//if we're allowing side-effects or if we're not multithreading, we can only use one set of bindings.
 		if (hasSideEffects || !multithreaded) return defaultEngine;
-		
+
 		
 		ScriptEngine engine;
 		engine = threadEngines.get(t);
+		
 		
 		if (engine == null) {
 			
@@ -82,6 +95,7 @@ public class BoltScripter {
 		
 		return engine;
 		
+
 	}
 	
 	private Bindings getBindings(){
@@ -132,10 +146,10 @@ public class BoltScripter {
 	private void eval() throws ScriptException 
 	{
 		try {
-			if (defaultCompiledScript == null) {
-				getEngine().eval(script);
-			} else {
+			if (language.isCompilable()) {
 				getCompiledScript().eval();
+			} else {
+				getEngine().eval(script);
 			}
 		} catch (ScriptException e) {
 			e.printStackTrace();
@@ -146,7 +160,10 @@ public class BoltScripter {
 	/**
 	 * If hasSideEffects is turned on, the scripting environment
 	 * will not be cleared between invocations, allowing actions
-	 * in one invocation to impact the next.
+	 * in one invocation to impact the next. Turning hasSideEffects 
+	 * on implies (but does not force) turning multithreading off, 
+	 * as cross-invocation interaction becomes unreliable with 
+	 * multiple execution environments.
 	 * @param sideEffects
 	 */
 	public void hasSideEffects(boolean sideEffects)
@@ -155,16 +172,18 @@ public class BoltScripter {
 	}
 
 	/**
-	 * If multithreading is turn on, multiple binding environments
+	 * If multithreading is turned on, multiple binding environments
 	 * will be created -- one for each thread of execution -- to avoid
-	 * interference. Turning multithreading on implies turning hasSideEffects
-	 * off, as cross-invocation interaction becomes unreliable with 
-	 * multiple execution environments. Getting and setting binding 
-	 * values is only possible using the thread of execution (ie
-	 * setting a value with Thread A and executing with Thread B will
-	 * fail, as the value was set for Thread A's bindings). To set
-	 * bindings cross-thread, use the method variants which accept a
-	 * {@link Thread} object to indicate the intended thread of execution.
+	 * interference. Turning multithreading on implies (but does not 
+	 * force) turning hasSideEffects off, as cross-invocation interaction 
+	 * becomes unreliable with multiple execution environments. Getting 
+	 * and setting binding values is only possible using the thread of 
+	 * execution (ie setting a value with Thread A and executing with 
+	 * Thread B will fail, as the value was set for Thread A's bindings). 
+	 * To set bindings cross-thread, use the method variants of 
+	 * {@link #set(Thread, String, Object)} and 
+	 * {@link #get(Thread, String)} which accept a {@link Thread} object 
+	 * to indicate the intended thread of execution.
 	 * 
 	 * @param multithreaded
 	 */
@@ -177,6 +196,7 @@ public class BoltScripter {
 	protected void clear()
 	{
 		getBindings().clear();
+		
 	}
 	
 	protected void set(String key, Object value)
@@ -189,21 +209,6 @@ public class BoltScripter {
 		return getBindings().get(key);
 	}
 	
-	
-	protected void clear(Thread t)
-	{
-		getBindings(t).clear();
-	}
-	
-	protected void set(Thread t, String key, Object value)
-	{
-		getBindings(t).put(key, value);
-	}
-	
-	protected Object get(Thread t, String key)
-	{
-		return getBindings(t).get(key);
-	}
 	
 	
 	
@@ -244,6 +249,24 @@ public class BoltScripter {
 	public String getStdOut()
 	{
 		return writer.toString();
+	}
+	
+	
+	protected static Language customLanguage(final String language, final boolean compilable)
+	{
+		
+		return new Language() {
+		
+			@Override
+			public boolean isCompilable() {
+				return compilable;
+			}
+			
+			@Override
+			public String getName() {
+				return language;
+			}
+		};
 	}
 	
 }

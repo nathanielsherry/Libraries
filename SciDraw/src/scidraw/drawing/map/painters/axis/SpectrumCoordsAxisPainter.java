@@ -13,9 +13,9 @@ import scitypes.SigDigits;
 
 import fava.*;
 import fava.datatypes.Pair;
+import fava.functionable.FList;
 import fava.signatures.FnFold;
 import fava.signatures.FnEach;
-import static fava.Fn.*;
 
 
 
@@ -24,7 +24,7 @@ public class SpectrumCoordsAxisPainter extends AbstractKeyCoordAxisPainter
 	private int							spectrumSteps;
 	private List<AbstractPalette>		colourRules;
 	private boolean						negativeValues;
-	private List<Pair<Float, String>>	markings;
+	private FList<Pair<Float, String>>	markings;
 	private int 						decimalPoints;
 
 	
@@ -126,7 +126,7 @@ public class SpectrumCoordsAxisPainter extends AbstractKeyCoordAxisPainter
 			realDimensionsProvided,
 			descriptor);
 
-		this.markings = markings;
+		this.markings = FList.wrap(markings);
 		this.negativeValues = negativeValues;
 
 		this.spectrumSteps = spectrumSteps;
@@ -204,6 +204,7 @@ public class SpectrumCoordsAxisPainter extends AbstractKeyCoordAxisPainter
 			
 
 			//concatenate the list of strings to display so we can check the width of the total string
+			/*
 			String longestMarking = foldr(map(markings, Functions.<Float, String>second()), new FnFold<String, String>() {
 
 				public String f(String s1, String s2)
@@ -214,7 +215,18 @@ public class SpectrumCoordsAxisPainter extends AbstractKeyCoordAxisPainter
 					return s2;
 				}}
 			);
+			*/
 			
+			
+			String longestMarking = markings.map(Functions.<Float, String>second()).fold(new FnFold<String, String>() {
+
+				public String f(String s1, String s2)
+				{
+					Float l1 = p.context.getTextWidth(s1);
+					Float l2 = p.context.getTextWidth(s2);
+					if (l1 > l2) return s1;
+					return s2;
+				}});
 			
 			//keep shrinking the font size until all of the text until the font size is small enough that it fits
 			while (width > 0.0 && fontSize > 1.0)
@@ -228,7 +240,7 @@ public class SpectrumCoordsAxisPainter extends AbstractKeyCoordAxisPainter
 
 			}
 
-			each(markings, new FnEach<Pair<Float, String>>() {
+			markings.each(new FnEach<Pair<Float, String>>() {
 
 				public void f(Pair<Float, String> element)
 				{

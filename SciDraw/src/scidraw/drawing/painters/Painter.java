@@ -14,7 +14,7 @@ public abstract class Painter
 {
 	
 	protected CompositeModes compositeMode;
-	
+	protected String sourceName;
 
 	public Painter()
 	{
@@ -54,5 +54,13 @@ public abstract class Painter
 	}
 
 	public abstract void drawElement(PainterData p);
+	
+	public String getSourceName() {
+		return sourceName;
+	}
+
+	public void setSourceName(String sourceName) {
+		this.sourceName = sourceName;
+	}
 
 }

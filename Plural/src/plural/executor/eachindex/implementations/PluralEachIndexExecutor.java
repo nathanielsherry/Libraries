@@ -1,7 +1,6 @@
 package plural.executor.eachindex.implementations;
 
 
-import fava.Fn;
 import fava.functionable.Range;
 import fava.signatures.FnEach;
 import plural.executor.ExecutorState;
@@ -37,7 +36,6 @@ public class PluralEachIndexExecutor extends EachIndexExecutor
 	public PluralEachIndexExecutor(int size, FnEach<Integer> pluralEachIndex, int threads)
 	{
 		super(size, pluralEachIndex);
-		
 		threadCount = threads;
 		ticketManager = new TicketManager(super.getDataSize(), getDesiredBlockSize());
 		

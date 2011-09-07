@@ -1,18 +1,15 @@
 package scitypes;
 
 
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import plural.executor.eachindex.EachIndexExecutor;
-import plural.executor.eachindex.implementations.PluralEachIndexExecutor;
+import plural.executor.Plural;
 
-
+import fava.functionable.FList;
 import fava.signatures.FnEach;
 import fava.signatures.FnFold;
-import static fava.Fn.*;
 import static fava.Functions.*;
 
 
@@ -26,7 +23,7 @@ import static fava.Functions.*;
 public class SpectrumCalculations
 {
 
-	public static final int	MIN_SIZE_FOR_THREADING	= 1024;
+	public static final int	MIN_SIZE_FOR_THREADING	= 512;
 
 
 	/**
@@ -38,19 +35,22 @@ public class SpectrumCalculations
 	public static float max(Spectrum list)
 	{
 		float max = Float.MIN_VALUE;
+
 		for (int i = 0; i < list.size(); i++) max = Math.max(max, list.get(i));
 		return max;
 	}
 
 
-	public static Spectrum maxlist_inplace(Spectrum s1, Spectrum s2)
+	public static Spectrum maxlist_inplace(final Spectrum s1, final Spectrum s2)
 	{
 		int size = Math.min(s1.size(), s2.size());
 
+		
 		for (int i = 0; i < size; i++)
 		{
 			s1.set(i, Math.max(s1.get(i), s2.get(i)));
 		}
+		
 
 		return s1;
 	}
@@ -121,7 +121,7 @@ public class SpectrumCalculations
 	public static float maxDataset(List<Spectrum> dataset)
 	{
 
-		return foldr(dataset, max(dataset.get(0)), new FnFold<Spectrum, Float>() {
+		return FList.wrap(dataset).foldr(max(dataset.get(0)), new FnFold<Spectrum, Float>() {
 
 			public Float f(Spectrum list, Float currentMax)
 			{
@@ -198,16 +198,16 @@ public class SpectrumCalculations
 	 * @param value
 	 * @return the given spectrum, now with altered values
 	 */
-	public static Spectrum multiplyBy_inplace(Spectrum source, final float value)
-	{
-
+	public static Spectrum multiplyBy_inplace(final Spectrum source, final float value)
+	{	
+		
 		float newvalue;
 		for (int i = 0; i < source.size(); i++)
 		{
 			newvalue = source.get(i) * value;
 			source.set(i, newvalue);
 		}
-
+		
 		return source;
 	}
 
@@ -226,16 +226,13 @@ public class SpectrumCalculations
 
 		final Spectrum result = new Spectrum(data.size());
 
-		FnEach<Integer> eachtask = new FnEach<Integer>() {
+		Plural.eachIndex(data.size(), new FnEach<Integer>() {
 
 			public void f(Integer ordinal)
 			{
 				result.set(ordinal, data.get(ordinal) * value);
 			}
-		};
-
-		EachIndexExecutor eix = new PluralEachIndexExecutor(data.size(), eachtask);
-		eix.executeBlocking();
+		});
 
 		return result;
 	}
@@ -297,16 +294,13 @@ public class SpectrumCalculations
 
 		final Spectrum result = new Spectrum(data.size());
 
-		FnEach<Integer> eachtask = new FnEach<Integer>() {
+		Plural.eachIndex(data.size(), new FnEach<Integer>() {
 
 			public void f(Integer ordinal)
 			{
 				result.set(ordinal, data.get(ordinal) / value);
 			}
-		};
-
-		EachIndexExecutor eix = new PluralEachIndexExecutor(data.size(), eachtask);
-		eix.executeBlocking();
+		});
 
 		return result;
 	}
@@ -402,7 +396,7 @@ public class SpectrumCalculations
 
 		final Spectrum result = new Spectrum(data.size());
 
-		FnEach<Integer> eachtask = new FnEach<Integer>() {
+		Plural.eachIndex(data.size(), new FnEach<Integer>() {
 
 			public void f(Integer ordinal)
 			{
@@ -410,10 +404,7 @@ public class SpectrumCalculations
 				if (newvalue < minimum && minimum != Float.NaN) newvalue = minimum;
 				result.set(ordinal, newvalue);
 			}
-		};
-
-		EachIndexExecutor eix = new PluralEachIndexExecutor(data.size(), eachtask);
-		eix.executeBlocking();
+		});
 
 		return result;
 
@@ -449,16 +440,18 @@ public class SpectrumCalculations
 	 * @param l1
 	 * @param l2
 	 */
-	public static void addLists_inplace(Spectrum l1, Spectrum l2)
+	public static void addLists_inplace(final Spectrum l1, final Spectrum l2)
 	{
 
 		int maxInd = Math.min(l1.size(), l2.size());
 		float value;
+		
 		for (int i = 0; i < maxInd; i++)
 		{
 			value = l1.get(i) + l2.get(i);
 			l1.set(i, value);
 		}
+		
 	}
 
 
@@ -481,16 +474,13 @@ public class SpectrumCalculations
 
 		final Spectrum result = new Spectrum(l1.size());
 
-		FnEach<Integer> eachtask = new FnEach<Integer>() {
+		Plural.eachIndex(l1.size(), new FnEach<Integer>() {
 
 			public void f(Integer ordinal)
 			{
 				result.set(ordinal, l1.get(ordinal) + l2.get(ordinal));
 			}
-		};
-
-		EachIndexExecutor eix = new PluralEachIndexExecutor(l1.size(), eachtask);
-		eix.executeBlocking();
+		});
 
 		return result;
 
@@ -590,7 +580,7 @@ public class SpectrumCalculations
 
 		final Spectrum result = new Spectrum(l1.size());
 
-		FnEach<Integer> eachtask = new FnEach<Integer>() {
+		Plural.eachIndex(l1.size(), new FnEach<Integer>() {
 
 			public void f(Integer ordinal)
 			{
@@ -598,10 +588,7 @@ public class SpectrumCalculations
 				if (newValue < minimum && minimum != Float.NaN) newValue = minimum;
 				result.set(ordinal, newValue);
 			}
-		};
-
-		EachIndexExecutor eix = new PluralEachIndexExecutor(l1.size(), eachtask);
-		eix.executeBlocking();
+		});
 
 		return result;
 
@@ -648,16 +635,13 @@ public class SpectrumCalculations
 
 		final Spectrum result = new Spectrum(l1.size());
 
-		FnEach<Integer> eachtask = new FnEach<Integer>() {
+		Plural.eachIndex(l1.size(), new FnEach<Integer>() {
 
 			public void f(Integer ordinal)
 			{
 				result.set(ordinal, l1.get(ordinal) * l2.get(ordinal));
 			}
-		};
-
-		EachIndexExecutor eix = new PluralEachIndexExecutor(l1.size(), eachtask);
-		eix.executeBlocking();
+		});
 
 		return result;
 
@@ -796,7 +780,7 @@ public class SpectrumCalculations
 
 		final Spectrum result = new Spectrum(data.size(), 0.0f);
 
-		FnEach<Integer> eachtask = new FnEach<Integer>() {
+		Plural.eachIndex(data.size(), new FnEach<Integer>() {
 
 			public void f(Integer ordinal)
 			{
@@ -807,10 +791,7 @@ public class SpectrumCalculations
 
 				result.set(ordinal, logValue);
 			}
-		};
-
-		EachIndexExecutor eix = new PluralEachIndexExecutor(data.size(), eachtask);
-		eix.executeBlocking();
+		});
 
 		return result;
 
@@ -826,7 +807,7 @@ public class SpectrumCalculations
 	public static float sumValuesInList(Spectrum list)
 	{
 
-		return fold(list, 0f, addf());
+		return list.fold(0f, addf());
 
 	}
 	

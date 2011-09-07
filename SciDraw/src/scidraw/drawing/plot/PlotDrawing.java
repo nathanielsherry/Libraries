@@ -179,7 +179,11 @@ public class PlotDrawing extends Drawing
 			if (painters != null) {
 	
 				for (PlotPainter painter : painters) {
-					painter.draw(new PainterData(context, dr, plotSize, dataHeights));
+					try {
+						painter.draw(new PainterData(context, dr, plotSize, dataHeights));
+					} catch (Exception e) {
+						System.out.println("Painter " + painter.getSourceName() + " Failed");
+					}
 				}
 	
 			}
@@ -203,8 +207,12 @@ public class PlotDrawing extends Drawing
 							new Bounds<Float>(availableY.start, availableY.end)
 							
 					);
-					axisPainter.draw(new PainterData(context, dr, plotSize, dataHeights));
-	
+					
+					try{
+						axisPainter.draw(new PainterData(context, dr, plotSize, dataHeights));
+					} catch (Exception e) {
+						System.out.println("Axis Painter " + axisPainter.getSourceName() + " Failed");
+					}
 					
 					
 					axisSizeX = axisPainter.getAxisSizeX(new PainterData(context, dr, plotSize, dataHeights));

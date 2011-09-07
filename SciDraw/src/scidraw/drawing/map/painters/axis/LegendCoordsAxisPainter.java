@@ -12,15 +12,15 @@ import scitypes.SISize;
 
 import fava.*;
 import fava.datatypes.Pair;
+import fava.functionable.FList;
 import fava.signatures.FnFold;
-import static fava.Fn.*;
 import static fava.Functions.*;
 
 
 public class LegendCoordsAxisPainter extends AbstractKeyCoordAxisPainter
 {
 
-	private List<Pair<Color, String>>	entries;
+	private FList<Pair<Color, String>>	entries;
 
 	public LegendCoordsAxisPainter(boolean drawCoords, Coord<Number> topLeftCoord, Coord<Number> topRightCoord,
 			Coord<Number> bottomLeftCoord, Coord<Number> bottomRightCoord, SISize coordinateUnits,
@@ -38,7 +38,7 @@ public class LegendCoordsAxisPainter extends AbstractKeyCoordAxisPainter
 			realDimensionsProvided,
 			descriptor);
 
-		this.entries = entries;
+		this.entries = FList.wrap(entries);
 
 	}
 
@@ -63,7 +63,8 @@ public class LegendCoordsAxisPainter extends AbstractKeyCoordAxisPainter
 		
 		
 		// concatenate the list of strings to display so we can check the width of the total string
-		String markingsText = foldr(map(entries, Functions.<Color, String>second()), strcat(" "));		
+		//String markingsText = foldr(map(entries, Functions.<Color, String>second()), strcat(" "));
+		String markingsText = entries.map(Functions.<Color, String>second()).foldr(strcat(" "));
 		float legendSquareWidth = entries.size() * keyHeight * 2.5f - keyHeight; // -keyHeight because we don't need
 																					// padding on the end
 
@@ -82,7 +83,7 @@ public class LegendCoordsAxisPainter extends AbstractKeyCoordAxisPainter
 		}
 
 		float startX = offsetX + ((width - expectedTextWidth) / 2.0f);
-		foldr(entries, startX, new FnFold<Pair<Color, String>, Float>() {
+		entries.foldr(startX, new FnFold<Pair<Color, String>, Float>() {
 
 			public Float f(Pair<Color, String> entry, Float position)
 			{
