@@ -50,4 +50,8 @@ public class Plural {
 		return new PluralFilterExecutor<T1>(elements, filter).executeBlocking();
 	}
 	
+	public static void main(String[] args) {
+		
+	}
+	
 }

@@ -68,12 +68,22 @@ public class SimpleEachIndexExecutor extends EachIndexExecutor
 	protected void workForExecutor()
 	{
 
+		int percent = 0, lastpercent = 0, workunits = 0;
 		for (int i = 0; i < super.getDataSize(); i++) {
 			
 			super.eachIndex.f(i);
-			super.workUnitCompleted();
 			
-			if (super.executorSet.isAbortRequested()) return;
+			workunits++;
+			if (super.executorSet != null) {
+				percent = i * 100 / super.getDataSize();
+				
+				if (percent != lastpercent){
+					super.workUnitCompleted(workunits);
+					lastpercent = percent;
+					workunits = 0;
+				}
+				if (super.executorSet.isAbortRequested()) return;
+			}
 		}
 		
 	}
