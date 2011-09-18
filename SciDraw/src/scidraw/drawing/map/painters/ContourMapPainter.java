@@ -51,10 +51,10 @@ public class ContourMapPainter extends MapPainter
 	{
 		
 		GridPerspective<Float> grid = new GridPerspective<Float>(p.dr.dataWidth, p.dr.dataHeight, 0f);
-		Spectrum flipData = SpectrumCalculations.gridYReverse(data, grid);
+		//Spectrum flipData = SpectrumCalculations.gridYReverse(data, grid);
 
 		
-		traceLayers(p, grid, flipData, cellSize, false);
+		traceLayers(p, grid, data, cellSize, false);
 		
 		
 	}

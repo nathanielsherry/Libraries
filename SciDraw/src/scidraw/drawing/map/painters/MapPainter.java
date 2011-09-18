@@ -54,7 +54,7 @@ public abstract class MapPainter extends Painter
 	{
 
 		Color c;
-		
+				
 		for (AbstractPalette r : colourRules) {
 			c = r.getFillColour(intensity, maximum);
 			if (c != null) return c;

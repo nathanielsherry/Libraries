@@ -61,12 +61,22 @@ public class SimpleMapExecutor<T1, T2> extends MapExecutor<T1, T2>
 	@Override
 	protected void workForExecutor()
 	{
+		int percent = 0, lastpercent = 0, workunits = 0;
 		for (int i = 0; i < super.getDataSize(); i++) {
 			
 			super.targetList.set(  i, super.map.f(super.sourceData.get(i))  );
-			super.workUnitCompleted();
 			
-			if (super.executorSet.isAbortRequested()) return;
+			workunits++;
+			if (super.executorSet != null) {
+				percent = i * 100 / super.getDataSize();
+				
+				if (percent != lastpercent){
+					super.workUnitCompleted(workunits);
+					lastpercent = percent;
+					workunits = 0;
+				}
+				if (super.executorSet.isAbortRequested()) return;
+			}
 		}
 	}
 

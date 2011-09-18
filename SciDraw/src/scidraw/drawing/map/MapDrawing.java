@@ -30,7 +30,7 @@ public class MapDrawing extends Drawing
 		
 	private List<MapPainter>	painters;
 	private List<AxisPainter>	axisPainters;
-
+	
 
 	/**
 	 * Creates a Map object
@@ -148,23 +148,13 @@ public class MapDrawing extends Drawing
 		// Draw Map
 		context.save();
 
-			if (dr.drawToVectorSurface){
-				
-				context.translate(borderSizes.x.start, borderSizes.y.start);
-				
-				for (MapPainter t : painters) {
-					t.draw(new PainterData(context, dr, mapDimensions, null));
-				}
-		
-			}else{
 
-				context.translate(borderSizes.x.start, borderSizes.y.start);
-				
-				for (MapPainter t : painters) {
-					t.draw(new PainterData(context, dr, mapDimensions, null));
-				}
-				
+			context.translate(borderSizes.x.start, borderSizes.y.start);
+			
+			for (MapPainter t : painters) {
+				t.draw(new PainterData(context, dr, mapDimensions, null));
 			}
+
 
 			
 		context.restore();
@@ -293,7 +283,6 @@ public class MapDrawing extends Drawing
 	 */
 	public Coord<Bounds<Float>> calcAxisBorders()
 	{
-		
 		return AxisPainter.calcAxisBorders(new PainterData(context, dr, new Coord<Float>(dr.imageWidth, dr.imageHeight), null), axisPainters);
 
 	}
@@ -358,7 +347,7 @@ public class MapDrawing extends Drawing
 		percentX = mapX / mapSize.x;
 		percentY = mapY / mapSize.y;
 		
-		percentY = 1.0f - percentY;
+		//percentY = 1.0f - percentY;
 		
 		int indexX = (int) Math.floor(dr.uninterpolatedWidth * percentX);
 		int indexY = (int) Math.floor(dr.uninterpolatedHeight * percentY);

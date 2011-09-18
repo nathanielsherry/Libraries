@@ -63,6 +63,7 @@ public class SimpleFoldExecutor<T1> extends FoldExecutor<T1>
 	@Override
 	protected void workForExecutor()
 	{
+		int percent = 0, lastpercent = 0, workunits = 0;
 		for (int i = 0; i < super.getDataSize(); i++) {
 			
 			if (i == 0) {
@@ -71,9 +72,17 @@ public class SimpleFoldExecutor<T1> extends FoldExecutor<T1>
 				super.result = super.fold.f(super.sourceData.get(i), super.result);
 			}
 			
-			super.workUnitCompleted();
-			
-			if (super.executorSet.isAbortRequested()) return;
+			workunits++;
+			if (super.executorSet != null) {
+				percent = i * 100 / super.getDataSize();
+				
+				if (percent != lastpercent){
+					super.workUnitCompleted(workunits);
+					lastpercent = percent;
+					workunits = 0;
+				}
+				if (super.executorSet.isAbortRequested()) return;
+			}
 		}
 	}
 

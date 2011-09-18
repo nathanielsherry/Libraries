@@ -58,7 +58,7 @@ public class RasterSpectrumMapPainter extends MapPainter
 			}
 	
 			GridPerspective<Float> grid = new GridPerspective<Float>(p.dr.dataWidth, p.dr.dataHeight, 0.0f);
-			modData = SpectrumCalculations.gridYReverse(modData, grid);
+//			modData = SpectrumCalculations.gridYReverse(modData, grid);
 	
 			if (p.dr.drawToVectorSurface) {
 				drawAsScalar(p, modData, cellSize, maxIntensity);
@@ -83,13 +83,12 @@ public class RasterSpectrumMapPainter extends MapPainter
 		final FnEach<Integer> drawPixel = new FnEach<Integer>() {
 
 			public void f(Integer ordinal)
-			{
+			{				
 				if (maximumIndex > ordinal) {
 					b.setPixelValue(ordinal, getColourFromRules(data.get(ordinal), maxIntensity));
 				}
 			}
 		};
-
 
 		new PluralEachIndexExecutor(data.size(), drawPixel).executeBlocking();
 		

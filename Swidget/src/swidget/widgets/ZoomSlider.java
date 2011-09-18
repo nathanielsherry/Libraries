@@ -35,7 +35,7 @@ public class ZoomSlider extends EventfulPanel
 		zoomSlider = new JSlider(start, end);
 		zoomSlider.setPaintLabels(false);
 		zoomSlider.setPaintTicks(false);
-		zoomSlider.setValue(50);
+		zoomSlider.setValue(start);
 		Dimension prefSize = zoomSlider.getPreferredSize();
 		prefSize.width /= 2;
 		zoomSlider.setPreferredSize(prefSize);

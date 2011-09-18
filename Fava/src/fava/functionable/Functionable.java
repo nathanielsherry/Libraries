@@ -155,17 +155,6 @@ public abstract class Functionable<T1> implements Iterable<T1> {
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 
 	protected static <S1> void each(Iterable<S1> source, FnEach<S1> f)
 	{
@@ -186,6 +175,7 @@ public abstract class Functionable<T1> implements Iterable<T1> {
 		return target;
 	}
 	
+
 	
 	protected static <S1> Collection<S1> filter(Iterable<S1> source, FnMap<S1, Boolean> f, Collection<S1> target)
 	{
@@ -197,8 +187,9 @@ public abstract class Functionable<T1> implements Iterable<T1> {
 		return target;
 	}
 	
-	
+
 	protected static <S1> S1 fold(Iterable<S1> source, FnFold<S1, S1> f)
+
 	{
 		S1 acc = null;
 		boolean first = true;
@@ -212,6 +203,7 @@ public abstract class Functionable<T1> implements Iterable<T1> {
 		return acc;
 	}
 	
+
 	
 	protected static <S1, S2> S2 fold(Iterable<S1> source, S2 base, FnFold<S1, S2> f)
 	{

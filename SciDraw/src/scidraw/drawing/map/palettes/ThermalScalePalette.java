@@ -58,7 +58,7 @@ public class ThermalScalePalette extends AbstractPalette
 	@Override
 	public Color getFillColour(double intensity, double maximum)
 	{
-		
+			
 		double percentage;
 		if (hasNegatives) {
 			percentage = (intensity + maximum) / (2 * maximum);
@@ -67,7 +67,10 @@ public class ThermalScalePalette extends AbstractPalette
 		}
 		
 		int index = (int)(spectrum.size() * percentage);
-		if (index == spectrum.size()) index--;
+		if (index >= spectrum.size()) index = spectrum.size() - 1;
+		if (index < 0) index = 0;
+		
+		
 		return spectrum.get(index);
 	}
 

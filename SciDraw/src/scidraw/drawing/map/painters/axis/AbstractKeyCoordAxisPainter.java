@@ -308,7 +308,7 @@ public abstract class AbstractKeyCoordAxisPainter extends AxisPainter
 		{
 			bottomCoordHeight = 0.0f;
 		}
-
+		
 		return new Coord<Bounds<Float>>(new Bounds<Float>(coordBorder.x, coordBorder.x), new Bounds<Float>(
 			coordBorder.y,
 			bottomCoordHeight + spectBorder.y));

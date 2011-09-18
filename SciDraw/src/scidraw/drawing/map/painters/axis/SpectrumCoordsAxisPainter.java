@@ -160,7 +160,7 @@ public class SpectrumCoordsAxisPainter extends AbstractKeyCoordAxisPainter
 		{
 
 			p.context.rectangle(spectrumPosition, offsetY, increment + 1.0f, keyHeight);
-			p.context.setSource(getColourFromRules(i, steps));
+			p.context.setSource(getColourFromRules(((float)i/(float)steps)*p.dr.maxYIntensity, p.dr.maxYIntensity));
 			p.context.fill();
 			spectrumPosition += increment;
 
@@ -176,12 +176,12 @@ public class SpectrumCoordsAxisPainter extends AbstractKeyCoordAxisPainter
 			
 			float maxIntensityFloat = p.dr.maxYIntensity;
 			String maxIntensity;
-			if (maxIntensityFloat < 1)
-			{
+			//if (maxIntensityFloat < 1)
+			//{
 				maxIntensity = SigDigits.roundFloatTo(p.dr.maxYIntensity, decimalPoints);
-			} else  {
-				maxIntensity = String.valueOf((int) p.dr.maxYIntensity);
-			}
+			//} else  {
+			//	maxIntensity = String.valueOf((int) p.dr.maxYIntensity);
+			//}
 			String minIntensity = negativeValues ? "-" + maxIntensity : "0";
 
 			while (width > 0.0 && fontSize > 1.0)

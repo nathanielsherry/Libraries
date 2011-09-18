@@ -60,6 +60,7 @@ public class SimpleFilterExecutor<T1> extends FilterExecutor<T1>
 	protected void workForExecutor()
 	{
 
+		int percent = 0, lastpercent = 0, workunits = 0;
 		for (int i = 0; i < super.getDataSize(); i++) {
 			
 			if (super.filter.f(super.sourceData.get(i)))
@@ -67,9 +68,17 @@ public class SimpleFilterExecutor<T1> extends FilterExecutor<T1>
 				result.add(super.sourceData.get(i));
 			}
 						
-			super.workUnitCompleted();
-			
-			if (super.executorSet.isAbortRequested()) return;
+			workunits++;
+			if (super.executorSet != null) {
+				percent = i * 100 / super.getDataSize();
+				
+				if (percent != lastpercent){
+					super.workUnitCompleted(workunits);
+					lastpercent = percent;
+					workunits = 0;
+				}
+				if (super.executorSet.isAbortRequested()) return;
+			}
 		}
 	}
 
