@@ -19,7 +19,6 @@ import fava.signatures.FnFold;
 import fava.signatures.FnEach;
 import fava.signatures.FnMap;
 import fava.signatures.FnMap2;
-import fava.wip.FSet;
 
 /**
  * FList is a class which implements the List interface and acts as a pass-through
@@ -670,5 +669,51 @@ public class FList<T> extends Functionable<T> implements List<T>, Serializable{
 			}
 		});
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+	protected static <S1> Collection<S1> take(Iterable<S1> source, int number, Collection<S1> target)
+	{
+		int count = 0;
+		for (S1 s : source)
+		{
+			target.add(s);
+			count++;
+			if (count == number) break;
+		}
+		
+		return target;
+	}
+	
+	
+	protected static <S1> Collection<S1> takeWhile(Iterable<S1> source, FnMap<S1, Boolean> f, Collection<S1> target)
+	{
+		for (S1 s : source)
+		{
+			if (!f.f(s)) break;
+			target.add(s);
+		}
+		
+		return target;
+	}
+	
 		
 }

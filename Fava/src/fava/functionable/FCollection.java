@@ -1,4 +1,4 @@
-package fava.wip;
+package fava.functionable;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -6,7 +6,6 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-import fava.functionable.Functionable;
 import fava.signatures.FnMap;
 
 public class FCollection<T> extends Functionable<T> implements Collection<T>{
@@ -140,19 +139,6 @@ public class FCollection<T> extends Functionable<T> implements Collection<T>{
 	}
 	
 	
-	public FCollection<T> take(int number)
-	{
-		Collection<T> target = getNewCollection();
-		take(this, number, target);
-		return wrapNewCollection(target);
-	}
-	
-	
-	public FCollection<T> takeWhile(FnMap<T, Boolean> f)
-	{
-		Collection<T> target = getNewCollection();
-		takeWhile(this, f, target);
-		return wrapNewCollection(target);
-	}
+
 
 }

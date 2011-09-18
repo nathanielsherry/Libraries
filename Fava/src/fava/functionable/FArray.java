@@ -1,10 +1,8 @@
-package fava.wip;
+package fava.functionable;
 
 import java.util.Arrays;
 import java.util.Iterator;
 
-import fava.functionable.FList;
-import fava.functionable.Functionable;
 
 public class FArray<T> extends Functionable<T>{
 

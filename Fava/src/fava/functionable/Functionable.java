@@ -5,12 +5,9 @@ import java.util.Collection;
 import java.util.List;
 
 import fava.Functions;
-import fava.signatures.FnCombine;
-import fava.signatures.FnCondition;
 import fava.signatures.FnFold;
 import fava.signatures.FnEach;
 import fava.signatures.FnMap;
-import fava.wip.FCollection;
 
 /**
  * This is a base abstract class which provides a default implementation of some of the most common functional commands. 
@@ -24,16 +21,18 @@ public abstract class Functionable<T1> implements Iterable<T1> {
 
 	
 	protected <T> Collection<T> getNewCollection()
-	{
+	{ 
 		return new ArrayList<T>();
 	}
+	
 	
 	protected <T> Functionable<T> wrapNewCollection(Collection<T> col)
 	{
 		if (! (col instanceof List)) throw new ClassCastException();
 		return FList.wrap((ArrayList<T>)col);
 	}
-
+	 
+	
 	
 
 	
@@ -103,30 +102,7 @@ public abstract class Functionable<T1> implements Iterable<T1> {
 		return fold(this, base, f);
 	}
 	
-	/**
-	 * Remove and return the first 'number' elements from this Functionalbe object
-	 * @param number the number of elements to take
-	 * @return a Functionalbe object containing the first 'number' elements from this Functionable object
-	 */
-	public Functionable<T1> take(int number)
-	{
-		Collection<T1> target = getNewCollection();
-		take(this, number, target);
-		return wrapNewCollection(target);
-	}
 	
-	/**
-	 * Remove and return elements from this Functionable object while the elements satisfy the given condition function.
-	 * @param f the condition function to apply
-	 * @return a Functionable object containing elements from this Functionable object up until the point where an element 
-	 * fails to satisfy the given condition
-	 */
-	public Functionable<T1> takeWhile(FnMap<T1, Boolean> f)
-	{
-		Collection<T1> target = getNewCollection();
-		takeWhile(this, f, target);
-		return wrapNewCollection(target);
-	}
 	
 	/**
 	 * Converts the contents of this object to a String representation, using the given separator. 
@@ -251,31 +227,6 @@ public abstract class Functionable<T1> implements Iterable<T1> {
 	
 	
 	
-	
-	protected static <S1> Collection<S1> take(Iterable<S1> source, int number, Collection<S1> target)
-	{
-		int count = 0;
-		for (S1 s : source)
-		{
-			target.add(s);
-			count++;
-			if (count == number) break;
-		}
-		
-		return target;
-	}
-	
-	
-	protected static <S1> Collection<S1> takeWhile(Iterable<S1> source, FnMap<S1, Boolean> f, Collection<S1> target)
-	{
-		for (S1 s : source)
-		{
-			if (!f.f(s)) break;
-			target.add(s);
-		}
-		
-		return target;
-	}
 	
 	
 	

@@ -172,5 +172,38 @@ public class Sequence<T> extends Functionable<T>
 	
 	
 	
-
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	protected static <S1> Collection<S1> take(Iterable<S1> source, int number, Collection<S1> target)
+	{
+		int count = 0;
+		for (S1 s : source)
+		{
+			target.add(s);
+			count++;
+			if (count == number) break;
+		}
+		
+		return target;
+	}
+	
+	
+	protected static <S1> Collection<S1> takeWhile(Iterable<S1> source, FnMap<S1, Boolean> f, Collection<S1> target)
+	{
+		for (S1 s : source)
+		{
+			if (!f.f(s)) break;
+			target.add(s);
+		}
+		
+		return target;
+	}
 }

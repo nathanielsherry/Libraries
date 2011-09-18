@@ -12,17 +12,20 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.nio.channels.ReadableByteChannel;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
 import fava.Functions;
+import fava.signatures.FnEach;
+import fava.signatures.FnFold;
 import fava.signatures.FnMap;
 
 import sun.nio.ch.ChannelInputStream;
 
 
-public class FStringInput extends Functionable<String> implements Closeable{
+public class FStringInput implements Iterator<String>, Closeable{
 
 	static String linebreak = "\r\n|[\n\r\u2028\u2029\u0085]";
 	static String whitespace = "\\s+";
@@ -30,90 +33,83 @@ public class FStringInput extends Functionable<String> implements Closeable{
 	static Pattern linebreakPattern = Pattern.compile(linebreak);
 	static Pattern whitespacePattern = Pattern.compile(whitespace);
 	
-	private boolean scannerMode = true;
-	private Scanner scanner;
-	private CustomReader reader;
-	
+	private Iterator<String> backingIterator;
+	private boolean isClosed = false; 
 	
 
 	private FStringInput() {}
 
 	private FStringInput(File file, Pattern delim) throws FileNotFoundException {
-		scanner = new Scanner(file).useDelimiter(delim);
+		backingIterator = new Scanner(file).useDelimiter(delim);
 	}
 	
 	private FStringInput(Readable readable, Pattern delim) {
-		scanner = new Scanner(readable).useDelimiter(delim);
+		backingIterator = new Scanner(readable).useDelimiter(delim);
 	}
 	
 	private FStringInput(InputStream instream, Pattern delim) {
-		scanner = new Scanner(instream).useDelimiter(delim);
+		backingIterator = new Scanner(instream).useDelimiter(delim);
 	}
 	
 	private FStringInput(ReadableByteChannel channel, Pattern delim) {
-		scanner = new Scanner(channel).useDelimiter(delim);
+		backingIterator = new Scanner(channel).useDelimiter(delim);
 	}
 	
 	private FStringInput(String source, Pattern delim) {
-		scanner = new Scanner(source).useDelimiter(delim);
+		backingIterator = new Scanner(source).useDelimiter(delim);
 	}
 	
 	
 	private FStringInput(File file, String delim) throws FileNotFoundException {
-		scanner = new Scanner(file).useDelimiter(delim);
+		backingIterator = new Scanner(file).useDelimiter(delim);
 	}
 	
 	private FStringInput(Readable readable, String delim) {
-		scanner = new Scanner(readable).useDelimiter(delim);
+		backingIterator = new Scanner(readable).useDelimiter(delim);
 	}
 	
 	private FStringInput(InputStream instream, String delim) {
-		scanner = new Scanner(instream).useDelimiter(delim);
+		backingIterator = new Scanner(instream).useDelimiter(delim);
 	}
 	
 	private FStringInput(ReadableByteChannel channel, String delim) {
-		scanner = new Scanner(channel).useDelimiter(delim);
+		backingIterator = new Scanner(channel).useDelimiter(delim);
 	}
 	
 	private FStringInput(String source, String delim) {
-		scanner = new Scanner(source).useDelimiter(delim);
+		backingIterator = new Scanner(source).useDelimiter(delim);
 	}
 	
 	
 
 	
 	public static FStringInput lines(File file) throws FileNotFoundException {
-		FStringInput f = new FStringInput();
-		f.scannerMode = false;
-		f.reader = new LinesReader(file);
+		FStringInput f =  new FStringInput();
+		f.backingIterator = new LinesReader(file).iterator();
 		return f;
 	}
 	
 	public static FStringInput lines(Readable readable) {
 		FStringInput f =  new FStringInput();
-		f.scannerMode = false;
-		f.reader = new LinesReader(readable);
+		f.backingIterator = new LinesReader(readable).iterator();
 		return f;
 	}
 	
 	public static FStringInput lines(InputStream instream) {
 		FStringInput f =  new FStringInput();
-		f.scannerMode = false;
-		f.reader = new LinesReader(instream);
+		f.backingIterator = new LinesReader(instream).iterator();
 		return f;
 	}
 	
 	public static FStringInput lines(ReadableByteChannel channel) {
 		FStringInput f =  new FStringInput();
-		f.scannerMode = false;
-		f.reader = new LinesReader(channel);
+		f.backingIterator = new LinesReader(channel).iterator();
 		return f;
 	}
 	
 	public static FStringInput lines(String source) {
 		FStringInput f =  new FStringInput();
-		f.scannerMode = false;
-		f.reader = new LinesReader(source);
+		f.backingIterator = new LinesReader(source).iterator();
 		return f;
 	}
 	
@@ -122,85 +118,35 @@ public class FStringInput extends Functionable<String> implements Closeable{
 	
 	public static FStringInput words(File file) throws FileNotFoundException {
 		FStringInput f = new FStringInput();
-		f.scannerMode = false;
-		f.reader = new WordsReader(file);
+		f.backingIterator = new WordsReader(file).iterator();
 		return f;
 	}
 	
 	public static FStringInput words(Readable readable) {
-		FStringInput f =  new FStringInput();
-		f.scannerMode = false;
-		f.reader = new WordsReader(readable);
+		FStringInput f = new FStringInput();
+		f.backingIterator = new WordsReader(readable).iterator();
 		return f;
 	}
 	
 	public static FStringInput words(InputStream instream) {
-		FStringInput f =  new FStringInput();
-		f.scannerMode = false;
-		f.reader = new WordsReader(instream);
+		FStringInput f = new FStringInput();
+		f.backingIterator = new WordsReader(instream).iterator();
 		return f;
 	}
 	
 	public static FStringInput words(ReadableByteChannel channel) {
-		FStringInput f =  new FStringInput();
-		f.scannerMode = false;
-		f.reader = new WordsReader(channel);
+		FStringInput f = new FStringInput();
+		f.backingIterator = new WordsReader(channel).iterator();
 		return f;
 	}
 	
 	public static FStringInput words(String source) {
-		FStringInput f =  new FStringInput();
-		f.scannerMode = false;
-		f.reader = new WordsReader(source);
+		FStringInput f = new FStringInput();
+		f.backingIterator = new WordsReader(source).iterator();
 		return f;
 	}
 
 
-	
-	/*
-
-	public static FStringInput lines(File file) throws FileNotFoundException {
-		return new FStringInput(file, linebreakPattern);
-	}
-	
-	public static FStringInput lines(Readable readable) {
-		return new FStringInput(readable, linebreakPattern);
-	}
-	
-	public static FStringInput lines(InputStream instream) {
-		return new FStringInput(instream, linebreakPattern);
-	}
-	
-	public static FStringInput lines(ReadableByteChannel channel) {
-		return new FStringInput(channel, linebreakPattern);
-	}
-	
-	public static FStringInput lines(String source) {
-		return new FStringInput(source, linebreakPattern);
-	}
-	
-	
-
-	public static FStringInput words(File file) throws FileNotFoundException {
-		return new FStringInput(file, whitespacePattern);
-	}
-	
-	public static FStringInput words(Readable readable) {
-		return new FStringInput(readable, whitespacePattern);
-	}
-	
-	public static FStringInput words(InputStream instream) {
-		return new FStringInput(instream, whitespacePattern);
-	}
-	
-	public static FStringInput words(ReadableByteChannel channel) {
-		return new FStringInput(channel, whitespacePattern);
-	}
-	
-	public static FStringInput words(String source) {
-		return new FStringInput(source, whitespacePattern);
-	}
-	*/
 	
 	
 	
@@ -252,83 +198,67 @@ public class FStringInput extends Functionable<String> implements Closeable{
 	
 	
 	public static String contents(File file) throws FileNotFoundException {
-		FStringInput sin = tokens(file, "\\Z");
-		String str = sin.iterator().next();
-		try {
-			sin.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return str;
+		return tokens(file, "\\Z").toSink().head();
 	}
 	
 	public static String contents(Readable readable) { 
-		FStringInput sin = tokens(readable, "\\Z");
-		String str = sin.iterator().next();
-		try {
-			sin.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return str;
+		return tokens(readable, "\\Z").toSink().head();
 	}
 	
 	public static String contents(InputStream instream) { 
-		FStringInput sin = tokens(instream, "\\Z");
-		String str = sin.iterator().next();
-		try {
-			sin.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return str;
+		return tokens(instream, "\\Z").toSink().head();
 	}
 	
 	public static String contents(ReadableByteChannel channel) { 
-		FStringInput sin = tokens(channel, "\\Z");
-		String str = sin.iterator().next();
-		try {
-			sin.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return str;
+		return tokens(channel, "\\Z").toSink().head();
 	}
 	
 	public static String contents(String source) { 
-		FStringInput sin = tokens(source, "\\Z");
-		String str = sin.iterator().next();
+		return tokens(source, "\\Z").toSink().head();
+	}
+	
+	
+	/**
+	 * Dumps the contents to an FList, and calls close on the backing interface
+	 */
+	public FList<String> toSink()
+	{
+		FList<String> list = new FList<String>(this);
 		try {
-			sin.close();
+			close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return str;
+		return list;
 	}
 	
-
-
-	@Override
-	public Iterator<String> iterator() {
-		if (scannerMode){
-			return scanner;
-		} else {
-			return reader.iterator();
-		}
+	
+	/**
+	 * Dumps the contents to an FList, and calls close on the backing interface
+	 */
+	public FList<String> dump()
+	{
+		return toSink();
 	}
 
-
+	
 	@Override
 	public void close() throws IOException{
-		if (scannerMode) { 
-			scanner.close(); 
-		} else { 
-			reader.close();
-		}
 		
+		isClosed = true;
+		
+		if (backingIterator instanceof Scanner)
+		{
+			((Scanner)backingIterator).close();
+			return;
+		}
+		if (backingIterator instanceof CustomReader)
+		{
+			((CustomReader)backingIterator).close();
+		}
 	}
 	
-	
+
 	public static void test(boolean verbose, int times, String filename) throws FileNotFoundException
 	{
 
@@ -341,19 +271,15 @@ public class FStringInput extends Functionable<String> implements Closeable{
 		FList<String> o2 = null;
 		
 		
+		
+		
+		
+		//LINES
+		
 		t1 = System.currentTimeMillis();
 		for (int i = 0; i < 1; i++){ 
 			
-			f = FStringInput.lines(file);
-			//f = new FStringInput(file, FStringInput.linebreakPattern);
-			
-			o1 = f.map(new FnMap<String, String>() {
-	
-				@Override
-				public String f(String v) {
-					return v;
-				}
-			}).toSink();
+			o1 = FStringInput.lines(file).dump();
 			
 		}
 		
@@ -367,17 +293,8 @@ public class FStringInput extends Functionable<String> implements Closeable{
 		t1 = System.currentTimeMillis();
 		for (int i = 0; i < 1; i++){ 
 			
-			//f = FStringInput.lines(file);
-			f = new FStringInput(file, FStringInput.linebreakPattern);
-			
-			o2 = f.map(new FnMap<String, String>() {
-	
-				@Override
-				public String f(String v) {
-					return v;
-				}
-			}).toSink();
-			
+			o2 = new FStringInput(file, FStringInput.linebreakPattern).dump();
+					
 		}
 		
 		
@@ -392,19 +309,12 @@ public class FStringInput extends Functionable<String> implements Closeable{
 		
 		
 		
+		//WORDS
+		
 		t1 = System.currentTimeMillis();
 		for (int i = 0; i < 1; i++){ 
 			
-			f = FStringInput.words(file);
-			//f = new FStringInput(file, FStringInput.linebreakPattern);
-			
-			o1 = f.map(new FnMap<String, String>() {
-				
-				@Override
-				public String f(String v) {
-					return v;
-				}
-			}).toSink();
+			o1 = FStringInput.words(file).dump();
 			
 		}
 		
@@ -413,21 +323,15 @@ public class FStringInput extends Functionable<String> implements Closeable{
 		if (verbose) System.out.println("Custom - Words: " + (t2-t1) + "ms");
 		
 		
+		System.out.println(o1.size());
+		
+		
 		
 		
 		t1 = System.currentTimeMillis();
 		for (int i = 0; i < 1; i++){ 
 			
-			//f = FStringInput.lines(file);
-			f = new FStringInput(file, FStringInput.whitespace);
-			
-			o2 = f.map(new FnMap<String, String>() {
-	
-				@Override
-				public String f(String v) {
-					return v;
-				}
-			}).toSink();
+			o2 = new FStringInput(file, FStringInput.whitespacePattern).dump();
 			
 		}
 		
@@ -436,31 +340,176 @@ public class FStringInput extends Functionable<String> implements Closeable{
 		
 		t2 = System.currentTimeMillis();
 		if (verbose) System.out.println("Scanner - Words: " + (t2-t1) + "ms");
+
 		
-		//System.out.println(o1.show());
-		//System.out.println(o2.show());
+		System.out.println(o2.size());
 		
 		if (verbose) System.out.println(o1.zipEquiv(o2).fold(Functions.and()));
 		
+		
 	}
 	
 	
-	public static void main(String[] args) throws FileNotFoundException {
+	public static void main(String[] args) throws IOException {
 		
 		
-		test(false, 1, "/home/nathaniel/Projects/Peakaboo/Datasets/Lovina7PlainText.txt");
-		test(true, 1, "/home/nathaniel/Projects/Peakaboo/Datasets/Lovina7PlainText.txt");
+		//test(false, 1, "/home/nathaniel/Downloads/LocalTorrents/hugo/1953 - Alfred Bester - The Demolished Man (HTML).htm");
+		test(true, 1, "/home/nathaniel/Downloads/LocalTorrents/hugo/1953 - Alfred Bester - The Demolished Man (HTML).htm");
 		
-		System.out.println("**********");
-		
-		test(false, 1, "/home/nathaniel/Projects/Lorem Ipsum.txt");
-		test(true, 1, "/home/nathaniel/Projects/Lorem Ipsum.txt");
+
+		test(true, 1, "/home/nathaniel/Projects/Peakaboo Data/ScratchPlainText.txt");
 		
 	}
+
+	@Override
+	public boolean hasNext() {
+		return backingIterator.hasNext();
+	}
+
+	@Override
+	public String next() {
+		return backingIterator.next();
+	}
+
+	@Override
+	public void remove() {
+		backingIterator.remove();
+	}
+	
+	
+	
+
+
+	public void each(FnEach<String> f)
+	{
+		if (isClosed) throw new ClosedInputException();
+		
+		while (this.hasNext())
+		{
+			f.f(this.next());
+		}
+		
+		try {
+			this.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+	
+	public <S2> FList<S2> map(FnMap<String, S2> f)
+	{
+		
+		if (isClosed) throw new ClosedInputException();
+		FList<S2> target = new FList<S2>();
+		
+		while (this.hasNext())
+		{
+			target.add(   f.f(this.next())   );
+		}
+		
+		try {
+			this.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return target;
+	}
+	
+	
+	public FList<String> filter(FnMap<String, Boolean> f)
+	{
+		if (isClosed) throw new ClosedInputException();
+		FList<String> target = new FList<String>();
+		
+		while (this.hasNext())
+		{
+			String token = this.next();
+			if (   f.f(token)   ) target.add(   token   );
+		}
+		
+		try {
+			this.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return target;
+	}
+	
+	
+	public String fold(FnFold<String, String> f)
+	{
 		
 		
+		if (isClosed) throw new ClosedInputException();
+		String acc = null;
+		boolean first = true;
+		
+		while (this.hasNext())
+		{
+			String s = this.next();
+			if (first) { acc = s; }
+			else { acc = f.f(s, acc); }
+		}
+		
+		try {
+			this.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return acc;
+
+	}
+	
+	
+	public <S2> S2 fold(S2 base, FnFold<String, S2> f)
+	{
+		if (isClosed) throw new ClosedInputException();
+		S2 acc = base;
+				
+		while (this.hasNext())
+		{
+			String s = this.next();
+			acc = f.f(s, acc);
+		}
 		
 		
+		return acc;
+	}
+	
+	
+	
+	
+	public FList<String> take(int number)
+	{
+		
+		if (isClosed) throw new ClosedInputException();
+		FList<String> target = new FList<String>();
+		int count = 0;
+		
+		while (this.hasNext())
+		{
+			if (count == number) break;
+			String token = this.next();
+			target.add(   token   );
+			count++;
+		}
+		
+		
+		//if we couldn't take enough, we close it
+		if (count < number) try {
+			this.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return target;
+		
+	}
+			
 
 	
 }
@@ -627,7 +676,7 @@ class WordsReader implements CustomReader
 				//while word is empty, or only holding a blank line
 				while (wordIndex >= words.size() || words.size() == 0 || (words.size() == 1 && words.get(0).equals(""))) {
 					if (linesIterator.hasNext()){
-						words = FList.wrap(Arrays.asList(linesIterator.next().split(FStringInput.whitespace)));
+						words = FList.wrap(Arrays.asList(linesIterator.next().trim().split(FStringInput.whitespace)));
 						wordIndex = 0;
 					} else {
 						try {
@@ -656,5 +705,10 @@ class WordsReader implements CustomReader
 			}};
 		
 	}
+	
+}
+
+class ClosedInputException extends RuntimeException
+{
 	
 }

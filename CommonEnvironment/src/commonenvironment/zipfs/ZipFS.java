@@ -12,10 +12,10 @@ import org.jgrapht.DirectedGraph;
 import org.jgrapht.graph.SimpleDirectedGraph;
 
 import fava.functionable.FList;
+import fava.functionable.FSet;
 import fava.signatures.FnCondition;
 import fava.signatures.FnEach;
 import fava.signatures.FnMap;
-import fava.wip.FSet;
 
 
 public class ZipFS {

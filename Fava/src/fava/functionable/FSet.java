@@ -1,4 +1,4 @@
-package fava.wip;
+package fava.functionable;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -188,23 +188,40 @@ public class FSet<S> extends FCollection<S> implements Set<S>
 		filter(this, f, target);
 		return wrapNewCollection(target);
 	}
+
 	
 	
-	public FSet<S> take(int number)
-	{
-		Collection<S> target = getNewCollection();
-		take(this, number, target);
-		return wrapNewCollection(target);
+	
+	
+	
+	
+	
+	
+	
+	
+	public static void main(String[] args) {
+		
+		FSet<Integer> ints = new FSet<Integer>();
+		
+		ints.add(1);
+		ints.add(2);
+		ints.add(3);
+		ints.add(4);
+		
+		System.out.println(ints.show());
+		
+		System.out.println(
+			ints.map(new FnMap<Integer, Integer>() {
+	
+				@Override
+				public Integer f(Integer v) {
+					return 1;
+				}
+			}).show()
+		);
+		
+		
 	}
-	
-	
-	public FSet<S> takeWhile(FnMap<S, Boolean> f)
-	{
-		Collection<S> target = getNewCollection();
-		takeWhile(this, f, target);
-		return wrapNewCollection(target);
-	}
-	
 	
 	
 }
