@@ -270,9 +270,15 @@ abstract class AbstractGraphicsSurface implements Surface
 	{
 		if (text == null || "".equals(text)) return 0.0f;
 		
-		TextLayout layout = new TextLayout(text, graphics.getFont(), graphics.getFontRenderContext());
+		try {
+			TextLayout layout = new TextLayout(text, graphics.getFont(), graphics.getFontRenderContext());
+			return (float) (layout.getBounds().getWidth() + layout.getBounds().getX());
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
 
-		return (float) (layout.getBounds().getWidth() + layout.getBounds().getX());
+		return 0.0f;
+		
 	}
 
 
