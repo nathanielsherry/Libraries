@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -22,6 +23,23 @@ public class Spectrum extends Functionable<Float> implements Serializable
 	private int		maxIndex;
 
 
+
+	/**
+	 * Creates a new Spectrum with the given size
+	 * @param size
+	 */
+	public Spectrum(int size)
+	{
+		this.data = new float[size];
+		this.size = size;		
+		maxIndex = 0;
+	}
+	
+	/**
+	 * Creates a new Spectrum of the given size, with all values set to the given value
+	 * @param size
+	 * @param initialize
+	 */
 	public Spectrum(int size, float initialize)
 	{
 		this.data = new float[size];
@@ -35,11 +53,21 @@ public class Spectrum extends Functionable<Float> implements Serializable
 		maxIndex = size - 1;
 	}
 	
+	/**
+	 * Creates a new Spectrum based on a copy of the given array
+	 * @param fromArray
+	 */
 	public Spectrum(float[] fromArray)
 	{
 		this(fromArray, true);
 	}
 	
+	/**
+	 * Creates a new Spectrum based on the given array. If copy is 
+	 * false, the Spectrum will be backed directly by the given array.
+	 * @param fromArray
+	 * @param copy
+	 */
     public Spectrum(float[] fromArray, boolean copy)
     {
     	if(copy) {
@@ -59,6 +87,12 @@ public class Spectrum extends Functionable<Float> implements Serializable
     	}
     }
 
+    
+	/**
+	 * Creates a new Spectrum based on a copy of the given array.
+	 * The values in the given array will be converted to floats.
+	 * @param fromArray
+	 */
 	public Spectrum(double[] fromArray)
 	{
         this.data = new float[fromArray.length];
@@ -71,6 +105,10 @@ public class Spectrum extends Functionable<Float> implements Serializable
         maxIndex = size - 1;
 	}
 
+	/**
+	 * Creates a new Spectrum based on the values in the given list.
+	 * @param fromList
+	 */
 	public Spectrum(List<Float> fromList)
 	{
 		this.data = new float[fromList.size()];
@@ -84,14 +122,11 @@ public class Spectrum extends Functionable<Float> implements Serializable
 
 	}
 
-	public Spectrum(int size)
-	{
-		this.data = new float[size];
-		this.size = size;		
-		maxIndex = 0;
-	}
 
-	
+	/**
+	 * Creates a new spectrum copied from the given spectrum
+	 * @param copy
+	 */
 	public Spectrum(Spectrum copy)
 	{
 		this.data = copy.toArray();
@@ -101,6 +136,11 @@ public class Spectrum extends Functionable<Float> implements Serializable
 	
 	private Spectrum(){}
 	
+	/**
+	 * Copies the values from the given spectrum into this one. 
+	 * Values copied will be in the range of 0 .. min(size(), s.size())
+	 * @param s
+	 */
 	public void copy(Spectrum s)
 	{
 		int maxindex;
@@ -113,6 +153,17 @@ public class Spectrum extends Functionable<Float> implements Serializable
 	}
 
 
+	/**
+	 * Adds a value to the Spectrum.  When a new spectrum is created 
+	 * without being initialized with any values, it can have <tt>size</tt> 
+	 * new values added to it. These values are added in order, just 
+	 * as with {@link List#add(Object)}. The add method will return true
+	 * if any new value was added to the spectrum, or false if there was
+	 * no more space available. Calling {@link Spectrum#set(int, float)}
+	 * does not have any effect on the add method
+	 * @param value
+	 * @return
+	 */
 	public boolean add(float value)
 	{
 		if (maxIndex < size - 1)
@@ -127,29 +178,53 @@ public class Spectrum extends Functionable<Float> implements Serializable
 	}
 
 
+	/**
+	 * Sets the value of the entry at index i.
+	 * @param i
+	 * @param value
+	 */
 	public void set(int i, float value)
 	{
 		data[i] = value;
 	}
 
 
+	/**
+	 * Gets the value of the entry at index i
+	 * @param i
+	 * @return
+	 */
 	public float get(int i)
 	{
 		return data[i];
 	}
 
 
+	/**
+	 * Gets the size of this Spectrum
+	 * @return
+	 */
 	public int size()
 	{
 		return size;
 	}
 
 
+	/**
+	 * Returns a copy of the data as an array
+	 * @return
+	 */
 	public float[] toArray()
 	{
-		return data.clone();
+		return Arrays.copyOf(data, data.length);
 	}
 
+	/**
+	 * Returns a new Spectrum containing a copy of the data for a subsection of this spectrum.
+	 * @param start
+	 * @param stop
+	 * @return
+	 */
 	public Spectrum subSpectrum(int start, int stop)
 	{
 		
@@ -161,12 +236,21 @@ public class Spectrum extends Functionable<Float> implements Serializable
 		return target; 
 	}
 	
+	/**
+	 * Return the array which is backing this Spectrum. This method does not return a copy, 
+	 * but the real array. Modifying the contents of this array will modify the contents 
+	 * of the Spectrum.
+	 * @return
+	 */
 	public float[] backingArray()
 	{
 		return data;
 	}
 
 
+	/**
+	 * Returns an iterator over {@link Float} values for this Spectrum
+	 */
 	public Iterator<Float> iterator()
 	{
 		return new Iterator<Float>() {
@@ -192,6 +276,7 @@ public class Spectrum extends Functionable<Float> implements Serializable
 		};
 	}
 
+	
 	@Override
 	public void each(FnEach<Float> f)
 	{
