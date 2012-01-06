@@ -25,11 +25,10 @@ import fava.signatures.FnMap;
 public class BoltPluginLoader<T extends BoltPlugin>
 {
 
-	public FList<Class<T>>	availablePlugins;
+	public FList<Class<T>>			availablePlugins;
+	private Class<T> 				parentClass;
 
-	private Class<T> parentClass;
-
-	private FnCondition<Class<T>> filter;
+	private FnCondition<Class<T>> 	filter;
 	
 	
 	private BoltPluginLoader()
@@ -159,10 +158,10 @@ public class BoltPluginLoader<T extends BoltPlugin>
 	public void loadLocalPlugins(String packageName)
 	{
 
-		if (Env.isClassInJar(BoltPluginLoader.class))
+		if (Env.isClassInJar(parentClass))
 		{
 
-			File jarFile = Env.getJarForClass(BoltPluginLoader.class);
+			File jarFile = Env.getJarForClass(parentClass);
 			if (jarFile == null) return;
 			
 			loadPluginsFromJar(jarFile, packageName);
