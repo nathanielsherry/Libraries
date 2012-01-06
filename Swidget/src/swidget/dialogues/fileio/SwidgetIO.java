@@ -121,14 +121,17 @@ public class SwidgetIO
 			JFileChooser chooser = new JFileChooser(startDir);
 			chooser.setMultiSelectionEnabled(true);
 			chooser.setDialogTitle(title);
-
-			SimpleFileFilter filter = new SimpleFileFilter();
-			for (String ext : exts)
+			
+			if (exts.length > 0) 
 			{
-				filter.addExtension(ext);
+				SimpleFileFilter filter = new SimpleFileFilter();
+				for (String ext : exts)
+				{
+					filter.addExtension(ext);
+				}
+				filter.setDescription(extDesc);
+				chooser.setFileFilter(filter);
 			}
-			filter.setDescription(extDesc);
-			chooser.setFileFilter(filter);
 
 			int returnVal = chooser.showOpenDialog(parent);
 			if (returnVal == JFileChooser.APPROVE_OPTION)

@@ -229,7 +229,9 @@ class SimpleFileFilter extends FileFilter
 				// build the description from the extension list
 				Enumeration<String> extensions = filters.keys();
 				if (extensions != null) {
-					fullDescription += "." + extensions.nextElement();
+					if (extensions.hasMoreElements()) {
+						fullDescription += "." + extensions.nextElement();
+					}
 					while (extensions.hasMoreElements()) {
 						fullDescription += ", ." + extensions.nextElement();
 					}
