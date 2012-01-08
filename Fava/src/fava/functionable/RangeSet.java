@@ -1,5 +1,6 @@
 package fava.functionable;
 
+import java.io.Serializable;
 import java.util.Iterator;
 
 /**
@@ -9,7 +10,7 @@ import java.util.Iterator;
  */
 
 
-public class RangeSet extends Functionable<Integer>
+public class RangeSet extends Functionable<Integer> implements Serializable
 {
 
 	private FList<Range> ranges;
