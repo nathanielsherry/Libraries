@@ -111,7 +111,7 @@ public class ZipFS {
 	
 	public ZippedFile getZippedFile(String name) {
 		
-		if (name == "") return root;
+		if ("".equals(name) || name == null) return root;
 		
 		boolean isDir = name.lastIndexOf("/") == name.length()-1;
 		
