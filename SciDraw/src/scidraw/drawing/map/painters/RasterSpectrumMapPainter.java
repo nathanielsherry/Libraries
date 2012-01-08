@@ -57,8 +57,8 @@ public class RasterSpectrumMapPainter extends MapPainter
 				maxIntensity = p.dr.maxYIntensity;
 			}
 	
-			GridPerspective<Float> grid = new GridPerspective<Float>(p.dr.dataWidth, p.dr.dataHeight, 0.0f);
-//			modData = SpectrumCalculations.gridYReverse(modData, grid);
+			//GridPerspective<Float> grid = new GridPerspective<Float>(p.dr.dataWidth, p.dr.dataHeight, 0.0f);
+			//modData = SpectrumCalculations.gridYReverse(modData, grid);
 	
 			if (p.dr.drawToVectorSurface) {
 				drawAsScalar(p, modData, cellSize, maxIntensity);
