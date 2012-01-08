@@ -5,5 +5,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/Fava"/>
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/Eventful"/>
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/Swidget"/>
+	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

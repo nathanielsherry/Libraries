@@ -203,7 +203,7 @@ public abstract class AbstractExecutor extends Eventful implements PluralExecuto
 	 */
 	public int calcNumThreads(double threadsPerCore)
 	{
-		int threads = (int) Math.round(Runtime.getRuntime().availableProcessors() * threadsPerCore);
+		int threads = (int) Math.round(Plural.cores() * threadsPerCore);
 		if (threads <= 0) threads = 1;
 		return threads;
 	}

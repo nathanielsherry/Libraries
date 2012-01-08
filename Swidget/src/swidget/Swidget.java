@@ -54,5 +54,10 @@ public class Swidget
 	}
 	
 	
+	public static void main(String[] args)
+	{
+		
+	}
+	
 	
 }

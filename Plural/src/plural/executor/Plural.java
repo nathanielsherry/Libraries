@@ -50,6 +50,15 @@ public class Plural {
 		return new PluralFilterExecutor<T1>(elements, filter).executeBlocking();
 	}
 	
+	/**
+	 * Convenience method for {@link Runtime#availableProcessors()}
+	 * @return
+	 */
+	public static int cores()
+	{
+		return Runtime.getRuntime().availableProcessors();
+	}
+	
 	public static void main(String[] args) {
 		
 	}

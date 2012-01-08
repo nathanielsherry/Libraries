@@ -23,42 +23,52 @@ public class Spectrums
 
 	
 	/* spectum is encoded {{r, g, b, p}, ...}
-	 * where p is the percent distance from the last colour stop 
+	 * where p is the percent distance from the last colour stop expressed in the range 0..255
 	 */
 	
-	private final static double[][] thermal = { 
-		{ 0.07, 0.16, 0.30, 0 }, 
-		//{ 0.13, 0.29, 0.53, 0.3f },
-		{ 0.16, 0.35, 0.65, 0.3f },
-		{ 0.35, 0.69, 0.03, 0.2f }, 
-		{ 0.89, 0.73, 0.00, 0.23f },
-		{ 0.81, 0.36, 0.00, 0.12f }, 
-		{ 0.64, 0.00, 0.00, 0.15f }
+	private final static int[] ratioThermal = {
+		 32,  74, 135,   0,
+		 16,  37,  67,  77,
+		  0,   0,   0,	50,
+		 82,   0,   0,	51,
+		163,   0,   0,	77
 	};
+	
+	private final static int[] ratioMonochrome = { 
+		   0,   0,   0,   0,
+		  51,  51,  51,  89, 
+		 128, 128, 128,  39, 
+		 204, 204, 204,  38,
+		 255, 255, 255,  89 
+	};
+	
+	
+	
+	
+	
+	
+	
+	public static List<Color> getScale(Palette p)
+	{
+		return generateSpectrum(DEFAULT_STEPS, p.getPaletteData(), 1.0f, 1.0f);
+	}
+	
+	public static List<Color> getScale(Palette p, int steps)
+	{
+		return generateSpectrum(steps, p.getPaletteData(), 1.0f, 1.0f);
+	}
+		
+	public static List<Color> getScale(Palette p, float brightness, float centreIntensity)
+	{
+		return generateSpectrum(DEFAULT_STEPS, p.getPaletteData(), brightness, centreIntensity);
+	}
+	
+	public static List<Color> getScale(Palette p, int steps, float brightness, float centreIntensity)
+	{
+		return generateSpectrum(steps, p.getPaletteData(), brightness, centreIntensity);
+	}
 	
 
-	private final static double[][] ratioThermal = {
-		{ 0.125,	0.29,	0.53,	0 },
-		{ 0.063,	0.145,	0.265,	0.3f },
-		{ 0.0,		0.0,	0.0,	0.2f },
-		{ 0.32,		0.0,	0.0,	0.2f },
-		{ 0.64,		0.0,	0.0,	0.3f }
-	};
-	
-	private final static double[][] monochrome = {
-		{0,	0,	0,	0},
-		{1f, 1f, 1f, 1f}
-	};
-	
-	private final static double[][] ratioMonochrome = { 
-		{ 0.0, 0.0, 0.0, 0 }, 
-		{ 0.2, 0.2, 0.2, 0.35f }, 
-		{ 0.5, 0.5, 0.5, 0.15f }, 
-		{ 0.8, 0.8, 0.8, 0.15f },
-		{ 1.0, 1.0, 1.0, 0.35f } 
-	};
-	
-	
 	
 	
 	
@@ -172,7 +182,7 @@ public class Spectrums
 	 */
 	public static List<Color> ThermalScale(int _steps, float brightness, float centreIntensity)
 	{
-		return generateSpectrum(_steps, thermal, brightness, centreIntensity);
+		return generateSpectrum(_steps, Palette.THERMAL.getPaletteData(), brightness, centreIntensity);
 	}
 
 	
@@ -197,7 +207,7 @@ public class Spectrums
 	 */
 	public static List<Color> MonochromeScale(int _steps, float brightness, float centreIntensity)
 	{
-		return generateSpectrum(_steps, monochrome, brightness, centreIntensity);
+		return generateSpectrum(_steps, Palette.MONOCHROME.getPaletteData(), brightness, centreIntensity);
 	}
 	
 	
@@ -211,9 +221,9 @@ public class Spectrums
 	public static List<Color> MonochromeScale(int _steps, float brightness, float centreIntensity, Color c)
 	{
 
-		double[][] monochrome = {
-				{0,	0,	0,	0},
-				{c.getRed() / 255.0, c.getGreen() / 255.0, c.getBlue() / 255.0, 1f}
+		int[] monochrome = {
+				0,	0,	0,	0,
+				c.getRed(), c.getGreen(), c.getBlue(), 255
 		};
 
 		return generateSpectrum(_steps, monochrome, brightness, centreIntensity);
@@ -237,9 +247,11 @@ public class Spectrums
 	
 
 
-	public static List<Color> generateSpectrum(float totalSteps, double[][] values, float brightness, float centreIntensity)
+	public static List<Color> generateSpectrum(float totalSteps, int[] values, float brightness, float centreIntensity)
 	{
 
+		int stage_count = values.length / 4 - 1;
+		
 		//output list
 		List<Color> spectrum = new ArrayList<Color>();
 		
@@ -249,7 +261,7 @@ public class Spectrums
 		 * stepcount[0] is the number of steps between
 		 * values[0] and values[1]
 		 */
-		int stepcount[] = new int[values.length-1];
+		int stepcount[] = new int[stage_count];
 		
 		
 		/* 
@@ -260,12 +272,12 @@ public class Spectrums
 		 * real total equal the desired number of steps
 		 */
 		int realSteps = 0;
-		for (int i = 1; i < values.length; i++)
+		for (int i = 0; i < stage_count - 1; i++)
 		{
-			stepcount[i-1] = (int)Math.round(values[i][3] * totalSteps);
-			realSteps += stepcount[i-1]; 
+			stepcount[i] = (int)(double)Math.round(values[(i+1)*4+3] / 255f * totalSteps);
+			realSteps += stepcount[i]; 
 		}
-		stepcount[stepcount.length - 1] += (totalSteps - realSteps);
+		stepcount[stage_count - 1] += (totalSteps - realSteps);
 
 
 		
@@ -273,7 +285,7 @@ public class Spectrums
 		 * For each entry in the stepcount array, we create the 
 		 * required number of intermediate colours 
 		 */
-		double red, blue, green;
+		int r, b, g;
 		int steps;
 		double percent;
 		for (int stage = 0; stage < stepcount.length; stage++)
@@ -289,11 +301,11 @@ public class Spectrums
 				percent = (double) step / (double) steps;
 
 				//rgb vlaues here are just a mix -- 30% along means 70% start colour, 30% end colour
-				red = values[stage][0] * (1.0 - percent) + values[stage + 1][0] * percent;
-				green = values[stage][1] * (1.0 - percent) + values[stage + 1][1] * percent;
-				blue = values[stage][2] * (1.0 - percent) + values[stage + 1][2] * percent;
+				r = (int)Math.round(values[stage*4+0] * (1.0 - percent) + values[(stage+1)*4+0] * percent);
+				g = (int)Math.round(values[stage*4+1] * (1.0 - percent) + values[(stage+1)*4+1] * percent);
+				b = (int)Math.round(values[stage*4+2] * (1.0 - percent) + values[(stage+1)*4+2] * percent);
 
-				spectrum.add(new Color((float) red, (float) green, (float) blue));
+				spectrum.add(new Color(r, g, b)); 
 			}
 
 		}
