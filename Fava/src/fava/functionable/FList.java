@@ -45,15 +45,15 @@ public class FList<T> extends Functionable<T> implements List<T>, Serializable{
 	// Functionable subclassing stuff
 	////////////////////////////////////////////////
 	
-	protected <T> Collection<T> getNewCollection()
+	protected <S> Collection<S> getNewCollection()
 	{
-		return newTarget();
+		return this.<S>newTarget();
 	}
 	
-	protected <T> FList<T> wrapNewCollection(Collection<T> col)
+	protected <S> FList<S> wrapNewCollection(Collection<S> col)
 	{
 		if (! (col instanceof List)) throw new ClassCastException();
-		return FList.wrap((List<T>)col);
+		return FList.wrap((List<S>)col);
 	}
 	
 	/**
@@ -64,18 +64,18 @@ public class FList<T> extends Functionable<T> implements List<T>, Serializable{
 	 * @return a new list of type T2 of the same implementation as source
 	 */
 	@SuppressWarnings("unchecked")
-	protected static <T, T2> FList<T2> newTarget(List<T> backing)
+	protected static <T, S> FList<S> newTarget(List<T> backing)
 	{
 		try {
-			return (FList<T2>)(backing.getClass().newInstance());
+			return (FList<S>)(backing.getClass().newInstance());
 		} catch (Exception e) {
-			return new FList<T2>();
+			return new FList<S>();
 		}
 	}
 
-	protected <T2> FList<T2> newTarget()
+	protected <S> FList<S> newTarget()
 	{
-		return FList.<T, T2>newTarget(backing);
+		return FList.<T, S>newTarget(backing);
 	}
 	
 	
@@ -171,6 +171,11 @@ public class FList<T> extends Functionable<T> implements List<T>, Serializable{
 	
 	
 	
+	public boolean equals(Object o)
+	{
+		if (!(o instanceof FList)) return false;
+		return equals((FList)o);
+	}
 	
 	public boolean equals(FList<T> other)
 	{
@@ -277,7 +282,7 @@ public class FList<T> extends Functionable<T> implements List<T>, Serializable{
 	}
 
 	public <S> S[] toArray(S[] arg0) {
-		return backing.toArray(arg0);
+		return backing.<S>toArray(arg0);
 	}
 	
 	
@@ -289,12 +294,12 @@ public class FList<T> extends Functionable<T> implements List<T>, Serializable{
 	// Overriding Functionable Methods
 	////////////////////////////////////////////////
 
-	public <T2> FList<T2> map(FnMap<T, T2> f)
+	public <S> FList<S> map(FnMap<T, S> f)
 	{
 		
-		Collection<T2> target = getNewCollection();		
+		Collection<S> target = this.<S>getNewCollection();		
 		map(this, f, target);
-		return wrapNewCollection(target);
+		return this.<S>wrapNewCollection(target);
 		
 	}
 	

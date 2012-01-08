@@ -110,8 +110,8 @@ public class FCollection<T> extends Functionable<T> implements Collection<T>{
 	}
 
 	@Override
-	public <T> T[] toArray(T[] ts) {
-		return backing.toArray(ts);
+	public <S> S[] toArray(S[] ts) {
+		return backing.<S>toArray(ts);
 	}
 	
 	
