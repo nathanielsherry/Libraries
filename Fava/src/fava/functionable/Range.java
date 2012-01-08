@@ -1,6 +1,8 @@
 package fava.functionable;
 
 
+import java.io.Serializable;
+
 import fava.signatures.FnMap;
 
 
@@ -18,7 +20,7 @@ import fava.signatures.FnMap;
  *
  */
 
-public class Range extends Sequence<Integer>
+public class Range extends Sequence<Integer> implements Serializable
 {
 
 	private int	start, stop, step;
