@@ -66,7 +66,7 @@ public abstract class FilterExecutor<T1> extends AbstractExecutor
 	 * @param map
 	 *            the {@link PluralMap} to execute.
 	 */
-	public void setFilter(FnCondition<T1> fitler)
+	public void setFilter(FnCondition<T1> filter)
 	{
 
 		if (this.filter != null && super.getState() != ExecutorState.UNSTARTED) return;

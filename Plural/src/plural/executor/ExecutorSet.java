@@ -158,6 +158,7 @@ public abstract class ExecutorSet<T> extends Eventful implements Iterable<Plural
 	 */
 	public synchronized T startWorkingBlocking()
 	{
+		/* invoke run, rather than start, since this is a blocking call */
 		worker.run();
 		return getResult();
 	}
