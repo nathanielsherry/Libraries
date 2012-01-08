@@ -64,7 +64,7 @@ public class BoltJavaCompiler {
 			
 			if (!success)
 			{
-				throw new RuntimeException("Compilation Error:\n" + err.toString());
+				throw new BoltCompilationException("Compilation Error:\n" + err.toString());
 			}
 			
 			/*
@@ -105,7 +105,7 @@ public class BoltJavaCompiler {
 						
 			
 		} catch (IOException e) {
-			throw new RuntimeException("Compilation Error:\n" + err.toString());
+			throw new BoltCompilationException("Compilation Error:\n" + err.toString());
 		}
 		
 	}

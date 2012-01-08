@@ -86,12 +86,12 @@ abstract class BoltJavaFunction {
 			return (FnSignature)mainClass.newInstance();
 		} catch (InstantiationException e) {
 			e.printStackTrace();
-			throw new RuntimeException("Error instantiating class");
+			throw new BoltCompilationException("Error instantiating class");
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
-			throw new RuntimeException("Error instantiating class");
+			throw new BoltCompilationException("Error instantiating class");
 		} catch (Exception e) {
-			throw new RuntimeException("Error instantiating class");
+			throw new BoltCompilationException("Error instantiating class");
 		}
 	}
 	
