@@ -54,7 +54,7 @@ public class BoltCombine<T1, T2> extends BoltScripter implements FnCombine<T1, T
 			return (T2)get(output);
 			
 		} catch (Exception e) {
-			throw new RuntimeException("Error executing script\n\n" + e.getMessage() + "\n-----\n" + getStdErr());
+			throw new BoltScriptExecutionException("Error executing script\n\n" + e.getMessage() + "\n-----\n" + getStdErr(), e);
 		}
 				
 	}

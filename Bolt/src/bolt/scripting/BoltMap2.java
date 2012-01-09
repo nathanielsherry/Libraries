@@ -54,7 +54,7 @@ public class BoltMap2<T1, T2, T3> extends BoltScripter implements FnMap2<T1, T2,
 			return (T3)get(output);
 			
 		} catch (Exception e) {
-			throw new RuntimeException("Error executing script\n\n" + e.getMessage() + "\n-----\n" + getStdErr());
+			throw new BoltScriptExecutionException("Error executing script\n\n" + e.getMessage() + "\n-----\n" + getStdErr(), e);
 		}
 		
 	}

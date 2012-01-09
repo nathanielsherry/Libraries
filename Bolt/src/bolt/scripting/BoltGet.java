@@ -46,7 +46,7 @@ public class BoltGet<T1> extends BoltScripter implements FnGet<T1>{
 			return (T1) get(get);
 			
 		} catch (Exception e) {
-			throw new RuntimeException("Error executing script\n\n" + e.getMessage() + "\n-----\n" + getStdErr());
+			throw new BoltScriptExecutionException("Error executing script\n\n" + e.getMessage() + "\n-----\n" + getStdErr(), e);
 		}
 		
 	}

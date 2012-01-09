@@ -105,10 +105,7 @@ public abstract class QueuedEventfulEnumListener<T extends Enum<T>> implements E
 	 * @param message
 	 * @return true to skip the queue, false otherwise
 	 */
-	public boolean skipQueue(T message)
-	{
-		return false;
-	}
+	public abstract boolean skipQueue(T message);
 	
 	/**
 	 * This method determines if the placing of the given message in the queue should cause the
@@ -116,9 +113,6 @@ public abstract class QueuedEventfulEnumListener<T extends Enum<T>> implements E
 	 * @param message
 	 * @return true to force the queue to be delivered prematurely, false otherwise
 	 */
-	public boolean flushQueueForMessage(T message)
-	{
-		return false;
-	}
+	public abstract boolean flushQueueForMessage(T message);
 	
 }

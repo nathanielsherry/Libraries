@@ -54,7 +54,7 @@ public class BoltFold<T1, T2> extends BoltScripter implements FnFold<T1, T2>{
 			return (T2)get(result);
 			
 		} catch (Exception e) {
-			throw new RuntimeException("Error executing script\n\n" + e.getMessage() + "\n-----\n" + getStdErr());
+			throw new BoltScriptExecutionException("Error executing script\n\n" + e.getMessage() + "\n-----\n" + getStdErr(), e);
 		}
 				
 	}
