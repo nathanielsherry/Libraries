@@ -349,7 +349,7 @@ public class SpectrumCalculations
 		for (int i = 0; i < source.size(); i++)
 		{
 			newvalue = source.get(i) - value;
-			if (Float.isNaN(minimum) && value < minimum) newvalue = minimum;
+			if (!Float.isNaN(minimum) && value < minimum) newvalue = minimum;
 			result.set(i, newvalue);
 		}
 
@@ -372,7 +372,7 @@ public class SpectrumCalculations
 		for (int i = 0; i < source.size(); i++)
 		{
 			newvalue = source.get(i) - value;
-			if (Float.isNaN(minimum) && value < minimum) newvalue = minimum;
+			if (!Float.isNaN(minimum) && value < minimum) newvalue = minimum;
 			target.set(i, newvalue);
 		}
 
@@ -401,7 +401,7 @@ public class SpectrumCalculations
 			public void f(Integer ordinal)
 			{
 				float newvalue = data.get(ordinal) - value;
-				if (Float.isNaN(minimum) && newvalue < minimum) newvalue = minimum;
+				if (!Float.isNaN(minimum) && newvalue < minimum) newvalue = minimum;
 				result.set(ordinal, newvalue);
 			}
 		});
@@ -518,7 +518,7 @@ public class SpectrumCalculations
 		for (int i = 0; i < maxInd; i++)
 		{
 			value = l1.get(i) - l2.get(i);
-			if (Float.isNaN(minimum) && value < minimum) value = minimum;
+			if (!Float.isNaN(minimum) && value < minimum) value = minimum;
 			result.set(i, value);
 		}
 
@@ -553,7 +553,7 @@ public class SpectrumCalculations
 		for (int i = 0; i < maxInd; i++)
 		{
 			value = l1.get(i) - l2.get(i);
-			if (Float.isNaN(minimum) && value < minimum) value = minimum;
+			if (!Float.isNaN(minimum) && value < minimum) value = minimum;
 			l1.set(i, value);
 		}
 		
@@ -585,7 +585,7 @@ public class SpectrumCalculations
 			public void f(Integer ordinal)
 			{
 				float newValue = l1.get(ordinal) - l2.get(ordinal);
-				if (Float.isNaN(minimum) && newValue < minimum) newValue = minimum;
+				if (!Float.isNaN(minimum) && newValue < minimum) newValue = minimum;
 				result.set(ordinal, newValue);
 			}
 		});
