@@ -196,7 +196,7 @@ public abstract class Functionable<T1> implements Iterable<T1> {
 		
 		for (S1 s : source)
 		{
-			if (first) { acc = s; }
+			if (first) { acc = s; first = false; }
 			else { acc = f.f(s, acc); }
 		}
 		
