@@ -2,6 +2,7 @@ package plural.interlacer;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -159,7 +160,7 @@ public class CooperativeProjectInterlacer<T>
 	 */
 	public CooperativeProjectInterlacer(int numThreads, int iterationJobCount, int defaultPriority, String name)
 	{
-		entries = new LinkedHashMap<String, InterlacerEntry<T>>();
+		entries = Collections.synchronizedMap(new LinkedHashMap<String, InterlacerEntry<T>>());
 		
 		DPName = name;
 		iterationSize = iterationJobCount;
