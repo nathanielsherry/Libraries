@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 
 
-public class FArray<T> extends Functionable<T>{
+public final class FArray<T> extends Functionable<T>{
 
 	private T[] internalArray;
 	

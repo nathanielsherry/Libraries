@@ -1,6 +1,7 @@
 package fava.functionable;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 import fava.datatypes.Maybe;
 import fava.signatures.FnGet;
@@ -37,7 +38,7 @@ public class Generator<T> extends Functionable<T>{
 				{
 					nextElement = generate.f();
 				}
-				if (nextElement == null) throw new NullPointerException();
+				if (nextElement == null) return false;
 				
 				
 				return nextElement.is();
@@ -50,7 +51,7 @@ public class Generator<T> extends Functionable<T>{
 				{
 					nextElement = generate.f();
 				}
-				if (nextElement == null) throw new NullPointerException();
+				if (nextElement == null) throw new NoSuchElementException();
 				
 				
 				if (nextElement.is()) {
@@ -59,7 +60,7 @@ public class Generator<T> extends Functionable<T>{
 					return element;
 				} else {
 					nextElement = null;
-					throw new IndexOutOfBoundsException();
+					throw new NoSuchElementException();
 				}
 				
 			}
@@ -81,7 +82,6 @@ public class Generator<T> extends Functionable<T>{
 	{
 		return "[Generator]";
 	}	
-	
-	
+
 
 }

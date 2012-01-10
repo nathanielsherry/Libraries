@@ -1,4 +1,5 @@
 import java.util.LinkedHashMap;
+import java.util.NoSuchElementException;
 
 import fava.signatures.FnMap;
 
@@ -18,7 +19,7 @@ public abstract class MemoMap<T1, T2> implements FnMap<T1, T2>
 	@Override
 	public T2 f(T1 v) {
 		
-		if (v == null) throw new NullPointerException();
+		if (v == null) throw new NoSuchElementException();
 		
 		if (!results.containsKey(v)) results.put(v, momoized(v));
 		return results.get(v);

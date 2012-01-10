@@ -174,13 +174,11 @@ public class FList<T> extends Functionable<T> implements List<T>, Serializable{
 	public boolean equals(Object o)
 	{
 		if (!(o instanceof FList)) return false;
-		return equals((FList)o);
-	}
-	
-	public boolean equals(FList<T> other)
-	{
+		
+		FList<?> other = (FList<?>)o;
 		return (this == other || backing.equals(other.backing));
 	}
+
 	
 	
 	

@@ -1,5 +1,8 @@
 package fava.datatypes;
 
+import java.io.Serializable;
+import java.util.NoSuchElementException;
+
 /**
  * Inspired by the Haskell Maybe, this Maybe is a class for encapsulating a possible result. It 
  * allows, for example, a function to return any value including -1 or null as a legitimate value, 
@@ -9,7 +12,7 @@ package fava.datatypes;
  * @param <T1>
  */
 
-public class Maybe<T1> {
+public class Maybe<T1> implements Serializable {
 
 	public enum Value
 	{
@@ -67,13 +70,13 @@ public class Maybe<T1> {
 	}
 	
 	/**
-	 * Gets the value of this Maybe. If this Maybe is empty, throws a NullPointerException
+	 * Gets the value of this Maybe. If this Maybe is empty, throws NoSuchElementException
 	 * @return The value of this Maybe
 	 */
 	public T1 get()
 	{
 		if (value == Value.SOMETHING) return item;
-		throw new NullPointerException();
+		throw new NoSuchElementException();
 	}
 	
 	
