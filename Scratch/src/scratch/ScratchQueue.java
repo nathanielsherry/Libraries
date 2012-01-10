@@ -114,7 +114,7 @@ public class ScratchQueue<T extends Serializable> implements Queue<T> {
 
 	public boolean removeAll(Collection<?> c) {
 		
-		if (c == null) throw new NullPointerException();
+		if (c == null) return false;
 		
 		T t;
 		
@@ -149,7 +149,8 @@ public class ScratchQueue<T extends Serializable> implements Queue<T> {
 	}
 
 	public boolean retainAll(Collection<?> c) {
-		if (c == null) throw new NullPointerException();
+		
+		if (c == null) return false;
 		
 		T t;
 		
@@ -179,7 +180,7 @@ public class ScratchQueue<T extends Serializable> implements Queue<T> {
 		}
 		
 
-		return true;
+		return toRemove.size() > 0;
 	}
 
 	public int size() {

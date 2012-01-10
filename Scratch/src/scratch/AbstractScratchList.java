@@ -387,7 +387,7 @@ public abstract class AbstractScratchList<T> extends Functionable<T> implements 
 	public boolean removeAll(Collection<?> c)
 	{
 		
-		if (c == null) throw new NullPointerException();
+		if (c == null) return false;
 		
 		T t;
 		
@@ -423,6 +423,8 @@ public abstract class AbstractScratchList<T> extends Functionable<T> implements 
 
 	public boolean retainAll(Collection<?> c)
 	{
+		if (c == null) return false;
+		
 		ListIterator<T> li = listIterator();
 		
 		boolean modified = false;
