@@ -1,7 +1,10 @@
 package bolt.plugin;
 
-import java.util.List;
-
+/**
+ * This is the base class that any plugins using the Bolt plugin system must extend.
+ * @author Nathaniel Sherry, 2010-2012
+ *
+ */
 
 public abstract class BoltPlugin {
 
@@ -37,13 +40,25 @@ public abstract class BoltPlugin {
 		}
 	}
 	
-	
-	
-	public abstract void initialize();
-	
+
+	/**
+	 * Returns a name for this plugin
+	 */
 	public abstract String getPluginName();
+	
+	/**
+	 * Returns a short description for this plugin
+	 */
 	public abstract String getPluginDescription();
 	
+	/**
+	 * Returns true if this plugin is able to be used, false otherwise
+	 * <br /><br />
+	 * There may be cases where plugins have certain requirements which 
+	 * must be met in order to function properly in a given situation. If
+	 * a plugin returns false for this method, it will not be exposed 
+	 * to the software using the plugins.
+	 */
 	public abstract boolean pluginEnabled();
 
 	

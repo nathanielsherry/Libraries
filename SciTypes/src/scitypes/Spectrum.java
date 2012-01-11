@@ -162,7 +162,6 @@ public class Spectrum extends Functionable<Float> implements Serializable
 	 * no more space available. Calling {@link Spectrum#set(int, float)}
 	 * does not have any effect on the add method
 	 * @param value
-	 * @return
 	 */
 	public boolean add(float value)
 	{
@@ -192,7 +191,6 @@ public class Spectrum extends Functionable<Float> implements Serializable
 	/**
 	 * Gets the value of the entry at index i
 	 * @param i
-	 * @return
 	 */
 	public float get(int i)
 	{
@@ -202,7 +200,6 @@ public class Spectrum extends Functionable<Float> implements Serializable
 
 	/**
 	 * Gets the size of this Spectrum
-	 * @return
 	 */
 	public int size()
 	{
@@ -212,7 +209,6 @@ public class Spectrum extends Functionable<Float> implements Serializable
 
 	/**
 	 * Returns a copy of the data as an array
-	 * @return
 	 */
 	public float[] toArray()
 	{
@@ -223,7 +219,6 @@ public class Spectrum extends Functionable<Float> implements Serializable
 	 * Returns a new Spectrum containing a copy of the data for a subsection of this spectrum.
 	 * @param start
 	 * @param stop
-	 * @return
 	 */
 	public Spectrum subSpectrum(int start, int stop)
 	{
@@ -240,7 +235,6 @@ public class Spectrum extends Functionable<Float> implements Serializable
 	 * Return the array which is backing this Spectrum. This method does not return a copy, 
 	 * but the real array. Modifying the contents of this array will modify the contents 
 	 * of the Spectrum.
-	 * @return
 	 */
 	public float[] backingArray()
 	{
