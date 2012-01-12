@@ -64,7 +64,8 @@ public class BoltPluginLoader<T extends BoltPlugin>
 				return true;
 			}};
 		
-		if (!checkSuperclasses(parentClass, BoltPlugin.class)) {
+		//if (!checkSuperclasses(parentClass, BoltPlugin.class)) {
+		if (!checkImplementsInterface(parentClass, BoltPlugin.class)) {
 			throw new ClassInheritanceException();
 		}
 		
@@ -145,7 +146,7 @@ public class BoltPluginLoader<T extends BoltPlugin>
 
 			public T f(Class<T> f)
 			{
-					return BoltPlugin.createNewInstanceFromClass(f);
+					return createNewInstanceFromClass(f);
 			}});
 	}
 	
@@ -314,10 +315,36 @@ public class BoltPluginLoader<T extends BoltPlugin>
 	private boolean isEnabledPlugin(Class<T> clazz)
 	{
 		return (
-				BoltPlugin.createNewInstanceFromClass(clazz) != null && 
-				BoltPlugin.createNewInstanceFromClass(clazz).pluginEnabled()
+				createNewInstanceFromClass(clazz) != null && 
+				createNewInstanceFromClass(clazz).pluginEnabled()
 		);
 			
+	}
+	
+	protected static <S extends BoltPlugin> S createNewInstance(S f)
+	{
+		return createNewInstanceFromClass((Class<S>)f.getClass());
+	}
+
+
+	protected static <S extends BoltPlugin> S createNewInstanceFromClass(Class<S> f)
+	{
+		try
+		{
+			return f.newInstance();
+		}
+		catch (InstantiationException e)
+		{
+			e.printStackTrace();
+			System.out.println(f);
+			return null;
+		}
+		catch (IllegalAccessException e)
+		{
+			e.printStackTrace();
+			System.out.println(f);
+			return null;
+		}
 	}
 	
 	private boolean checkSuperclasses(Class<?> c, Class<?> target)
@@ -337,6 +364,21 @@ public class BoltPluginLoader<T extends BoltPlugin>
 		
 		return false;
 				
+	}
+	
+	private boolean checkImplementsInterface(Class<?> c, Class<?> targetInterface)
+	{
+		if (c == null) return false;
+		
+		Class<?> ifaces[] = c.getInterfaces();
+		for (Class<?> iface : ifaces)
+		{
+			//if (  "bolt.plugin.BoltPlugin".equals(iface.getCanonicalName())  ) return true;
+			if (iface.equals(BoltPlugin.class)) return true;
+		}
+		
+		return false;
+		
 	}
 	
 	private boolean isActualPlugin(Class<?> c)
