@@ -8,7 +8,10 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.jnlp.FileContents;
 import javax.jnlp.FileOpenService;
@@ -32,16 +35,29 @@ import swidget.icons.StockIcon;
 public class SwidgetIO
 {
 
-	public static List<AbstractFile> openFiles(Window parent, String title, String[] exts, String extDesc,
-			String startDir)
+	public static List<AbstractFile> openFiles(
+			Window 		parent, 
+			String 		title, 
+			String[][] 	exts, 
+			String[] 	extDesc,
+			String 		startDir)
 	{
 
 		if (Env.isWebStart())
 		{
 
+			Set<String> allExts = new HashSet<String>();
+			for (String extset[] : exts)
+			{
+				for (String ext : extset)
+				{
+					allExts.add(ext);
+				}
+			}
+			
 			try
 			{
-				return wsOpenFiles("~/", exts);
+				return wsOpenFiles("~/", allExts.toArray(new String[]{}));
 			}
 			catch (UnavailableServiceException e)
 			{
@@ -62,6 +78,20 @@ public class SwidgetIO
 			chooser.setMultiSelectionEnabled(true);
 			chooser.setDialogTitle(title);
 
+			SimpleFileFilter filter;
+			for (int i = 0; i < exts.length; i++)
+			{
+				filter = new SimpleFileFilter();
+				for (String ext : exts[i])
+				{
+					filter.addExtension(ext);
+				}
+				if (extDesc.length >= i) filter.setDescription(extDesc[i]);
+				
+				chooser.addChoosableFileFilter(filter);
+			}
+			
+			/*
 			SimpleFileFilter filter = new SimpleFileFilter();
 			for (String ext : exts)
 			{
@@ -69,6 +99,7 @@ public class SwidgetIO
 			}
 			filter.setDescription(extDesc);
 			chooser.setFileFilter(filter);
+			*/
 
 			int returnVal = chooser.showOpenDialog(parent);
 			if (returnVal == JFileChooser.APPROVE_OPTION)
@@ -93,15 +124,30 @@ public class SwidgetIO
 
 
 
-	public static AbstractFile openFile(Window parent, String title, String[] exts, String extDesc, String startDir)
+	public static AbstractFile openFile(
+			Window 		parent, 
+			String 		title, 
+			String[][] 	exts, 
+			String[] 	extDesc, 
+			String 		startDir
+		)
 	{
 
 		if (Env.isWebStart())
 		{
 
+			Set<String> allExts = new HashSet<String>();
+			for (String extset[] : exts)
+			{
+				for (String ext : extset)
+				{
+					allExts.add(ext);
+				}
+			}
+			
 			try
 			{
-				return wsOpenFile("~/", exts);
+				return wsOpenFile("~/", allExts.toArray(new String[]{}));
 			}
 			catch (UnavailableServiceException e)
 			{
@@ -122,6 +168,7 @@ public class SwidgetIO
 			chooser.setMultiSelectionEnabled(true);
 			chooser.setDialogTitle(title);
 			
+			/*
 			if (exts.length > 0) 
 			{
 				SimpleFileFilter filter = new SimpleFileFilter();
@@ -131,6 +178,19 @@ public class SwidgetIO
 				}
 				filter.setDescription(extDesc);
 				chooser.setFileFilter(filter);
+			}
+			*/
+			SimpleFileFilter filter;
+			for (int i = 0; i < exts.length; i++)
+			{
+				filter = new SimpleFileFilter();
+				for (String ext : exts[i])
+				{
+					filter.addExtension(ext);
+				}
+				if (extDesc.length >= i) filter.setDescription(extDesc[i]);
+				
+				chooser.addChoosableFileFilter(filter);
 			}
 
 			int returnVal = chooser.showOpenDialog(parent);
