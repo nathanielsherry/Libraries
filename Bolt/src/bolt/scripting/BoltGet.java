@@ -37,6 +37,8 @@ public class BoltGet<T1> extends BoltScripter implements FnGet<T1>{
 		
 	}
 	
+	
+	@SuppressWarnings("unchecked")
 	private T1 do_f() {
 		
 		if (!hasSideEffects) clear();

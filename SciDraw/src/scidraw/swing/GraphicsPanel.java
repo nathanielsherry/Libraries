@@ -2,9 +2,7 @@ package scidraw.swing;
 
 
 import java.awt.Graphics;
-import java.awt.GraphicsConfiguration;
 import java.awt.Transparency;
-import java.awt.image.BufferedImage;
 import java.awt.image.VolatileImage;
 import java.io.IOException;
 import java.io.OutputStream;

@@ -3,8 +3,6 @@ package fava.functionable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 import fava.signatures.FnMap;
 

@@ -2,7 +2,6 @@ package scidraw.drawing.map.painters;
 
 
 import java.awt.Color;
-import java.util.ArrayList;
 import java.util.List;
 
 import fava.signatures.FnEach;
@@ -12,7 +11,6 @@ import plural.executor.eachindex.implementations.PluralEachIndexExecutor;
 import scidraw.drawing.backends.Buffer;
 import scidraw.drawing.map.palettes.AbstractPalette;
 import scidraw.drawing.painters.PainterData;
-import scitypes.GridPerspective;
 import scitypes.Spectrum;
 import scitypes.SpectrumCalculations;
 

@@ -42,7 +42,8 @@ public class BoltMap3<T1, T2, T3, T4> extends BoltScripter implements FnMap3<T1,
 		
 	}
 	
-
+	
+	@SuppressWarnings("unchecked")
 	private T4 do_f(T1 v1, T2 v2, T3 v3) {
 		
 		if (!hasSideEffects) clear();

@@ -43,6 +43,7 @@ public class BoltCombine<T1, T2> extends BoltScripter implements FnCombine<T1, T
 	}
 	
 	
+	@SuppressWarnings("unchecked")
 	private T2 do_f(T1 v1, T1 v2) {
 
 		if (!hasSideEffects) clear();

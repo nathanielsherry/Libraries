@@ -71,6 +71,7 @@ public class BoltPluginLoader<T extends BoltPlugin>
 		
 	}
 	
+	@SuppressWarnings("unchecked")
 	public BoltPluginLoader(final String pluginGroup) {
 		
 		this();
@@ -231,6 +232,8 @@ public class BoltPluginLoader<T extends BoltPlugin>
 				} catch (Throwable exception) {
 					continue;
 				}
+				
+				@SuppressWarnings("unchecked")
 				Class<T> clazz = (Class<T>)loadedClass;
 				if (filter.f(clazz)) {
 					if (isEnabledPlugin(clazz)) foundPlugins.add(clazz);
@@ -300,6 +303,8 @@ public class BoltPluginLoader<T extends BoltPlugin>
 		{
 			for (int i = 0; i < classes.size(); i++)
 			{
+				
+				@SuppressWarnings("unchecked")
 				Class<T> clazz = (Class<T>)classes.get(i);
 				if (filter.f(clazz)) {
 					if (isEnabledPlugin(clazz)) foundPlugins.add(clazz);
@@ -321,6 +326,7 @@ public class BoltPluginLoader<T extends BoltPlugin>
 			
 	}
 	
+	@SuppressWarnings("unchecked")
 	protected static <S extends BoltPlugin> S createNewInstance(S f)
 	{
 		return createNewInstanceFromClass((Class<S>)f.getClass());

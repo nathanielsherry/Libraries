@@ -33,11 +33,10 @@ public class BoltJavaFold<T1, T2> extends BoltJavaFunction implements FnFold<T1,
 			);
 	}
 	
+	@SuppressWarnings("unchecked")
 	private void compile()
 	{
-
 		innerFn = (FnFold<T1, T2>)getFunctionObject();
-
 	}
 	
 	

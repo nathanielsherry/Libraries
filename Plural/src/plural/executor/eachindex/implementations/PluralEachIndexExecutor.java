@@ -1,9 +1,7 @@
 package plural.executor.eachindex.implementations;
 
 
-import fava.functionable.Range;
 import fava.signatures.FnEach;
-import plural.executor.ExecutorState;
 import plural.executor.TicketManager;
 import plural.executor.eachindex.EachIndexExecutor;
 import plural.executor.map.MapExecutor;

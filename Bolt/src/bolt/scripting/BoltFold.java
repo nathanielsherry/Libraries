@@ -42,6 +42,7 @@ public class BoltFold<T1, T2> extends BoltScripter implements FnFold<T1, T2>{
 	}
 	
 	
+	@SuppressWarnings("unchecked")
 	private T2 do_f(T1 v, T2 b) {
 		
 		if (!hasSideEffects) clear();

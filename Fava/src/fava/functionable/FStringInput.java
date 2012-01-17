@@ -12,7 +12,6 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.nio.channels.ReadableByteChannel;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.Scanner;
 import java.util.regex.Pattern;
@@ -266,7 +265,6 @@ public class FStringInput implements Iterator<String>, Closeable{
 		
 		File file = new File(filename);
 		
-		FStringInput f;
 		FList<String> o1 = null;
 		FList<String> o2 = null;
 		

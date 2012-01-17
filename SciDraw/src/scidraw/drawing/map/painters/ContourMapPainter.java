@@ -15,7 +15,6 @@ import scidraw.drawing.map.palettes.AbstractPalette;
 import scidraw.drawing.painters.PainterData;
 import scitypes.GridPerspective;
 import scitypes.Spectrum;
-import scitypes.SpectrumCalculations;
 
 
 enum Threshold

@@ -28,11 +28,10 @@ public class BoltJavaGet<T1> extends BoltJavaFunction implements FnGet<T1>{
 			);
 	}
 	
+	@SuppressWarnings("unchecked")
 	private void compile()
 	{
-
 		innerFn = (FnGet<T1>)getFunctionObject();
-
 	}
 	
 	

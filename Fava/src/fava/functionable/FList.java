@@ -6,10 +6,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.ListIterator;
-import java.util.Set;
 
 import fava.Fn;
 import fava.Functions;
@@ -592,14 +590,14 @@ public class FList<T> extends Functionable<T> implements List<T>, Serializable{
 	public FList<T> shift(int count)
 	{
 		FList<T> ts = take(count);
-		for (Integer i : new Range(0, count-1)) backing.remove(0);
+		for (int i = 0; i < count; i++){ backing.remove(0); }
 		return ts;
 	}
 	
 	public FList<T> shiftWhile(FnMap<T, Boolean> condition)
 	{
 		FList<T> ts = takeWhile(condition);
-		for (Integer i : new Range(0, ts.size()-1)) backing.remove(0);
+		for (int i = 0; i < ts.size(); i++){ backing.remove(0); }
 		return ts;
 	}
 	

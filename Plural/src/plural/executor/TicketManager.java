@@ -3,8 +3,6 @@ package plural.executor;
 import java.util.ArrayList;
 import java.util.List;
 
-import fava.functionable.Range;
-
 public class TicketManager {
 
 	private List<Integer>	ticketBlockStart;

@@ -37,11 +37,10 @@ public class BoltJavaMap3<T1, T2, T3, T4> extends BoltJavaFunction implements Fn
 			);
 	}
 	
+	@SuppressWarnings("unchecked")
 	private void compile()
 	{
-
 		innerFn = (FnMap3<T1, T2, T3, T4>)getFunctionObject();
-
 	}
 	
 	

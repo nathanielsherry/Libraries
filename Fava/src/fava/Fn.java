@@ -149,6 +149,7 @@ public class Fn
 
 	}
 	
+	@SuppressWarnings("unused")
 	public static <T1, T2> FList<T2> map_index_target(Iterable<T1> iterable, List<T2> target, FnMap<Integer, T2> f)
 	{
 

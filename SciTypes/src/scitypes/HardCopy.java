@@ -8,6 +8,7 @@ import java.io.ObjectOutputStream;
 
 public class HardCopy {
 
+	@SuppressWarnings("unchecked")
 	public static <T> T hardcopy(T object) throws IOException, ClassNotFoundException
 	{
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();

@@ -134,7 +134,6 @@ public class Spectrum extends Functionable<Float> implements Serializable
 		this.maxIndex = copy.maxIndex;		
 	}
 	
-	private Spectrum(){}
 	
 	/**
 	 * Copies the values from the given spectrum into this one. 

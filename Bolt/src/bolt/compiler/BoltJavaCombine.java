@@ -33,6 +33,7 @@ public class BoltJavaCombine<T1, T2> extends BoltJavaFunction implements FnCombi
 			);
 	}
 	
+	@SuppressWarnings("unchecked")
 	private void compile()
 	{
 		innerFn = (FnCombine<T1, T2>)getFunctionObject();	

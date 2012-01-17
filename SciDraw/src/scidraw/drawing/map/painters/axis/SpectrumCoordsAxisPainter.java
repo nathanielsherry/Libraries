@@ -174,7 +174,7 @@ public class SpectrumCoordsAxisPainter extends AbstractKeyCoordAxisPainter
 		if (markings == null)
 		{
 			
-			float maxIntensityFloat = p.dr.maxYIntensity;
+			//float maxIntensityFloat = p.dr.maxYIntensity;
 			String maxIntensity;
 			//if (maxIntensityFloat < 1)
 			//{

@@ -1,7 +1,5 @@
 package bolt.scripting;
 
-import org.python.modules.synchronize;
-
 import bolt.scripting.languages.Language;
 
 import fava.signatures.FnMap;
@@ -44,6 +42,8 @@ public class BoltMap<T1, T2> extends BoltScripter implements FnMap<T1, T2>{
 		
 	}
 	
+	
+	@SuppressWarnings("unchecked")
 	private T2 do_f(T1 v)
 	{
 		if (!hasSideEffects) clear();

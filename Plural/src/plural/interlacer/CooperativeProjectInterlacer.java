@@ -318,7 +318,7 @@ public class CooperativeProjectInterlacer<T>
 	/**
 	 * Sets the limit on the number of active background projects. Background 
 	 * projects are projects with priority 0, and are only executed when no 
-	 * projects with any higher priority ( >= 1 ) are available.
+	 * projects with any higher priority ( &gt;= 1 ) are available.
 	 * @param numBackgroundProjects the maximum number of active background projects
 	 */
 	public void setNumBackgroundProjects(int numBackgroundProjects) {
