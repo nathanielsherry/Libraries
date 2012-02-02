@@ -1,5 +1,5 @@
 package bolt.plugin;
 
-public class ClassInheritanceException extends Throwable{
+public class ClassInheritanceException extends Exception{
 
 }

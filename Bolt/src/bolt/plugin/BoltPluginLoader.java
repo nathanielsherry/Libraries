@@ -2,17 +2,15 @@ package bolt.plugin;
 
 
 import java.io.File;
+import java.io.FilenameFilter;
 import java.lang.reflect.Modifier;
 import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ServiceLoader;
 
 import commonenvironment.Env;
-import commonenvironment.zipfs.ZipFS;
-import commonenvironment.zipfs.ZippedFile;
 
 import fava.functionable.FList;
 import fava.signatures.FnCondition;
@@ -25,110 +23,76 @@ public class BoltPluginLoader<T extends BoltPlugin>
 {
 
 	public FList<Class<T>>			availablePlugins;
-	private Class<T> 				parentClass;
+	private Class<T> 				target;
 
 	private FnCondition<Class<T>> 	filter;
-	
-	
-	private BoltPluginLoader()
-	{
-		availablePlugins = new FList<Class<T>>();
-	}
-	
+		
 	/**
-	 * Creates a PluginLoader which will locate any plugins which are subclasses of parentClass
-	 * @param parentClass
+	 * Creates a PluginLoader which will locate any plugins which are subclasses or implementations of the target
+	 * @param target
 	 * @throws ClassInheritanceException
 	 */
-	public BoltPluginLoader(final Class<T> parentClass) throws ClassInheritanceException
+	public BoltPluginLoader(final Class<T> target) throws ClassInheritanceException
 	{
-		
-		this();
-		
-		this.parentClass = parentClass;
-		
-		filter = new FnCondition<Class<T>>() {
-
-			@Override
-			public Boolean f(Class<T> c) {
-				
-				//make sure the plugin is a subclass of the given class
-				if (!checkSuperclasses(c, parentClass)) return false;
-				
-				//make sure its not an interface or an abstract class
-				if (!isActualPlugin(c)) return false;
-				
-				//if its not annotated as a plugin, return false.
-				if (c.getAnnotation(Plugin.class) == null) return false;
-				
-				return true;
-			}};
-		
-		//if (!checkSuperclasses(parentClass, BoltPlugin.class)) {
-		if (!checkImplementsInterface(parentClass, BoltPlugin.class)) {
-			throw new ClassInheritanceException();
-		}
-		
+		this(target, null);
 	}
 	
 	@SuppressWarnings("unchecked")
-	public BoltPluginLoader(final String pluginGroup) {
+	public BoltPluginLoader(final String pluginGroup) throws ClassInheritanceException {
 		
-		this();
-		
-		this.parentClass = (Class<T>)BoltPlugin.class;
-		
-		
-		filter = new FnCondition<Class<T>>() {
-
-			@Override
-			public Boolean f(Class<T> c) {
-				
-				//make sure the plugin is a subclass of BoltPlugin
-				if (!checkSuperclasses(c, BoltPlugin.class)) return false;
-				
-				//make sure its not an interface or an abstract class
-				if (!isActualPlugin(c)) return false;
-				
-				//if its not annotated as a plugin with the right group, return false.
-				if (c.getAnnotation(Plugin.class) == null) return false;
-				if (! pluginGroup.equals(c.getAnnotation(Plugin.class).group())) return false;
-				
-				return true;
-				
-			}};
+		this((Class<T>)BoltPlugin.class, pluginGroup);
 		
 	}
 	
 	
-	public BoltPluginLoader(final Class<T> parentClass, final String pluginGroup) throws ClassInheritanceException
+	public BoltPluginLoader(final Class<T> target, final String pluginGroup) throws ClassInheritanceException
 	{
 		
-		this();
+		availablePlugins = new FList<Class<T>>();
 		
-		this.parentClass = parentClass;
+		this.target = target;
 		
 		filter = new FnCondition<Class<T>>() {
 
+			boolean isTargetInterface = Modifier.isInterface(target.getModifiers());
+			
 			@Override
 			public Boolean f(Class<T> c) {
-				
-				//make sure the plugin is a subclass of the given class
-				if (!checkSuperclasses(c, parentClass)) return false;
 				
 				//make sure its not an interface or an abstract class
 				if (!isActualPlugin(c)) return false;
 				
+				
+				
 				//if its not annotated as a plugin with the right group, return false.
 				if (c.getAnnotation(Plugin.class) == null) return false;
-				if (! pluginGroup.equals(c.getAnnotation(Plugin.class).group())) return false;
+				if (pluginGroup != null)
+				{
+					if (! pluginGroup.equals(c.getAnnotation(Plugin.class).group())) return false;
+				}
+				
+				
+				
+				//if target is an interface, c must implement it
+				if (isTargetInterface)
+				{
+					//make sure the class implements the target interface
+					if (!checkImplementsInterface(c, target)) return false;
+				}
+				//if target is a class, c must extend it
+				else
+				{
+					//make sure the plugin is a subclass of the given class
+					if (!checkSuperclasses(c, target)) return false;
+				}
+				
 				
 				return true;
 				
 				
 			}};
 		
-		if (!checkSuperclasses(parentClass, BoltPlugin.class)) {
+		if (!checkImplementsInterface(target, BoltPlugin.class)) {
 			throw new ClassInheritanceException();
 		}
 		
@@ -152,178 +116,24 @@ public class BoltPluginLoader<T extends BoltPlugin>
 	}
 	
 
-	/**
-	 * Attempts to load the plugins which are distrubuted with the applcication.
-	 * If the application is in a jar file, attempts to load plugins from within the jar file
-	 */
-	public void loadLocalPlugins(String packageName)
+	public void registerPlugin(Class<?> loadedClass)
 	{
-
-		if (Env.isClassInJar(parentClass))
-		{
-
-			File jarFile = Env.getJarForClass(parentClass);
-			if (jarFile == null) return;
-			
-			loadPluginsFromJar(jarFile, packageName);
-
-		}
-		else
-		{
-			loadPluginsFromFilesystem(packageName);
-		}
-
-		
-	}
-	
-	
-	public void loadPluginsFromJar(File jarFile)
-	{
-		loadPluginsFromJar(jarFile, null);
-	}
-
-	// messy logic for getting a list of all available Plugins from inside of a jar file
-	public void loadPluginsFromJar(File jarFile, String packageName)
-	{
-		
-		//File jarFile:			the jar file we want to look inside of
-		//Class<T> c:			the class that we want all of our plugins to descend from
-		//String packageName:	the package that we want to restrict our view to
-		
-		
-		//in a jar file, org.some.package should become org/some/package 
-		ZipFS g = new ZipFS(jarFile);
-		FList<ZippedFile> files = g.getAllFiles(); //g.getChildren(g.getZippedFile(packageName.replace(".", "/") + "/"));
-		
-		List<Class<T>> foundPlugins = new ArrayList<Class<T>>();
-		
-		try {
-			
-			//get this jar file loaded by a class loader
-			URL jarurl = new URL("jar", "","file:" + jarFile.getAbsolutePath()+"!/");
-			URLClassLoader cl = URLClassLoader.newInstance(new URL[] {jarurl });
-			
-			//for each file in the jar
-			for (ZippedFile e : files)
-			{
-				if (e.getName().length() < 6) continue;
-				if (e.isDirectory()) continue;
-				if (!e.getName().endsWith(".class")) continue;
+		@SuppressWarnings("unchecked")
+		Class<T> clazz = (Class<T>)loadedClass;
 				
-				String classPathName = e.getName().substring(0, e.getName().length()-6);
-				String qualifiedClassName = classPathName.replace("/", ".");
-							
-				//build a qualified class name out of the filename. If packageName is not null, we have
-				//to check to make sure that the package names match 
-				if (packageName != null){
-								
-					int lastDot = qualifiedClassName.lastIndexOf('.');
-					if (lastDot == -1) continue;
-					String thisPackageName = qualifiedClassName.substring(0, lastDot);
-					if (! thisPackageName.equals(packageName)) continue;
-					
-				}
-				
-				
-				//attempts to load this class using the class loader we just fed this jar file to
-				Class<?> loadedClass;
-				try{
-					loadedClass = cl.loadClass(qualifiedClassName);
-				} catch (Throwable exception) {
-					continue;
-				}
-				
-				@SuppressWarnings("unchecked")
-				Class<T> clazz = (Class<T>)loadedClass;
-				if (filter.f(clazz)) {
-					if (isEnabledPlugin(clazz)) foundPlugins.add(clazz);
-				}
-			}
-			
-			availablePlugins.addAll( foundPlugins );
-			availablePlugins = availablePlugins.unique();
-			
-			
-		} catch (MalformedURLException e1) {
-			e1.printStackTrace();
-		}
-				
-	}
-
-
-	public void loadPluginsFromJarsInDirectory(File directory)
-	{
-		loadPluginsFromJarsInDirectory(directory, null);
-	}
-	
-	public void loadPluginsFromJarsInDirectory(File directory, String packageName)
-	{
-		
-		if (!directory.exists()) return;
-		if (!directory.isDirectory()) return;
-		
-		File[] filesInDir = directory.listFiles();
-		
-		for (File file : filesInDir)
-		{
-			if (file.isDirectory()) continue;
-			String filename = file.getName();
-			if (!filename.endsWith(".jar")) continue;
-			
-			loadPluginsFromJar(file, packageName);			
-			
+		if (filter.f(clazz)) {
+			if (isEnabledPlugin(clazz)) availablePlugins.add(clazz);
 		}
 		
-	}
-
-
-
-
-
-	// messy logic for getting a list of all available Plugins from the filesystem
-	public void loadPluginsFromFilesystem(String packageName)
-	{
-
-		List<Class<T>> foundPlugins = new ArrayList<Class<T>>();
-
-		List<Class<?>> classes = new FList<Class<?>>();
-
-		try
-		{
-			classes.addAll(getClasses(packageName));
-		}
-		catch (ClassNotFoundException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-
-		if (classes != null)
-		{
-			for (int i = 0; i < classes.size(); i++)
-			{
-				
-				@SuppressWarnings("unchecked")
-				Class<T> clazz = (Class<T>)classes.get(i);
-				if (filter.f(clazz)) {
-					if (isEnabledPlugin(clazz)) foundPlugins.add(clazz);
-				}
-			}
-		}
-
-		availablePlugins.addAll( foundPlugins );
 		availablePlugins = availablePlugins.unique();
-
 	}
+	
+	
 
 	private boolean isEnabledPlugin(Class<T> clazz)
 	{
-		return (
-				createNewInstanceFromClass(clazz) != null && 
-				createNewInstanceFromClass(clazz).pluginEnabled()
-		);
-			
+		T instance = createNewInstanceFromClass(clazz);
+		return instance != null && instance.pluginEnabled();			
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -358,17 +168,9 @@ public class BoltPluginLoader<T extends BoltPlugin>
 		
 		if (c == null) return false;
 		
-		if (Modifier.isInterface(	c.getModifiers()  )) return false;
-		Class<?> sc = c.getSuperclass();
+		if (Modifier.isInterface(	c.getModifiers()  )) return false;	
 		
-		while (sc != Object.class) {
-
-			if (Modifier.isInterface(	sc.getModifiers()  )) return false;
-			if (sc == target) return true;
-			sc = sc.getSuperclass();
-		}
-		
-		return false;
+		return target.isAssignableFrom(c);
 				
 	}
 	
@@ -376,82 +178,103 @@ public class BoltPluginLoader<T extends BoltPlugin>
 	{
 		if (c == null) return false;
 		
-		Class<?> ifaces[] = c.getInterfaces();
-		for (Class<?> iface : ifaces)
-		{
-			//if (  "bolt.plugin.BoltPlugin".equals(iface.getCanonicalName())  ) return true;
-			if (iface.equals(BoltPlugin.class)) return true;
-		}
+		while (c != Object.class) {
 		
+			Class<?> ifaces[] = c.getInterfaces();
+			for (Class<?> iface : ifaces)
+			{
+				if (iface.equals(targetInterface)) return true;
+			}
+						
+			c = c.getSuperclass();
+			
+		}
 		return false;
 		
 	}
 	
 	private boolean isActualPlugin(Class<?> c)
 	{
-
-		if (Modifier.isInterface(	c.getModifiers()  )) return false;
+		if (c.isInterface()) return false;
+		if (c.isAnnotation()) return false;
 		if (Modifier.isAbstract(	c.getModifiers()  )) return false;
 		
 		return true;
 	}
-
 	
-	// really really messy logic for getting all classes which extend AbstractPlugin
-	private List<Class<?>> getClasses(String pckgname) throws ClassNotFoundException
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	public void register(File file)
 	{
-
-		List<Class<?>> classes = new ArrayList<Class<?>>();
-		// Get a File object for the package
-		File directory = null;
-		try
+		File[] files;
+		if (file.isDirectory())
 		{
-			ClassLoader cld = Thread.currentThread().getContextClassLoader();
-			if (cld == null)
-			{
-				throw new ClassNotFoundException("Can't get class loader.");
-			}
-
-			String relpath = pckgname.replace('.', '/');
-
-			
-			String abspath = parentClass.getProtectionDomain().getCodeSource().getLocation() + relpath;
-			URI uri = new URI(abspath);
-					
-			directory = new File(uri.getPath());
-		}
-		catch (Exception x)
-		{
-			throw new ClassNotFoundException(pckgname + " (" + directory + ") does not appear to be a valid package");
-		}
-
-		if (directory.exists())
-		{
-			// Get the list of the files contained in the package
-			String[] files = directory.list();
-			for (int i = 0; i < files.length; i++)
-			{
-				// we are only interested in .class files
-				if (files[i].endsWith(".class"))
+			files = file.listFiles(new FilenameFilter() {
+				
+				@Override
+				public boolean accept(File dir, String name)
 				{
-					// removes the .class extension
-					String classname = files[i].substring(0, files[i].length() - 6);
-					classes.add(Class.forName(pckgname + '.' + classname));
+					return name.toLowerCase().endsWith(".jar");
 				}
-			}
+			});
 		}
 		else
 		{
-			throw new ClassNotFoundException(pckgname + " does not appear to be a valid package");
+			files = new File[1];
+			files[0] = file;
 		}
-
-		return classes;
+		
+		
+		for (int i = 0; i < files.length; i++)
+		{
+			try
+			{
+				register(files[i].toURI().toURL());
+			}
+			catch (MalformedURLException e)
+			{
+				System.err.println("Failed to load plugin at " + files[i]);
+			}
+		}
+		
 	}
 	
-	
-	
-	
+	public void register(URL url)
+	{
 
+		URLClassLoader urlLoader = new URLClassLoader(new URL[]{url});
+		
+		ServiceLoader<T> loader = ServiceLoader.load(target, urlLoader);
+		
+		for (T t : loader)
+		{
+			registerPlugin(t.getClass());
+		}
+	}
+	
+	public void register()
+	{
+		
+		if (Env.isClassInJar(target))
+		{
+			register(Env.getJarForClass(target).getParentFile());
+		}
+		else
+		{
+			register(new File(".").getAbsoluteFile());
+		}
+	}
 	
 	
 }

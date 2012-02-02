@@ -14,21 +14,6 @@ package bolt.plugin;
 
 public interface BoltPlugin {
 
-
-	
-	
-	
-
-	/**
-	 * Returns a name for this plugin
-	 */
-	public abstract String getPluginName();
-	
-	/**
-	 * Returns a short description for this plugin
-	 */
-	public abstract String getPluginDescription();
-	
 	/**
 	 * Returns true if this plugin is able to be used, false otherwise
 	 * <br /><br />
