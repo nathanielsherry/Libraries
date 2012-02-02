@@ -1,4 +1,4 @@
-package swidget.widgets;
+package swidget.widgets.properties;
 
 import java.awt.Dimension;
 import java.awt.Font;
@@ -14,14 +14,15 @@ import javax.swing.border.EmptyBorder;
 
 import swidget.icons.IconSize;
 import swidget.icons.StockIcon;
+import swidget.widgets.Spacing;
 
 
-public class PropertyPanel extends JPanel
+public class PropertyViewPanel extends JPanel
 {
 
 	GridBagConstraints c;
 
-	public PropertyPanel(Map<String, String> properties)
+	public PropertyViewPanel(Map<String, String> properties)
 	{
 		setLayout(new GridBagLayout());
 		setProperties(properties);

@@ -5,5 +5,6 @@
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/CommonEnvironment"/>
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/Eventful"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Fava"/>
+	<classpathentry kind="lib" path="jars/swingx-core-1.6.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

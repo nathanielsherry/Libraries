@@ -15,8 +15,8 @@ import swidget.icons.StockIcon;
 import swidget.widgets.ButtonBox;
 import swidget.widgets.ClearPanel;
 import swidget.widgets.ImageButton;
-import swidget.widgets.PropertyPanel;
 import swidget.widgets.Spacing;
+import swidget.widgets.properties.PropertyViewPanel;
 
 
 public class PropertyDialogue extends JDialog
@@ -54,7 +54,7 @@ public class PropertyDialogue extends JDialog
 		});
 		bbox.addRight(0, close);
 		
-		PropertyPanel propPanel = new PropertyPanel(properties);
+		PropertyViewPanel propPanel = new PropertyViewPanel(properties);
 		propPanel.setBorder(Spacing.bHuge());
 		containerPanel.add(propPanel, BorderLayout.NORTH);
 		containerPanel.add(bbox, BorderLayout.SOUTH);

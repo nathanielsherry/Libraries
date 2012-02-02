@@ -116,9 +116,16 @@ public class ComplexToggle extends JToggleButton
 		if (! "".equals(description))
 		{
 	
-			Icon i = IconFactory.getImageIcon(imageName, IconSize.ICON);
-			icon = new JLabel(i);
-			icon.setBorder(Spacing.bSmall());
+			if (! "".equals(imageName))
+			{
+				Icon i = IconFactory.getImageIcon(imageName, IconSize.ICON);
+				icon = new JLabel(i);
+				icon.setBorder(Spacing.bSmall());
+			}
+			else
+			{
+				icon = new JLabel();
+			}
 			
 			c.gridx = 0;
 			c.gridy = 0;
@@ -126,6 +133,7 @@ public class ComplexToggle extends JToggleButton
 			c.weightx = 0.0;
 
 			add(icon, c);
+
 
 			
 			c.gridx = 1;

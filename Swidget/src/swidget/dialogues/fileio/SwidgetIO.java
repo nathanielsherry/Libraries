@@ -208,14 +208,6 @@ public class SwidgetIO
 	}
 
 
-	public static ByteArrayOutputStream getSaveFileBuffer()
-	{
-		return new ByteArrayOutputStream();
-
-
-	}
-
-
 	public static String saveFile(Window parent, String title, String ext, String extDesc, String startDir,
 			ByteArrayOutputStream outStream) throws IOException
 	{
