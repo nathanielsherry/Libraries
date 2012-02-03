@@ -179,7 +179,7 @@ public class SavePicture extends JDialog
 			controlsPanel.setEnabled(false);
 			controlsPanel.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 			
-			ByteArrayOutputStream baos = SwidgetIO.getSaveFileBuffer();				
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();				
 			controller.writePNG(baos);
 
 			String result = SwidgetIO.saveFile(this, "Save Picture As...", "png", "Portable Network Graphic", startingFolder, baos);
@@ -212,7 +212,7 @@ public class SavePicture extends JDialog
 			controlsPanel.setEnabled(false);
 			controlsPanel.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 			
-			ByteArrayOutputStream baos = SwidgetIO.getSaveFileBuffer();				
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();				
 			controller.writeSVG(baos);
 
 			String result = SwidgetIO.saveFile(this, "Save Picture As...", "svg", "Scalable Vector Graphic", startingFolder, baos);
@@ -246,7 +246,7 @@ public class SavePicture extends JDialog
 			controlsPanel.setEnabled(false);
 			controlsPanel.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 			
-			ByteArrayOutputStream baos = SwidgetIO.getSaveFileBuffer();				
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();				
 			controller.writePDF(baos);
 
 			String result = SwidgetIO.saveFile(this, "Save Picture As...", "pdf", "Portable Document Format", startingFolder, baos);
