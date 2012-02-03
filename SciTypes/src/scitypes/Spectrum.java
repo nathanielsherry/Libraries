@@ -23,6 +23,13 @@ public class Spectrum extends Functionable<Float> implements Serializable
 	private int		maxIndex;
 
 
+	/**
+	 * Public constructor for (de)serialization purposes only.
+	 */
+	public Spectrum()
+	{
+		
+	}
 
 	/**
 	 * Creates a new Spectrum with the given size
