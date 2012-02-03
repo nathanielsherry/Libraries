@@ -238,11 +238,22 @@ public class CooperativeProjectInterlacer<T>
 	{
 		project.addJobs(jobs);
 
+		//wake any sleeping worker threads, since we just added more work
 		synchronized (this) {
 			notifyAll();	
 		}
 	}
 	
+	
+	private void returnJobs(InterlacerProject<T> project, Collection<T> jobs)
+	{
+		project.returnJobs(jobs);
+
+		//wake any sleeping worker threads, since we just added more work
+		synchronized (this) {
+			notifyAll();	
+		}
+	}
 	
 	/**
 	 * Adds a new project with the given name to the Interlacer. Attempting to add a project 
@@ -378,7 +389,13 @@ public class CooperativeProjectInterlacer<T>
 	 */
 	public synchronized void closeProject(String projectName)
 	{
-		entries.get(projectName).project.close();
+		InterlacerEntry<T> entry = entries.get(projectName);
+		if (entry == null) return;
+		
+		InterlacerProject<T> project = entry.project;
+		if (project == null) return;
+		
+		project.close();
 		
 		//if there are no active projects, this could sit empty for a while without
 		//being cleaned up since all threads are waiting. So we force a cleanup.
@@ -531,7 +548,7 @@ public class CooperativeProjectInterlacer<T>
 					if (!success && runAtLeastOnce)
 					{
 						//this will lock internally
-						addJobs(currentEntry.project, jobList);
+						returnJobs(currentEntry.project, jobList);
 					}
 					
 					t2 = System.currentTimeMillis();

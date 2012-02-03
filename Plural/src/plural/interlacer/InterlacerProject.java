@@ -67,6 +67,8 @@ public abstract class InterlacerProject<T>
 	 */
 	protected boolean runJobs(List<T> jobs)
 	{
+		if (jobs == null) return false;
+		
 		try {
 			return doJobs(jobs);
 		} catch (Exception e) {
@@ -102,7 +104,37 @@ public abstract class InterlacerProject<T>
 	//locks: staging
 	protected void addJob(T job)
 	{
-		if (closed) return;
+		if (closed) throw new ClosedProjectException();
+		
+		//the logic here is the same as returning a job to the queue
+		//except we don't allow it after closing the project
+		returnJob(job);
+
+	}
+	
+	/**
+	 * Adds jobs to be processed
+	 * @param jobs the jobs to add
+	 */
+	//locks: staging
+	protected void addJobs(Collection<T> jobs)
+	{
+		if (closed) throw new ClosedProjectException();
+		
+		//the logic here is the same as returning a job to the queue
+		//except we don't allow it after closing the project
+		returnJobs(jobs);
+
+	}
+	
+	//locks: none
+	protected void addJobs(T[] jobs)
+	{	
+		addJobs(Arrays.asList(jobs));
+	}
+	
+	protected final void returnJob(T job)
+	{
 		
 		//outer lock
 		synchronized (staging)
@@ -115,17 +147,11 @@ public abstract class InterlacerProject<T>
 			}
 			
 		}
+		
 	}
 	
-	/**
-	 * Adds jobs to be processed
-	 * @param jobs the jobs to add
-	 */
-	//locks: staging
-	protected void addJobs(Collection<T> jobs)
+	protected final void returnJobs(Collection<T> jobs)
 	{
-		if (closed) return;
-		
 		synchronized (staging)
 		{
 			for (T job : jobs){
@@ -138,12 +164,6 @@ public abstract class InterlacerProject<T>
 			}
 			
 		}
-	}
-	
-	//locks: none
-	protected void addJobs(T[] jobs)
-	{	
-		addJobs(Arrays.asList(jobs));
 	}
 	
 	/**
@@ -281,5 +301,10 @@ public abstract class InterlacerProject<T>
 		return closed;
 	}
 	
+	
+}
+
+class ClosedProjectException extends RuntimeException
+{
 	
 }
