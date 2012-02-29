@@ -49,8 +49,6 @@ public class IconFactory {
 			if (!  (imageName == null || "".equals(imageName))  )
 			{
 				System.out.println("Image not found: " + imageName);
-				//StackTraceElement[] stacktrace = Thread.currentThread().getStackTrace();
-				//for (StackTraceElement e : stacktrace) { System.out.println(e.toString()); }
 			}
 			url = getImageIconURL("notfound", null, path);	
 		}

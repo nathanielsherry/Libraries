@@ -9,6 +9,7 @@ import java.util.Map;
 
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import swidget.icons.StockIcon;
@@ -22,18 +23,18 @@ import swidget.widgets.properties.PropertyViewPanel;
 public class PropertyDialogue extends JDialog
 {
 
-	public PropertyDialogue(String title, JFrame owner, Map<String, String> properties)
+	public PropertyDialogue(String title, String caption, JFrame owner, Map<String, String> properties)
 	{
 		super(owner, title);
-		init(owner, properties);
+		init(owner, caption, properties);
 	}
-	public PropertyDialogue(String title, JDialog owner, Map<String, String> properties)
+	public PropertyDialogue(String title, String caption, JDialog owner, Map<String, String> properties)
 	{
 		super(owner, title);
-		init(owner, properties);
+		init(owner, caption, properties);
 	}
 	
-	private void init(Window owner, Map<String, String> properties){
+	private void init(Window owner, String caption, Map<String, String> properties){
 		
 		Container container = getContentPane();
 		JPanel containerPanel = new ClearPanel();
@@ -54,8 +55,11 @@ public class PropertyDialogue extends JDialog
 		});
 		bbox.addRight(0, close);
 		
-		PropertyViewPanel propPanel = new PropertyViewPanel(properties);
+		
+		PropertyViewPanel propPanel = new PropertyViewPanel(properties, caption);
 		propPanel.setBorder(Spacing.bHuge());
+
+		
 		containerPanel.add(propPanel, BorderLayout.NORTH);
 		containerPanel.add(bbox, BorderLayout.SOUTH);
 		
