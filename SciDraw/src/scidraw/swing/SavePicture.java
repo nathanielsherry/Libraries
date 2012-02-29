@@ -28,12 +28,10 @@ import swidget.widgets.toggle.ComplexToggleGroup;
 public class SavePicture extends JDialog
 {
 
-	private GraphicsPanel		controller;
-	private String				startingFolder;
-	ComplexToggleGroup			group;
-
-
-	JPanel						controlsPanel;
+	private GraphicsPanel			controller;
+	private String					startingFolder;
+	private ComplexToggleGroup		group;
+	private JPanel					controlsPanel;
 	
 	public SavePicture(JFrame owner, GraphicsPanel controller, String startingFolder)
 	{
