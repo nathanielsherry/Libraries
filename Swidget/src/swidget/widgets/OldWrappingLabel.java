@@ -10,7 +10,7 @@ import java.awt.RenderingHints;
 import javax.swing.JPanel;
 
 
-public class WrappingLabel extends ClearPanel
+public class OldWrappingLabel extends ClearPanel
 {
 
 	private String text;
@@ -18,7 +18,7 @@ public class WrappingLabel extends ClearPanel
 	private JPanel innerPanel;
 	
 
-	public WrappingLabel(String text, int width)
+	public OldWrappingLabel(String text, int width)
 	{
 		this.text = text;
 		this.width = width;

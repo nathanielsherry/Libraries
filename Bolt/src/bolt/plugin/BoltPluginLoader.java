@@ -8,10 +8,12 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.List;
+import java.util.ServiceConfigurationError;
 import java.util.ServiceLoader;
 
 import commonenvironment.Env;
 
+import fava.Functions;
 import fava.functionable.FList;
 import fava.signatures.FnCondition;
 import fava.signatures.FnMap;
@@ -106,26 +108,36 @@ public class BoltPluginLoader<T extends BoltPlugin>
 
 
 	public List<T> getNewInstancesForAllPlugins()
-	{
+	{	
 		return availablePlugins.map(new FnMap<Class<T>, T>() {
 
 			public T f(Class<T> f)
 			{
 					return createNewInstanceFromClass(f);
-			}});
+			}}).filter(Functions.<T>notNull());
 	}
 	
 
-	public void registerPlugin(Class<?> loadedClass)
+	public void registerPlugin(Class<?> loadedClass) throws ClassInstantiationException
 	{
-		@SuppressWarnings("unchecked")
-		Class<T> clazz = (Class<T>)loadedClass;
-				
-		if (filter.f(clazz)) {
-			if (isEnabledPlugin(clazz)) availablePlugins.add(clazz);
-		}
 		
-		availablePlugins = availablePlugins.unique();
+		try 
+		{
+			
+			@SuppressWarnings("unchecked")
+			Class<T> clazz = (Class<T>)loadedClass;
+					
+			if (filter.f(clazz)) {
+				if (isEnabledPlugin(clazz)) availablePlugins.add(clazz);
+			}
+			
+			availablePlugins = availablePlugins.unique();
+			
+		}
+		catch (ServiceConfigurationError e)
+		{
+			throw new ClassInstantiationException(e);
+		}
 	}
 	
 	
@@ -242,7 +254,7 @@ public class BoltPluginLoader<T extends BoltPlugin>
 			{
 				register(files[i].toURI().toURL());
 			}
-			catch (MalformedURLException e)
+			catch (Exception e)
 			{
 				System.err.println("Failed to load plugin at " + files[i]);
 			}
@@ -250,7 +262,7 @@ public class BoltPluginLoader<T extends BoltPlugin>
 		
 	}
 	
-	public void register(URL url)
+	public void register(URL url) throws ClassInstantiationException
 	{
 
 		URLClassLoader urlLoader = new URLClassLoader(new URL[]{url});

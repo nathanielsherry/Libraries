@@ -19,6 +19,7 @@ import javax.jnlp.ServiceManager;
 import javax.jnlp.UnavailableServiceException;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileFilter;
 
 import commonenvironment.AbstractFile;
 import commonenvironment.Env;
@@ -74,6 +75,7 @@ public class SwidgetIO
 		{
 
 			JFileChooser chooser = new JFileChooser(startDir);
+			FileFilter defaultFilter = chooser.getFileFilter();
 			chooser.setMultiSelectionEnabled(true);
 			chooser.setDialogTitle(title);
 
@@ -89,6 +91,8 @@ public class SwidgetIO
 				
 				chooser.addChoosableFileFilter(filter);
 			}
+			
+			chooser.setFileFilter(defaultFilter);
 			
 			/*
 			SimpleFileFilter filter = new SimpleFileFilter();

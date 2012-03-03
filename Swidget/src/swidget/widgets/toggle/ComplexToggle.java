@@ -26,7 +26,7 @@ import swidget.icons.IconSize;
 import swidget.icons.StockIcon;
 import swidget.widgets.ClearPanel;
 import swidget.widgets.Spacing;
-import swidget.widgets.WrappingLabel;
+import swidget.widgets.TextWrapping;
 
 
 
@@ -35,11 +35,11 @@ public class ComplexToggle extends JToggleButton
 
 
 	private JLabel				titleLabel;
-	private WrappingLabel		descLabel;
+	private JLabel				descLabel;
 	private String				title;
 	private JLabel 				icon;
 		
-	private static final int	defaultWidth = 400;
+	private static final int	defaultWidth = TextWrapping.DEFAULT_WIDTH;
 
 	public ComplexToggle(String imageName, String title, String description)
 	{
@@ -272,7 +272,8 @@ public class ComplexToggle extends JToggleButton
 		
 		
 		titleLabel = new JLabel(title);
-		descLabel = new WrappingLabel(desc, width);
+		descLabel = new JLabel(TextWrapping.wrapTextForMultiline(desc, width));
+
 		
 		titleLabel.setFont(titleLabel.getFont().deriveFont(Font.BOLD).deriveFont(titleLabel.getFont().getSize() + 4f));
 		descLabel.setFont(descLabel.getFont().deriveFont(Font.PLAIN));
