@@ -13,8 +13,6 @@ import java.net.URL;
 
 import javax.jnlp.FileContents;
 
-import commonenvironment.zipfs.ZippedFile;
-
 //TODO: remake this using subclassing
 
 
@@ -25,7 +23,7 @@ public class AbstractFile implements Comparable<AbstractFile>
 	
 	public enum ReadType
 	{
-		STRING, FILE_CONTENTS, URL, ZIP
+		STRING, FILE_CONTENTS, URL
 	}
 
 	private ReadType	type;
@@ -56,11 +54,7 @@ public class AbstractFile implements Comparable<AbstractFile>
 		type = ReadType.URL;
 		contents = url;
 	}
-	
-	public AbstractFile(ZippedFile file) {
-		type = ReadType.ZIP;
-		contents = file;
-	}
+
 	
 
 	public BufferedReader getReader()
@@ -101,11 +95,7 @@ public class AbstractFile implements Comparable<AbstractFile>
 			case URL:
 				
 				return ((URL)contents).openStream();
-				
-			case ZIP:
-				
-				return ((ZippedFile)contents).getInputStream();
-		
+						
 		
 		}
 		
