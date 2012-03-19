@@ -33,7 +33,7 @@ public class SavePicture extends JDialog
 	private ComplexToggleGroup		group;
 	private JPanel					controlsPanel;
 	
-	public SavePicture(JFrame owner, GraphicsPanel controller, String startingFolder)
+	public SavePicture(Window owner, GraphicsPanel controller, String startingFolder)
 	{
 
 		super(owner, "Save as Image");
@@ -45,17 +45,6 @@ public class SavePicture extends JDialog
 
 	}
 	
-	public SavePicture(JDialog owner, GraphicsPanel controller, String startingFolder)
-	{
-
-		super(owner, "Save as Image");
-
-		this.controller = controller;
-		this.startingFolder = startingFolder;
-
-		init(owner);
-
-	}
 	
 	private void init(Window owner)
 	{
