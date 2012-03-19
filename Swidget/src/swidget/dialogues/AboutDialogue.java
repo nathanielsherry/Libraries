@@ -8,6 +8,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -36,16 +37,16 @@ import swidget.widgets.Spacing;
 public class AboutDialogue extends JDialog
 {
 	
-	JFrame owner;
+	Window owner;
 	
 
-	public AboutDialogue(JFrame owner, final String name, String description, String website, String copyright, final String licence, final String credits, String logo, String version, String longVersion, String date, boolean isRelease)
+	public AboutDialogue(Window owner, final String name, String description, String website, String copyright, final String licence, final String credits, String logo, String version, String longVersion, String releaseDescription, String date, boolean isRelease)
 	{
-		super(owner, "About " + name, true);
-		init(owner, name, description, website, copyright, licence, credits, logo, version, longVersion, date, isRelease);
+		super(owner, "About " + name, ModalityType.DOCUMENT_MODAL);
+		init(owner, name, description, website, copyright, licence, credits, logo, version, longVersion, releaseDescription, date, isRelease);
 	}
 		
-	private void init(JFrame owner, final String name, String description, final String website, String copyright, final String licence, final String credits, String logo, String version, String longVersion, String date, boolean isRelease)
+	private void init(Window owner, final String name, String description, final String website, String copyright, final String licence, final String credits, String logo, String version, String longVersion, String releaseDescription, String date, boolean isRelease)
 	{
 		this.owner = owner;
 		
@@ -81,7 +82,7 @@ public class AboutDialogue extends JDialog
 		text.setText(
 			"<html><center>" +
 				"<b><big><big>" + name + " " + version + "</big></big></b>" +
-				(isRelease ? "" : "<br><b><font size=\"+1\" color=\"#c00000\">Development Release</font></b>") +  
+				(("".equals(releaseDescription)) ? "" : "<br><b><font size=\"+1\" color=\"#c00000\">" + releaseDescription + "</font></b>") +  
 				"<br>" +
 				"<br>" +
 				description +
@@ -125,37 +126,37 @@ public class AboutDialogue extends JDialog
 		
 		ButtonBox bbox = new ButtonBox();
 		
-		ImageButton button = new ImageButton(StockIcon.MISC_ABOUT, "Credits", "View Credits", ImageButton.defaultLayout, true, IconSize.BUTTON);
-		button.addActionListener(new ActionListener() {
+		ImageButton btnCredit = new ImageButton(StockIcon.MISC_ABOUT, "Credits", "View Credits", ImageButton.defaultLayout, true, IconSize.BUTTON);
+		btnCredit.addActionListener(new ActionListener() {
 		
 			public void actionPerformed(ActionEvent arg0)
 			{
 				JOptionPane.showMessageDialog(AboutDialogue.this, credits, "Credits", JOptionPane.INFORMATION_MESSAGE, StockIcon.MISC_ABOUT.toImageIcon(IconSize.ICON));
 			}
 		});
-		bbox.addCentre(button);
+		bbox.addLeft(btnCredit);
 		
 		
-		button = new ImageButton(StockIcon.MIME_TEXT, "Licence", "View Licence", ImageButton.defaultLayout, true, IconSize.BUTTON);
-		button.addActionListener(new ActionListener() {
+		ImageButton btnLicence = new ImageButton(StockIcon.MIME_TEXT, "Licence", "View Licence", ImageButton.defaultLayout, true, IconSize.BUTTON);
+		btnLicence.addActionListener(new ActionListener() {
 		
 			public void actionPerformed(ActionEvent arg0)
 			{
 				JOptionPane.showMessageDialog(AboutDialogue.this, textForJOptionPane(licence), name + " Licence", JOptionPane.INFORMATION_MESSAGE, StockIcon.MIME_TEXT.toImageIcon(IconSize.ICON));
 			}
 		});
-		bbox.addCentre(button);	
+		bbox.addLeft(btnLicence);	
 
 
-		button = new ImageButton(StockIcon.WINDOW_CLOSE, "Close", "Close this window", ImageButton.defaultLayout, true, IconSize.BUTTON);
-		button.addActionListener(new ActionListener() {
+		ImageButton btnClose = new ImageButton(StockIcon.WINDOW_CLOSE, "Close", "Close this window", ImageButton.defaultLayout, true, IconSize.BUTTON);
+		btnClose.addActionListener(new ActionListener() {
 		
 			public void actionPerformed(ActionEvent arg0)
 			{
 				setVisible(false);
 			}
 		});
-		bbox.addCentre(button);
+		bbox.addRight(btnClose);
 		
 		
 		

@@ -8,8 +8,6 @@ import java.awt.event.ActionListener;
 import java.util.Map;
 
 import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import swidget.icons.StockIcon;
@@ -23,19 +21,10 @@ import swidget.widgets.properties.PropertyViewPanel;
 public class PropertyDialogue extends JDialog
 {
 
-	public PropertyDialogue(String title, String caption, JFrame owner, Map<String, String> properties)
+	public PropertyDialogue(String title, String caption, Window owner, Map<String, String> properties)
 	{
 		super(owner, title);
-		init(owner, caption, properties);
-	}
-	public PropertyDialogue(String title, String caption, JDialog owner, Map<String, String> properties)
-	{
-		super(owner, title);
-		init(owner, caption, properties);
-	}
-	
-	private void init(Window owner, String caption, Map<String, String> properties){
-		
+
 		Container container = getContentPane();
 		JPanel containerPanel = new ClearPanel();
 		containerPanel.setLayout(new BorderLayout());
