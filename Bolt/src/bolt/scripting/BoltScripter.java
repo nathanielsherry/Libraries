@@ -59,6 +59,7 @@ public class BoltScripter {
 	{
 		
 		ScriptEngine engine = new ScriptEngineManager().getEngineByName(language.getName());
+		if (engine == null) throw new NullPointerException("Could not create scripting engine");
 		ScriptContext context1 = new SimpleScriptContext();
 		engine.setContext(context1);
 		engine.getContext().setBindings(engine.createBindings(), ScriptContext.GLOBAL_SCOPE);
