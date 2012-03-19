@@ -31,9 +31,9 @@ public class ExecutorSetView extends JDialog {
 	ExecutorSet<?> executors;
 	private JProgressBar progress;
 	
-	public ExecutorSetView(JFrame owner, ExecutorSet<?> _tasks){
+	public ExecutorSetView(Window owner, ExecutorSet<?> _tasks){
 		
-		super(owner, "Working...", true);
+		super(owner, "Working...", ModalityType.DOCUMENT_MODAL);
 		this.executors = _tasks;
 		init(owner);
 	}
@@ -185,6 +185,11 @@ public class ExecutorSetView extends JDialog {
 				progress.setIndeterminate(true);
 			}
 		}
+		
+	}
+	
+	public static void main(String[] args)
+	{
 		
 	}
 		
