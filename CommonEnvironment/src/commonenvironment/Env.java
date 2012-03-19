@@ -84,14 +84,14 @@ public class Env
 		return (ServiceManager.getServiceNames() != null && ServiceManager.getServiceNames().length != 0);
 	}
 	
-	public static int heapSize()
+	public static long heapSize()
 	{
-		return (int)(heapSizeBytes() / 1024f / 1024f);
+		return (long)(heapSizeBytes() / 1024f / 1024f);
 	}
 	
-	public static int heapSizeBytes()
+	public static long heapSizeBytes()
 	{
-		return (int) Runtime.getRuntime().maxMemory();
+		return Runtime.getRuntime().maxMemory();
 	}
 	
 	
