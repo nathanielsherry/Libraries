@@ -5,7 +5,10 @@ import javax.script.ScriptEngineManager;
 import bolt.compiler.BoltJavaMap;
 import bolt.scripting.BoltScripter;
 import bolt.scripting.BoltMap;
+import bolt.scripting.languages.JavascriptLanguage;
 import bolt.scripting.languages.Language;
+import bolt.scripting.languages.PythonLanguage;
+import bolt.scripting.languages.RubyLanguage;
 
 import fava.functionable.FList;
 import fava.functionable.Range;
@@ -30,6 +33,8 @@ public class Test {
 	public static void compiling()
 	{
 
+		Range ints = new Range(1, rangeSize);
+		
 		BoltJavaMap<Integer, Integer> inc = new BoltJavaMap<Integer, Integer>("i", Integer.class, Integer.class);
 		inc.setFunctionText("return i+1;");
 		
@@ -38,11 +43,38 @@ public class Test {
 		} catch (Exception e) {
 
 			System.out.println(e.getMessage());
-
 			System.exit(1);
 		}
 		
+		
+		testMap("Bolt Java", inc, ints);
+		
+		
+	}
+	
+	public static void script()
+	{
+		
 		Range ints = new Range(1, rangeSize);
+
+		FnMap<Integer, Integer> jinc = new FnMap<Integer, Integer>() {
+
+			@Override
+			public Integer f(Integer v) {
+				return v+1;
+			}
+		};
+		
+		testMap("Java", jinc, ints);
+
+		testMap("Ruby", new BoltMap<Integer, Integer>(new RubyLanguage(), "i", "j", "def inc(v)\n\tv+=1\nend\n\n$j = inc($i)"), ints);
+		testMap("Python", new BoltMap<Integer, Integer>(new PythonLanguage(), "i", "j", "j = i+1;"), ints);
+		testMap("Javascript", new BoltMap<Integer, Integer>(new JavascriptLanguage(), "i", "j", "j = i+1"), ints);
+		
+	}
+	
+	public static void testMap(String language, FnMap<Integer, Integer> inc, Iterable<Integer> ints)
+	{
 		
 		long startTime = System.currentTimeMillis();
 		
@@ -51,176 +83,8 @@ public class Test {
 			inc.f(i);
 		}
 
-		System.out.println("BoltCompiler:");
-		System.out.println(System.currentTimeMillis() - startTime);
-		
-		
-		
-		/*
-		System.out.println("Code Path:");
-		System.out.println(Env.codePath(Test.class));
-		System.out.println(Env.codePath(org.python.Version.class));
-		
-		System.out.println();
-		System.out.println("Class Path");
-		System.out.println(Env.classpath(BoltCompiler.class));
-		System.out.println(Env.classpath(org.python.Version.class));
-		*/
-		
-	}
-	
-	public static void script()
-	{
-		
-		
-		long startTime;
-		Range ints = new Range(1, rangeSize);
-		
-		BoltMap<Integer, Integer> inc;
-		/*
-		
-		inc = new BoltMap<Integer, Integer>("jruby", "int", "inc", "$inc = $int+1");
-				
-		startTime = System.currentTimeMillis();
-			
-			ints.map(inc);
-			//System.out.println(ints.toSink().show());
-			//System.out.println(ints.map(inc).show());
-		System.out.println("Increment:");
+		System.out.println("\n" + language + ":");
 		System.out.println(System.currentTimeMillis() - startTime);	
-		
-		
-		
-		
-		
-		
-		BoltMap<FList<Integer>, FList<Integer>> listinc;
-		listinc = new BoltMap<FList<Integer>, FList<Integer>>("jruby", "$incs = $ints.map{|n| n+1}", "ints", "incs");
-		
-		
-		FList<Integer> intlist = ints.toSink();
-		startTime = System.currentTimeMillis();
-			
-			//ints.map(inc);
-			//System.out.println(ints.toSink().show());
-			for (int i = 0; i < 500; i++)
-			{
-				listinc.f(intlist);
-				
-			}
-		
-		System.out.println(System.currentTimeMillis() - startTime);	
-		
-		*/
-		
-		
-		
-		startTime = System.currentTimeMillis();
-			
-			FnMap<Integer, Integer> jinc = new FnMap<Integer, Integer>() {
-
-				@Override
-				public Integer f(Integer v) {
-					return v+1;
-				}
-			};
-			
-			for (Integer i : ints)
-			{
-				jinc.f(i);
-			}
-			//System.out.println(ints.toSink().show());
-			//System.out.println(ints.map(inc).show());
-		System.out.println("\nJAVA:");
-		System.out.println(System.currentTimeMillis() - startTime);	
-			
-			
-			
-		
-/*
-		inc = new BoltMap<Integer, Integer>("jruby", "i", "j", "def inc(v)\n\tv+=1\nend\n\n$j = inc($i)");
-		
-		startTime = System.currentTimeMillis();
-			
-			ints.map(inc);
-			
-			//FList<Float> floats = new FList<Float>(1f, 2f, 3f);
-			//System.out.println(inc2.f(floats).get(0));
-			//System.out.println(ints.toSink().show());
-			//System.out.println(ints.map(inc).show());
-		System.out.println("\nJRUBY:");
-		System.out.println(System.currentTimeMillis() - startTime);	
-		
-		
-		System.exit(0);
-		*/
-		
-		
-		/*
-		
-		inc = new BoltMap<Integer, Integer>("groovy", "j = i+1;", "i", "j");
-		
-		startTime = System.currentTimeMillis();
-		
-			ints.map(inc);
-
-		System.out.println("\nGROOVY:");
-		System.out.println(System.currentTimeMillis() - startTime);
-		
-		*/
-		
-		
-		inc = new BoltMap<Integer, Integer>(Language.python(), "i", "j", 
-			"j = i+1;"
-		);
-		
-		startTime = System.currentTimeMillis();
-		
-		for (Integer i : ints)
-		{
-			inc.f(i);
-		}
-
-		System.out.println("\nJYTHON:");
-		System.out.println(System.currentTimeMillis() - startTime);	
-		
-		
-		
-		
-		
-		inc = new BoltMap<Integer, Integer>(Language.javascript(), "i", "j", 
-				"j = i+1"
-		);
-		
-		startTime = System.currentTimeMillis();
-		
-		for (Integer i : ints)
-		{
-			inc.f(i);
-		}
-
-		System.out.println("\nJAVASCRIPT:");
-		System.out.println(System.currentTimeMillis() - startTime);	
-		
-		
-		
-		/*
-		inc = new BoltMap<Integer, Integer>("BeanShell", "i", "j", 
-			"j = i+1;"		
-		);
-		
-		startTime = System.currentTimeMillis();
-		
-			ints.map(inc);
-
-		System.out.println("\nJYTHON:");
-		System.out.println(System.currentTimeMillis() - startTime);	
-		
-*/
-		
-		
-		
-		
 	}
 	
 	public static FList<ScriptEngineFactory> getAvailableLanguages()

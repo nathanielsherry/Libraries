@@ -1,6 +1,6 @@
 package bolt.scripting.languages;
 
-public class Python extends Language{
+public class PythonLanguage extends Language{
 
 	@Override
 	public String getName() {

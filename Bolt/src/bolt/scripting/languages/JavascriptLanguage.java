@@ -1,6 +1,6 @@
 package bolt.scripting.languages;
 
-public class Javascript extends Language{
+public class JavascriptLanguage extends Language{
 
 	@Override
 	public String getName() {

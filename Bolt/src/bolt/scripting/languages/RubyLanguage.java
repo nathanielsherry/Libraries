@@ -1,8 +1,8 @@
 package bolt.scripting.languages;
 
-public class Ruby extends Language{
+public class RubyLanguage extends Language{
 
-	public Ruby() {
+	public RubyLanguage() {
 		System.setProperty("org.jruby.embed.localcontext.scope", "singlethread");
 	}
 	
