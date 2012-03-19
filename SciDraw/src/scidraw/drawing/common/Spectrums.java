@@ -125,7 +125,7 @@ public class Spectrums
 	 */
 	public static List<Color> RatioThermalScale(int steps)
 	{
-		return RatioThermalScale(steps, 1.0f, 1.0f);
+		return RatioThermalScale(steps, 1.1f, 1.1f);
 	}
 
 
