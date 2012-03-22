@@ -34,7 +34,7 @@ public class PluralEachIndexExecutor extends EachIndexExecutor
 	public PluralEachIndexExecutor(int size, FnEach<Integer> pluralEachIndex, int threads)
 	{
 		super(size, pluralEachIndex);
-		threadCount = threads;
+		threadCount = Math.max(threads, 1);
 		ticketManager = new TicketManager(super.getDataSize(), getDesiredBlockSize());
 		
 	}

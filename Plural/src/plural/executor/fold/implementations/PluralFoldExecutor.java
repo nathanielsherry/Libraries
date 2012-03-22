@@ -61,7 +61,7 @@ public class PluralFoldExecutor<T1> extends FoldExecutor<T1>
 	private void init(List<T1> sourceData, FnFold<T1, T1> t, int threads)
 	{
 
-		threadCount = threads == -1 ? calcNumThreads() : threads;
+		threadCount = threads <= 0 ? calcNumThreads() : threads;
 		
 		ticketManager = new TicketManager(super.getDataSize(), getDesiredBlockSize());
 

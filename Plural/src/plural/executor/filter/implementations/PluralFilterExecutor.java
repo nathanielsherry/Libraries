@@ -49,7 +49,7 @@ public class PluralFilterExecutor<T1> extends FilterExecutor<T1>
 	private void init(List<T1> sourceData, FnCondition<T1> t, int threads)
 	{
 
-		threadCount = threads == -1 ? calcNumThreads() : threads;
+		threadCount = threads <= 0 ? calcNumThreads() : threads;
 
 		ticketManager = new TicketManager(super.getDataSize(), getDesiredBlockSize());
 

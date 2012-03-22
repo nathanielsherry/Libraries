@@ -60,7 +60,7 @@ public class PluralMapExecutor<T1, T2> extends MapExecutor<T1, T2>
 	private void init(List<T1> sourceData, List<T2> targetList, FnMap<T1, T2> t, int threads)
 	{
 
-		threadCount = threads == -1 ? calcNumThreads() : threads;
+		threadCount = threads <= 0 ? calcNumThreads() : threads;
 
 		ticketManager = new TicketManager(super.getDataSize(), getDesiredBlockSize());
 
