@@ -63,18 +63,7 @@ public class BoltPluginLoader<T extends BoltPlugin>
 				
 				//make sure its not an interface or an abstract class
 				if (!isActualPlugin(c)) return false;
-				
-				
-				
-				//if its not annotated as a plugin with the right group, return false.
-				if (c.getAnnotation(Plugin.class) == null) return false;
-				if (pluginGroup != null)
-				{
-					if (! pluginGroup.equals(c.getAnnotation(Plugin.class).group())) return false;
-				}
-				
-				
-				
+								
 				//if target is an interface, c must implement it
 				if (isTargetInterface)
 				{
@@ -136,6 +125,7 @@ public class BoltPluginLoader<T extends BoltPlugin>
 		}
 		catch (ServiceConfigurationError e)
 		{
+			e.printStackTrace();
 			throw new ClassInstantiationException(e);
 		}
 	}
@@ -229,6 +219,7 @@ public class BoltPluginLoader<T extends BoltPlugin>
 	
 	public void register(File file)
 	{
+				
 		File[] files;
 		if (file.isDirectory())
 		{
@@ -256,6 +247,7 @@ public class BoltPluginLoader<T extends BoltPlugin>
 			}
 			catch (Exception e)
 			{
+				e.printStackTrace();
 				System.err.println("Failed to load plugin at " + files[i]);
 			}
 		}
@@ -266,7 +258,6 @@ public class BoltPluginLoader<T extends BoltPlugin>
 	{
 
 		URLClassLoader urlLoader = new URLClassLoader(new URL[]{url});
-		
 		ServiceLoader<T> loader = ServiceLoader.load(target, urlLoader);
 		
 		for (T t : loader)
