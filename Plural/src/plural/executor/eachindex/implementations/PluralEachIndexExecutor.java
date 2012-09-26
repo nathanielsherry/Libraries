@@ -18,7 +18,7 @@ import plural.executor.map.MapExecutor;
 public class PluralEachIndexExecutor extends EachIndexExecutor
 {
 
-	protected int			threadCount;
+	protected int				threadCount;
 	protected TicketManager	ticketManager;
 
 
@@ -27,7 +27,6 @@ public class PluralEachIndexExecutor extends EachIndexExecutor
 		super(size, pluralEachIndex);
 		
 		threadCount = calcNumThreads();
-		ticketManager = new TicketManager(super.getDataSize(), getDesiredBlockSize());
 		
 	}
 	
@@ -35,8 +34,6 @@ public class PluralEachIndexExecutor extends EachIndexExecutor
 	{
 		super(size, pluralEachIndex);
 		threadCount = Math.max(threads, 1);
-		ticketManager = new TicketManager(super.getDataSize(), getDesiredBlockSize());
-		
 	}
 
 
@@ -79,6 +76,9 @@ public class PluralEachIndexExecutor extends EachIndexExecutor
 	@Override
 	protected void workForExecutor()
 	{
+		synchronized(this){
+			if (ticketManager == null) 	ticketManager = new TicketManager(super.getDataSize(), getDesiredBlockSize());
+		}
 
 		while (true) {
 			

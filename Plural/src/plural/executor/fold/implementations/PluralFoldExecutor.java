@@ -63,7 +63,6 @@ public class PluralFoldExecutor<T1> extends FoldExecutor<T1>
 
 		threadCount = threads <= 0 ? calcNumThreads() : threads;
 		
-		ticketManager = new TicketManager(super.getDataSize(), getDesiredBlockSize());
 
 	}
 
@@ -114,6 +113,10 @@ public class PluralFoldExecutor<T1> extends FoldExecutor<T1>
 	protected void workForExecutor()
 	{
 
+		synchronized(this){
+			if (ticketManager == null) ticketManager = new TicketManager(super.getDataSize(), getDesiredBlockSize());
+		}
+		
 		while(true){
 			
 			int blockNum = ticketManager.getTicketBlockIndex();

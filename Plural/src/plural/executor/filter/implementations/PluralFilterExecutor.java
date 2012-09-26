@@ -51,7 +51,7 @@ public class PluralFilterExecutor<T1> extends FilterExecutor<T1>
 
 		threadCount = threads <= 0 ? calcNumThreads() : threads;
 
-		ticketManager = new TicketManager(super.getDataSize(), getDesiredBlockSize());
+		
 
 	}
 
@@ -118,6 +118,10 @@ public class PluralFilterExecutor<T1> extends FilterExecutor<T1>
 	protected void workForExecutor()
 	{
 
+		synchronized(this){
+			if (ticketManager == null) ticketManager = new TicketManager(super.getDataSize(), getDesiredBlockSize());
+		}
+		
 		while(true){
 			
 			LinkedList<T1> accepted = new LinkedList<T1>();

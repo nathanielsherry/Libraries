@@ -62,8 +62,6 @@ public class PluralMapExecutor<T1, T2> extends MapExecutor<T1, T2>
 
 		threadCount = threads <= 0 ? calcNumThreads() : threads;
 
-		ticketManager = new TicketManager(super.getDataSize(), getDesiredBlockSize());
-
 	}
 
 
@@ -113,6 +111,10 @@ public class PluralMapExecutor<T1, T2> extends MapExecutor<T1, T2>
 	protected void workForExecutor()
 	{
 
+		synchronized(this){
+			if (ticketManager == null) ticketManager = new TicketManager(super.getDataSize(), getDesiredBlockSize());
+		}
+		
 		while(true){
 			
 			int blockNum = ticketManager.getTicketBlockIndex();

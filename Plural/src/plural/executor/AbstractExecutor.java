@@ -150,9 +150,6 @@ public abstract class AbstractExecutor extends Eventful implements PluralExecuto
 
 
 
-	/* (non-Javadoc)
-	 * @see plural.executor.PluralExecutor#setWorkUnits(int)
-	 */
 	@Override
 	public synchronized void setWorkUnits(int units)
 	{
