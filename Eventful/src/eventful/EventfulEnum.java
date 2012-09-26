@@ -18,7 +18,7 @@ public class EventfulEnum<T extends Enum<T>> implements IEventfulEnum<T>
 	/**
 	 * @see eventful.IEventfulEnum#addListener(eventful.EventfulEnumListener)
 	 */
-	public void addListener(EventfulEnumListener<T> l)
+	public synchronized void addListener(EventfulEnumListener<T> l)
 	{
 		listeners.add(l);
 	}
@@ -31,9 +31,11 @@ public class EventfulEnum<T extends Enum<T>> implements IEventfulEnum<T>
 	{
 		
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
-			public void run()	{
-				listeners.remove(l);
-			}
+			public void run()	{ 
+			
+				synchronized(EventfulEnum.this){
+					listeners.remove(l);
+			}}
 		});
 		
 		
@@ -45,9 +47,11 @@ public class EventfulEnum<T extends Enum<T>> implements IEventfulEnum<T>
 	public void removeAllListeners()
 	{
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
-			public void run()	{
-				listeners.clear();
-			}
+			public void run() { 
+			
+				synchronized(EventfulEnum.this){
+					listeners.clear();
+			}}
 		});
 	}
 
@@ -61,15 +65,13 @@ public class EventfulEnum<T extends Enum<T>> implements IEventfulEnum<T>
 		if (listeners.size() == 0) return;
 
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
-			public void run()	{
-		
-				for (EventfulEnumListener<T> l : listeners) {
-					
-					l.change(message);
-
-				}
-				
-			}
+			public void run()	{ 
+			
+				synchronized(EventfulEnum.this) {	
+					for (EventfulEnumListener<T> l : listeners) {		
+						l.change(message);
+					}
+			}}
 		});
 
 	}

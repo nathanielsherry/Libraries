@@ -16,7 +16,7 @@ public class EventfulType<T> implements IEventfulType<T>
 	/**
 	 * @see eventful.IEventfulType#addListener(eventful.EventfulTypeListener)
 	 */
-	public void addListener(EventfulTypeListener<T> l)
+	public synchronized void addListener(EventfulTypeListener<T> l)
 	{
 		listeners.add(l);
 	}
@@ -30,7 +30,9 @@ public class EventfulType<T> implements IEventfulType<T>
 		
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			public void run()	{
-				listeners.remove(l);
+				synchronized(EventfulType.this){
+					listeners.remove(l);
+				}
 			}
 		});
 		
@@ -44,7 +46,9 @@ public class EventfulType<T> implements IEventfulType<T>
 	{
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			public void run()	{
-				listeners.clear();
+				synchronized(EventfulType.this){
+					listeners.clear();
+				}
 			}
 		});
 	}
@@ -60,11 +64,10 @@ public class EventfulType<T> implements IEventfulType<T>
 
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			public void run()	{
-		
-				for (EventfulTypeListener<T> l : listeners) {
-					
-					l.change(message);
-
+				synchronized(EventfulType.this){
+					for (EventfulTypeListener<T> l : listeners) {
+						l.change(message);
+					}
 				}
 				
 			}

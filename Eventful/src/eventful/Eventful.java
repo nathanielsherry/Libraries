@@ -30,7 +30,7 @@ public class Eventful implements IEventful
 	/**
 	 * @see eventful.IEventful#addListener(eventful.EventfulListener)
 	 */
-	public void addListener(EventfulListener l)
+	public synchronized void addListener(EventfulListener l)
 	{
 		listeners.add(l);
 	}
@@ -43,9 +43,11 @@ public class Eventful implements IEventful
 	{
 		
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
-			public void run()	{
-				listeners.remove(l);
-			}
+			public void run()	{ 
+				
+				synchronized(Eventful.this) {
+					listeners.remove(l);
+			}}
 		});
 		
 		
@@ -57,9 +59,11 @@ public class Eventful implements IEventful
 	public void removeAllListeners()
 	{
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
-			public void run()	{
-				listeners.clear();
-			}
+			public void run() { 
+			
+				synchronized(Eventful.this) { 
+					listeners.clear();
+			}}
 		});
 	}
 
@@ -73,13 +77,14 @@ public class Eventful implements IEventful
 		if (listeners.size() == 0) return;
 
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
-			public void run()	{
-		
-				for (EventfulListener l : listeners) {
-					l.change();
-				}
+			public void run()	{ 
+			
+				synchronized(Eventful.this) {
+					for (EventfulListener l : listeners) {
+						l.change();
+					}
 				
-			}
+			}}
 		});
 
 	}
