@@ -13,12 +13,17 @@ public class Swidget
 
 	public static void initialize()
 	{
+		initialize(false);
+	}
+	
+	public static void initialize(boolean forceNativeLAF)
+	{
 		
 		System.getProperties().setProperty("swing.aatext", "true");
 		//if this version of the JVM is new enough to support the Nimbus Look and Feel, use it
 		try
 		{
-			if (! Env.isMac() && !Env.isWindows()){
+			if (! Env.isMac() && !Env.isWindows() && !forceNativeLAF){
 				UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
 			} else {
 				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());

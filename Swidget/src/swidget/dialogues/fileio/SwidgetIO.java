@@ -1,7 +1,7 @@
 package swidget.dialogues.fileio;
 
 
-import java.awt.Window;
+import java.awt.Container;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -21,6 +21,8 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
 
+import org.apache.commons.io.IOUtils;
+
 import commonenvironment.AbstractFile;
 import commonenvironment.Env;
 
@@ -36,7 +38,7 @@ public class SwidgetIO
 {
 
 	public static List<AbstractFile> openFiles(
-			Window 		parent, 
+			Container	parent, 
 			String 		title, 
 			String[][] 	exts, 
 			String[] 	extDesc,
@@ -128,7 +130,7 @@ public class SwidgetIO
 
 
 	public static AbstractFile openFile(
-			Window 		parent, 
+			Container	parent, 
 			String 		title, 
 			String[][] 	exts, 
 			String[] 	extDesc, 
@@ -212,22 +214,28 @@ public class SwidgetIO
 	}
 
 
-	public static String saveFile(Window parent, String title, String ext, String extDesc, String startDir,
+	public static String saveFile(Container parent, String title, String ext, String extDesc, String startDir,
 			ByteArrayOutputStream outStream) throws IOException
 	{
-
 		outStream.close();
+		InputStream inStream = new ByteArrayInputStream(outStream.toByteArray());
+		String result = saveFile(parent, title, ext, extDesc, startDir, inStream);
+		inStream.close();
+		return result;
+	}
 
-		ByteArrayInputStream bais = new ByteArrayInputStream(outStream.toByteArray());
-
-
+	
+	public static String saveFile(Container parent, String title, String ext, String extDesc, String startDir,
+			InputStream inStream) throws IOException
+	{
+		
 
 		if (Env.isWebStart())
 		{
 
 			try
 			{
-				wsSaveFile("~/", "", new String[] { ext }, bais);
+				wsSaveFile("~/", "", new String[] { ext }, inStream);
 			}
 			catch (UnavailableServiceException e)
 			{
@@ -252,7 +260,7 @@ public class SwidgetIO
 				File saveFile = new File(saveFilename);
 				String savePictureFolder = saveFile.getParent();
 				FileOutputStream fos = new FileOutputStream(saveFile);
-				fos.write(outStream.toByteArray());
+				IOUtils.copy(inStream, fos);
 				fos.flush();
 				fos.close();
 
@@ -308,16 +316,16 @@ public class SwidgetIO
 	
 	}
 	
+
 	private static FileContents wsSaveFile(String path, String name, String[] extensions, InputStream inputStream) throws UnavailableServiceException
 	{
-		FileSaveService fos;
+		FileSaveService fss;
 
 		try
 		{
 			
-			fos = (FileSaveService) ServiceManager.lookup("javax.jnlp.FileSaveService");
-			
-			return fos.saveFileDialog(  path, extensions, inputStream, name  );
+			fss = (FileSaveService) ServiceManager.lookup("javax.jnlp.FileSaveService");
+			return fss.saveFileDialog(  path, extensions, inputStream, name  );
 			
 		}
 		catch (IOException e)
