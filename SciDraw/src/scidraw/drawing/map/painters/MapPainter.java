@@ -23,7 +23,7 @@ import scitypes.Spectrum;
 public abstract class MapPainter extends Painter
 {
 
-	protected Spectrum				data;
+	protected Spectrum					data;
 	protected List<AbstractPalette>	colourRules;
 
 

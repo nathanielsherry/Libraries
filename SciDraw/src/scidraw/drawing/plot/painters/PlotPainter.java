@@ -87,7 +87,10 @@ public abstract class PlotPainter extends Painter{
 			pointEnd = pointStart + pointWidth;
 			pointMiddle = (pointStart + pointEnd) / 2.0f;
 			height = (transformedData.get(i)) * plotHeight;
-			if (dataHeights != null && dataHeights.get(i) < height) dataHeights.set(i, height);
+			if (dataHeights != null && dataHeights.get(i) < height) 
+			{
+				dataHeights.set(i, height);
+			}
 			height = plotHeight - height;
 			
 			

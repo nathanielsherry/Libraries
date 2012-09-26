@@ -9,7 +9,12 @@ import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -166,10 +171,21 @@ public class SavePicture extends JDialog
 			controlsPanel.setEnabled(false);
 			controlsPanel.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 			
-			ByteArrayOutputStream baos = new ByteArrayOutputStream();				
-			controller.writePNG(baos);
 
-			String result = SwidgetIO.saveFile(this, "Save Picture As...", "png", "Portable Network Graphic", startingFolder, baos);
+			File tempfile = tempfile();
+			
+			OutputStream os = new FileOutputStream(tempfile);				
+			controller.writePNG(os);
+			os.close();
+			
+			InputStream is = new FileInputStream(tempfile);
+			String result = SwidgetIO.saveFile(this, "Save Picture As...", "png", "Portable Network Graphic", startingFolder, is);
+			is.close();
+			
+			tempfile.delete();
+			
+
+			
 
 			if (result != null) 
 			{
@@ -199,10 +215,20 @@ public class SavePicture extends JDialog
 			controlsPanel.setEnabled(false);
 			controlsPanel.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 			
-			ByteArrayOutputStream baos = new ByteArrayOutputStream();				
-			controller.writeSVG(baos);
 
-			String result = SwidgetIO.saveFile(this, "Save Picture As...", "svg", "Scalable Vector Graphic", startingFolder, baos);
+			File tempfile = tempfile();
+			
+			OutputStream os = new FileOutputStream(tempfile);				
+			controller.writeSVG(os);
+			os.close();
+			
+			InputStream is = new FileInputStream(tempfile);
+			String result = SwidgetIO.saveFile(this, "Save Picture As...", "svg", "Scalable Vector Graphic", startingFolder, is);
+			is.close();
+			
+			tempfile.delete();
+			
+			
 
 			if (result != null) 
 			{
@@ -233,10 +259,17 @@ public class SavePicture extends JDialog
 			controlsPanel.setEnabled(false);
 			controlsPanel.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 			
-			ByteArrayOutputStream baos = new ByteArrayOutputStream();				
-			controller.writePDF(baos);
-
-			String result = SwidgetIO.saveFile(this, "Save Picture As...", "pdf", "Portable Document Format", startingFolder, baos);
+			File tempfile = tempfile();
+			
+			OutputStream os = new FileOutputStream(tempfile);				
+			controller.writePDF(os);
+			os.close();
+			
+			InputStream is = new FileInputStream(tempfile);
+			String result = SwidgetIO.saveFile(this, "Save Picture As...", "pdf", "Portable Document Format", startingFolder, is);
+			is.close();
+			
+			tempfile.delete();
 
 			if (result != null) 
 			{
@@ -261,6 +294,13 @@ public class SavePicture extends JDialog
 		return startingFolder;
 	}
 
+	
+	private File tempfile() throws IOException
+	{
+		final File tempfile = File.createTempFile("Image File - ", " export");
+		tempfile.deleteOnExit();
+		return tempfile;
+	}
 	
 
 }

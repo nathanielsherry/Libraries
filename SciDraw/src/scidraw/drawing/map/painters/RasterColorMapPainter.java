@@ -23,7 +23,7 @@ import scidraw.drawing.painters.PainterData;
 public class RasterColorMapPainter extends MapPainter
 {
 	
-	private List<Color> pixels;
+	private List<Color> 			pixels;
 	protected Buffer 				buffer;
 
 

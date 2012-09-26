@@ -25,7 +25,7 @@ public class RasterSpectrumMapPainter extends MapPainter
 {
 
 	
-	protected Buffer 				buffer;
+	protected Buffer buffer;
 
 	
 	public RasterSpectrumMapPainter(List<AbstractPalette> colourRules, Spectrum data)
@@ -48,7 +48,7 @@ public class RasterSpectrumMapPainter extends MapPainter
 	
 			Spectrum modData = data;
 			
-			float maxIntensity;
+			float maxIntensity, minIntensity;
 			if (p.dr.maxYIntensity <= 0) {
 				maxIntensity = SpectrumCalculations.max(data);
 			} else {
@@ -82,8 +82,10 @@ public class RasterSpectrumMapPainter extends MapPainter
 
 			public void f(Integer ordinal)
 			{				
+				float intensity = data.get(ordinal);
+				
 				if (maximumIndex > ordinal) {
-					b.setPixelValue(ordinal, getColourFromRules(data.get(ordinal), maxIntensity));
+					b.setPixelValue(ordinal, getColourFromRules(intensity, maxIntensity));
 				}
 			}
 		};
@@ -106,25 +108,16 @@ public class RasterSpectrumMapPainter extends MapPainter
 		// draw the map
 		for (int y = 0; y < p.dr.dataHeight; y++) {
 			for (int x = 0; x < p.dr.dataWidth; x++) {
-				
-				
-				
-				
-				
+
 				index = y * p.dr.dataWidth + x;
 				intensity = data.get(index);
-				
+
 				c = getColourFromRules(intensity, maxIntensity);
-				
-				
+
 				p.context.rectangle(x * cellSize, y * cellSize, cellSize + 1, cellSize + 1);
 
-					
 				p.context.setSource(c);
 				p.context.fill();
-
-
-
 				
 			}
 		}

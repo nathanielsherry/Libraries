@@ -182,6 +182,7 @@ public class PlotDrawing extends Drawing
 					try {
 						painter.draw(new PainterData(context, dr, plotSize, dataHeights));
 					} catch (Exception e) {
+						e.printStackTrace();
 						System.out.println("Painter " + painter.getSourceName() + " Failed");
 					}
 				}
