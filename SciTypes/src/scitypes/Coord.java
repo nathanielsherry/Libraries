@@ -26,6 +26,22 @@ public class Coord<T> {
 	}
 	
 	@Override
+	public boolean equals(Object oother)
+	{
+		if (!(oother instanceof Coord)) return false;
+		Coord<?> gother = (Coord<?>)oother;
+		if (!x.getClass().equals(gother.x.getClass())) return false;
+		Coord<T> other = (Coord<T>)oother;
+		return x.equals(other.x) && y.equals(other.y);
+	}
+	
+	@Override
+	public int hashCode()
+	{
+		return 0;
+	}
+	
+	@Override
 	public String toString()
 	{
 		return "(" + x.toString() + "," + y.toString() + ")";

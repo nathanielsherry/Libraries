@@ -1,15 +1,22 @@
 package scitypes;
 
 
+import java.io.Serializable;
 import java.util.List;
 
 
-public class DirectionVector
+public class DirectionVector implements Serializable
 {
 
-	private Float direction;
-	private Float distance;
-		
+	private float direction;
+	private float distance;
+	
+	
+    public DirectionVector()
+    {
+        this.direction = 0f;
+        this.distance = 0f;
+    }
 	
 	public DirectionVector(float distance, float direction)
 	{
@@ -31,11 +38,11 @@ public class DirectionVector
 		distance = (float)Math.sqrt(cartesian.x*cartesian.x + cartesian.y*cartesian.y);
 	}
 	
-	public Float getDirection()
+	public float getDirection()
 	{
 		return direction;
 	}
-	public Float getDistance()
+	public float getDistance()
 	{
 		return distance;
 	}
@@ -78,13 +85,15 @@ public class DirectionVector
 
 	}
 	
-	
+    public String toString(){
+    	return direction + "," + distance;
+    }
 	
 	
 	public static void main(String args[])
 	{
-		DirectionVector d1 = new DirectionVector(10, 0);
-		DirectionVector d2 = new DirectionVector(5, 90);
+		DirectionVector d1 = new DirectionVector(5, 0);
+		DirectionVector d2 = new DirectionVector(10, 90);
 		DirectionVector d3 = d1.add(d2);
 		System.out.println(d3.toCartesian());
 		

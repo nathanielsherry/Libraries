@@ -18,7 +18,7 @@ import fava.signatures.FnMap;
 public class Spectrum extends Functionable<Float> implements Serializable
 {
 
-	private float	data[];
+	private float		data[];
 	private int		size;
 	private int		maxIndex;
 
@@ -460,5 +460,9 @@ public class Spectrum extends Functionable<Float> implements Serializable
 		
 	}
 
+	public static void main(String[] args)
+	{
+		
+	}
 
 }
