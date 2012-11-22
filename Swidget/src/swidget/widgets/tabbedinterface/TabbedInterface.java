@@ -1,0 +1,95 @@
+package swidget.widgets.tabbedinterface;
+
+import java.awt.BorderLayout;
+
+import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
+
+public abstract class TabbedInterface<T extends JPanel> extends JPanel
+{
+
+	private JTabbedPane tabs;
+	private String defaultTitle;
+	
+	public TabbedInterface(String defaultTitle)
+	{
+		
+		this.defaultTitle = defaultTitle;
+		tabs = new JTabbedPane();
+		//tabs.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
+		
+		setLayout(new BorderLayout());
+		add(tabs, BorderLayout.CENTER);
+		
+		tabs.addChangeListener(new ChangeListener() {
+			
+			@Override
+			public void stateChanged(ChangeEvent arg0)
+			{
+				int i = tabs.getSelectedIndex();
+				if (i < 0) return;
+				
+				ButtonTabComponent titleComponent = (ButtonTabComponent) tabs.getTabComponentAt(i);
+				if (titleComponent == null) return;
+				
+				tabsChanged(titleComponent.getTitle());
+			}
+		});
+		
+	}
+	
+	protected JTabbedPane getJTabbedPane()
+	{
+		return tabs;
+	}
+	
+	public T newTab()
+	{
+		int count = tabs.getTabCount();
+		T component = createComponent();
+		ButtonTabComponent titleComponent = new ButtonTabComponent(this);
+		tabs.addTab("", component);
+		tabs.setTabComponentAt(count, titleComponent);
+		setTabTitle(component, defaultTitle);
+		return component;
+	}
+	
+	@SuppressWarnings("unchecked")
+	protected void closeTab(int i)
+	{
+		destroyComponent((T)tabs.getComponentAt(i));
+		tabs.remove(i);
+		
+		if (tabs.getTabCount() == 0) newTab();
+		
+	}
+	
+	public void closeTab(T component)
+	{
+		destroyComponent(component);
+		tabs.remove(component);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public T getActiveTab()
+	{
+		return (T) tabs.getSelectedComponent();
+	}
+	
+	public void setTabTitle(T component, String title)
+	{
+		int i = tabs.indexOfComponent(component);
+		if (i < 0) return;
+		ButtonTabComponent titleComponent = (ButtonTabComponent) tabs.getTabComponentAt(i);
+		titleComponent.setTitle(title);
+		tabsChanged(title);
+	}
+	
+	protected abstract T createComponent();
+	protected abstract void destroyComponent(T component);
+	protected abstract void tabsChanged(String title);	
+	
+}

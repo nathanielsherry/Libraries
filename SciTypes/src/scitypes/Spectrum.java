@@ -419,6 +419,21 @@ public class Spectrum extends Functionable<Float> implements Serializable
 
 	}
 	
+	/**
+	 * Hash code returns the integer sum of the first 10 (or less) elements
+	 */
+	@Override
+	public int hashCode()
+	{
+		float sum = 0;
+		for (int i = 0; i < 10; i++)
+		{
+			if (size() <= i) break;
+			sum += get(i);
+		}
+		return (int)sum;
+	}
+	
 	@Override
 	public boolean equals(Object oother)
 	{

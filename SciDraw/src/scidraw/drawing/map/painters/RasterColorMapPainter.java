@@ -10,7 +10,7 @@ import plural.executor.eachindex.implementations.PluralEachIndexExecutor;
 
 
 import scidraw.drawing.backends.Buffer;
-import scidraw.drawing.map.palettes.ThermalScalePalette;
+import scidraw.drawing.map.palettes.SingleColourPalette;
 import scidraw.drawing.painters.PainterData;
 
 /**
@@ -29,7 +29,7 @@ public class RasterColorMapPainter extends MapPainter
 
 	public RasterColorMapPainter()
 	{
-		super(new ThermalScalePalette(), null);
+		super(new SingleColourPalette(new Color(0, 0, 0, 0)));
 	}
 
 
@@ -67,13 +67,15 @@ public class RasterColorMapPainter extends MapPainter
 
 		final Buffer b = p.context.getImageBuffer(p.dr.dataWidth, p.dr.dataHeight);
 
-		
+		final Color transparent = new Color(0, 0 ,0, 0);
 		final FnEach<Integer> drawPixel = new FnEach<Integer>() {
 
 			public void f(Integer ordinal)
 			{			
 				if (maximumIndex > ordinal) {
-					b.setPixelValue(ordinal, data.get(ordinal));
+					Color c = data.get(ordinal);
+					if (c == null) c = transparent;
+					b.setPixelValue(ordinal, c);
 				}
 			}
 		};

@@ -15,7 +15,7 @@ public class BoundedRegionPainter extends MapPainter
 	
 	public BoundedRegionPainter(Color c, Coord<Integer> cstart, Coord<Integer> cend)
 	{
-		super(new SingleColourPalette(c), null);
+		super(new SingleColourPalette(c));
 		
 		this.cstart = cstart;
 		this.cend = cend;

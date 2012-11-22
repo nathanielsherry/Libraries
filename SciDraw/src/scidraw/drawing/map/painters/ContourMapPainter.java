@@ -22,7 +22,7 @@ enum Threshold
 	ABOVE, BELOW, OUTSIDE
 }
 
-public class ContourMapPainter extends MapPainter
+public class ContourMapPainter extends SpectrumMapPainter
 {
 
 	private int contourSteps;

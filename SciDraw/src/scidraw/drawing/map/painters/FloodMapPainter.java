@@ -21,7 +21,7 @@ public class FloodMapPainter extends MapPainter
 	
 	public FloodMapPainter(Color c)
 	{
-		super(new SingleColourPalette(c), null);
+		super(new SingleColourPalette(c));
 		
 		this.c = c;
 		

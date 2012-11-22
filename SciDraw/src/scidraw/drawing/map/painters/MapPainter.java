@@ -9,7 +9,6 @@ import scidraw.drawing.map.MapDrawing;
 import scidraw.drawing.map.palettes.AbstractPalette;
 import scidraw.drawing.painters.Painter;
 import scidraw.drawing.painters.PainterData;
-import scitypes.Spectrum;
 
 /**
  * 
@@ -23,23 +22,20 @@ import scitypes.Spectrum;
 public abstract class MapPainter extends Painter
 {
 
-	protected Spectrum					data;
+	
 	protected List<AbstractPalette>	colourRules;
 
 
-	public MapPainter(List<AbstractPalette> colourRules, Spectrum data)
+	public MapPainter(List<AbstractPalette> colourRules)
 	{
 		this.colourRules = colourRules;
-		this.data = data;
-
 	}
 	
-	public MapPainter(AbstractPalette colourRule, Spectrum data)
+	public MapPainter(AbstractPalette colourRule)
 	{
 		List<AbstractPalette> rules = new ArrayList<AbstractPalette>();
 		rules.add(colourRule);
 		this.colourRules = rules;
-		this.data = data;
 	}
 
 
@@ -75,10 +71,7 @@ public abstract class MapPainter extends Painter
 		colourRules.addAll(palettes);
 	}
 
-	public void setData(Spectrum data)
-	{
-		this.data = data;
-	}
+
 	
 	
 	@Override

@@ -21,17 +21,15 @@ import scitypes.SpectrumCalculations;
  * @author Nathaniel Sherry, 2009
  */
 
-public class RasterSpectrumMapPainter extends MapPainter
+public class RasterSpectrumMapPainter extends SpectrumMapPainter
 {
 
-	
 	protected Buffer buffer;
 
 	
 	public RasterSpectrumMapPainter(List<AbstractPalette> colourRules, Spectrum data)
 	{
-		super(colourRules, data);
-		
+		super(colourRules, data);	
 	}
 
 
@@ -39,6 +37,7 @@ public class RasterSpectrumMapPainter extends MapPainter
 	{
 		super(colourRule, data);
 	}
+	
 
 	@Override
 	public void drawMap(PainterData p, float cellSize, float rawCellSize)

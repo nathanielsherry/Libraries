@@ -12,16 +12,16 @@ import eventful.EventfulListener;
 /**
  * 
  * This class provides a Thread of execution for a set of {@link Task}s, as well as an easy way for a UI to
- * visualise that set, and an overall description of the job being done. TaskList can return a value from the
- * {@link #doMaps()} method, or the result can be stored elsewhere by the implementation of
- * {@link #doMaps()} or by the the final {@link Task} in the list. A TaskList can be executed in a blocking
+ * visualise that set, and an overall description of the job being done. ExecutorSet can return a value from the
+ * {@link #execute()} method, or the result can be stored elsewhere by the implementation of
+ * {@link #execute()} or by the the final {@link Task} in the list. A TaskList can be executed in a blocking
  * or non-blocking manner. TaskList exteneds {@link Eventful}, and so {@link EventfulSimpleListener}s can be added
  * to listen for changes, and check for completion when executing in a non-blocking manner.
  * 
  * @author Nathaniel Sherry, 2009
  * 
  * @param <T>
- *            The kind of data that the TaskList will return from its {@link #doMaps()} method
+ *            The kind of data that the TaskList will return from its {@link #execute()} method
  */
 
 public abstract class ExecutorSet<T> extends Eventful implements Iterable<PluralExecutor>
@@ -52,7 +52,7 @@ public abstract class ExecutorSet<T> extends Eventful implements Iterable<Plural
 
 			public void run()
 			{
-				T result = doMaps();
+				T result = execute();
 				setResult(result);
 			}
 		});
@@ -74,7 +74,7 @@ public abstract class ExecutorSet<T> extends Eventful implements Iterable<Plural
 
 
 	/**
-	 * Set the result of this TaskList's {@link #doMaps()} method
+	 * Set the result of this TaskList's {@link #execute()} method
 	 * 
 	 * @param result
 	 */
@@ -226,5 +226,5 @@ public abstract class ExecutorSet<T> extends Eventful implements Iterable<Plural
 	 * 
 	 * @return the result of executing the {@link Task}s.
 	 */
-	protected abstract T doMaps();
+	protected abstract T execute();
 }

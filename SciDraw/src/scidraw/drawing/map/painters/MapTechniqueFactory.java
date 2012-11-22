@@ -11,13 +11,13 @@ import scitypes.Spectrum;
 public class MapTechniqueFactory
 {
 
-	public static MapPainter getTechnique(List<AbstractPalette> colourRules, Spectrum data, boolean contour, int contourSteps)
+	public static SpectrumMapPainter getTechnique(List<AbstractPalette> colourRules, Spectrum data, boolean contour, int contourSteps)
 	{
 		if (contour) return new ContourMapPainter(colourRules, data, contourSteps); //ContourMapPainter(colourRules, data, contourSteps);
 		return new RasterSpectrumMapPainter(colourRules, data);
 	}
 	
-	public static MapPainter getTechnique(AbstractPalette colourRule, Spectrum data, boolean contour, int contourSteps)
+	public static SpectrumMapPainter getTechnique(AbstractPalette colourRule, Spectrum data, boolean contour, int contourSteps)
 	{
 		List<AbstractPalette> colourRules = new ArrayList<AbstractPalette>();
 		colourRules.add(colourRule);
@@ -25,7 +25,7 @@ public class MapTechniqueFactory
 		return getTechnique(colourRules, data, contour, contourSteps);
 	}
 	
-	public static MapPainter getDefaultTechnique(Spectrum data)
+	public static SpectrumMapPainter getDefaultTechnique(Spectrum data)
 	{
 		AbstractPalette palette = new ThermalScalePalette();
 		List<AbstractPalette> paletteList = new ArrayList<AbstractPalette>();
