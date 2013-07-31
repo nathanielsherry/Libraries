@@ -46,14 +46,19 @@ public abstract class TabbedInterface<T extends JPanel> extends JPanel
 		return tabs;
 	}
 	
-	public T newTab()
+	public void addTab(T component)
 	{
 		int count = tabs.getTabCount();
-		T component = createComponent();
 		ButtonTabComponent titleComponent = new ButtonTabComponent(this);
 		tabs.addTab("", component);
 		tabs.setTabComponentAt(count, titleComponent);
 		setTabTitle(component, defaultTitle);
+	}
+	
+	public T newTab()
+	{
+		T component = createComponent();
+		addTab(component);
 		return component;
 	}
 	
@@ -78,6 +83,17 @@ public abstract class TabbedInterface<T extends JPanel> extends JPanel
 	{
 		return (T) tabs.getSelectedComponent();
 	}
+	
+	public void setActiveTab(T component)
+	{
+		tabs.setSelectedComponent(component);
+	}
+	
+	public void setActiveTab(int i)
+	{
+		tabs.setSelectedIndex(i);
+	}
+	
 	
 	public void setTabTitle(T component, String title)
 	{
