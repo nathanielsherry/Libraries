@@ -12,7 +12,7 @@ public class FCollection<T> extends Functionable<T> implements Collection<T>{
 	private Collection<T> backing;
 	
 	public FCollection() {
-		backing = new ArrayList<T>();
+		backing = new ArrayList<>();
 	}
 	
 	private FCollection(Collection<T> col)
@@ -24,14 +24,14 @@ public class FCollection<T> extends Functionable<T> implements Collection<T>{
 	public static <T> FCollection<T> wrap(Collection<T> col)
 	{
 		if (col instanceof FCollection) return (FCollection<T>)col;
-		return new FCollection<T>(col);
+		return new FCollection<>(col);
 	}
 	
 	
 	
 	protected <T2> Collection<T2> getNewCollection()
 	{
-		return new ArrayList<T2>();
+		return new ArrayList<>();
 	}
 	
 	protected <T2> FCollection<T2> wrapNewCollection(Collection<T2> col)

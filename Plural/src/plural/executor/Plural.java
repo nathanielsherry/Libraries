@@ -30,7 +30,7 @@ public class Plural {
 	 */
 	public static <T1> T1 fold(List<T1> elements, T1 base, FnFold<T1, T1> fold)
 	{
-		return new PluralFoldExecutor<T1>(elements, base, fold).executeBlocking();
+		return new PluralFoldExecutor<>(elements, base, fold).executeBlocking();
 	}
 	
 	
@@ -45,19 +45,19 @@ public class Plural {
 	 */
 	public static <T1> T1 fold(List<T1> elements, T1 base, FnFold<T1, T1> fold, int threads)
 	{
-		return new PluralFoldExecutor<T1>(elements, base, fold, threads).executeBlocking();
+		return new PluralFoldExecutor<>(elements, base, fold, threads).executeBlocking();
 	}
 	
 	
 	
 	public static <T1, T2> List<T2> map(List<T1> elements, FnMap<T1, T2> map)
 	{
-		return new PluralMapExecutor<T1, T2>(elements, map).executeBlocking();
+		return new PluralMapExecutor<>(elements, map).executeBlocking();
 	}
 	
 	public static <T1, T2> List<T2> map(List<T1> elements, FnMap<T1, T2> map, int threads)
 	{
-		return new PluralMapExecutor<T1, T2>(elements, map, threads).executeBlocking();
+		return new PluralMapExecutor<>(elements, map, threads).executeBlocking();
 	}
 	
 	
@@ -75,12 +75,12 @@ public class Plural {
 	
 	public static <T1> List<T1> filter(List<T1> elements, FnCondition<T1> filter)
 	{
-		return new PluralFilterExecutor<T1>(elements, filter).executeBlocking();
+		return new PluralFilterExecutor<>(elements, filter).executeBlocking();
 	}
 	
 	public static <T1> List<T1> filter(List<T1> elements, FnCondition<T1> filter, int threads)
 	{
-		return new PluralFilterExecutor<T1>(elements, filter, threads).executeBlocking();
+		return new PluralFilterExecutor<>(elements, filter, threads).executeBlocking();
 	}
 	
 	

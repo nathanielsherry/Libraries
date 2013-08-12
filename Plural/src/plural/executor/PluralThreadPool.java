@@ -19,7 +19,7 @@ class PluralThreadPool
 	public static void execute(Runnable r, int numThreads){
 		
 	
-		List<Future<?>> futures = new ArrayList<Future<?>>();
+		List<Future<?>> futures = new ArrayList<>();
 			
 		for (int i = 0; i < numThreads; i++) futures.add(executorService.submit(r));
 		

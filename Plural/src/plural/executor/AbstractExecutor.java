@@ -45,6 +45,11 @@ public abstract class AbstractExecutor extends Eventful implements PluralExecuto
 	public void setStalling(boolean stalling)
 	{
 		this.stalling = stalling;
+		
+		if (state == ExecutorState.WORKING && stalling) { state = ExecutorState.STALLED; }
+		if (state == ExecutorState.STALLED && !stalling) { state = ExecutorState.WORKING; }
+		
+		updateListeners();
 	}
 	
 	
@@ -153,9 +158,9 @@ public abstract class AbstractExecutor extends Eventful implements PluralExecuto
 	@Override
 	public synchronized void setWorkUnits(int units)
 	{
-		if (state == ExecutorState.WORKING || state == ExecutorState.STALLED) return;
+		//if (state == ExecutorState.WORKING || state == ExecutorState.STALLED) return;
 		if (units < workUnitsCompleted) return;
-		if (units < 0) return;
+		if (units <= 0) return;
 		workUnits = units;
 	}
 	

@@ -6,7 +6,6 @@ import bolt.compiler.BoltJavaMap;
 import bolt.scripting.BoltScripter;
 import bolt.scripting.BoltMap;
 import bolt.scripting.languages.JavascriptLanguage;
-import bolt.scripting.languages.Language;
 import bolt.scripting.languages.PythonLanguage;
 import bolt.scripting.languages.RubyLanguage;
 

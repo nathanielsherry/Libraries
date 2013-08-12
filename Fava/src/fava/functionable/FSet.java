@@ -17,7 +17,7 @@ public class FSet<S> extends FCollection<S> implements Set<S>
 	
 	protected <T> Collection<T> getNewCollection()
 	{
-		return new LinkedHashSet<T>();
+		return new LinkedHashSet<>();
 	}
 	
 	protected <T> FSet<T> wrapNewCollection(Collection<T> col)
@@ -39,7 +39,7 @@ public class FSet<S> extends FCollection<S> implements Set<S>
 		try {
 			return (FSet<T2>)(backing.getClass().newInstance());
 		} catch (Exception e) {
-			return new FSet<T2>();
+			return new FSet<>();
 		}
 	}
 
@@ -57,7 +57,7 @@ public class FSet<S> extends FCollection<S> implements Set<S>
 	////////////////////////////////////////////////
 	
 	public FSet() {
-		backing = new LinkedHashSet<S>();
+		backing = new LinkedHashSet<>();
 	}
 	
 	private FSet(Set<S> set)
@@ -68,7 +68,7 @@ public class FSet<S> extends FCollection<S> implements Set<S>
 	public static <S> FSet<S> wrap(Set<S> set)
 	{
 		if (set instanceof FSet) return (FSet<S>)set;
-		return new FSet<S>(set);
+		return new FSet<>(set);
 	}
 	
 	
@@ -201,7 +201,7 @@ public class FSet<S> extends FCollection<S> implements Set<S>
 	
 	public static void main(String[] args) {
 		
-		FSet<Integer> ints = new FSet<Integer>();
+		FSet<Integer> ints = new FSet<>();
 		
 		ints.add(1);
 		ints.add(2);

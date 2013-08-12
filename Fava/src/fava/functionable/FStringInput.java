@@ -222,7 +222,7 @@ public class FStringInput implements Iterator<String>, Closeable{
 	 */
 	public FList<String> toSink()
 	{
-		FList<String> list = new FList<String>(this);
+		FList<String> list = new FList<>(this);
 		try {
 			close();
 		} catch (IOException e) {
@@ -399,7 +399,7 @@ public class FStringInput implements Iterator<String>, Closeable{
 	{
 		
 		if (isClosed) throw new ClosedInputException();
-		FList<S2> target = new FList<S2>();
+		FList<S2> target = new FList<>();
 		
 		while (this.hasNext())
 		{
@@ -419,7 +419,7 @@ public class FStringInput implements Iterator<String>, Closeable{
 	public FList<String> filter(FnMap<String, Boolean> f)
 	{
 		if (isClosed) throw new ClosedInputException();
-		FList<String> target = new FList<String>();
+		FList<String> target = new FList<>();
 		
 		while (this.hasNext())
 		{
@@ -485,7 +485,7 @@ public class FStringInput implements Iterator<String>, Closeable{
 	{
 		
 		if (isClosed) throw new ClosedInputException();
-		FList<String> target = new FList<String>();
+		FList<String> target = new FList<>();
 		int count = 0;
 		
 		while (this.hasNext())
@@ -662,7 +662,7 @@ class WordsReader implements CustomReader
 		
 		return new Iterator<String>(){
 
-			FList<String> words = new FList<String>();
+			FList<String> words = new FList<>();
 			int wordIndex = 0;
 			
 			@Override

@@ -4,27 +4,39 @@ import java.awt.Dimension;
 
 import javax.swing.JComponent;
 import javax.swing.JSpinner;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
-import autodialog.controller.IAutoDialogController;
 import autodialog.model.Parameter;
-import autodialog.view.AutoPanel;
-import autodialog.view.ParamListener;
+import eventful.Eventful;
 
 
-public class IntegerEditor extends JSpinner implements IEditor
+public class IntegerEditor extends Eventful implements IEditor<Integer>
 {
 
-	private Parameter param;
+	private Parameter<Integer> param;
+	private JSpinner control;
 	
-	public IntegerEditor(Parameter param, IAutoDialogController controller, AutoPanel view)
-	{
-		
+	public IntegerEditor() {
+		control = new JSpinner();
+	}
+	
+	@Override
+	public void initialize(Parameter<Integer> param)
+	{	
 		this.param = param;
 		
-		getEditor().setPreferredSize(new Dimension(70, getEditor().getPreferredSize().height));
-		setValue(param.intValue());
+		control.getEditor().setPreferredSize(new Dimension(70, control.getEditor().getPreferredSize().height));
+		control.setValue(param.getValue());
 
-		addChangeListener(new ParamListener(param, controller, view));
+		
+		control.addChangeListener(new ChangeListener() {
+			
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				updateListeners();
+			}
+		});
 	}
 	
 	@Override
@@ -48,19 +60,19 @@ public class IntegerEditor extends JSpinner implements IEditor
 	@Override
 	public JComponent getComponent()
 	{
-		return this;
+		return control;
 	}
 
 	@Override
 	public void setFromParameter()
 	{
-		setValue(param.intValue());
+		control.setValue(param.getValue());
 	}
 
 	@Override
-	public Object getEditorValue()
+	public Integer getEditorValue()
 	{
-		return getValue();
+		return (Integer)control.getValue();
 	}
 	
 

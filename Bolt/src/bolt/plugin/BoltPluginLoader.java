@@ -4,7 +4,6 @@ package bolt.plugin;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.lang.reflect.Modifier;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.List;

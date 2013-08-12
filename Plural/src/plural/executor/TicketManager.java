@@ -16,8 +16,8 @@ public class TicketManager {
 		this.totalBlocks = (int)Math.ceil(taskSize / (double)blockSize);
 		
 		
-		ticketBlockStart = new ArrayList<Integer>(totalBlocks);
-		ticketBlockSize = new ArrayList<Integer>(totalBlocks);
+		ticketBlockStart = new ArrayList<>(totalBlocks);
+		ticketBlockSize = new ArrayList<>(totalBlocks);
 
 		int ticketsAssigned = 0;
 

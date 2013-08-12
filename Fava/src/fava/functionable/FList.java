@@ -67,7 +67,7 @@ public class FList<T> extends Functionable<T> implements List<T>, Serializable{
 		try {
 			return (FList<S>)(backing.getClass().newInstance());
 		} catch (Exception e) {
-			return new FList<S>();
+			return new FList<>();
 		}
 	}
 
@@ -95,7 +95,7 @@ public class FList<T> extends Functionable<T> implements List<T>, Serializable{
 	 */
 	public FList()
 	{
-		backing = new ArrayList<T>();
+		backing = new ArrayList<>();
 	}
 	
 	
@@ -104,7 +104,7 @@ public class FList<T> extends Functionable<T> implements List<T>, Serializable{
 	 */
 	public FList(int size)
 	{
-		backing = new ArrayList<T>(size);
+		backing = new ArrayList<>(size);
 	}
 	
 		
@@ -152,7 +152,7 @@ public class FList<T> extends Functionable<T> implements List<T>, Serializable{
 	{
 		//make sure we don't nest FLists inside other FLists
 		if (list instanceof FList<?>) return (FList<T>)list;
-		return new FList<T>(list);
+		return new FList<>(list);
 	}
 	
 	
@@ -161,7 +161,7 @@ public class FList<T> extends Functionable<T> implements List<T>, Serializable{
 		try {
 			backing = c.newInstance();
 		} catch (Exception e) {
-			backing = new ArrayList<T>();
+			backing = new ArrayList<>();
 		}
 	}
 	
@@ -402,8 +402,8 @@ public class FList<T> extends Functionable<T> implements List<T>, Serializable{
 	{
 		Pair<T1, T2> p;
 		
-		FList<T1> t1s = new FList<T1>();
-		FList<T2> t2s = new FList<T2>();
+		FList<T1> t1s = new FList<>();
+		FList<T2> t2s = new FList<>();
 		
 		for (T t : backing)
 		{
@@ -412,7 +412,7 @@ public class FList<T> extends Functionable<T> implements List<T>, Serializable{
 			t2s.add(p.second);			
 		}
 		
-		return new Pair<FList<T1>, FList<T2>>(t1s, t2s);
+		return new Pair<>(t1s, t2s);
 	}
 	
 	

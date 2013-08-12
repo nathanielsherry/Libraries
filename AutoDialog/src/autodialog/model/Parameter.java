@@ -1,7 +1,10 @@
 package autodialog.model;
 
 
+import java.awt.Component;
 import java.io.Serializable;
+
+import autodialog.view.editors.IEditor;
 
 /**
  * 
@@ -10,112 +13,64 @@ import java.io.Serializable;
  * @author Nathaniel Sherry, 2009-2012
  */
 
-public class Parameter implements Serializable
+public class Parameter<T> implements Serializable
 {
 
-	public static enum ValueType
-	{
-		INTEGER, REAL, BOOLEAN, SET_ELEMENT, SEPARATOR, CODE, OTHER
-	}
-	
-	private ValueType	type;
-	private String		customType;
-	
+
 	public String		name;
-	private Object		value;
+	private IEditor<T>	editor;
 	
-	public boolean		enabled;
+	private boolean		enabled;
 
-	public Object[]		possibleValues;
+	private T			value;
 	
-	//private Map<String, String>		properties;
-
-	
-	public Parameter(String name, ValueType type, Object value)
+		
+	public Parameter(String name, IEditor<T> editor, T value)
 	{
-		this.type = type;
+		this.editor = editor;
 		this.name = name;
 		this.value = value;
-		this.possibleValues = null;
 		this.enabled = true;
 		
-		//properties = new HashMap<String, String>();
+		editor.initialize(this);
 	}
-	
-	public Parameter(String name, String customType, Object value)
-	{
-		this(name, ValueType.OTHER, value);
-		this.customType = customType;
-	}
-	
 
-	public Parameter(String name, ValueType type, Object value, Object[] possibleValues)
-	{
-		this(name, type, value);
-		this.possibleValues = possibleValues;
-	}
 	
-	public void setValue(Object value)
+	public void setValue(T value)
 	{
 		this.value = value;
 	}
 	
-	public Object getValue()
+	public T getValue()
 	{
 		return value;
 	}
-	
-	
-	public int intValue()
-	{
-		return (Integer)value;
-
-	}
-
-	public float realValue()
-	{
-		if (value instanceof Double) return ((Double)value).floatValue();
-		return (Float)value;
-
-	}
-	
-	public boolean boolValue()
-	{
-		return (Boolean)value;
-	}
 
 	
-	public String codeValue()
-	{
-		return (String)value;	
-	}
-	
-	@SuppressWarnings("unchecked")
-	public <T extends Enum<T>> T enumValue()
-	{
-		return (T)value;
+	public IEditor<T> getEditor() {
+		return editor;
 	}
 
-	public ValueType getType() {
-		return type;
+
+	public boolean isEnabled() {
+		return enabled;
 	}
 
-	public String getCustomType() {
-		return customType;
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+		
+		Component component = getEditor().getComponent();
+		if (component == null) return;
+		
+		component.setEnabled(enabled);
+		
 	}
 	
-	/*
-	public void setProperty(String propertyName, String propertyValue)
+	public String toString()
 	{
-		properties.put(propertyName, propertyValue);
+		String str =  "Parameter " + name;
+		if (value != null) str += ": " + value.toString();
+		return str;
 	}
-	
-	public String getProperty(String propertyName)
-	{
-		return properties.get(propertyName);
-	}
-	*/
-
-	
 	
 }

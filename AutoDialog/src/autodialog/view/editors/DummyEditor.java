@@ -3,15 +3,26 @@ package autodialog.view.editors;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
-import autodialog.controller.IAutoDialogController;
 import autodialog.model.Parameter;
-import autodialog.view.AutoPanel;
+import eventful.Eventful;
 
-public class DummyEditor extends JPanel implements IEditor {
+public class DummyEditor extends Eventful implements IEditor<Object> {
 
-	private Parameter param;
+	private Parameter<Object> param;
+	private JComponent component;
 	
-	public DummyEditor(Parameter param, IAutoDialogController controller, AutoPanel view) {
+
+	public DummyEditor() {
+		this(new JPanel());
+	}
+	
+	public DummyEditor(JComponent component) {
+		this.component = component;
+	}
+	
+	@Override
+	public void initialize(Parameter<Object> param)
+	{
 		this.param = param;
 	}
 	
@@ -43,7 +54,7 @@ public class DummyEditor extends JPanel implements IEditor {
 
 	@Override
 	public JComponent getComponent() {
-		return this;
+		return component;
 	}
 
 }

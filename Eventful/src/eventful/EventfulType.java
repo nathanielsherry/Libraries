@@ -16,9 +16,16 @@ public class EventfulType<T> implements IEventfulType<T>
 	/**
 	 * @see eventful.IEventfulType#addListener(eventful.EventfulTypeListener)
 	 */
-	public synchronized void addListener(EventfulTypeListener<T> l)
+	public synchronized void addListener(final EventfulTypeListener<T> l)
 	{
-		listeners.add(l);
+		
+		javax.swing.SwingUtilities.invokeLater(new Runnable() {
+			public void run()	{
+				synchronized(EventfulType.this){
+					listeners.add(l);
+				}
+			}
+		});
 	}
 
 

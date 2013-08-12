@@ -27,7 +27,7 @@ public class Sequence<T> extends Functionable<T>
 	
 	protected <T2> Collection<T2> getNewCollection()
 	{
-		return new ArrayList<T2>();
+		return new ArrayList<>();
 	}
 	
 	protected <T2> FList<T2> wrapNewCollection(Collection<T2> col)

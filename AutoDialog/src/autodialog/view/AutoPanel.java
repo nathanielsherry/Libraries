@@ -14,13 +14,12 @@ import javax.swing.Box;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import swidget.widgets.Spacing;
 import autodialog.controller.IAutoDialogController;
 import autodialog.model.Parameter;
-import autodialog.view.editors.EditorFactory;
 import autodialog.view.editors.IEditor;
-import autodialog.view.editors.LabelStyle;
+import autodialog.view.editors.IEditor.LabelStyle;
 import fava.functionable.FList;
-import swidget.widgets.Spacing;
 
 
 public class AutoPanel extends JPanel
@@ -28,8 +27,8 @@ public class AutoPanel extends JPanel
 
 	private IAutoDialogController	controller;
 
-	private List<IEditor>			editors;
-	private List<Parameter> 		paramslist;
+	private List<IEditor<?>>		editors;
+	private List<Parameter<?>> 		paramslist;
 
 	public AutoPanel(IAutoDialogController controller)
 	{
@@ -53,18 +52,20 @@ public class AutoPanel extends JPanel
 	{
 		setVisible(show);
 	}
-	
+
+	/*
 	public void updateWidgetsEnabled()
 	{
 		for (int i = 0; i < editors.size(); i++)
 		{
-			editors.get(i).getComponent().setEnabled(paramslist.get(i).enabled);
+			editors.get(i).getComponent().setEnabled(paramslist.get(i).isEnabled());
 		}
 	}
+	*/
 
 	public void updateFromParameters()
 	{
-		for (IEditor editor: editors)
+		for (IEditor<?> editor: editors)
 		{
 			editor.setFromParameter();
 		}
@@ -74,10 +75,10 @@ public class AutoPanel extends JPanel
 	{
 
 		//get a list of parameters
-		paramslist = new FList<Parameter>(controller.getParameters());
-		editors = new ArrayList<IEditor>();
+		paramslist = new FList<>(controller.getParameters());
+		editors = new ArrayList<>();
 		
-		Iterator<Parameter> params = paramslist.iterator();
+		Iterator<Parameter<?>> params = paramslist.iterator();
 		
 	
 		GridBagLayout layout = new GridBagLayout();
@@ -87,10 +88,10 @@ public class AutoPanel extends JPanel
 		
 
 
-
+		
 		JLabel paramLabel;
-		IEditor editor;
-		Parameter param;
+		IEditor<?> editor;
+		Parameter<?> param;
 
 		c.gridx = 0;
 		c.gridy = 0;
@@ -108,7 +109,11 @@ public class AutoPanel extends JPanel
 			paramLabel.setFont(paramLabel.getFont().deriveFont(Font.PLAIN));
 			paramLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
 			
-			editor = EditorFactory.createEditor(param, controller, this);
+			
+			
+			//fetch the editor from the Parameter
+			editor = param.getEditor();
+			editor.addListener(new ParamListener<>(param, controller));
 			
 			needsVerticalGlue &= (!editor.expandVertical());
 			

@@ -20,7 +20,7 @@ public class FIterable<T> extends Functionable<T>
 	public static <T> FIterable<T> wrap(Iterable<T> it)
 	{
 		if (it instanceof FIterable) return (FIterable<T>)it;
-		return new FIterable<T>(it);
+		return new FIterable<>(it);
 	}
 	
 	/**

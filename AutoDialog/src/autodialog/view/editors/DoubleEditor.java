@@ -1,9 +1,10 @@
 package autodialog.view.editors;
 
-import java.awt.Component;
+import java.awt.Dimension;
 
-import javax.swing.JCheckBox;
 import javax.swing.JComponent;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -11,24 +12,26 @@ import autodialog.model.Parameter;
 import eventful.Eventful;
 
 
-public class BooleanEditor extends Eventful implements IEditor<Boolean>
+public class DoubleEditor extends Eventful implements IEditor<Double>
 {
-	
-	private Parameter<Boolean> param;
-	private JCheckBox control;
 
-	public BooleanEditor() {
-		control = new JCheckBox();
+	private Parameter<Double> param;
+	private JSpinner control;
+	
+	public DoubleEditor() {
+		control = new JSpinner();
 	}
 	
 	@Override
-	public void initialize(Parameter<Boolean> param)
+	public void initialize(Parameter<Double> param)
 	{
 		this.param = param;
 		
-		setFromParameter();
-		control.setAlignmentX(Component.LEFT_ALIGNMENT);
-		control.setOpaque(false);
+		
+		control.setModel(new SpinnerNumberModel((Double)param.getValue(), null, null, 0.1d));
+		control.getEditor().setPreferredSize(new Dimension(70, control.getEditor().getPreferredSize().height));
+		control.setValue((Double)param.getValue());
+		
 		
 		control.addChangeListener(new ChangeListener() {
 			
@@ -37,18 +40,13 @@ public class BooleanEditor extends Eventful implements IEditor<Boolean>
 				updateListeners();
 			}
 		});
+
 	}
 	
 	@Override
 	public boolean expandVertical()
 	{
 		return false;
-	}
-
-	@Override
-	public JComponent getComponent()
-	{
-		return control;
 	}
 
 	@Override
@@ -64,17 +62,22 @@ public class BooleanEditor extends Eventful implements IEditor<Boolean>
 	}
 
 	@Override
-	public void setFromParameter()
+	public JComponent getComponent()
 	{
-		control.setSelected(param.getValue());
+		return control;
 	}
 
 	@Override
-	public Boolean getEditorValue()
+	public void setFromParameter()
 	{
-		return control.isSelected();
+		control.setValue((Double)param.getValue());
 	}
-	
+
+	@Override
+	public Double getEditorValue()
+	{
+		return (Double)control.getValue();
+	}
 
 	@Override
 	public void validateFailed() {

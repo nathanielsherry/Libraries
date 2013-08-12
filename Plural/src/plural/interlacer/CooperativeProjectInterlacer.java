@@ -201,7 +201,7 @@ public class CooperativeProjectInterlacer<T>
 		started = true;
 		
 		for (int i = 0; i < threadCount; i++) {
-			DataProcessorThread<T> dpt = new DataProcessorThread<T>(this, "Thread " + (i+1));
+			DataProcessorThread<T> dpt = new DataProcessorThread<>(this, "Thread " + (i+1));
 			dpt.start();
 		}
 	}
@@ -214,7 +214,7 @@ public class CooperativeProjectInterlacer<T>
 	 */
 	public void addJob(String projectName, T job)
 	{
-		addJobs(projectName, new FList<T>(job));
+		addJobs(projectName, new FList<>(job));
 	}
 	
 	/**
@@ -279,7 +279,7 @@ public class CooperativeProjectInterlacer<T>
 	
 		if (getProject(projectName) != null) return;
 		
-		InterlacerEntry<T> entry = new InterlacerEntry<T>();
+		InterlacerEntry<T> entry = new InterlacerEntry<>();
 		entry.project = project;
 		entry.priority = defaultPriority;
 		entry.projectName = projectName;
@@ -424,9 +424,9 @@ public class CooperativeProjectInterlacer<T>
 	{
 		
 		InterlacerEntry<T> entry;
-		List<InterlacerEntry<T>> entryList = new ArrayList<InterlacerEntry<T>>();
+		List<InterlacerEntry<T>> entryList = new ArrayList<>();
 		
-		List<T> jobList = new ArrayList<T>();
+		List<T> jobList = new ArrayList<>();
 		
 		
 		while(true) {
@@ -603,7 +603,7 @@ public class CooperativeProjectInterlacer<T>
 	private synchronized void cleanupCompletedProjects()
 	{
 
-		List<InterlacerEntry<T>> completedEntries = new ArrayList<InterlacerEntry<T>>();
+		List<InterlacerEntry<T>> completedEntries = new ArrayList<>();
 		
 		//all the projects in the set, clean up finished ones
 				
@@ -647,7 +647,7 @@ class InterlacerEntry<T>
 	public String projectName;
 	public int priority;
 	public InterlacerProject<T> project;
-	public Set<Thread> workingThreads = new HashSet<Thread>();
+	public Set<Thread> workingThreads = new HashSet<>();
 	
 }
 

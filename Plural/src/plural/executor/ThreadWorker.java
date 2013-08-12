@@ -22,9 +22,9 @@ class ThreadWorker extends Thread
 {
 
 	// this queue is used to cause this thread to block until an executor is looking to run on it
-	private LinkedBlockingQueue<AbstractExecutor>	workQueue	= new LinkedBlockingQueue<AbstractExecutor>();
+	private LinkedBlockingQueue<AbstractExecutor>	workQueue	= new LinkedBlockingQueue<>();
 
-	private Map<AbstractExecutor, Semaphore>			locks		= new HashMap<AbstractExecutor, Semaphore>();
+	private Map<AbstractExecutor, Semaphore>			locks	= new HashMap<>();
 
 
 	/**

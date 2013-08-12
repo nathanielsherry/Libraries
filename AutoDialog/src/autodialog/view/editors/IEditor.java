@@ -3,9 +3,19 @@ package autodialog.view.editors;
 import javax.swing.JComponent;
 
 import autodialog.model.Parameter;
+import eventful.IEventful;
 
-public interface IEditor
+public interface IEditor<T> extends IEventful
 {
+	
+	public enum LabelStyle {
+		LABEL_ON_TOP,
+		LABEL_ON_SIDE,
+		LABEL_HIDDEN
+	}
+	
+
+	public abstract void initialize(Parameter<T> param);
 
 	public abstract boolean expandVertical();
 	public abstract boolean expandHorizontal();
@@ -28,7 +38,7 @@ public interface IEditor
 	 * Returns the current value of the graphical interface component.
 	 * @return
 	 */
-	public abstract Object getEditorValue();
+	public abstract T getEditorValue();
 	
 	/**
 	 * Returns the graphical interface component for this editor.

@@ -1,13 +1,23 @@
 package autodialog;
 
-import java.util.List;
+
+import javax.swing.JSeparator;
+import javax.swing.JSlider;
 
 import swidget.Swidget;
 import fava.functionable.FList;
-import autodialog.controller.IAutoDialogController;
+import autodialog.controller.SimpleAutoDialogController;
 import autodialog.model.Parameter;
-import autodialog.model.Parameter.ValueType;
 import autodialog.view.AutoDialog;
+import autodialog.view.AutoDialog.AutoDialogButtons;
+import autodialog.view.editors.BooleanEditor;
+import autodialog.view.editors.DummyEditor;
+import autodialog.view.editors.FilenameEditor;
+import autodialog.view.editors.IEditor.LabelStyle;
+import autodialog.view.editors.IntegerEditor;
+import autodialog.view.editors.ListEditor;
+import autodialog.view.editors.DoubleEditor;
+import autodialog.view.editors.SliderEditor;
 
 public class Test {
 
@@ -16,53 +26,22 @@ public class Test {
 		
 		Swidget.initialize();
 		
-		final FList<Parameter> params = new FList<>();
+		final FList<Parameter<?>> params = new FList<>();
 		
-		params.add(new Parameter("Enabled", ValueType.BOOLEAN, Boolean.FALSE));
-		params.add(new Parameter("Height", ValueType.INTEGER, 0));
-		params.add(new Parameter("Width", ValueType.INTEGER, 0));
-		params.add(new Parameter("Horizontal Shift", ValueType.INTEGER, 0));
-		params.add(new Parameter("Vertical Shift", ValueType.INTEGER, 0));
+		params.add(new Parameter<>("Boolean", new BooleanEditor(), Boolean.TRUE));
+		params.add(new Parameter<>("Integer", new IntegerEditor(), 0));
+		params.add(new Parameter<>("Real", new DoubleEditor(), 0d));
+		params.add(new Parameter<>("Dummy Separator", new DummyEditor(new JSeparator()), null));
+		params.add(new Parameter<>("List", new ListEditor<>(LabelStyle.values()), LabelStyle.LABEL_HIDDEN));
+		params.add(new Parameter<>("Filename", new FilenameEditor(), null));
+		params.add(new Parameter<>("Slider", new SliderEditor(new JSlider(1, 10)), 1));
 		
-		AutoDialog d = new AutoDialog(new IAutoDialogController() {
-			
-			@Override
-			public boolean validateParameters() {
-				// TODO Auto-generated method stub
-				return true;
-			}
-			
-			@Override
-			public void parametersUpdated() {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public List<Parameter> getParameters() {
-				// TODO Auto-generated method stub
-				return params;
-			}
-
-			@Override
-			public void submit() {
-				// TODO Auto-generated method stub
-				System.out.println("OK");
-				for (Parameter param : params)
-				{
-					System.out.println(param.getValue());
-				}
-			}
-
-			@Override
-			public void cancel() {
-				// TODO Auto-generated method stub
-				System.out.println("Cancel");
-			}
-		});
+		AutoDialog d = new AutoDialog(new SimpleAutoDialogController(params), AutoDialogButtons.OK_CANCEL);
 		
 		d.setModal(true);
 		d.initialize();
+		
+		for (Parameter<?> param : params) System.out.println(param.getValue());
 	}
 	
 }

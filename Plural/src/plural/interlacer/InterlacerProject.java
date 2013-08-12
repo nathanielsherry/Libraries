@@ -31,8 +31,8 @@ public abstract class InterlacerProject<T>
 	
 	public InterlacerProject()
 	{
-		staging = new LinkedList<T>();
-		jobs = new LinkedList<T>();
+		staging = new LinkedList<>();
+		jobs = new LinkedList<>();
 	}
 	
 	/**
@@ -196,7 +196,7 @@ public abstract class InterlacerProject<T>
 	//locks: jobs
 	protected List<T> getJobs(int count)
 	{
-		List<T> joblist = new LinkedList<T>();
+		List<T> joblist = new LinkedList<>();
 		T job;
 		
 		synchronized (jobs)

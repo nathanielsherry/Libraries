@@ -44,7 +44,7 @@ public abstract class ExecutorSet<T> extends Eventful implements Iterable<Plural
 	 */
 	public ExecutorSet(String description)
 	{
-		executors = new ArrayList<PluralExecutor>();
+		executors = new ArrayList<>();
 		result = null;
 		this.description = description;
 

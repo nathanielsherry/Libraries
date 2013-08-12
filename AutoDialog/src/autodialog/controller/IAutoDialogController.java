@@ -3,6 +3,7 @@ package autodialog.controller;
 import java.util.List;
 
 import autodialog.model.Parameter;
+import autodialog.view.AutoDialog.AutoDialogButtons;
 
 public interface IAutoDialogController {
 
@@ -21,7 +22,10 @@ public interface IAutoDialogController {
 	/** 
 	 * Returns a list of parameters to be used in this controller.
 	 **/
-	public List<Parameter> getParameters();
+	public List<Parameter<?>> getParameters();
+	
+	
+	
 	
 	/** 
 	 * User has selected 'OK'
@@ -32,5 +36,11 @@ public interface IAutoDialogController {
 	 * User has selected 'Cancel'
 	 */
 	public void cancel();
+	
+	/**
+	 * User has closed the dialog without selecting 'OK' or 'Cancel'
+	 * This will happen when the dialog is contructed with {@link AutoDialogButtons#CANCEL}
+	 */
+	public void close();
 	
 }

@@ -20,7 +20,7 @@ public class RangeSet extends Functionable<Integer> implements Serializable
 	 */
 	public RangeSet()
 	{
-		ranges = new FList<Range>();
+		ranges = new FList<>();
 	}
 	
 

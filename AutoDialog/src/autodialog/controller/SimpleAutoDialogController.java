@@ -6,10 +6,10 @@ import autodialog.model.Parameter;
 
 public class SimpleAutoDialogController implements IAutoDialogController {
 
-	private List<Parameter> params;
+	private List<Parameter<?>> params;
 	private boolean accepted = false;
 	
-	public SimpleAutoDialogController(List<Parameter> params) {
+	public SimpleAutoDialogController(List<Parameter<?>> params) {
 		this.params = params;
 	}
 	
@@ -22,7 +22,7 @@ public class SimpleAutoDialogController implements IAutoDialogController {
 	public void parametersUpdated() {}
 
 	@Override
-	public List<Parameter> getParameters() {
+	public List<Parameter<?>> getParameters() {
 		return params;
 	}
 
@@ -33,11 +33,14 @@ public class SimpleAutoDialogController implements IAutoDialogController {
 
 	@Override
 	public void cancel() {}
-	
+
+	@Override
+	public void close() {}
 	
 	public boolean getDialogAccepted()
 	{
 		return accepted;
 	}
+
 
 }

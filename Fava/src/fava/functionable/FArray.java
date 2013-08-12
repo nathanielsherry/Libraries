@@ -14,7 +14,7 @@ public final class FArray<T> extends Functionable<T>{
 	
 	public static <T> FArray<T> wrap(T[] array)
 	{
-		return new FArray<T>(array);
+		return new FArray<>(array);
 	}
 	
 	@Override
@@ -32,7 +32,7 @@ public final class FArray<T> extends Functionable<T>{
 	//////////////////////////////////////////////////////////
 	public static FList<Integer> boxi(int[] array)
 	{
-		FList<Integer> list = new FList<Integer>();
+		FList<Integer> list = new FList<>();
 		for (int i : array)
 		{
 			list.add(i);
@@ -42,7 +42,7 @@ public final class FArray<T> extends Functionable<T>{
 	
 	public static FList<Character> boxc(char[] array)
 	{
-		FList<Character> list = new FList<Character>();
+		FList<Character> list = new FList<>();
 		for (char i : array)
 		{
 			list.add(i);
@@ -52,7 +52,7 @@ public final class FArray<T> extends Functionable<T>{
 	
 	public static FList<Short> boxs(short[] array)
 	{
-		FList<Short> list = new FList<Short>();
+		FList<Short> list = new FList<>();
 		for (short i : array)
 		{
 			list.add(i);
@@ -62,7 +62,7 @@ public final class FArray<T> extends Functionable<T>{
 	
 	public static FList<Long> boxl(long[] array)
 	{
-		FList<Long> list = new FList<Long>();
+		FList<Long> list = new FList<>();
 		for (long i : array)
 		{
 			list.add(i);
@@ -72,7 +72,7 @@ public final class FArray<T> extends Functionable<T>{
 	
 	public static FList<Float> boxf(float[] array)
 	{
-		FList<Float> list = new FList<Float>();
+		FList<Float> list = new FList<>();
 		for (float i : array)
 		{
 			list.add(i);
@@ -82,7 +82,7 @@ public final class FArray<T> extends Functionable<T>{
 	
 	public static FList<Double> boxd(double[] array)
 	{
-		FList<Double> list = new FList<Double>();
+		FList<Double> list = new FList<>();
 		for (double i : array)
 		{
 			list.add(i);

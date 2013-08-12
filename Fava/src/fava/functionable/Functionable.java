@@ -22,7 +22,7 @@ public abstract class Functionable<T1> implements Iterable<T1> {
 	
 	protected <T> Collection<T> getNewCollection()
 	{ 
-		return new ArrayList<T>();
+		return new ArrayList<>();
 	}
 	
 	
@@ -149,7 +149,7 @@ public abstract class Functionable<T1> implements Iterable<T1> {
 	 */
 	public FList<T1> toSink()
 	{
-		return new FList<T1>(this);
+		return new FList<>(this);
 	}
 	
 	
