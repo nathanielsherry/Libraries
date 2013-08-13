@@ -1,166 +1,127 @@
 package autodialog.view;
 
-
-import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.TitledBorder;
 
-import swidget.widgets.Spacing;
 import autodialog.controller.IAutoDialogController;
 import autodialog.model.Parameter;
 import autodialog.view.editors.IEditor;
 import autodialog.view.editors.IEditor.LabelStyle;
-import fava.functionable.FList;
+import swidget.widgets.Spacing;
 
+public class AutoPanel extends JPanel {
 
-public class AutoPanel extends JPanel
-{
-
-	private IAutoDialogController	controller;
-
-	private List<IEditor<?>>		editors;
-	private List<Parameter<?>> 		paramslist;
-
-	public AutoPanel(IAutoDialogController controller)
-	{
-		this(controller, true);
-	}
+	private GridBagLayout layout = new GridBagLayout();
+	private GridBagConstraints c = new GridBagConstraints();
+	boolean needsVerticalGlue = true;
 	
-	public AutoPanel(IAutoDialogController controller, boolean bigBorder)
-	{
-
-		super(new BorderLayout());
+	private List<Parameter<?>> params = new ArrayList<>();
+	
+	public AutoPanel() {
 		
-		this.controller = controller;
-
-		createSettingsPanel(bigBorder);
+		super();
 		setOpaque(false);
-		
-	}
-
-
-	public void showSettings(boolean show)
-	{
-		setVisible(show);
-	}
-
-	/*
-	public void updateWidgetsEnabled()
-	{
-		for (int i = 0; i < editors.size(); i++)
-		{
-			editors.get(i).getComponent().setEnabled(paramslist.get(i).isEnabled());
-		}
-	}
-	*/
-
-	public void updateFromParameters()
-	{
-		for (IEditor<?> editor: editors)
-		{
-			editor.setFromParameter();
-		}
-	}
-
-	private void createSettingsPanel(boolean bigBorder)
-	{
-
-		//get a list of parameters
-		paramslist = new FList<>(controller.getParameters());
-		editors = new ArrayList<>();
-		
-		Iterator<Parameter<?>> params = paramslist.iterator();
-		
-	
-		GridBagLayout layout = new GridBagLayout();
-		GridBagConstraints c = new GridBagConstraints();
 		setLayout(layout);
-
 		
-
-
-		
-		JLabel paramLabel;
-		IEditor<?> editor;
-		Parameter<?> param;
-
 		c.gridx = 0;
 		c.gridy = 0;
 		c.weightx = 1f;
 		add(Box.createHorizontalGlue(), c);
 		c.insets = Spacing.iSmall();
 		
-		boolean needsVerticalGlue = true;
+	}
+
+	public void addGrouping(AutoPanel control, String title)
+	{
 		
-		while (params.hasNext()) {
+		needsVerticalGlue &= (!control.expandVertical());
+		c.weighty = control.expandVertical() ? 1f : 0f;
+		c.weightx = control.expandHorizontal() ? 1f : 0f;
+		
+		c.gridy += 1;
+		c.gridx = 0;
+		c.fill = GridBagConstraints.BOTH;
+		c.anchor = GridBagConstraints.LINE_START;
+		
+		control.setBorder(new TitledBorder(title));
+		
+		c.gridwidth = 2;				
+		add(control, c);
+		c.gridwidth = 1;
+	}
+	
+	//adds a parameter directly to the panel
+	public void addParam(Parameter<?> param, IAutoDialogController controller)
+	{
+		//fetch the editor from the Parameter
+		IEditor<?> editor = param.getEditor();		
+		
+		//add a param listener, and add this param to the list of displayed params
+		editor.addListener(new ParamListener<>(param, controller));
+		params.add(param);
+		
+		
+		JLabel paramLabel = new JLabel(param.name);
+		paramLabel.setFont(paramLabel.getFont().deriveFont(Font.PLAIN));
+		paramLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+		
+		needsVerticalGlue &= (!editor.expandVertical());
+		
+		c.weighty = editor.expandVertical() ? 1f : 0f;
+		c.weightx = editor.expandHorizontal() ? 1f : 0f;
+		c.gridy += 1;
+		c.gridx = 0;
+		c.fill = GridBagConstraints.BOTH;
+		
+		c.anchor = GridBagConstraints.LINE_START;
 
-			param = params.next();
+		if (editor.getLabelStyle() == LabelStyle.LABEL_ON_SIDE)
+		{
+			c.weightx = 0;
+			add(paramLabel, c);
+			
+			c.weightx = editor.expandHorizontal() ? 1f : 0f;
+			c.gridx++;
+			c.fill = GridBagConstraints.NONE;
+			c.anchor = GridBagConstraints.LINE_END;
+			
+			add(editor.getComponent(), c);
+			
+		}
+		else if (editor.getLabelStyle() == LabelStyle.LABEL_ON_TOP)
+		{
+			c.gridwidth = 2;
+			
+			c.weighty = 0f;
+			add(paramLabel, c);
 
-			paramLabel = new JLabel(param.name);
-			paramLabel.setFont(paramLabel.getFont().deriveFont(Font.PLAIN));
-			paramLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
-			
-			
-			
-			//fetch the editor from the Parameter
-			editor = param.getEditor();
-			editor.addListener(new ParamListener<>(param, controller));
-			
-			needsVerticalGlue &= (!editor.expandVertical());
+			c.gridy++;
 			
 			c.weighty = editor.expandVertical() ? 1f : 0f;
-			c.weightx = editor.expandHorizontal() ? 1f : 0f;
-			c.gridy += 1;
-			c.gridx = 0;
-			c.fill = GridBagConstraints.BOTH;
+			add(editor.getComponent(), c);
 			
-			c.anchor = GridBagConstraints.LINE_START;
-
-			if (editor.getLabelStyle() == LabelStyle.LABEL_ON_SIDE)
-			{
-				c.weightx = 0;
-				add(paramLabel, c);
-				
-				c.weightx = editor.expandHorizontal() ? 1f : 0f;
-				c.gridx++;
-				c.fill = GridBagConstraints.NONE;
-				c.anchor = GridBagConstraints.LINE_END;
-				
-				add(editor.getComponent(), c);
-				
-			}
-			else if (editor.getLabelStyle() == LabelStyle.LABEL_ON_TOP)
-			{
-				c.gridwidth = 2;
-				
-				c.weighty = 0f;
-				add(paramLabel, c);
-
-				c.gridy++;
-				
-				c.weighty = editor.expandVertical() ? 1f : 0f;
-				add(editor.getComponent(), c);
-				
-				c.gridwidth = 1;
-			}
-			else if(editor.getLabelStyle() == LabelStyle.LABEL_HIDDEN)
-			{
-				c.gridwidth = 2;				
-				add(editor.getComponent(), c);
-				c.gridwidth = 1;
-			}
-
+			c.gridwidth = 1;
 		}
-		
+		else if(editor.getLabelStyle() == LabelStyle.LABEL_HIDDEN)
+		{
+			c.gridwidth = 2;				
+			add(editor.getComponent(), c);
+			c.gridwidth = 1;
+		}
+	}
+
+	
+	public void finishPanel(boolean bigBorder)
+	{
 		if (needsVerticalGlue)
 		{
 			c.gridy++;
@@ -176,12 +137,75 @@ public class AutoPanel extends JPanel
 			setBorder(Spacing.bNone());
 		}
 		
+	}
+	
+	//creates a subpanel for adding to a larger group
+	public static AutoPanel subpanel(List<Parameter<?>> params, IAutoDialogController controller)
+	{
+		AutoPanel panel = new AutoPanel();
+		for (Parameter<?> param : params) {
+			panel.addParam(param, controller);
+		}
+		panel.needsVerticalGlue = false;
+		panel.finishPanel(false);
+		return panel;
+	}
+	
 
+	public static AutoPanel panel(IAutoDialogController controller)
+	{
+		AutoPanel view = new AutoPanel();
+		List<String> groups = new ArrayList<>();	//list of groups already handled
+				
+		//add parameters to panel
+		for (Parameter<?> param : controller.getParameters())
+		{	
+			if (param.getGroup() == null)
+			{	
+				view.addParam(param, controller);
+			} 
+			else if (!groups.contains(param.getGroup()))
+			{
+				String groupLabel = param.getGroup();
+				
+				//create the subpanel
+				AutoPanel subpanel = AutoPanel.subpanel(getGroupParams(controller.getParameters(), groupLabel), controller);
+				view.addGrouping(subpanel, groupLabel);
+				
+				//put this in the list of groups already handled
+				groups.add(groupLabel);
+			}
+		}
+		view.finishPanel(true);
+		return view;
+	}
+	
+	private static List<Parameter<?>> getGroupParams(List<Parameter<?>> params, String group)
+	{
+		List<Parameter<?>> selected = new ArrayList<>();
+		for (Parameter<?> param : params)
+		{
+			if (param.getGroup() == null) continue;
+			if (param.getGroup().equals(group)) selected.add(param);
+		}
+		return selected;
 	}
 	
 	
 	
+	public boolean expandVertical() {
+		for (Parameter<?> param : params) {
+			if (param.getEditor().expandVertical()) return true;
+		}
+		return false;
+	}
 
+	public boolean expandHorizontal() {
+		for (Parameter<?> param : params) {
+			if (param.getEditor().expandHorizontal()) return true;
+		}
+		return false;
+	}
+
+	
 }
-
-

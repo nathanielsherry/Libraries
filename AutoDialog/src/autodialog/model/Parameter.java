@@ -23,14 +23,21 @@ public class Parameter<T> implements Serializable
 	private boolean		enabled;
 
 	private T			value;
+	private String		group;
 	
-		
+
 	public Parameter(String name, IEditor<T> editor, T value)
+	{
+		this(name, editor, value, null);
+	}
+	
+	public Parameter(String name, IEditor<T> editor, T value, String group)
 	{
 		this.editor = editor;
 		this.name = name;
 		this.value = value;
 		this.enabled = true;
+		this.group = group;
 		
 		editor.initialize(this);
 	}
@@ -71,6 +78,11 @@ public class Parameter<T> implements Serializable
 		String str =  "Parameter " + name;
 		if (value != null) str += ": " + value.toString();
 		return str;
+	}
+	
+	public String getGroup()
+	{
+		return group;
 	}
 	
 }

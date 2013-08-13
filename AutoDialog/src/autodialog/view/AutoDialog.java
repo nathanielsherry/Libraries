@@ -64,7 +64,7 @@ public class AutoDialog extends JDialog
 		
 		Container c = this.getContentPane();
 		c.setLayout(new BorderLayout());
-		AutoPanel view = new AutoPanel(controller);
+		AutoPanel view = AutoPanel.panel(controller);
 		
 		JScrollPane scroller = new JScrollPane(view);
 		scroller.setBorder(Spacing.bNone());
@@ -80,6 +80,8 @@ public class AutoDialog extends JDialog
 		setLocationRelativeTo(owner);
 		setVisible(true);
 	}
+	
+	
 	
 	
 	private JPanel createButtonBox()
@@ -144,6 +146,7 @@ public class AutoDialog extends JDialog
 
 			}
 		});
+		info.setFocusable(false);
 		if (helpMessage == null) info.setVisible(false);
 		
 		
@@ -155,6 +158,8 @@ public class AutoDialog extends JDialog
 		
 	}
 
+	
+	
 	
 	
 	public String getHelpTitle() {

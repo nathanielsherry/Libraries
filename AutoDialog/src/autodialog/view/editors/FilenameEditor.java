@@ -20,13 +20,30 @@ import eventful.Eventful;
 public class FilenameEditor extends Eventful implements IEditor<String> {
 
 	private Parameter<String> param;
-	private FileSelector control;
+	private FileSelector control = new FileSelector(this);;
+	
+
+	public FilenameEditor() {
+		
+	}
+	
+	public FilenameEditor(JFileChooser chooser) {
+		setFileChooser(chooser);
+	}
 	
 	@Override
 	public void initialize(Parameter<String> param) {
 		this.param = param;
-		control = new FileSelector(this);
 	}
+	
+	public void setFileChooser(JFileChooser chooser) {
+		control.chooser = chooser;
+	}
+	
+	public JFileChooser getFileChooser() {
+		return control.chooser;
+	}
+	
 
 	@Override
 	public boolean expandVertical() {
@@ -71,8 +88,7 @@ class FileSelector extends JPanel
 	JTextField filenameField;
 	JButton open;
 	String filename;
-	
-	
+	JFileChooser chooser;
 	
 	public FileSelector(final FilenameEditor parent) {
 		super(new BorderLayout());
@@ -81,18 +97,21 @@ class FileSelector extends JPanel
 		filenameField = new JTextField(10);
 		filenameField.setEditable(false);
 		
+		chooser = new JFileChooser();
+		
 		open.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				JFileChooser chooser = new JFileChooser(getFilename());
+				//display dialog
 				chooser.showOpenDialog(FileSelector.this);
 				
+				//return if no selection
 				if (chooser.getSelectedFile() == null) return;
 				
+				//update with selection
 				setFilename(chooser.getSelectedFile().toString());
-				
 				parent.updateListeners();
 				
 			}
@@ -119,4 +138,5 @@ class FileSelector extends JPanel
 		filenameField.setText(new File(filename).getName());
 	}
 	
+
 }

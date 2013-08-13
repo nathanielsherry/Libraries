@@ -32,14 +32,21 @@ public class SigDigits
 	
 	public static String roundFloatTo(float value, int decimals)
 	{
+		return roundFloatTo(value, decimals, false);
+	}
+	
+	public static String roundFloatTo(float value, int decimals, boolean trimZeroes)
+	{
 		
 		if (Float.isNaN(value)) return "-";
 		if (Float.isInfinite(value)) return "-";
 		BigDecimal bd = new BigDecimal(Float.toString(value));
 		bd = bd.setScale(decimals, BigDecimal.ROUND_HALF_EVEN);
 		
-		return bd.toPlainString();
-		
+		String text = bd.toPlainString();
+		while (text.endsWith("0") && text.length() > 1) { text = text.substring(0, text.length() - 2); } 
+		while (text.endsWith(".") && text.length() > 1) { text = text.substring(0, text.length() - 2); }
+		return text;
 	}
 
 	
