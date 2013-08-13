@@ -23,14 +23,14 @@ import javax.swing.filechooser.FileFilter;
 
 import org.apache.commons.io.IOUtils;
 
+import swidget.icons.IconSize;
+import swidget.icons.StockIcon;
+
 import commonenvironment.AbstractFile;
 import commonenvironment.Env;
 
 import fava.functionable.FList;
 import fava.signatures.FnMap;
-
-import swidget.icons.IconSize;
-import swidget.icons.StockIcon;
 
 
 

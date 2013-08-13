@@ -5,7 +5,6 @@ import java.net.URL;
 
 import javax.swing.ImageIcon;
 
-
 import swidget.widgets.ImageButton;
 
 

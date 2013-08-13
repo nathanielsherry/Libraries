@@ -10,12 +10,11 @@ import scidraw.drawing.painters.PainterData;
 import scitypes.Coord;
 import scitypes.SISize;
 import scitypes.SigDigits;
-
-import fava.*;
+import fava.Functions;
 import fava.datatypes.Pair;
 import fava.functionable.FList;
-import fava.signatures.FnFold;
 import fava.signatures.FnEach;
+import fava.signatures.FnFold;
 
 
 

@@ -4,14 +4,11 @@ package scidraw.drawing.map.painters;
 import java.awt.Color;
 import java.util.List;
 
-import fava.signatures.FnEach;
-
 import plural.executor.eachindex.implementations.PluralEachIndexExecutor;
-
-
 import scidraw.drawing.backends.Buffer;
 import scidraw.drawing.map.palettes.SingleColourPalette;
 import scidraw.drawing.painters.PainterData;
+import fava.signatures.FnEach;
 
 /**
  * 

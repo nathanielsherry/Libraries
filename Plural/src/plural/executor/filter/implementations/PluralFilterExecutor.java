@@ -5,13 +5,12 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import fava.functionable.FList;
-import fava.signatures.FnCondition;
-import fava.signatures.FnFold;
-
 import plural.executor.TicketManager;
 import plural.executor.filter.FilterExecutor;
 import plural.executor.map.MapExecutor;
+import fava.functionable.FList;
+import fava.signatures.FnCondition;
+import fava.signatures.FnFold;
 
 /**
  * 

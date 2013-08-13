@@ -6,7 +6,6 @@ import plural.executor.eachindex.implementations.PluralEachIndexExecutor;
 import plural.executor.filter.implementations.PluralFilterExecutor;
 import plural.executor.fold.implementations.PluralFoldExecutor;
 import plural.executor.map.implementations.PluralMapExecutor;
-
 import fava.signatures.FnCondition;
 import fava.signatures.FnEach;
 import fava.signatures.FnFold;

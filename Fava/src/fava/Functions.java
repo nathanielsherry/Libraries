@@ -10,8 +10,8 @@ import fava.datatypes.Pair;
 import fava.functionable.FList;
 import fava.signatures.FnCombine;
 import fava.signatures.FnCondition;
-import fava.signatures.FnFold;
 import fava.signatures.FnEach;
+import fava.signatures.FnFold;
 import fava.signatures.FnMap;
 import fava.signatures.FnMap2;
 

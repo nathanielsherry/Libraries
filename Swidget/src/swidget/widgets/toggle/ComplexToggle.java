@@ -19,7 +19,6 @@ import javax.swing.JToggleButton;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-
 import swidget.Swidget;
 import swidget.icons.IconFactory;
 import swidget.icons.IconSize;

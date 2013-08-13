@@ -1,8 +1,8 @@
 package eventful;
 
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * QueuedEventfulTypeListener stores events for up to a user-specified time interval, and

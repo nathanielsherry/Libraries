@@ -16,14 +16,13 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.WindowConstants;
 
-import eventful.EventfulListener;
-
 import plural.executor.ExecutorSet;
 import plural.executor.ExecutorState;
 import plural.executor.PluralExecutor;
 import swidget.icons.StockIcon;
 import swidget.widgets.ImageButton;
 import swidget.widgets.Spacing;
+import eventful.EventfulListener;
 
 public class ExecutorSetView extends JDialog {
 

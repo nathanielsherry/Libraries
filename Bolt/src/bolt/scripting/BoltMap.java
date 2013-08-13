@@ -1,7 +1,6 @@
 package bolt.scripting;
 
 import bolt.scripting.languages.Language;
-
 import fava.signatures.FnMap;
 
 

@@ -16,12 +16,11 @@ import javax.swing.UIDefaults;
 
 import org.jdesktop.swingx.JXTaskPane;
 
-
 import swidget.icons.StockIcon;
 import swidget.widgets.ClearPanel;
 import swidget.widgets.ImageButton;
-import swidget.widgets.Spacing;
 import swidget.widgets.ImageButton.Layout;
+import swidget.widgets.Spacing;
 
 public abstract class PropertyViewer extends ClearPanel
 {

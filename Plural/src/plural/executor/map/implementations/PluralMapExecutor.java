@@ -3,10 +3,9 @@ package plural.executor.map.implementations;
 
 import java.util.List;
 
-import fava.signatures.FnMap;
-
 import plural.executor.TicketManager;
 import plural.executor.map.MapExecutor;
+import fava.signatures.FnMap;
 
 /**
  * 

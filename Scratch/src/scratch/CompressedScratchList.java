@@ -10,8 +10,6 @@ import java.util.zip.DeflaterOutputStream;
 import java.util.zip.InflaterInputStream;
 
 import scitypes.Spectrum;
-
-
 import fava.functionable.FList;
 
 public class CompressedScratchList<T extends Serializable> extends ScratchList<T> {

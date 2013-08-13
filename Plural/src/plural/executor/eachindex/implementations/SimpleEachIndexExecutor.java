@@ -1,10 +1,10 @@
 package plural.executor.eachindex.implementations;
 
 
-import fava.signatures.FnEach;
 import plural.executor.ExecutorState;
 import plural.executor.eachindex.EachIndexExecutor;
 import plural.executor.map.MapExecutor;
+import fava.signatures.FnEach;
 
 /**
  * 

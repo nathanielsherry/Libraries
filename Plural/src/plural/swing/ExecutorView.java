@@ -7,12 +7,11 @@ import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import eventful.EventfulListener;
-
 import plural.executor.PluralExecutor;
 import swidget.icons.IconSize;
 import swidget.icons.StockIcon;
 import swidget.widgets.Spacing;
+import eventful.EventfulListener;
 
 
 public class ExecutorView extends JPanel{

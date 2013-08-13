@@ -5,8 +5,8 @@ import java.util.Collection;
 import java.util.List;
 
 import fava.Functions;
-import fava.signatures.FnFold;
 import fava.signatures.FnEach;
+import fava.signatures.FnFold;
 import fava.signatures.FnMap;
 
 /**

@@ -1,7 +1,7 @@
 package bolt.scripting;
 
-import fava.signatures.FnCondition;
 import bolt.scripting.languages.Language;
+import fava.signatures.FnCondition;
 
 public class BoltCondition<T1> extends BoltMap<T1, Boolean> implements FnCondition<T1>
 {

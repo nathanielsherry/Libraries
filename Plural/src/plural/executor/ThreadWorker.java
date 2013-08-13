@@ -6,6 +6,8 @@ import java.util.Map;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.Semaphore;
 
+import plural.executor.map.MapExecutor;
+
 
 /**
  * 

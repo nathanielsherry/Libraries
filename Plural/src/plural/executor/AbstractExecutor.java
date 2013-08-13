@@ -1,5 +1,6 @@
 package plural.executor;
 
+import plural.executor.map.MapExecutor;
 import eventful.Eventful;
 
 

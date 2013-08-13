@@ -7,20 +7,20 @@ import javax.swing.JSlider;
 
 import swidget.Swidget;
 import swidget.dialogues.fileio.SimpleFileFilter;
-import fava.functionable.FList;
 import autodialog.controller.SimpleAutoDialogController;
 import autodialog.model.Parameter;
 import autodialog.view.AutoDialog;
 import autodialog.view.AutoDialog.AutoDialogButtons;
 import autodialog.view.editors.BooleanEditor;
+import autodialog.view.editors.DoubleEditor;
 import autodialog.view.editors.DummyEditor;
 import autodialog.view.editors.FilenameEditor;
 import autodialog.view.editors.IEditor.LabelStyle;
 import autodialog.view.editors.IntegerEditor;
 import autodialog.view.editors.ListEditor;
-import autodialog.view.editors.DoubleEditor;
 import autodialog.view.editors.SliderEditor;
 import autodialog.view.editors.TextAreaEditor;
+import fava.functionable.FList;
 
 public class Test {
 

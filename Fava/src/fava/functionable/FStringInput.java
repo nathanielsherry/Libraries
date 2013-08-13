@@ -16,12 +16,11 @@ import java.util.Iterator;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
+import sun.nio.ch.ChannelInputStream;
 import fava.Functions;
 import fava.signatures.FnEach;
 import fava.signatures.FnFold;
 import fava.signatures.FnMap;
-
-import sun.nio.ch.ChannelInputStream;
 
 
 public class FStringInput implements Iterator<String>, Closeable{

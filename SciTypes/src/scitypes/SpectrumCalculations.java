@@ -1,16 +1,16 @@
 package scitypes;
 
 
+import static fava.Functions.addf;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import plural.executor.Plural;
-
 import fava.functionable.FList;
 import fava.signatures.FnEach;
 import fava.signatures.FnFold;
-import static fava.Functions.*;
 
 
 /**

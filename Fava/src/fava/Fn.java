@@ -1,6 +1,10 @@
 package fava;
 
 
+import static fava.Functions.and;
+import static fava.Functions.equiv;
+import static fava.Functions.or;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
@@ -12,12 +16,10 @@ import java.util.Set;
 import fava.datatypes.Pair;
 import fava.functionable.FList;
 import fava.signatures.FnCombine;
-import fava.signatures.FnFold;
 import fava.signatures.FnEach;
+import fava.signatures.FnFold;
 import fava.signatures.FnMap;
 import fava.signatures.FnMap2;
-
-import static fava.Functions.*;
 
 public class Fn
 {

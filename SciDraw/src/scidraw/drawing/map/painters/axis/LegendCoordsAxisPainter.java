@@ -2,19 +2,18 @@ package scidraw.drawing.map.painters.axis;
 
 
 
+import static fava.Functions.strcat;
+
 import java.awt.Color;
 import java.util.List;
-
 
 import scidraw.drawing.painters.PainterData;
 import scitypes.Coord;
 import scitypes.SISize;
-
-import fava.*;
+import fava.Functions;
 import fava.datatypes.Pair;
 import fava.functionable.FList;
 import fava.signatures.FnFold;
-import static fava.Functions.*;
 
 
 public class LegendCoordsAxisPainter extends AbstractKeyCoordAxisPainter

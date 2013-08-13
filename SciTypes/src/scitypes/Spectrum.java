@@ -11,8 +11,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import fava.functionable.Functionable;
-import fava.signatures.FnFold;
 import fava.signatures.FnEach;
+import fava.signatures.FnFold;
 import fava.signatures.FnMap;
 
 public class Spectrum extends Functionable<Float> implements Serializable

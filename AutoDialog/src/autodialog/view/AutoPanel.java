@@ -12,11 +12,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
+import swidget.widgets.Spacing;
 import autodialog.controller.IAutoDialogController;
 import autodialog.model.Parameter;
 import autodialog.view.editors.IEditor;
 import autodialog.view.editors.IEditor.LabelStyle;
-import swidget.widgets.Spacing;
 
 public class AutoPanel extends JPanel {
 

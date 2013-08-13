@@ -8,14 +8,14 @@ import java.awt.event.MouseListener;
 import javax.swing.JButton;
 import javax.swing.JPopupMenu;
 
+import swidget.icons.IconSize;
+import swidget.icons.StockIcon;
+import swidget.widgets.ImageButton.Layout;
+
 import commonenvironment.Env;
 
 import eventful.EventfulEnum;
 import eventful.swing.EventfulEnumPanel;
-
-import swidget.icons.IconSize;
-import swidget.icons.StockIcon;
-import swidget.widgets.ImageButton.Layout;
 
 
 

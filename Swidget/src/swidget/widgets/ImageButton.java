@@ -19,13 +19,12 @@ import javax.swing.JButton;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 
-import fava.Functions;
-import fava.functionable.FList;
-
 import swidget.Swidget;
 import swidget.icons.IconFactory;
 import swidget.icons.IconSize;
 import swidget.icons.StockIcon;
+import fava.Functions;
+import fava.functionable.FList;
 
 
 public class ImageButton extends JButton

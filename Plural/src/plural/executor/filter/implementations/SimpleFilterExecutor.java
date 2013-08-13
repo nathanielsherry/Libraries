@@ -3,11 +3,10 @@ package plural.executor.filter.implementations;
 
 import java.util.List;
 
-import fava.signatures.FnCondition;
-
 import plural.executor.ExecutorSet;
 import plural.executor.filter.FilterExecutor;
 import plural.executor.map.MapExecutor;
+import fava.signatures.FnCondition;
 
 
 /**

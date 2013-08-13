@@ -4,15 +4,13 @@ package scidraw.drawing.map.painters;
 import java.awt.Color;
 import java.util.List;
 
-import fava.signatures.FnEach;
-
 import plural.executor.eachindex.implementations.PluralEachIndexExecutor;
-
 import scidraw.drawing.backends.Buffer;
 import scidraw.drawing.map.palettes.AbstractPalette;
 import scidraw.drawing.painters.PainterData;
 import scitypes.Spectrum;
 import scitypes.SpectrumCalculations;
+import fava.signatures.FnEach;
 
 /**
  * 
@@ -47,7 +45,7 @@ public class RasterSpectrumMapPainter extends SpectrumMapPainter
 	
 			Spectrum modData = data;
 			
-			float maxIntensity, minIntensity;
+			float maxIntensity;
 			if (p.dr.maxYIntensity <= 0) {
 				maxIntensity = SpectrumCalculations.max(data);
 			} else {

@@ -5,12 +5,13 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import fava.signatures.FnCondition;
-
 import plural.executor.AbstractExecutor;
 import plural.executor.ExecutorSet;
 import plural.executor.ExecutorState;
 import plural.executor.map.MapExecutor;
+import plural.executor.map.implementations.PluralMapExecutor;
+import plural.executor.map.implementations.SimpleMapExecutor;
+import fava.signatures.FnCondition;
 
 /**
  * 

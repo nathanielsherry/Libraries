@@ -10,7 +10,6 @@ import java.io.Serializable;
 import java.util.List;
 
 import scitypes.Spectrum;
-
 import fava.functionable.FList;
 
 

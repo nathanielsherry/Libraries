@@ -13,8 +13,8 @@ import fava.Fn;
 import fava.Functions;
 import fava.datatypes.Pair;
 import fava.signatures.FnCombine;
-import fava.signatures.FnFold;
 import fava.signatures.FnEach;
+import fava.signatures.FnFold;
 import fava.signatures.FnMap;
 import fava.signatures.FnMap2;
 

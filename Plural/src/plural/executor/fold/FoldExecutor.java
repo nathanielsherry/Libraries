@@ -3,12 +3,13 @@ package plural.executor.fold;
 
 import java.util.List;
 
-import fava.signatures.FnFold;
-
 import plural.executor.AbstractExecutor;
 import plural.executor.ExecutorSet;
 import plural.executor.ExecutorState;
 import plural.executor.map.MapExecutor;
+import plural.executor.map.implementations.PluralMapExecutor;
+import plural.executor.map.implementations.SimpleMapExecutor;
+import fava.signatures.FnFold;
 
 /**
  * 
