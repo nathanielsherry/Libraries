@@ -4,8 +4,19 @@ import java.util.List;
 
 import autodialog.model.Parameter;
 import autodialog.view.AutoDialog.AutoDialogButtons;
+import autodialog.view.AutoDialog;
+import autodialog.view.AutoPanel;
 
-public interface IAutoDialogController {
+/**
+ * Controller for a set of {@link Parameter}s added to an {@link AutoPanel} or {@link AutoDialog}. This
+ * controller is responsible for adding listeners to Parameters. These Parameters should only ever belong
+ * to one controller at a time. Certain methods only apply when a controller is intended for use in an 
+ * AutoDialog (eg {@link #submit()})
+ * @author Nathaniel Sherry, 2013
+ *
+ */
+
+public interface IADController {
 
 	/**
 	 * Allows validation of the Parameters in this dialog.
@@ -19,6 +30,7 @@ public interface IAutoDialogController {
 	 */
 	public void parametersUpdated();
 	
+	
 	/** 
 	 * Returns a list of parameters to be used in this controller.
 	 **/
@@ -28,12 +40,12 @@ public interface IAutoDialogController {
 	
 	
 	/** 
-	 * User has selected 'OK'
+	 * User has selected 'OK' from a dialog
 	 */
 	public void submit();
 	
 	/**
-	 * User has selected 'Cancel'
+	 * User has selected 'Cancel' from a dialog
 	 */
 	public void cancel();
 	

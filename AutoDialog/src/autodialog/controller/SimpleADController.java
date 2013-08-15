@@ -1,16 +1,22 @@
 package autodialog.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import autodialog.model.Parameter;
+import autodialog.view.ParamListener;
 
-public class SimpleAutoDialogController implements IAutoDialogController {
+public class SimpleADController implements IADController {
 
 	private List<Parameter<?>> params;
 	private boolean accepted = false;
 	
-	public SimpleAutoDialogController(List<Parameter<?>> params) {
+	public SimpleADController(List<Parameter<?>> params) {
 		this.params = params;
+		for(Parameter<?> param : params)
+		{
+			param.getEditor().addListener(new ParamListener<>(param, this));
+		}
 	}
 	
 	@Override
@@ -23,7 +29,7 @@ public class SimpleAutoDialogController implements IAutoDialogController {
 
 	@Override
 	public List<Parameter<?>> getParameters() {
-		return params;
+		return new ArrayList<>(params);
 	}
 
 	@Override

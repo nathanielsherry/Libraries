@@ -44,8 +44,7 @@ public class SigDigits
 		bd = bd.setScale(decimals, BigDecimal.ROUND_HALF_EVEN);
 		
 		String text = bd.toPlainString();
-		while (text.endsWith("0") && text.length() > 1) { text = text.substring(0, text.length() - 2); } 
-		while (text.endsWith(".") && text.length() > 1) { text = text.substring(0, text.length() - 2); }
+		while (text.endsWith("0") && text.contains(".") || text.endsWith(".")) { text = text.substring(0, text.length() - 1); }
 		return text;
 	}
 

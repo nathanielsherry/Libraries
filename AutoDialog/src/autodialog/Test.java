@@ -7,7 +7,7 @@ import javax.swing.JSlider;
 
 import swidget.Swidget;
 import swidget.dialogues.fileio.SimpleFileFilter;
-import autodialog.controller.SimpleAutoDialogController;
+import autodialog.controller.SimpleADController;
 import autodialog.model.Parameter;
 import autodialog.view.AutoDialog;
 import autodialog.view.AutoDialog.AutoDialogButtons;
@@ -20,6 +20,9 @@ import autodialog.view.editors.IntegerEditor;
 import autodialog.view.editors.ListEditor;
 import autodialog.view.editors.SliderEditor;
 import autodialog.view.editors.TextAreaEditor;
+import autodialog.view.layouts.FramesADLayout;
+import autodialog.view.layouts.SimpleADLayout;
+import autodialog.view.layouts.TabbedADLayout;
 import fava.functionable.FList;
 
 public class Test {
@@ -47,10 +50,18 @@ public class Test {
 		params.add(new Parameter<>("Slider", new SliderEditor(new JSlider(1, 10)), 1, g2));
 		params.add(new Parameter<String>("TextArea", new TextAreaEditor(), "", g2));
 		
-		AutoDialog d = new AutoDialog(new SimpleAutoDialogController(params), AutoDialogButtons.OK_CANCEL);
-		
+		AutoDialog d;
+		d = new AutoDialog(new SimpleADController(params), AutoDialogButtons.OK_CANCEL);
 		d.setModal(true);
-		d.initialize();
+		d.initialize(new SimpleADLayout());
+		
+		d = new AutoDialog(new SimpleADController(params), AutoDialogButtons.OK_CANCEL);
+		d.setModal(true);
+		d.initialize(new FramesADLayout());
+		
+		d = new AutoDialog(new SimpleADController(params), AutoDialogButtons.OK_CANCEL);
+		d.setModal(true);
+		d.initialize(new TabbedADLayout());
 		
 		for (Parameter<?> param : params) System.out.println(param.getValue());
 	}

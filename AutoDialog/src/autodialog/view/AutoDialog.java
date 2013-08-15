@@ -19,7 +19,9 @@ import swidget.widgets.ImageButton;
 import swidget.widgets.ImageButton.Layout;
 import swidget.widgets.Spacing;
 import swidget.widgets.TextWrapping;
-import autodialog.controller.IAutoDialogController;
+import autodialog.controller.IADController;
+import autodialog.view.layouts.IADLayout;
+import autodialog.view.layouts.SimpleADLayout;
 
 
 public class AutoDialog extends JDialog
@@ -29,7 +31,7 @@ public class AutoDialog extends JDialog
 		CLOSE, OK_CANCEL
 	}
 	
-	private IAutoDialogController	controller;
+	private IADController	controller;
 	private Container owner;
 	
 	private String helpTitle;
@@ -41,7 +43,7 @@ public class AutoDialog extends JDialog
 	private ImageButton info;
 	
 
-	public AutoDialog(IAutoDialogController _controller, AutoDialogButtons buttons, Window owner)
+	public AutoDialog(IADController _controller, AutoDialogButtons buttons, Window owner)
 	{
 		super(owner);
 		this.controller = _controller;
@@ -49,7 +51,7 @@ public class AutoDialog extends JDialog
 		this.buttons = buttons;
 	}
 
-	public AutoDialog(IAutoDialogController _controller, AutoDialogButtons buttons)
+	public AutoDialog(IADController _controller, AutoDialogButtons buttons)
 	{
 		super();
 		this.controller = _controller;
@@ -57,14 +59,18 @@ public class AutoDialog extends JDialog
 	}
 	
 	
-
 	public void initialize(){
+		initialize(new SimpleADLayout());
+	}
+
+	public void initialize(IADLayout layout){
 		
 		
 		
 		Container c = this.getContentPane();
 		c.setLayout(new BorderLayout());
-		AutoPanel view = AutoPanel.panel(controller);
+		
+		AutoPanel view = new AutoPanel(controller.getParameters(), layout, true);
 		
 		JScrollPane scroller = new JScrollPane(view);
 		scroller.setBorder(Spacing.bNone());

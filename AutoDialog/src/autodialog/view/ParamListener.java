@@ -1,7 +1,7 @@
 package autodialog.view;
 
 
-import autodialog.controller.IAutoDialogController;
+import autodialog.controller.IADController;
 import autodialog.model.Parameter;
 import eventful.EventfulListener;
 
@@ -9,10 +9,10 @@ public class ParamListener<T> implements EventfulListener
 {
 
 	private Parameter<T>			param;
-	private IAutoDialogController	controller;
+	private IADController	controller;
 
 
-	public ParamListener(Parameter<T> param, IAutoDialogController controller)
+	public ParamListener(Parameter<T> param, IADController controller)
 	{
 		this.param = param;
 		this.controller = controller;
