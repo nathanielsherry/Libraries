@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
-import swidget.widgets.Spacing;
 import autodialog.model.Parameter;
 import autodialog.view.layouts.IADLayout;
 import autodialog.view.layouts.SimpleADLayout;

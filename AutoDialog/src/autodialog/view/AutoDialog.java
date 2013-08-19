@@ -39,6 +39,8 @@ public class AutoDialog extends JDialog
 	
 	private AutoDialogButtons buttons;
 
+	private boolean selected_ok = false;
+	
 	
 	private ImageButton info;
 	
@@ -103,7 +105,7 @@ public class AutoDialog extends JDialog
 				public void actionPerformed(ActionEvent e)
 				{
 					AutoDialog.this.setVisible(false);
-					controller.submit();
+					selected_ok = true;
 				}
 			});
 			
@@ -113,7 +115,6 @@ public class AutoDialog extends JDialog
 				public void actionPerformed(ActionEvent e)
 				{
 					AutoDialog.this.setVisible(false);
-					controller.cancel();
 				}
 			});
 			
@@ -128,7 +129,6 @@ public class AutoDialog extends JDialog
 				public void actionPerformed(ActionEvent e)
 				{
 					AutoDialog.this.setVisible(false);
-					controller.close();
 				}
 			});
 			
@@ -187,7 +187,9 @@ public class AutoDialog extends JDialog
 	}
 	
 	
-	
+	public boolean okSelected() {
+		return selected_ok;
+	}
 	
 
 }

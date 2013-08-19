@@ -80,5 +80,5 @@ public class IntegerEditor extends Eventful implements IEditor<Integer>
 	public void validateFailed() {
 		setFromParameter();
 	}
-	
+		
 }

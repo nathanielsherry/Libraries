@@ -42,7 +42,7 @@ public class TabbedADLayout extends AbstractGroupingADLayout {
 		//create tab panel
 		tabs = new JTabbedPane();
 		root.setLayout(new BorderLayout());
-		root.add(tabs, BorderLayout.CENTER);
+		
 		
 	}
 
@@ -55,8 +55,16 @@ public class TabbedADLayout extends AbstractGroupingADLayout {
 	
 	@Override
 	protected void finishPanel() {
+		
 		tabs.insertTab("General", null, subpanel(general), null, 0);
 		tabs.setSelectedIndex(0);
+		
+		if (tabs.getTabCount() == 1) {
+			root.add(tabs.getSelectedComponent(), BorderLayout.CENTER);
+		} else {
+			root.add(tabs, BorderLayout.CENTER);
+		}
+		
 	}
 
 	@Override

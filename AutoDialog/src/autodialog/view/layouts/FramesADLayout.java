@@ -59,7 +59,8 @@ public class FramesADLayout extends AbstractGroupingADLayout {
 		c.insets = Spacing.iSmall();
 	}
 		
-
+	
+	
 
 
 	@Override
@@ -153,6 +154,8 @@ public class FramesADLayout extends AbstractGroupingADLayout {
 			c.gridwidth = 1;
 		}
 	}
+
+
 	
 	
 	

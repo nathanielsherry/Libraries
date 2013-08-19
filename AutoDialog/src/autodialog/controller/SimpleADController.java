@@ -1,22 +1,13 @@
 package autodialog.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import autodialog.model.Parameter;
-import autodialog.view.ParamListener;
 
-public class SimpleADController implements IADController {
+public class SimpleADController extends AbstractADController {
 
-	private List<Parameter<?>> params;
-	private boolean accepted = false;
-	
 	public SimpleADController(List<Parameter<?>> params) {
-		this.params = params;
-		for(Parameter<?> param : params)
-		{
-			param.getEditor().addListener(new ParamListener<>(param, this));
-		}
+		super(params);
 	}
 	
 	@Override
@@ -24,29 +15,9 @@ public class SimpleADController implements IADController {
 		return true;
 	}
 
-	@Override
-	public void parametersUpdated() {}
 
 	@Override
-	public List<Parameter<?>> getParameters() {
-		return new ArrayList<>(params);
-	}
-
-	@Override
-	public void submit() {
-		accepted = true;
-	}
-
-	@Override
-	public void cancel() {}
-
-	@Override
-	public void close() {}
-	
-	public boolean getDialogAccepted()
-	{
-		return accepted;
-	}
+	public void parameterUpdated(Parameter<?> param) {}
 
 
 }

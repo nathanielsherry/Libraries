@@ -34,8 +34,10 @@ public class Test {
 		
 		final FList<Parameter<?>> params = new FList<>();
 		
+		//String g1 = "First Set";
+		//String g2 = "Second Set";
 		String g1 = "First Set";
-		String g2 = "Second Set";
+		String g2 = null;
 		
 		params.add(new Parameter<>("Boolean", new BooleanEditor(), Boolean.TRUE, g1));
 		params.add(new Parameter<>("Integer", new IntegerEditor(), 0));
@@ -65,5 +67,8 @@ public class Test {
 		
 		for (Parameter<?> param : params) System.out.println(param.getValue());
 	}
+	
+	
+	
 	
 }
