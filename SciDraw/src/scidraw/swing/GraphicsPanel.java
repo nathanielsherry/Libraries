@@ -129,6 +129,7 @@ public abstract class GraphicsPanel extends JPanel
 	 * @return the actual width of the drawing
 	 */
 	public abstract float getUsedWidth();
+	public abstract float getUsedWidth(float zoom);
 
 	
 	/**
@@ -138,5 +139,6 @@ public abstract class GraphicsPanel extends JPanel
 	 * @return the actual height of the drawing
 	 */
 	public abstract float getUsedHeight();
+	public abstract float getUsedHeight(float zoom);
 
 }

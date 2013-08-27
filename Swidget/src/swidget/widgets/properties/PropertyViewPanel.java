@@ -21,6 +21,8 @@ public class PropertyViewPanel extends JPanel
 {
 
 	GridBagConstraints c;
+	private boolean centered;
+	private int minWidth;
 
 	public PropertyViewPanel(Map<String, String> properties)
 	{
@@ -29,11 +31,18 @@ public class PropertyViewPanel extends JPanel
 
 	public PropertyViewPanel(Map<String, String> properties, String caption)
 	{
-		setLayout(new GridBagLayout());
-		setProperties(properties, caption);
+		this(properties, caption, 225, true, false);
 	}
 	
-	public void setProperties(Map<String, String> properties, String caption)
+	public PropertyViewPanel(Map<String, String> properties, String caption, int minLabelWidth, boolean showBadge, boolean centered)
+	{
+		setLayout(new GridBagLayout());
+		this.centered = centered;
+		this.minWidth = minLabelWidth;
+		setProperties(properties, caption, showBadge);
+	}
+	
+	public void setProperties(Map<String, String> properties, String caption, boolean showBadge)
 	{
 		removeAll();
 		
@@ -48,9 +57,11 @@ public class PropertyViewPanel extends JPanel
 		c.gridheight = properties.size() + 1;
 		c.weightx = 0;
 		
-		JLabel icon = new JLabel(StockIcon.BADGE_INFO.toImageIcon(IconSize.ICON));
-		icon.setBorder(new EmptyBorder(0, 0, 0, Spacing.huge));
-		add(icon, c);
+		if (showBadge) {
+			JLabel icon = new JLabel(StockIcon.BADGE_INFO.toImageIcon(IconSize.ICON));
+			icon.setBorder(new EmptyBorder(0, 0, 0, Spacing.huge));
+			add(icon, c);
+		}
 		
 		c.anchor = GridBagConstraints.LINE_START;
 		c.weightx = 1;
@@ -82,7 +93,7 @@ public class PropertyViewPanel extends JPanel
 		JLabel label;
 		
 		c.gridx = 1;
-		c.weightx = 0.0f;
+		c.weightx = (centered ? 1f : 0f);
 		label = new JLabel(one, SwingConstants.RIGHT);
 		label.setForeground(Color.gray);
 		add(label, c);
@@ -90,7 +101,7 @@ public class PropertyViewPanel extends JPanel
 		c.gridx = 2;
 		c.weightx = 1f;
 		label = new JLabel(two, SwingConstants.LEFT);
-		label.setPreferredSize(new Dimension(225, label.getPreferredSize().height));
+		if (!centered && minWidth > 0) label.setPreferredSize(new Dimension(minWidth, label.getPreferredSize().height));
 		label.setToolTipText(two);
 		label.setBorder(new EmptyBorder(0, Spacing.large, 0, 0));
 		add(label, c);

@@ -73,7 +73,7 @@ public class MapDrawing extends Drawing
 		
 		this.context = context;
 
-		List<AxisPainter> axisPainters = new ArrayList<AxisPainter>();
+		List<AxisPainter> axisPainters = new ArrayList<>();
 		axisPainters.add(axisPainter);
 		this.axisPainters = axisPainters;
 
@@ -229,7 +229,7 @@ public class MapDrawing extends Drawing
 		float cellSize = calcInterpolatedCellSize(dr.imageWidth - borders.x, dr.imageHeight - borders.y, dr);
 		if (cellSize < 0.01) cellSize = 0.01f;
 
-		return new Coord<Float>(dr.dataWidth * cellSize + borders.x, dr.dataHeight * cellSize + borders.y);
+		return new Coord<>(dr.dataWidth * cellSize + borders.x, dr.dataHeight * cellSize + borders.y);
 
 	}
 
@@ -278,7 +278,14 @@ public class MapDrawing extends Drawing
 
 
 	/**
-	 * Calculates the space required for drawing the axes
+	 * Calculates the bounds of the space the borders will consume. 
+	 * Not the total space consumed by the borders, but provides four
+	 * coordinates which define a rectangle (which should be within the 
+	 * bounds of the full drawing dimensions) within which the 
+	 * data-drawing should be positioned. On a 100x100px image with
+	 * 10px borders, this should return ((10, 10), (90, 90)) as the 
+	 * coordinates.
+	 * 
 	 * 
 	 * @return A coordinate pair defining the x and y space consumed by the axes
 	 */
@@ -288,7 +295,9 @@ public class MapDrawing extends Drawing
 
 	}
 
-
+	/**
+	 * Calculates the total space consumed by the border elements
+	 */
 	public Coord<Float> calcBorderSize()
 	{
 
@@ -298,11 +307,14 @@ public class MapDrawing extends Drawing
 		x = axisBorders.x.start + (dr.imageWidth - axisBorders.x.end);
 		y = axisBorders.y.start + (dr.imageHeight - axisBorders.y.end);
 
-		return new Coord<Float>(x, y);
+		return new Coord<>(x, y);
 
 	}
 
 
+	/**
+	 * Calculate the size the actual data-drawing will use, after accounting for the space consumed by the axis/border
+	 */
 	public Coord<Float> calcMapSize()
 	{
 
@@ -313,23 +325,29 @@ public class MapDrawing extends Drawing
 		x = dr.dataWidth * cellSize;
 		y = dr.dataHeight * cellSize;
 
-		return new Coord<Float>(x, y);
+		return new Coord<>(x, y);
 
 	}
 
 
+	/**
+	 * Calculates the total size of the drawing, including both the real data-drawing and the borders
+	 */
 	public Coord<Float> calcTotalSize()
 	{
 
 		Coord<Float> borderSize = calcBorderSize();
 		Coord<Float> mapSize = calcMapSize();
 
-		return new Coord<Float>(borderSize.x + mapSize.x, borderSize.y + mapSize.y);
+		return new Coord<>(borderSize.x + mapSize.x, borderSize.y + mapSize.y);
 
 	}
 
 	
 
+	/**
+	 * Transforms a drawing-pixel-based location on the drawing to an (x, y) index in data dimensions
+	 */
 	public Coord<Integer> getMapCoordinateAtPoint(float x, float y, boolean allowOutOfBounds)
 	{
 
@@ -356,7 +374,7 @@ public class MapDrawing extends Drawing
 		if (!allowOutOfBounds) if (indexX < 0 || indexX >= dr.uninterpolatedWidth) return null;
 		if (!allowOutOfBounds) if (indexY < 0 || indexY >= dr.uninterpolatedHeight) return null;
 		
-		return new Coord<Integer>(indexX, indexY);
+		return new Coord<>(indexX, indexY);
 
 	}
 
