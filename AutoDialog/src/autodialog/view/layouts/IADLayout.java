@@ -7,7 +7,7 @@ import autodialog.view.AutoPanel;
 
 public interface IADLayout {
 
-	public abstract void setAutoPanel(AutoPanel root, boolean topLevel);
+	public abstract void setAutoPanel(AutoPanel root, int level);
 	
 	public abstract void addParameters(List<Parameter<?>> params);
 	

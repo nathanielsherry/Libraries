@@ -23,12 +23,14 @@ public class SimpleADLayout implements IADLayout {
 	private GridBagLayout layout = new GridBagLayout();
 	private GridBagConstraints c = new GridBagConstraints();
 	boolean needsVerticalGlue = true;
+	private int level;
 
 	
 	@Override
-	public void setAutoPanel(AutoPanel root, boolean topLevel) {
+	public void setAutoPanel(AutoPanel root, int level) {
 		this.root = root;
-		if (topLevel) root.setBorder(Spacing.bHuge());
+		this.level = level;
+		if (level == 0) root.setBorder(Spacing.bHuge());
 	}
 	
 

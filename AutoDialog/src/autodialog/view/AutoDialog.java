@@ -72,7 +72,7 @@ public class AutoDialog extends JDialog
 		Container c = this.getContentPane();
 		c.setLayout(new BorderLayout());
 		
-		AutoPanel view = new AutoPanel(controller.getParameters(), layout, true);
+		AutoPanel view = new AutoPanel(controller.getParameters(), layout, 0);
 		
 		JScrollPane scroller = new JScrollPane(view);
 		scroller.setBorder(Spacing.bNone());

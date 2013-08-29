@@ -6,6 +6,6 @@ import autodialog.model.Parameter;
 
 public abstract class ADLayoutFactory {
 
-	public abstract IADLayout getLayout(List<Parameter<?>> params);
+	public abstract IADLayout getLayout(List<Parameter<?>> params, int level, String group);
 	
 }

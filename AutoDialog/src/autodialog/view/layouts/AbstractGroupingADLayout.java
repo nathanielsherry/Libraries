@@ -12,7 +12,7 @@ public abstract class AbstractGroupingADLayout implements IADLayout {
 
 	protected abstract void startPanel();
 	protected abstract void finishPanel();
-	
+	protected int level;
 
 	
 	private List<Parameter<?>> getGroupParams(List<Parameter<?>> params, String group)
@@ -20,8 +20,8 @@ public abstract class AbstractGroupingADLayout implements IADLayout {
 		List<Parameter<?>> selected = new ArrayList<>();
 		for (Parameter<?> param : params)
 		{
-			if (param.getGroup() == null) continue;
-			if (param.getGroup().equals(group)) selected.add(param);
+			if (param.getGroup(level) == null) continue;
+			if (param.getGroup(level).equals(group)) selected.add(param);
 		}
 		return selected;
 	}
@@ -35,13 +35,13 @@ public abstract class AbstractGroupingADLayout implements IADLayout {
 		for (Parameter<?> param : params)
 		{
 		
-			if (param.getGroup() == null)
+			if (param.getGroup(level) == null)
 			{	
 				addSingleParam(param);
 			} 
-			else if (!groups.contains(param.getGroup()))
+			else if (!groups.contains(param.getGroup(level)))
 			{
-				String groupLabel = param.getGroup();
+				String groupLabel = param.getGroup(level);
 				
 				//create the subpanel
 				addParamGroup(getGroupParams(params, groupLabel), groupLabel);
