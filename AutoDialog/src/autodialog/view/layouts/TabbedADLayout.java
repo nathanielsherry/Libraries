@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JTabbedPane;
+import javax.swing.border.Border;
 
 import swidget.widgets.Spacing;
 import autodialog.model.Parameter;
@@ -81,4 +82,9 @@ public class TabbedADLayout extends AbstractGroupingADLayout {
 		general.add(param);
 	}
 
+	@Override
+	public Border topLevelBorder() {
+		return Spacing.bNone();
+	}
+	
 }

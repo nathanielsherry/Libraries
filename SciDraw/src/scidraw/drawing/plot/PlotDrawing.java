@@ -385,7 +385,7 @@ public class PlotDrawing extends Drawing
 	}
 
 
-	public static float getBaseUnitSize(scidraw.drawing.DrawingRequest dr)
+	public static float getBaseUnitSize(DrawingRequest dr)
 	{
 		return dr.imageHeight / 350.0f;
 	}

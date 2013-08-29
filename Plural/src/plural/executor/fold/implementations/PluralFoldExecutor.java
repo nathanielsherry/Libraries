@@ -30,14 +30,14 @@ public class PluralFoldExecutor<T1> extends FoldExecutor<T1>
 	public PluralFoldExecutor(List<T1> sourceData, FnFold<T1, T1> t)
 	{
 		super(sourceData, t);
-		init(super.sourceData, t, -1);
+		init(-1);
 	}
 
 	
 	public PluralFoldExecutor(List<T1> sourceData, FnFold<T1, T1> t, int threads)
 	{
 		super(sourceData, t);
-		init(super.sourceData, t, threads);
+		init(threads);
 	}
 	
 
@@ -45,24 +45,21 @@ public class PluralFoldExecutor<T1> extends FoldExecutor<T1>
 	public PluralFoldExecutor(List<T1> sourceData, T1 base, FnFold<T1, T1> t)
 	{
 		super(sourceData, base, t);
-		init(super.sourceData, t, -1);
+		init(-1);
 	}
 
 	
 	public PluralFoldExecutor(List<T1> sourceData, T1 base, FnFold<T1, T1> t, int threads)
 	{
 		super(sourceData, base, t);
-		init(super.sourceData, t, threads);
+		init(threads);
 	}
 	
 	
 	
-	private void init(List<T1> sourceData, FnFold<T1, T1> t, int threads)
+	private void init(int threads)
 	{
-
 		threadCount = threads <= 0 ? calcNumThreads() : threads;
-		
-
 	}
 
 

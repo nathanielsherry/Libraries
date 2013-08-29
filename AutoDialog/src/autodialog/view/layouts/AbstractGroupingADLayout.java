@@ -3,7 +3,6 @@ package autodialog.view.layouts;
 import java.util.ArrayList;
 import java.util.List;
 
-
 import autodialog.model.Parameter;
 
 public abstract class AbstractGroupingADLayout implements IADLayout {

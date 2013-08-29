@@ -73,6 +73,8 @@ public class AutoDialog extends JDialog
 		c.setLayout(new BorderLayout());
 		
 		AutoPanel view = new AutoPanel(controller.getParameters(), layout, 0);
+		view.setBorder(layout.topLevelBorder());
+		
 		
 		JScrollPane scroller = new JScrollPane(view);
 		scroller.setBorder(Spacing.bNone());

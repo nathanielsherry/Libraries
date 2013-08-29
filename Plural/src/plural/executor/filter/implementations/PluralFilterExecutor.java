@@ -33,7 +33,7 @@ public class PluralFilterExecutor<T1> extends FilterExecutor<T1>
 	{
 		super(sourceData, t);
 		
-		init(super.sourceData, t, -1);
+		init(-1);
 	}
 
 	
@@ -41,17 +41,13 @@ public class PluralFilterExecutor<T1> extends FilterExecutor<T1>
 	{
 		super(sourceData, t);
 		
-		init(super.sourceData, t, threads);
+		init(threads);
 	}
 	
 
-	private void init(List<T1> sourceData, FnCondition<T1> t, int threads)
+	private void init(int threads)
 	{
-
 		threadCount = threads <= 0 ? calcNumThreads() : threads;
-
-		
-
 	}
 
 

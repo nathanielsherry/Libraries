@@ -111,7 +111,7 @@ public abstract class PropertiesPanel extends JPanel implements Scrollable
 		
 		final PropertyViewer viewer;
 		
-		viewer = new PropertyViewer(true, parent, title, text, expanded) {
+		viewer = new PropertyViewer(true, title, text, expanded) {
 			
 			@Override
 			protected void edit()

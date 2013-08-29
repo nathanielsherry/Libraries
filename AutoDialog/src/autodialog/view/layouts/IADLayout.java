@@ -2,14 +2,18 @@ package autodialog.view.layouts;
 
 import java.util.List;
 
+import javax.swing.border.Border;
+
 import autodialog.model.Parameter;
 import autodialog.view.AutoPanel;
 
 public interface IADLayout {
 
-	public abstract void setAutoPanel(AutoPanel root, int level);
+	void setAutoPanel(AutoPanel root, int level);
 	
-	public abstract void addParameters(List<Parameter<?>> params);
+	void addParameters(List<Parameter<?>> params);
+	
+	Border topLevelBorder();
 	
 
 }

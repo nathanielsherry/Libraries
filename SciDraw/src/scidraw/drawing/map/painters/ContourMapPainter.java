@@ -64,7 +64,7 @@ public class ContourMapPainter extends SpectrumMapPainter
 	}
 
 
-	private List<List<Threshold>> getThresholdCellsSet(PainterData p, final Spectrum list, final GridPerspective<Threshold> thresholdGrid)
+	private List<List<Threshold>> getThresholdCellsSet(PainterData p, final Spectrum list)
 	{
 		final List<List<Threshold>> thresholds;// = DataTypeFactory.<Threshold> datasetInit(contourSteps);
     	
@@ -82,7 +82,7 @@ public class ContourMapPainter extends SpectrumMapPainter
 		
 		for (int i : new Range(0, contourSteps-1))
 		{
-			thresholds.set(i, getThresholdMap(list, increment * i, thresholdGrid));
+			thresholds.set(i, getThresholdMap(list, increment * i));
 		}
 				
 		return thresholds;
@@ -91,7 +91,7 @@ public class ContourMapPainter extends SpectrumMapPainter
 	// generates a threshold map for a given intensity. result is boolean
 	// list/map with true for all value
 	// above intensity, false otherwise
-	private static List<Threshold> getThresholdMap(Spectrum list, double threshold, final GridPerspective<Threshold> grid)
+	private static List<Threshold> getThresholdMap(Spectrum list, double threshold)
 	{
 
 		List<Threshold> result = new ArrayList<Threshold>();
@@ -119,7 +119,7 @@ public class ContourMapPainter extends SpectrumMapPainter
 			// generate a list of threshold maps, once for each step in the spectrum.
 			final GridPerspective<Threshold> thresholdGrid = new GridPerspective<Threshold>(grid.width, grid.height,
 					Threshold.OUTSIDE);
-			final List<List<Threshold>> thresholds = getThresholdCellsSet(p, list, thresholdGrid);
+			final List<List<Threshold>> thresholds = getThresholdCellsSet(p, list);
 										
 			for (int i = 0; i < thresholds.size(); i++) {
 				cache.add(traceLayer(thresholdGrid, thresholds.get(i)));

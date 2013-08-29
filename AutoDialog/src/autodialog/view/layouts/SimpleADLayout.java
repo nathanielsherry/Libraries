@@ -9,6 +9,7 @@ import java.util.List;
 import javax.swing.Box;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
 
 import swidget.widgets.Spacing;
 import autodialog.model.Parameter;
@@ -23,14 +24,11 @@ public class SimpleADLayout implements IADLayout {
 	private GridBagLayout layout = new GridBagLayout();
 	private GridBagConstraints c = new GridBagConstraints();
 	boolean needsVerticalGlue = true;
-	private int level;
 
 	
 	@Override
 	public void setAutoPanel(AutoPanel root, int level) {
 		this.root = root;
-		this.level = level;
-		if (level == 0) root.setBorder(Spacing.bHuge());
 	}
 	
 
@@ -111,6 +109,12 @@ public class SimpleADLayout implements IADLayout {
 		
 		root.doLayout();
 
+	}
+
+
+	@Override
+	public Border topLevelBorder() {
+		return Spacing.bNone();
 	}
 
 	

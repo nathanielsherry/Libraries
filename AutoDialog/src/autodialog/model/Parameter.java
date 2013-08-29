@@ -7,10 +7,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import fava.functionable.FList;
-import autodialog.view.editors.DoubleEditor;
 import autodialog.view.editors.IEditor;
-import autodialog.view.editors.IntegerEditor;
+import fava.functionable.FList;
 
 /**
  * 

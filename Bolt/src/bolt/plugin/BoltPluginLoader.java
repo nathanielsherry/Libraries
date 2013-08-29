@@ -28,25 +28,14 @@ public class BoltPluginLoader<T extends BoltPlugin>
 
 	private FnCondition<Class<T>> 	filter;
 		
+
+	
 	/**
 	 * Creates a PluginLoader which will locate any plugins which are subclasses or implementations of the target
 	 * @param target
 	 * @throws ClassInheritanceException
 	 */
 	public BoltPluginLoader(final Class<T> target) throws ClassInheritanceException
-	{
-		this(target, null);
-	}
-	
-	@SuppressWarnings("unchecked")
-	public BoltPluginLoader(final String pluginGroup) throws ClassInheritanceException {
-		
-		this((Class<T>)BoltPlugin.class, pluginGroup);
-		
-	}
-	
-	
-	public BoltPluginLoader(final Class<T> target, final String pluginGroup) throws ClassInheritanceException
 	{
 		
 		availablePlugins = new FList<Class<T>>();
@@ -115,9 +104,7 @@ public class BoltPluginLoader<T extends BoltPlugin>
 			@SuppressWarnings("unchecked")
 			Class<T> clazz = (Class<T>)loadedClass;
 					
-			if (filter.f(clazz)) {
-				if (isEnabledPlugin(clazz)) availablePlugins.add(clazz);
-			}
+			if (filter.f(clazz) && isEnabledPlugin(clazz)) availablePlugins.add(clazz);
 			
 			availablePlugins = availablePlugins.unique();
 			

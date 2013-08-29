@@ -9,6 +9,7 @@ import java.util.List;
 import javax.swing.Box;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
 import swidget.widgets.Spacing;
@@ -45,7 +46,6 @@ public class FramesADLayout extends AbstractGroupingADLayout {
 	public void setAutoPanel(AutoPanel root, int level) {
 		this.root = root;
 		this.level = level;
-		if (level == 0) root.setBorder(Spacing.bHuge());
 	}
 
 	
@@ -155,6 +155,11 @@ public class FramesADLayout extends AbstractGroupingADLayout {
 			root.add(editor.getComponent(), c);
 			c.gridwidth = 1;
 		}
+	}
+
+	@Override
+	public Border topLevelBorder() {
+		return Spacing.bHuge();
 	}
 
 

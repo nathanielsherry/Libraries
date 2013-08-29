@@ -5,15 +5,15 @@ package eventful;
 public interface IEventfulEnum<T extends Enum<T>>
 {
 
-	public abstract void addListener(EventfulEnumListener<T> l);
+	void addListener(EventfulEnumListener<T> l);
 
 
-	public abstract void removeListener(final EventfulEnumListener<T> l);
+	void removeListener(final EventfulEnumListener<T> l);
 
 
-	public abstract void removeAllListeners();
+	void removeAllListeners();
 
 
-	public abstract void updateListeners(final T message);
+	void updateListeners(final T message);
 
 }
