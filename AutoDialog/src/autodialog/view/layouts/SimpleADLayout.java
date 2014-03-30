@@ -16,7 +16,7 @@ import autodialog.view.AutoPanel;
 import autodialog.view.editors.IEditor;
 import autodialog.view.editors.IEditor.LabelStyle;
 
-public class SimpleADLayout implements IADLayout {
+public class SimpleADLayout extends AbstractADLayout {
 
 	private JPanel root;
 	
@@ -26,9 +26,9 @@ public class SimpleADLayout implements IADLayout {
 
 	
 	@Override
-	public void setAutoPanel(AutoPanel root, boolean topLevel) {
+	public void setAutoPanel(AutoPanel root, int level) {
 		this.root = root;
-		if (topLevel) root.setBorder(Spacing.bHuge());
+		if (level == 0) root.setBorder(Spacing.bHuge());
 	}
 	
 

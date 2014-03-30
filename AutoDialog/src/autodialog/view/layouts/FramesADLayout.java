@@ -25,6 +25,7 @@ public class FramesADLayout extends AbstractGroupingADLayout {
 	private GridBagConstraints c = new GridBagConstraints();
 	private boolean needsVerticalGlue = true;
 	private ADLayoutFactory factory;
+	private int level;
 	
 	public FramesADLayout() {
 		this(new ADLayoutFactory() {
@@ -39,11 +40,13 @@ public class FramesADLayout extends AbstractGroupingADLayout {
 	public FramesADLayout(ADLayoutFactory factory) {
 		this.factory = factory;
 	}
+
 	
 	@Override
-	public void setAutoPanel(AutoPanel root, boolean topLevel) {
+	public void setAutoPanel(AutoPanel root, int level) {
 		this.root = root;
-		if (topLevel) root.setBorder(Spacing.bHuge());
+		this.level = level;
+		if (level == 0) root.setBorder(Spacing.bHuge());
 	}
 
 	
@@ -81,7 +84,7 @@ public class FramesADLayout extends AbstractGroupingADLayout {
 	@Override
 	protected void addParamGroup(List<Parameter<?>> params, String title)
 	{
-		AutoPanel subpanel = new AutoPanel(params, factory.getLayout(params), false);
+		AutoPanel subpanel = new AutoPanel(params, factory.getLayout(params), level+1);
 		subpanel.setBorder(new TitledBorder(title));
 		
 		needsVerticalGlue &= (!subpanel.expandVertical());

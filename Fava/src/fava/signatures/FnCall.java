@@ -6,8 +6,11 @@ package fava.signatures;
  *
  */
 
-public interface FnCall extends FnSignature {
+public interface FnCall extends FnSignature, Runnable {
 
-	public void f();
+	@Override
+	default void run() { f(); } 
+	
+	void f();
 	
 }

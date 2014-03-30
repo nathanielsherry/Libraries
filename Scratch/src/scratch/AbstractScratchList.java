@@ -16,7 +16,6 @@ import fava.functionable.Functionable;
 import fava.functionable.Range;
 import fava.functionable.RangeSet;
 import fava.signatures.FnCondition;
-import fava.signatures.FnFold;
 
 
 /**
@@ -522,13 +521,8 @@ public abstract class AbstractScratchList<T> extends Functionable<T> implements 
 	
 	public long filesize()
 	{
-		return elementPositions.foldr(0, new FnFold<Range, Integer>(){
-
-			@Override
-			public Integer f(Range r, Integer i) {
-				return i + r.size();
-			}});
-
+		return elementPositions.stream().map(range -> range.size()).reduce(0, (a, b) -> a + b);
+		//return elementPositions.foldr(0, (r, i) -> i + r.size()).longValue();
 	}
 	
 }

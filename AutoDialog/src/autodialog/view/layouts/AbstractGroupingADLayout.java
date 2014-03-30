@@ -6,7 +6,7 @@ import java.util.List;
 
 import autodialog.model.Parameter;
 
-public abstract class AbstractGroupingADLayout implements IADLayout {
+public abstract class AbstractGroupingADLayout extends AbstractADLayout {
 
 	List<String> groups = new ArrayList<>();	//list of groups already handled
 

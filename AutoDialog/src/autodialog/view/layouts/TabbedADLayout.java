@@ -16,6 +16,7 @@ public class TabbedADLayout extends AbstractGroupingADLayout {
 	private JTabbedPane tabs;
 	private List<Parameter<?>> general = new ArrayList<>();
 	private ADLayoutFactory factory;
+	private int level;
 	
 	public TabbedADLayout() {
 		this(new ADLayoutFactory() {
@@ -30,10 +31,12 @@ public class TabbedADLayout extends AbstractGroupingADLayout {
 	public TabbedADLayout(ADLayoutFactory factory) {
 		this.factory = factory;
 	}
+
 	
 	@Override
-	public void setAutoPanel(AutoPanel root, boolean topLevel) {
+	public void setAutoPanel(AutoPanel root, int level) {
 		this.root = root;
+		this.level = level;
 	}
 
 	@Override
@@ -48,7 +51,7 @@ public class TabbedADLayout extends AbstractGroupingADLayout {
 
 	private AutoPanel subpanel(List<Parameter<?>> params)
 	{
-		AutoPanel panel = new AutoPanel(params, factory.getLayout(params), false);
+		AutoPanel panel = new AutoPanel(params, factory.getLayout(params), level+1);
 		panel.setBorder(Spacing.bLarge());
 		return panel;
 	}

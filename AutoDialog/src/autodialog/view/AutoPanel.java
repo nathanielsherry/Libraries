@@ -15,11 +15,15 @@ public class AutoPanel extends JPanel {
 	private List<Parameter<?>> params;
 	
 	public AutoPanel(List<Parameter<?>> params) {
-		this(params, new SimpleADLayout(), false);
+		this(params, new SimpleADLayout());
 	}
 	
-	public AutoPanel(List<Parameter<?>> params, IADLayout layout, boolean topLevel) {
-		layout.setAutoPanel(this, topLevel);
+	public AutoPanel(List<Parameter<?>> params, IADLayout layout) {
+		this(params, layout, 0);
+	}
+	
+	public AutoPanel(List<Parameter<?>> params, IADLayout layout, int level) {
+		layout.setAutoPanel(this, level);
 		this.params = new ArrayList<>(params);
 		layout.addParameters(params);
 	}

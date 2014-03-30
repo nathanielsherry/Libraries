@@ -460,26 +460,14 @@ public class FList<T> extends Functionable<T> implements List<T>, Serializable{
 	public FList<Functionable<T>> group()
 	{
 		FList<List<T>> result = newTarget();
-		result = Fn.group_target(backing, result, new FnMap<T, List<T>>() {
-
-			public List<T> f(T element) {
-				return newTarget();
-			}
-		});
-		
+		result = Fn.group_target(backing, result, element -> newTarget());
 		return FList.mapToFunctionable(result);
 	}
 	
 	public FList<Functionable<T>> groupBy(FnCombine<T, Boolean> f)
 	{
 		FList<List<T>> result = newTarget();
-		result = Fn.groupBy_target(backing, result, f, new FnMap<T, List<T>>() {
-
-			public List<T> f(T element) {
-				return newTarget();
-			}
-		});
-		
+		result = Fn.groupBy_target(backing, result, f, element -> newTarget());		
 		return FList.mapToFunctionable(result);
 	}
 
@@ -516,22 +504,22 @@ public class FList<T> extends Functionable<T> implements List<T>, Serializable{
 	@Override
 	public String show(String separator)
 	{
-		final StringBuilder b = new StringBuilder("");
-		this.each(new FnEach<T>(){
-
-			public void f(T element) {
-				if (element != null)
-					if (element instanceof Functionable<?>)
-					{
-						b.append( ((Functionable<?>)element).show() );
-					} else {
-						b.append(element.toString());
-					}
-				else
-					b.append("null");
-					
-				b.append(",");
-			}});
+		final StringBuilder b = new StringBuilder("");		
+		
+		this.each( element -> {
+			if (element != null)
+				if (element instanceof Functionable<?>)
+				{
+					b.append( ((Functionable<?>)element).show() );
+				} else {
+					b.append(element.toString());
+				}
+			else
+				b.append("null");
+				
+			b.append(",");
+		});
+		
 		
 		return "[" + (b.length() == 0 ? b.toString() : b.substring(0, b.length()-1)) + "]";
 	}
@@ -546,12 +534,7 @@ public class FList<T> extends Functionable<T> implements List<T>, Serializable{
 	public String showBy(final FnMap<T, String> f)
 	{
 		final StringBuilder b = new StringBuilder();
-		this.each(new FnEach<T>(){
-
-			public void f(T element) {
-				b.append(f.f(element));
-			}});
-		
+		this.each(element -> b.append(f.f(element)));
 		return b.toString();
 	}
 	
@@ -634,12 +617,12 @@ public class FList<T> extends Functionable<T> implements List<T>, Serializable{
 	}
 	
 	
-	
+/*	Thank you java 8
 	public void sort(Comparator<T> comparator) {
 		
 		Fn.sortBy(backing, comparator, Functions.<T>id());
 	}
-	
+*/
 	
 	public <S> void sort(Comparator<S> comparator, FnMap<T, S> mapping) {
 		
@@ -648,27 +631,14 @@ public class FList<T> extends Functionable<T> implements List<T>, Serializable{
 	
 	
 	public <S extends Comparable<? super S>> void sort(final FnMap<T, S> mapping) {
-				
-
-		Collections.sort(backing, new Comparator<T>() {
-
-			public int compare(T v1, T v2) {
-				return mapping.f(v1).compareTo(mapping.f(v2));
-			}
-		});
-		
+		Collections.sort(backing, (v1, v2) -> mapping.f(v1).compareTo(mapping.f(v2)));
 	}
 	
 	
 	
 	protected static <T> FList<Functionable<T>> mapToFunctionable(FList<List<T>> list)
 	{
-		return list.map(new FnMap<List<T>, Functionable<T>>() {
-
-			public Functionable<T> f(List<T> element) {
-				return FList.<T>wrap(element);
-			}
-		});
+		return list.map(element -> FList.<T>wrap(element));
 	}
 	
 	
