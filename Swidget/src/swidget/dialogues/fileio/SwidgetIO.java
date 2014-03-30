@@ -44,6 +44,17 @@ public class SwidgetIO
 			String[] 	extDesc,
 			String 		startDir)
 	{
+		return openFiles(parent, title, exts, extDesc, startDir, false);
+	}
+	
+	public static List<AbstractFile> openFiles(
+			Container	parent, 
+			String 		title, 
+			String[][] 	exts, 
+			String[] 	extDesc,
+			String 		startDir,
+			boolean		allowFolders)
+	{
 
 		if (Env.isWebStart())
 		{
@@ -80,6 +91,7 @@ public class SwidgetIO
 			FileFilter defaultFilter = chooser.getFileFilter();
 			chooser.setMultiSelectionEnabled(true);
 			chooser.setDialogTitle(title);
+			if (allowFolders) chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
 
 			SimpleFileFilter filter;
 			for (int i = 0; i < exts.length; i++)
@@ -127,14 +139,24 @@ public class SwidgetIO
 
 	}
 
-
-
 	public static AbstractFile openFile(
 			Container	parent, 
 			String 		title, 
 			String[][] 	exts, 
 			String[] 	extDesc, 
 			String 		startDir
+		)
+	{
+		return openFile(parent, title, exts, extDesc, startDir, false);
+	}
+	
+	public static AbstractFile openFile(
+			Container	parent, 
+			String 		title, 
+			String[][] 	exts, 
+			String[] 	extDesc, 
+			String 		startDir,
+			boolean		allowFolders
 		)
 	{
 
@@ -172,6 +194,7 @@ public class SwidgetIO
 			JFileChooser chooser = new JFileChooser(startDir);
 			chooser.setMultiSelectionEnabled(true);
 			chooser.setDialogTitle(title);
+			if (allowFolders) chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
 			
 			/*
 			if (exts.length > 0) 

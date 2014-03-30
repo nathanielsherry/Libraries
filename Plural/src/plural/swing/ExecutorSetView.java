@@ -27,7 +27,7 @@ import eventful.EventfulListener;
 public class ExecutorSetView extends JDialog {
 
 	ExecutorSet<?> executors;
-	private JProgressBar progress;
+	ExecutorSetViewPanel panel;
 	
 	public ExecutorSetView(Window owner, ExecutorSet<?> _tasks){
 		
@@ -52,64 +52,9 @@ public class ExecutorSetView extends JDialog {
 		
 		
 		
-        JPanel panel = new JPanel();
-        getContentPane().add(panel);
+		panel = new ExecutorSetViewPanel(executors);
+		getContentPane().add(panel);
 
-		
-        LayoutManager layout = new GridBagLayout();
-        GridBagConstraints c = new GridBagConstraints();
-        panel.setLayout(layout);
-		
-        c.gridx = 0;
-        c.gridy = 0;
-        c.weightx = 1.0;
-        c.weighty = 0.0;
-        c.anchor = GridBagConstraints.FIRST_LINE_START;
-        
-        JLabel title = new JLabel(executors.getDescription());
-        title.setFont(title.getFont().deriveFont(Font.BOLD).deriveFont(title.getFont().getSize() + 2f));
-        title.setBorder(Spacing.bMedium());
-        panel.add(title, c);
-        
-
-		ExecutorView view;
-		for (PluralExecutor pl : executors){
-			
-			c.gridy += 1;
-			
-			view = new ExecutorView(pl);
-			panel.add(view, c);
-			
-		}
-
-        
-		c.gridy += 1;
-		c.weighty = 1.0;
-		
-		progress = new JProgressBar();
-		progress.setMaximum(100);
-		progress.setMinimum(0);
-		progress.setValue(0);
-		JPanel progressPanel = new JPanel();
-		progressPanel.add(progress);
-		progressPanel.setBorder(Spacing.bLarge());
-		panel.add(progressPanel, c);
-        
-		c.weighty = 0.0;
-		c.gridy += 1;
-		c.anchor = GridBagConstraints.LAST_LINE_END;
-		ImageButton cancel = new ImageButton(StockIcon.CHOOSE_CANCEL, "Cancel", true);
-		cancel.addActionListener(new ActionListener() {
-		
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				executors.requestAbortWorking();
-			}
-		});
-		panel.add(cancel, c);
-		
-		
-		panel.setBorder(Spacing.bHuge());
 		
 		executors.addListener(new EventfulListener() {
 		
@@ -173,17 +118,7 @@ public class ExecutorSetView extends JDialog {
 	}
 	
 	protected void updateProgressBar(){
-				
-		for (PluralExecutor e : executors){
-			if (e.getState() == ExecutorState.WORKING){
-				progress.setValue((int)(e.getProgress() * 100));
-				progress.setIndeterminate(false);
-				break;
-			} else if (e.getState() == ExecutorState.STALLED){
-				progress.setIndeterminate(true);
-			}
-		}
-		
+		panel.updateProgressBar();
 	}
 	
 	public static void main(String[] args)
