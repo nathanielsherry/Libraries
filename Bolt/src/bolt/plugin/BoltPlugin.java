@@ -22,7 +22,7 @@ public interface BoltPlugin {
 	 * a plugin returns false for this method, it will not be exposed 
 	 * to the software using the plugins.
 	 */
-	public abstract boolean pluginEnabled();
+	boolean pluginEnabled();
 
 	
 }

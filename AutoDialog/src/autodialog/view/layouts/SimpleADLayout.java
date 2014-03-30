@@ -9,6 +9,7 @@ import java.util.List;
 import javax.swing.Box;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
 
 import swidget.widgets.Spacing;
 import autodialog.model.Parameter;
@@ -109,6 +110,12 @@ public class SimpleADLayout extends AbstractADLayout {
 		
 		root.doLayout();
 
+	}
+
+
+	@Override
+	public Border topLevelBorder() {
+		return Spacing.bNone();
 	}
 
 	

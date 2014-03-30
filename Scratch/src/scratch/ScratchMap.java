@@ -27,19 +27,11 @@ public class ScratchMap<K, V extends Serializable> implements Map<K, V>{
 		}
 	}
 	
-	public static <K, V extends Serializable> Map<K, V> create(String name, boolean accessOrder)
-	{
-		try {
-			return new ScratchMap<K, V>(name, accessOrder);
-		} catch (IOException e) {
-			return new LinkedHashMap<K, V>();
-		}
-	}
 	
-	public static <K, V extends Serializable> Map<K, V> create(String name, boolean accessOrder, AbstractScratchList<V> backingList)
+	public static <K, V extends Serializable> Map<K, V> create(String name, AbstractScratchList<V> backingList)
 	{
 		try {
-			return new ScratchMap<K, V>(name, accessOrder, backingList);
+			return new ScratchMap<K, V>(name, backingList);
 		} catch (IOException e) {
 			return new LinkedHashMap<K, V>();
 		}
@@ -47,14 +39,11 @@ public class ScratchMap<K, V extends Serializable> implements Map<K, V>{
 	
 	public ScratchMap(String name) throws IOException
 	{
-		this(name, false, null);
+		this(name, null);
 	}
+
 	
-	public ScratchMap(String name, boolean accesOrder) throws IOException {
-		this(name, accesOrder, null);
-	}
-	
-	public ScratchMap(String name, boolean accesOrder, AbstractScratchList<V> list) throws IOException {
+	public ScratchMap(String name, AbstractScratchList<V> list) throws IOException {
 		if (list == null) {
 			valueList = new ScratchList<V>(name + " ➤ Scratch Map");
 		} else {

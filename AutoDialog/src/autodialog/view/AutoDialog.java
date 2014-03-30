@@ -6,6 +6,7 @@ import java.awt.Container;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
@@ -20,6 +21,8 @@ import swidget.widgets.ImageButton.Layout;
 import swidget.widgets.Spacing;
 import swidget.widgets.TextWrapping;
 import autodialog.controller.IADController;
+import autodialog.controller.SimpleADController;
+import autodialog.model.Parameter;
 import autodialog.view.layouts.IADLayout;
 import autodialog.view.layouts.SimpleADLayout;
 
@@ -45,6 +48,14 @@ public class AutoDialog extends JDialog
 	private ImageButton info;
 	
 
+	public AutoDialog(List<Parameter<?>> params) {
+		this(new SimpleADController(params), AutoDialogButtons.OK_CANCEL);
+	}
+
+	public AutoDialog(List<Parameter<?>> params, AutoDialogButtons buttons) {
+		this(new SimpleADController(params), buttons);
+	}
+	
 	public AutoDialog(IADController _controller, AutoDialogButtons buttons, Window owner)
 	{
 		super(owner);
@@ -66,8 +77,6 @@ public class AutoDialog extends JDialog
 	}
 
 	public void initialize(IADLayout layout){
-		
-		
 		
 		Container c = this.getContentPane();
 		c.setLayout(new BorderLayout());

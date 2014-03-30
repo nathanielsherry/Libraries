@@ -39,13 +39,13 @@ public class AboutDialogue extends JDialog
 	Window owner;
 	
 
-	public AboutDialogue(Window owner, final String name, String description, String website, String copyright, final String licence, final String credits, String logo, String version, String longVersion, String releaseDescription, String date, boolean isRelease)
+	public AboutDialogue(Window owner, final String name, String description, String website, String copyright, final String licence, final String credits, String logo, String version, String longVersion, String releaseDescription, String date)
 	{
 		super(owner, "About " + name, ModalityType.DOCUMENT_MODAL);
-		init(owner, name, description, website, copyright, licence, credits, logo, version, longVersion, releaseDescription, date, isRelease);
+		init(owner, name, description, website, copyright, licence, credits, logo, version, longVersion, releaseDescription, date);
 	}
 		
-	private void init(Window owner, final String name, String description, final String website, String copyright, final String licence, final String credits, String logo, String version, String longVersion, String releaseDescription, String date, boolean isRelease)
+	private void init(Window owner, final String name, String description, final String website, String copyright, final String licence, final String credits, String logo, String version, String longVersion, String releaseDescription, String date)
 	{
 		this.owner = owner;
 		

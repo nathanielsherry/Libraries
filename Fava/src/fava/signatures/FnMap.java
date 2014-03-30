@@ -15,6 +15,6 @@ public interface FnMap<T1, T2> extends FnSignature, Function<T1, T2> {
 	@Override
 	default T2 apply(T1 t) { return f(t); }
 	
-	public T2 f(T1 v);
+	T2 f(T1 v);
 	
 }

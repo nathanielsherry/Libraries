@@ -21,6 +21,6 @@ public interface SaveableSurface extends Surface
 	 * @param out the {@link OutputStream} to write to
 	 * @throws IOException
 	 */
-	public void write(OutputStream out) throws IOException;
+	void write(OutputStream out) throws IOException;
 
 }

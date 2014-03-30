@@ -130,4 +130,9 @@ public class PropertyEditor extends JDialog
 		return text;
 	}
 	
+	
+	public static void main(String[] args) {
+		new PropertyEditor(null, "asdf", "ASDFASDFA");
+	}
+	
 }

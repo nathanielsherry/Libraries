@@ -5,15 +5,15 @@ package eventful;
 public interface IEventful
 {
 
-	public abstract void addListener(EventfulListener l);
+	void addListener(EventfulListener l);
 
 
-	public abstract void removeListener(final EventfulListener l);
+	void removeListener(final EventfulListener l);
 
 
-	public abstract void removeAllListeners();
+	void removeAllListeners();
 
 
-	public abstract void updateListeners();
+	void updateListeners();
 
 }

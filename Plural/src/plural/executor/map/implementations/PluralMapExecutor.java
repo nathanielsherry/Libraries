@@ -28,15 +28,15 @@ public class PluralMapExecutor<T1, T2> extends MapExecutor<T1, T2>
 	{
 		super(sourceData, t);
 		
-		init(super.sourceData, super.targetList, t, -1);
+		init(-1);
 	}
 
 
 	public PluralMapExecutor(List<T1> sourceData, List<T2> targetList, FnMap<T1, T2> t)
 	{
-		super(sourceData, targetList, null);
+		super(sourceData, targetList, t);
 		
-		init(super.sourceData, super.targetList, t, -1);
+		init(-1);
 	}
 
 	
@@ -44,19 +44,19 @@ public class PluralMapExecutor<T1, T2> extends MapExecutor<T1, T2>
 	{
 		super(sourceData, t);
 		
-		init(super.sourceData, super.targetList, t, threads);
+		init(threads);
 	}
 
 
 	public PluralMapExecutor(List<T1> sourceData, List<T2> targetList, FnMap<T1, T2> t, int threads)
 	{
-		super(sourceData, targetList, null);
+		super(sourceData, targetList, t);
 		
-		init(super.sourceData, super.targetList, t, threads);
+		init(threads);
 	}
 	
 
-	private void init(List<T1> sourceData, List<T2> targetList, FnMap<T1, T2> t, int threads)
+	private void init(int threads)
 	{
 
 		threadCount = threads <= 0 ? calcNumThreads() : threads;

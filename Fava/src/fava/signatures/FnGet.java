@@ -14,6 +14,6 @@ public interface FnGet <T1> extends FnSignature, Supplier<T1> {
 	@Override
 	default T1 get() { return f(); }
 	
-	public T1 f();
-	
+	T1 f();
+
 }

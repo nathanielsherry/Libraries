@@ -3,7 +3,6 @@ package autodialog.controller;
 import java.util.List;
 
 import autodialog.model.Parameter;
-import autodialog.view.AutoDialog.AutoDialogButtons;
 import autodialog.view.AutoDialog;
 import autodialog.view.AutoPanel;
 
@@ -22,19 +21,19 @@ public interface IADController {
 	 * Allows validation of the Parameters in this dialog.
 	 * @return true if all Parameters are satisfactory, false otherwise
 	 */
-	public boolean validateParameters();
+	boolean validateParameters();
 	
 	/**
 	 * Allows real-time monitoring of the Parameter values. This is useful if you don't want to wait
 	 * until the dialog is dismissed before applying values.
 	 */
-	public void editorUpdated(Parameter<?> parameter);
+	void editorUpdated(Parameter<?> parameter);
 	
 	
 	/** 
 	 * Returns a list of {@link Parameter}s to be used in this controller.
 	 **/
-	public List<Parameter<?>> getParameters();
+	List<Parameter<?>> getParameters();
 	
 
 	

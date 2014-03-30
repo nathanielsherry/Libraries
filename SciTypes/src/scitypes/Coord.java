@@ -31,6 +31,7 @@ public class Coord<T> {
 		if (!(oother instanceof Coord)) return false;
 		Coord<?> gother = (Coord<?>)oother;
 		if (!x.getClass().equals(gother.x.getClass())) return false;
+		@SuppressWarnings("unchecked")
 		Coord<T> other = (Coord<T>)oother;
 		return x.equals(other.x) && y.equals(other.y);
 	}

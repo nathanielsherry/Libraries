@@ -15,35 +15,35 @@ public interface IEditor<T> extends IEventful
 	}
 	
 
-	public abstract void initialize(Parameter<T> param);
+	void initialize(Parameter<T> param);
 
-	public abstract boolean expandVertical();
-	public abstract boolean expandHorizontal();
-	public abstract LabelStyle getLabelStyle();
+	boolean expandVertical();
+	boolean expandHorizontal();
+	LabelStyle getLabelStyle();
 	
 	/**
 	 * Restores the graphical interface component to the value of the Parameter it is derived
 	 * from.
 	 */
-	public abstract void setFromParameter();
+	void setFromParameter();
 	
 	/**
 	 * Notification hook to be informed that validation by the {@link Parameter} failed. The
 	 * usual response is to call {@link #setFromParameter()} to restore the graphical 
 	 * component to a valid state.
 	 */
-	public abstract void validateFailed();
+	void validateFailed();
 	
 	/**
 	 * Returns the current value of the graphical interface component.
 	 * @return
 	 */
-	public abstract T getEditorValue();
+	T getEditorValue();
 	
 	/**
 	 * Returns the graphical interface component for this editor.
 	 * @return
 	 */
-	public abstract JComponent getComponent();
+	JComponent getComponent();
 	
 }

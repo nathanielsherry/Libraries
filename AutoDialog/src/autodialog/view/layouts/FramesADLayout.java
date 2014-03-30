@@ -9,6 +9,7 @@ import java.util.List;
 import javax.swing.Box;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
 import swidget.widgets.Spacing;
@@ -25,13 +26,13 @@ public class FramesADLayout extends AbstractGroupingADLayout {
 	private GridBagConstraints c = new GridBagConstraints();
 	private boolean needsVerticalGlue = true;
 	private ADLayoutFactory factory;
-	private int level;
+	
 	
 	public FramesADLayout() {
 		this(new ADLayoutFactory() {
 			
 			@Override
-			public IADLayout getLayout(List<Parameter<?>> params) {
+			public IADLayout getLayout(List<Parameter<?>> params, int level, String group) {
 				return new SimpleADLayout();
 			}
 		});
@@ -44,6 +45,9 @@ public class FramesADLayout extends AbstractGroupingADLayout {
 	
 	@Override
 	public void setAutoPanel(AutoPanel root, int level) {
+		
+		System.out.println("SetAutoPanel " + level);
+		
 		this.root = root;
 		this.level = level;
 		if (level == 0) root.setBorder(Spacing.bHuge());
@@ -84,7 +88,8 @@ public class FramesADLayout extends AbstractGroupingADLayout {
 	@Override
 	protected void addParamGroup(List<Parameter<?>> params, String title)
 	{
-		AutoPanel subpanel = new AutoPanel(params, factory.getLayout(params), level+1);
+
+		AutoPanel subpanel = new AutoPanel(params, factory.getLayout(params, level+1, title), level+1);
 		subpanel.setBorder(new TitledBorder(title));
 		
 		needsVerticalGlue &= (!subpanel.expandVertical());
@@ -156,6 +161,11 @@ public class FramesADLayout extends AbstractGroupingADLayout {
 			root.add(editor.getComponent(), c);
 			c.gridwidth = 1;
 		}
+	}
+
+	@Override
+	public Border topLevelBorder() {
+		return Spacing.bHuge();
 	}
 
 

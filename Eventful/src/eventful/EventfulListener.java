@@ -12,6 +12,6 @@ import java.util.EventListener;
 
 public interface EventfulListener extends EventListener {
 
-	public void change();
+	void change();
 	
 }

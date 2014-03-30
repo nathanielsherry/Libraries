@@ -59,7 +59,7 @@ public class RasterSpectrumMapPainter extends SpectrumMapPainter
 				drawAsScalar(p, modData, cellSize, maxIntensity);
 			} else {
 				if (buffer == null) {
-					buffer = drawAsRaster(p, modData, cellSize, maxIntensity, p.dr.dataHeight * p.dr.dataWidth);
+					buffer = drawAsRaster(p, modData, maxIntensity, p.dr.dataHeight * p.dr.dataWidth);
 				}
 				p.context.compose(buffer, 0, 0, cellSize);
 			}
@@ -69,7 +69,7 @@ public class RasterSpectrumMapPainter extends SpectrumMapPainter
 	}
 
 
-	private Buffer drawAsRaster(PainterData p, final Spectrum data, float cellSize, final float maxIntensity,
+	private Buffer drawAsRaster(PainterData p, final Spectrum data, final float maxIntensity,
 			final int maximumIndex)
 	{
 

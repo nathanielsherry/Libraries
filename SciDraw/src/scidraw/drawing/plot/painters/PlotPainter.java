@@ -63,7 +63,7 @@ public abstract class PlotPainter extends Painter{
 	 * @param connected should the data points be drawn as part of a connected series, or should each point be shown as an individual line
 	 * @param data the data series to trace
 	 */
-	protected void traceData(Surface context, scidraw.drawing.DrawingRequest dr, Coord<Float> plotSize, Spectrum dataHeights, TraceType traceType, Spectrum data)
+	protected void traceData(Surface context, DrawingRequest dr, Coord<Float> plotSize, Spectrum dataHeights, TraceType traceType, Spectrum data)
 	{
 
 
@@ -207,7 +207,7 @@ public abstract class PlotPainter extends Painter{
 	}
 	
 	
-	public float getChannelAtEnergy(scidraw.drawing.DrawingRequest dr, float energy)
+	public float getChannelAtEnergy(DrawingRequest dr, float energy)
 	{
 		return energy / dr.unitSize;
 	}
@@ -219,12 +219,12 @@ public abstract class PlotPainter extends Painter{
 	}
 	
 	@Override
-	protected float getBaseUnitSize(scidraw.drawing.DrawingRequest dr)
+	protected float getBaseUnitSize(DrawingRequest dr)
 	{
 		return dr.imageHeight / 350.0f;
 	}
 	
-	protected float getPenWidth(float baseSize, scidraw.drawing.DrawingRequest dr)
+	protected float getPenWidth(float baseSize, DrawingRequest dr)
 	{
 		float width;
 		width = baseSize;

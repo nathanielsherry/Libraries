@@ -79,13 +79,13 @@ public abstract class AxisPainter extends Painter
 
 
 	@Override
-	protected float getBaseUnitSize(scidraw.drawing.DrawingRequest dr)
+	protected float getBaseUnitSize(DrawingRequest dr)
 	{
 		return Math.min(dr.imageHeight, dr.imageWidth) / 350.0f;
 	}
 
 
-	protected float getPenWidth(float baseSize, scidraw.drawing.DrawingRequest dr)
+	protected float getPenWidth(float baseSize, DrawingRequest dr)
 	{
 		float width;
 		width = baseSize;

@@ -376,7 +376,7 @@ public class ImageButton extends JButton
 		}
 		
 		//if (! isNumbus && insets != null) this.setMargin(insets);
-		if (isNimbus) if (border != null) super.setBorder(border);
+		if (isNimbus && border != null) super.setBorder(border);
 		
 		
 		//setMargin(new Insets(-1, -1, -1, -1));

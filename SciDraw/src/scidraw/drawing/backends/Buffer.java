@@ -16,12 +16,12 @@ import java.awt.Color;
 public interface Buffer extends Surface
 {
 
-	public Object getImageSource();
+	Object getImageSource();
 
 
-	public void setPixelValue(int x, int y, Color c);
+	void setPixelValue(int x, int y, Color c);
 
 
-	public void setPixelValue(int offset, Color c);
+	void setPixelValue(int offset, Color c);
 
 }

@@ -45,7 +45,7 @@ public interface Surface
 	 * @param y
 	 *            the y position to draw to
 	 */
-	public void lineTo(float x, float y);
+	void lineTo(float x, float y);
 
 
 	/**
@@ -56,34 +56,34 @@ public interface Surface
 	 * @param y
 	 *            the y position to move to
 	 */
-	public void moveTo(float x, float y);
+	void moveTo(float x, float y);
 
 
-	public void addShape(Shape s);
+	void addShape(Shape s);
 	
 	
 	/**
 	 * Outlines the shape in the buffer, clears the buffer
 	 */
-	public void stroke();
+	void stroke();
 
 
 	/**
 	 * Outlines the shape in the buffer, does not clear the buffer
 	 */
-	public void strokePreserve();
+	void strokePreserve();
 
 
 	/**
 	 * Fills the shape in the buffer, clears the buffer
 	 */
-	public void fill();
+	void fill();
 
 
 	/**
 	 * Fills the shape in the buffer, does not clear the buffer
 	 */
-	public void fillPreserve();
+	void fillPreserve();
 
 
 	/**
@@ -97,7 +97,7 @@ public interface Surface
 	 * @param y
 	 *            the y position for the baseline
 	 */
-	public void writeText(String text, float x, float y);
+	void writeText(String text, float x, float y);
 
 
 	/**
@@ -110,7 +110,7 @@ public interface Surface
 	 * @param blue
 	 *            the blue channel of the colour -- 0-255
 	 */
-	public void setSource(int red, int green, int blue);
+	void setSource(int red, int green, int blue);
 
 
 	/**
@@ -125,7 +125,7 @@ public interface Surface
 	 * @param alpha
 	 *            the alpha channel of the colour -- 0-255
 	 */
-	public void setSource(int red, int green, int blue, int alpha);
+	void setSource(int red, int green, int blue, int alpha);
 
 
 	/**
@@ -138,7 +138,7 @@ public interface Surface
 	 * @param blue
 	 *            the blue channel of the colour -- 0.0 to 1.0
 	 */
-	public void setSource(float red, float green, float blue);
+	void setSource(float red, float green, float blue);
 
 
 	/**
@@ -153,7 +153,7 @@ public interface Surface
 	 * @param alpha
 	 *            the alpha channel of the colour -- 0.0 to 1.0
 	 */
-	public void setSource(float red, float green, float blue, float alpha);
+	void setSource(float red, float green, float blue, float alpha);
 
 
 	/**
@@ -162,7 +162,7 @@ public interface Surface
 	 * @param c
 	 *            the Colour object to retrieve the colour from
 	 */
-	public void setSource(Color c);
+	void setSource(Color c);
 
 
 	/**
@@ -181,7 +181,7 @@ public interface Surface
 	 * @param colour2
 	 *            the second colour
 	 */
-	public void setSourceGradient(float x1, float y1, Color colour1, float x2, float y2, Color colour2);
+	void setSourceGradient(float x1, float y1, Color colour1, float x2, float y2, Color colour2);
 
 
 	/**
@@ -190,12 +190,12 @@ public interface Surface
 	 * @param width
 	 *            the width to set the stroke to
 	 */
-	public void setLineWidth(float width);
+	void setLineWidth(float width);
 
 	
-	public void setLineJoin(LineJoin join);
-	public void setLineEnd(EndCap cap);
-	public void setLineStyle(float width, EndCap cap, LineJoin join);
+	void setLineJoin(LineJoin join);
+	void setLineEnd(EndCap cap);
+	void setLineStyle(float width, EndCap cap, LineJoin join);
 
 	/**
 	 * Calculates the width of the given text with the current font settings
@@ -204,7 +204,7 @@ public interface Surface
 	 *            the text to calculate the width for
 	 * @return the width of the text
 	 */
-	public float getTextWidth(String text);
+	float getTextWidth(String text);
 
 
 	/**
@@ -213,7 +213,7 @@ public interface Surface
 	 * 
 	 * @return the height of a line of text for the current font settings.
 	 */
-	public float getFontHeight();
+	float getFontHeight();
 
 
 	/**
@@ -221,7 +221,7 @@ public interface Surface
 	 * 
 	 * @return the font leading
 	 */
-	public float getFontLeading();
+	float getFontLeading();
 
 
 	/**
@@ -229,7 +229,7 @@ public interface Surface
 	 * 
 	 * @return the font ascent
 	 */
-	public float getFontAscent();
+	float getFontAscent();
 
 
 	/**
@@ -237,27 +237,27 @@ public interface Surface
 	 * 
 	 * @return the fond descent
 	 */
-	public float getFontDescent();
+	float getFontDescent();
 
 
 	/**
 	 * Saves the current state of the drawing context, for later restoration. This can be used to make temporary changes
 	 * to things like font, source colour, etc, without having to worry about rolling them back manually afterwards
 	 */
-	public void save();
+	void save();
 
 
 	/**
 	 * Invokes {@link Surface#save}, and returns an index representing the just-saved data's position on the save stack.
 	 */
-	public int saveWithMarker();
+	int saveWithMarker();
 
 
 	/**
 	 * Accepts an index for the save stack, and restores the drawing context from that location on the save stack.
 	 * Behaviour is undefined for indices larger than the stack
 	 */
-	public void restoreFromMarker(int marker);
+	void restoreFromMarker(int marker);
 
 
 	/**
@@ -265,13 +265,13 @@ public interface Surface
 	 * 
 	 * @see #save()
 	 */
-	public void restore();
+	void restore();
 
 
 	/**
 	 * Limits the drawable region to the path outlined in the buffer.
 	 */
-	public void clip();
+	void clip();
 
 
 	/**
@@ -286,7 +286,7 @@ public interface Surface
 	 * @param height
 	 *            height of the rectangle
 	 */
-	public void rectangle(float x, float y, float width, float height);
+	void rectangle(float x, float y, float width, float height);
 
 
 	/**
@@ -297,7 +297,7 @@ public interface Surface
 	 * @param y
 	 *            the distance in y to shift the origin point
 	 */
-	public void translate(float x, float y);
+	void translate(float x, float y);
 
 
 	/**
@@ -308,7 +308,7 @@ public interface Surface
 	 * @param y
 	 *            the proportion in y to scale the coordinate system
 	 */
-	public void scale(float x, float y);
+	void scale(float x, float y);
 
 
 	/**
@@ -317,7 +317,7 @@ public interface Surface
 	 * @param radians
 	 *            amount in radians to rotate the coordinate system
 	 */
-	public void rotate(float radians);
+	void rotate(float radians);
 
 
 	/**
@@ -325,7 +325,7 @@ public interface Surface
 	 * 
 	 * @param size
 	 */
-	public void setFontSize(float size);
+	void setFontSize(float size);
 
 
 	/**
@@ -333,34 +333,34 @@ public interface Surface
 	 * 
 	 * @return the current font size
 	 */
-	public float getFontSize();
+	float getFontSize();
 
 
 	/**
 	 * Specifies that text should be written in a monospaced font
 	 */
-	public void useMonoFont();
+	void useMonoFont();
 
 
 	/**
 	 * Specifies that text should be written in a sans-serif font
 	 */
-	public void useSansFont();
+	void useSansFont();
 
 	
 	/**
 	 * Specifies that a custom font should be used
 	 * @param f the font to be used
 	 */
-	public void setFont(String name);
+	void setFont(String name);
 	
-	public void setFontBold(boolean bold);
+	void setFontBold(boolean bold);
 	
 	/**
 	 * Indicates if this surface is backed by a vector image
 	 * @return true if the surface is vector based, false if the surface is raster based
 	 */
-	public boolean isVectorSurface();
+	boolean isVectorSurface();
 
 	/**
 	 * Creates a raster Buffer for intermediate drawing. This buffer can later be drawn onto the Surface by calling
@@ -374,7 +374,7 @@ public interface Surface
 	 * @see Buffer
 	 * @see #compose(Buffer, int, int, float)
 	 */
-	public Buffer getImageBuffer(int width, int height);
+	Buffer getImageBuffer(int width, int height);
 
 
 	/**
@@ -391,16 +391,16 @@ public interface Surface
 	 * @see Buffer
 	 * @see #getImageBuffer(int, int)
 	 */
-	public void compose(Buffer buffer, int x, int y, float scale);
+	void compose(Buffer buffer, int x, int y, float scale);
 
 
-	public void setAntialias(boolean antialias);
+	void setAntialias(boolean antialias);
 
 
-	public void setCompositeMode(CompositeModes mode);
-	public CompositeModes getCompositeMode();
+	void setCompositeMode(CompositeModes mode);
+	CompositeModes getCompositeMode();
 	
 	
-	public Surface getNewContextForSurface();
+	Surface getNewContextForSurface();
 
 }

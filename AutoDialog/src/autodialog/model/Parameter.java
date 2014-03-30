@@ -3,8 +3,12 @@ package autodialog.model;
 
 import java.awt.Component;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import autodialog.view.editors.IEditor;
+import fava.functionable.FList;
 
 /**
  * 
@@ -15,29 +19,37 @@ import autodialog.view.editors.IEditor;
 
 public class Parameter<T> implements Serializable
 {
-
-
-	public String		name;
-	private IEditor<T>	editor;
 	
-	private boolean		enabled;
+	public String			name;
+	private IEditor<T>		editor;
+	
+	private boolean			enabled;
 
-	private T			value;
-	private String		group;
+	private T				value;
+	private List<String>	groups;
 	
 
 	public Parameter(String name, IEditor<T> editor, T value)
 	{
-		this(name, editor, value, null);
+		this(name, editor, value, new ArrayList<String>());
 	}
 	
 	public Parameter(String name, IEditor<T> editor, T value, String group)
+	{
+		this(name, editor, value, new FList<>(group));
+	}
+	
+	public Parameter(String name, IEditor<T> editor, T value, String... group){
+		this(name, editor, value, Arrays.asList(group));
+	}
+	
+	public Parameter(String name, IEditor<T> editor, T value, List<String> groups)
 	{
 		this.editor = editor;
 		this.name = name;
 		this.value = value;
 		this.enabled = true;
-		this.group = group;
+		this.groups = groups;
 		
 		editor.initialize(this);
 	}
@@ -80,9 +92,15 @@ public class Parameter<T> implements Serializable
 		return str;
 	}
 	
-	public String getGroup()
+	public String getGroup(int level)
 	{
-		return group;
+		if (groups.size() <= level) return null;
+		return groups.get(level);
+	}
+	
+	public List<String> getGroups()
+	{
+		return new ArrayList<>(groups);
 	}
 	
 }

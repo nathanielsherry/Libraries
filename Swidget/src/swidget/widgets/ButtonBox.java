@@ -28,7 +28,7 @@ public class ButtonBox extends JPanel
 	}
 	public ButtonBox(boolean divider)
 	{
-		this(Spacing.bMedium(), Spacing.medium, true);
+		this(Spacing.bMedium(), Spacing.medium, divider);
 	}
 	public ButtonBox(Border border)
 	{

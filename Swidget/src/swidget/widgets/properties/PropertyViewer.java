@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -29,12 +28,12 @@ public abstract class PropertyViewer extends ClearPanel
 	private JXTaskPane textpanel;
 	private JTextArea textarea;
 	
-	public PropertyViewer(boolean editable, final Window parent, final String title, final String text)
+	public PropertyViewer(boolean editable, final String title, final String text)
 	{
-		this(editable, parent, title, text, false);
+		this(editable, title, text, false);
 	}
 	
-	public PropertyViewer(boolean editable, final Window parent, final String title, final String text, boolean expanded)
+	public PropertyViewer(boolean editable, final String title, final String text, boolean expanded)
 	{
 		super();
 		

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JTabbedPane;
+import javax.swing.border.Border;
 
 import swidget.widgets.Spacing;
 import autodialog.model.Parameter;
@@ -22,7 +23,7 @@ public class TabbedADLayout extends AbstractGroupingADLayout {
 		this(new ADLayoutFactory() {
 			
 			@Override
-			public IADLayout getLayout(List<Parameter<?>> params) {
+			public IADLayout getLayout(List<Parameter<?>> params, int level, String group) {
 				return new SimpleADLayout();
 			}
 		});
@@ -49,9 +50,9 @@ public class TabbedADLayout extends AbstractGroupingADLayout {
 		
 	}
 
-	private AutoPanel subpanel(List<Parameter<?>> params)
+	private AutoPanel subpanel(List<Parameter<?>> params, String title)
 	{
-		AutoPanel panel = new AutoPanel(params, factory.getLayout(params), level+1);
+		AutoPanel panel = new AutoPanel(params, factory.getLayout(params, level+1, title), level+1);
 		panel.setBorder(Spacing.bLarge());
 		return panel;
 	}
@@ -59,7 +60,10 @@ public class TabbedADLayout extends AbstractGroupingADLayout {
 	@Override
 	protected void finishPanel() {
 		
-		tabs.insertTab("General", null, subpanel(general), null, 0);
+		if (general.size() > 0) {
+			tabs.insertTab("General", null, subpanel(general, null), null, 0);
+		}
+		
 		tabs.setSelectedIndex(0);
 		
 		if (tabs.getTabCount() == 1) {
@@ -72,7 +76,7 @@ public class TabbedADLayout extends AbstractGroupingADLayout {
 
 	@Override
 	protected void addParamGroup(List<Parameter<?>> params, String title) {
-		tabs.addTab(title, subpanel(params));
+		tabs.addTab(title, subpanel(params, title));
 	}
 
 	@Override
@@ -80,4 +84,9 @@ public class TabbedADLayout extends AbstractGroupingADLayout {
 		general.add(param);
 	}
 
+	@Override
+	public Border topLevelBorder() {
+		return Spacing.bNone();
+	}
+	
 }

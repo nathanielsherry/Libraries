@@ -111,9 +111,12 @@ public class DropdownImageButton extends EventfulEnumPanel<DropdownImageButton.A
 		
 			public void mouseClicked(MouseEvent e)
 			{
-				if (e.getButton() == MouseEvent.BUTTON3)
-				{
-					if (menu != null) menu.show(DropdownImageButton.this, button.getLocation().x, button.getLocation().y + button.getHeight());
+				if (e.getButton() == MouseEvent.BUTTON3 && menu != null) {
+					menu.show(
+							DropdownImageButton.this, 
+							button.getLocation().x, 
+							button.getLocation().y + button.getHeight()
+						);
 				}
 			}
 		});
