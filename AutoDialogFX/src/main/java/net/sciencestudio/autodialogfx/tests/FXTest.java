@@ -57,13 +57,13 @@ public class FXTest extends Application {
 		
 	
 		
-		Value<Boolean> check = new IValue<Boolean>("CheckBox Test", Boolean.class, CheckboxEditor.class, false);
-		Value<Boolean> check2 = new IValue<Boolean>("CheckBox Test #2", Boolean.class, CheckboxEditor.class, false);
-		ListValue<String> name = new IListValue<String>("Names", String.class, ChoiceBoxEditor.forClass(), "Alice", Arrays.asList(new String[]{"Alice", "Bob", "Charlie"}));
-		BoundedValue<Integer> count = new IBoundedValue<Integer>("Counter", Integer.class, SliderIntegerEditor.class, 1, 0, 10, 1);
-		Value<String> text = new IValue<String>("Text Entry", String.class, TextFieldEditor.class, "");
-		Value<File> file = new IValue<File>("File Location", File.class, FilenameEditor.class, new File("~"));
-		Value<String> text2 = new IValue<String>("Paragraph", String.class, TextAreaEditor.class, "");
+		Value<Boolean> check = new IValue<Boolean>("CheckBox Test", false, CheckboxEditor.class);
+		Value<Boolean> check2 = new IValue<Boolean>("CheckBox Test #2", false, CheckboxEditor.class);
+		ListValue<String> name = new IListValue<String>("Names", "Alice", ChoiceBoxEditor.class, Arrays.asList(new String[]{"Alice", "Bob", "Charlie"}));
+		BoundedValue<Integer> count = new IBoundedValue<Integer>("Counter", 1, SliderIntegerEditor.class, 0, 10, 1);
+		Value<String> text = new IValue<String>("Text Entry", "", TextFieldEditor.class);
+		Value<File> file = new IValue<File>("File Location", new File("~"), FilenameEditor.class);
+		Value<String> text2 = new IValue<String>("Paragraph", "", TextAreaEditor.class);
 		
 		
 		Group group1 = new IGroup(SimpleLayout.class, "Group 1").addAll(check, count);

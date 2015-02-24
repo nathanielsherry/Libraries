@@ -39,19 +39,4 @@ public class ChoiceBoxEditor<T> extends AbstractEditor<T>{
 		return node.getSelectionModel().getSelectedItem();
 	}
 
-	@Override
-	protected Class<?> acceptedClass() {
-		return Object.class;
-	}
-	
-	protected Class<? extends Value> acceptedValueType() {
-		return ListValue.class;
-	}
-	
-	public static <S> Class<ChoiceBoxEditor<S>> forClass() {
-		return (Class<ChoiceBoxEditor<S>>)(Object)ChoiceBoxEditor.class;
-	}
-
-
-
 }

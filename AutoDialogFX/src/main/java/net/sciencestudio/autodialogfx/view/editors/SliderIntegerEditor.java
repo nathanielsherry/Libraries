@@ -40,18 +40,4 @@ public class SliderIntegerEditor extends AbstractEditor<Integer> {
 		node.setValue(getModel().getValue());
 	}
 
-
-	@Override
-	protected Class<?> acceptedClass() {
-		return Integer.class;
-	}
-	
-	protected Class<? extends Value> acceptedValueType() {
-		return BoundedValue.class;
-	}
-
-
-
-
-
 }

@@ -9,7 +9,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.stage.FileChooser;
 import net.sciencestudio.autodialogfx.model.value.Value;
-import net.sciencestudio.chanje.ChangeBus;
 
 public class FilenameEditor extends AbstractEditor<File> {
 
@@ -22,7 +21,6 @@ public class FilenameEditor extends AbstractEditor<File> {
 	public void init(Value<File> value) {
 		
 		Button browse = new Button("\u2026");
-		System.out.println(value.getValue().getClass());
 		filename = new TextField(value.getValue().getAbsolutePath());
 		
 		node.getChildren().add(filename);
@@ -65,10 +63,4 @@ public class FilenameEditor extends AbstractEditor<File> {
 		filename.setText(getModel().getValue().getAbsolutePath());
 	}
 
-	@Override
-	protected Class<?> acceptedClass() {
-		return File.class;
-	}
-	
-	
 }

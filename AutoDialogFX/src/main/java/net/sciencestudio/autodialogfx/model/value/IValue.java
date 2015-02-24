@@ -16,8 +16,8 @@ import net.sciencestudio.autodialogfx.view.editors.Editor;
 public class IValue<T> extends AbstractValue<T> implements Serializable {
 
 
-	public IValue(String title, Class<T> cls, Class<? extends Editor<T>> view, T value) {
-		super(cls, view, title, value);
+	public IValue(String title, T value, Class<? extends Editor<T>> view) {
+		super(title, value, view);
 	}
 
 

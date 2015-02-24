@@ -60,19 +60,6 @@ public abstract class AbstractEditor<T> implements Editor<T> {
 	}
 
 	public abstract void init(Value<T> value);
-	
-	public boolean accepts(Value<?> value) {
-		if (!acceptedClass().isAssignableFrom(value.getValueClass())) { return false; }
-		if (!acceptedValueType().isAssignableFrom(value.getClass())) { return false; }
-		return true;
-	}
-	
-	protected abstract Class<?> acceptedClass();
-	
-	protected Class<? extends Value> acceptedValueType() {
-		return Value.class;
-	}
-	
-	
+		
 	
 }

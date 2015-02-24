@@ -52,9 +52,4 @@ public class SpinnerIntegerEditor extends AbstractEditor<Integer> {
 		node.setNumber(new BigDecimal(getModel().getValue()));
 	}
 
-	@Override
-	protected Class<?> acceptedClass() {
-		return Integer.class;
-	}	
-	
 }

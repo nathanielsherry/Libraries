@@ -43,12 +43,5 @@ public class TextAreaEditor extends AbstractEditor<String> {
 		node.setText(getModel().getValue());
 	}
 
-	@Override
-	protected Class<?> acceptedClass() {
-		return String.class;
-	}
-
-	
-
 
 }

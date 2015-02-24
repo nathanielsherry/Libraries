@@ -6,11 +6,9 @@ import net.sciencestudio.autodialogfx.view.editors.Editor;
 public abstract class AbstractValue<T> extends AbstractModel<T> implements Value<T> {
 
 	protected T value, proposed;
-	private Class<T> valueClass;
 		
-	public AbstractValue(Class<T> cls, Class<? extends Editor<T>> view, String title, T value) {
+	public AbstractValue(String title, T value, Class<? extends Editor<T>> view) {
 		super(view, title);
-		this.valueClass = cls;
 		this.value = value;
 		this.proposed = value;
 	}
@@ -29,10 +27,4 @@ public abstract class AbstractValue<T> extends AbstractModel<T> implements Value
 		this.proposed = proposed;
 	}
 	
-	public Class<T> getValueClass() {
-		return valueClass;
-	}
-	
-
-
 }

@@ -105,7 +105,7 @@ public abstract class GraphicsPanel extends JPanel
 
 		boolean vector = false;
 		if (type == SurfaceType.PDF || type == SurfaceType.VECTOR) vector = true;
-
+		
 		SaveableSurface b = DrawingSurfaceFactory.createSaveableSurface(type, (int) getUsedWidth(),
 				(int) getUsedHeight());
 		drawGraphics(b, vector);

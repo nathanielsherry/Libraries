@@ -37,14 +37,4 @@ public class SliderDoubleEditor extends AbstractEditor<Double> {
 		node.setValue(getModel().getValue());
 	}
 
-
-	@Override
-	protected Class<?> acceptedClass() {
-		return Double.class;
-	}
-
-	protected Class<? extends Value> acceptedValueType() {
-		return BoundedValue.class;
-	}
-	
 }

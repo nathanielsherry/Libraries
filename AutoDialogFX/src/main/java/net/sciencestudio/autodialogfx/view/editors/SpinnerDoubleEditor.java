@@ -52,11 +52,5 @@ public class SpinnerDoubleEditor extends AbstractEditor<Double> {
 	protected void onValueChange() {
 		node.setNumber(new BigDecimal(getModel().getValue()));
 	}
-
-	@Override
-	protected Class<?> acceptedClass() {
-		return Double.class;
-	}
-
 	
 }

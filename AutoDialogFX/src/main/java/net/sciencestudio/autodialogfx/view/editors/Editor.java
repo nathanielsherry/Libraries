@@ -7,7 +7,7 @@ import net.sciencestudio.autodialogfx.view.View;
 public interface Editor<T> extends View {
 
 	T getEditorValue();
-	boolean accepts(Value<?> value);
+	//boolean accepts(Value<?> value);
 	Editor<T> initialize(Value<T> value);
 	
 }

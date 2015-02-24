@@ -8,8 +8,8 @@ public class IBoundedValue<T extends Number> extends IValue<T> implements Bounde
 	private T min, max, interval;
 
 	
-	public IBoundedValue(String title, Class<T> cls,  Class<? extends Editor<T>> view, T value, T min, T max, T interval) {
-		super(title, cls, view, value);
+	public IBoundedValue(String title, T value, Class<? extends Editor<T>> view, T min, T max, T interval) {
+		super(title, value, view);
 		this.min = min;
 		this.max = max;
 		this.interval = interval;

@@ -1,11 +1,8 @@
 package net.sciencestudio.autodialogfx.view.editors;
 
-import java.util.Optional;
-
 import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
 import net.sciencestudio.autodialogfx.model.value.Value;
-import net.sciencestudio.chanje.ChangeBus;
 
 public class CheckboxEditor extends AbstractEditor<Boolean> {
 
@@ -40,11 +37,5 @@ public class CheckboxEditor extends AbstractEditor<Boolean> {
 	public Boolean getEditorValue() {
 		return node.isSelected();
 	}
-
-	@Override
-	protected Class<?> acceptedClass() {
-		return Boolean.class;
-	}
-
 
 }
