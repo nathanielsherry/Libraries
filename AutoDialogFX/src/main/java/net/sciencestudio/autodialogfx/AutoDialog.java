@@ -1,26 +1,27 @@
-package net.sciencestudio.autodialogfx.model.group;
-
-import java.util.Optional;
+package net.sciencestudio.autodialogfx;
 
 import net.sciencestudio.autodialogfx.model.Model;
+import net.sciencestudio.autodialogfx.model.group.Group;
+import net.sciencestudio.autodialogfx.view.AbstractView;
 import net.sciencestudio.autodialogfx.view.View;
-import net.sciencestudio.autodialogfx.view.ViewProperties;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 
-public class Presenter implements View {
+public class AutoDialog extends AbstractView implements View {
 
 	private BorderPane node;
 	private Group group;
 	
 	
 	
-	public Presenter(Group group) {
+	public AutoDialog(Group group) {
 		this(group, new Insets(6));
 	}
 		
-	public Presenter(Group group, Insets insets) {
+	public AutoDialog(Group group, Insets insets) {
 		this.group = group;
 		node = new BorderPane();
 		node.setPadding(insets);
@@ -39,14 +40,21 @@ public class Presenter implements View {
 		return group.getTitle();
 	}
 
-	@Override
-	public ViewProperties getProperties() {
-		return null;
-	}
 
 	@Override
 	public Model<?> getModel() {
 		return group;
 	}
 
+	
+	public Stage present(Stage stage) {
+		
+		Scene scene = new Scene(new javafx.scene.Group(getNode()));
+		stage.setScene(scene);
+		stage.setTitle(getTitle());
+		stage.sizeToScene();
+
+		return stage;
+	}
+	
 }

@@ -1,4 +1,4 @@
-package net.sciencestudio.autodialogfx;
+package net.sciencestudio.autodialogfx.model;
 
 public interface Titled {
 

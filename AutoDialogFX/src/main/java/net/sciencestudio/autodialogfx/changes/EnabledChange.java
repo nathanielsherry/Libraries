@@ -1,6 +1,6 @@
 package net.sciencestudio.autodialogfx.changes;
 
-import net.sciencestudio.autodialogfx.Enabled;
+import net.sciencestudio.autodialogfx.model.Enabled;
 
 public class EnabledChange extends SourcedChange<Enabled> {
 

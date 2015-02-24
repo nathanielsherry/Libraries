@@ -1,4 +1,4 @@
-package net.sciencestudio.autodialogfx;
+package net.sciencestudio.autodialogfx.model;
 
 import java.util.List;
 import java.util.function.Predicate;
