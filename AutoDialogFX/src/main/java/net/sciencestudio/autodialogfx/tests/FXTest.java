@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Set;
 
 import net.sciencestudio.autodialogfx.model.Model;
+import net.sciencestudio.autodialogfx.model.dummy.Dummy;
 import net.sciencestudio.autodialogfx.model.group.Group;
 import net.sciencestudio.autodialogfx.model.group.IGroup;
 import net.sciencestudio.autodialogfx.model.group.Presenter;
@@ -18,6 +19,7 @@ import net.sciencestudio.autodialogfx.model.value.bounded.BoundedValue;
 import net.sciencestudio.autodialogfx.model.value.bounded.IBoundedValue;
 import net.sciencestudio.autodialogfx.model.value.list.IListValue;
 import net.sciencestudio.autodialogfx.model.value.list.ListValue;
+import net.sciencestudio.autodialogfx.view.decor.SeparatorDecor;
 import net.sciencestudio.autodialogfx.view.editors.CheckboxEditor;
 import net.sciencestudio.autodialogfx.view.editors.ChoiceBoxEditor;
 import net.sciencestudio.autodialogfx.view.editors.Editor;
@@ -27,7 +29,7 @@ import net.sciencestudio.autodialogfx.view.editors.SpinnerIntegerEditor;
 import net.sciencestudio.autodialogfx.view.editors.TextAreaEditor;
 import net.sciencestudio.autodialogfx.view.editors.TextFieldEditor;
 import net.sciencestudio.autodialogfx.view.layouts.Layout;
-import net.sciencestudio.autodialogfx.view.layouts.SimpleLayout;
+import net.sciencestudio.autodialogfx.view.layouts.LabeledLayout;
 import net.sciencestudio.autodialogfx.view.layouts.TabbedLayout;
 import net.sciencestudio.autodialogfx.view.layouts.TitledLayout;
 import net.sciencestudio.autodialogfx.view.layouts.VerticalLayout;
@@ -66,12 +68,13 @@ public class FXTest extends Application {
 		Value<String> text2 = new IValue<String>("Paragraph", "", TextAreaEditor.class);
 		
 		
-		Group group1 = new IGroup(SimpleLayout.class, "Group 1").addAll(check, count);
-		Group group2 = new IGroup(SimpleLayout.class, "Group 2").addAll(name, text);
+		Group group1 = new IGroup(LabeledLayout.class, "Group 1").addAll(check, count);
+		Group group2 = new IGroup(LabeledLayout.class, "Group 2").addAll(name, text);
 		Group group3 = new IGroup(VerticalLayout.class, "Group 3").addAll(file, text2);
 		Group group4 = new IGroup(TitledLayout.class, "Group4").addAll(group1, group2);
-		Group group5 = new IGroup(TabbedLayout.class, "Group 5").addAll(group3, group4);
-			
+		Group group5 = new IGroup(VerticalLayout.class, "Group 5").addAll(Group.wrap(TabbedLayout.class, group4), new Dummy(SeparatorDecor.class), group4);
+		Group group6 = new IGroup(TabbedLayout.class, "Group 6").addAll(group3, group5);
+		
 		
 		group1.addValidator(values -> {
 			if (check.getProposedValue() && count.getProposedValue() > 5) { return false; }
@@ -89,7 +92,7 @@ public class FXTest extends Application {
 		}
 		*/
 		
-		Presenter presenter = new Presenter(group5, new Insets(0));
+		Presenter presenter = new Presenter(group6, new Insets(0));
 
 		box.getChildren().add(presenter.getNode());
 		

@@ -6,12 +6,12 @@ import net.sciencestudio.autodialogfx.changes.EnabledChange;
 import net.sciencestudio.autodialogfx.changes.ValuedChange;
 import net.sciencestudio.autodialogfx.model.Model;
 import net.sciencestudio.autodialogfx.model.value.Value;
+import net.sciencestudio.autodialogfx.view.AbstractView;
 import net.sciencestudio.autodialogfx.view.ViewProperties;
 
-public abstract class AbstractEditor<T> implements Editor<T> {
+public abstract class AbstractEditor<T> extends AbstractView implements Editor<T> {
 
 	private Value<T> value;
-	private ViewProperties properties = new ViewProperties();
 	
 	AbstractEditor() {}
 
@@ -49,10 +49,6 @@ public abstract class AbstractEditor<T> implements Editor<T> {
 		getNode().setDisable(!value.isEnabled());
 	}
 	
-	@Override
-	public ViewProperties getProperties() {
-		return properties;
-	}
 	
 	@Override
 	public String getTitle() {

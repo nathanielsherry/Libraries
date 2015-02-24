@@ -18,12 +18,12 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 
-public class SimpleLayout extends AbstractLayout {
+public class LabeledLayout extends AbstractLayout {
 
 	GridPane node;
 	
 		
-	public SimpleLayout() {
+	public LabeledLayout() {
 		node = new GridPane();
 		
 		ColumnConstraints column1 = new ColumnConstraints();

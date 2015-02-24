@@ -3,6 +3,7 @@ package net.sciencestudio.autodialogfx.model.group;
 import java.util.List;
 
 import net.sciencestudio.autodialogfx.model.Model;
+import net.sciencestudio.autodialogfx.view.layouts.Layout;
 
 public interface Group extends Model<List<Model<?>>> {
 
@@ -11,5 +12,10 @@ public interface Group extends Model<List<Model<?>>> {
 	Group addAll(List<Model<?>> models);
 	
 	List<Model<?>> getModels();
+	
+	public static Group wrap(Class<? extends Layout> layout, Model<?> model) {
+		return new IGroup(layout, model.getTitle()).add(model);
+	}
+	
 	
 }

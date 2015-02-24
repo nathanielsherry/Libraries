@@ -5,7 +5,6 @@ import java.util.Optional;
 import net.sciencestudio.autodialogfx.model.Model;
 import net.sciencestudio.autodialogfx.view.View;
 import net.sciencestudio.autodialogfx.view.ViewProperties;
-import net.sciencestudio.autodialogfx.view.Views;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.layout.BorderPane;
@@ -26,7 +25,7 @@ public class Presenter implements View {
 		node = new BorderPane();
 		node.setPadding(insets);
 		
-		node.setCenter(Views.forModel(group, group.getView()).getNode());
+		node.setCenter(View.forModel(group, group.getView()).getNode());
 		
 	}
 	
