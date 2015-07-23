@@ -4,7 +4,8 @@ package plural.executor.eachindex.implementations;
 import plural.executor.ExecutorState;
 import plural.executor.eachindex.EachIndexExecutor;
 import plural.executor.map.MapExecutor;
-import fava.signatures.FnEach;
+
+import java.util.function.Consumer;
 
 /**
  * 
@@ -20,7 +21,7 @@ public class SimpleEachIndexExecutor extends EachIndexExecutor
 
 	protected int			threadCount;
 	
-	public SimpleEachIndexExecutor(int size, FnEach<Integer> pluralEachIndex)
+	public SimpleEachIndexExecutor(int size, Consumer<Integer> pluralEachIndex)
 	{
 		super(size, pluralEachIndex);
 	}
@@ -35,7 +36,7 @@ public class SimpleEachIndexExecutor extends EachIndexExecutor
 	 * @param map
 	 *            the {@link PluralMap} to execute.
 	 */
-	public void setEachIndex(FnEach<Integer> eachIndex)
+	public void setEachIndex(Consumer<Integer> eachIndex)
 	{
 		if (super.eachIndex != null && super.getState() != ExecutorState.UNSTARTED) return;
 		super.eachIndex = eachIndex;
@@ -71,7 +72,7 @@ public class SimpleEachIndexExecutor extends EachIndexExecutor
 		int percent = 0, lastpercent = 0, workunits = 0;
 		for (int i = 0; i < super.getDataSize(); i++) {
 			
-			super.eachIndex.f(i);
+			super.eachIndex.accept(i);
 			
 			workunits++;
 			if (super.executorSet != null) {

@@ -3,12 +3,12 @@ package scidraw.drawing.map.painters;
 
 import java.awt.Color;
 import java.util.List;
+import java.util.function.Consumer;
 
 import plural.executor.eachindex.implementations.PluralEachIndexExecutor;
 import scidraw.drawing.backends.Buffer;
 import scidraw.drawing.map.palettes.SingleColourPalette;
 import scidraw.drawing.painters.PainterData;
-import fava.signatures.FnEach;
 
 /**
  * 
@@ -65,7 +65,7 @@ public class RasterColorMapPainter extends MapPainter
 		final Buffer b = p.context.getImageBuffer(p.dr.dataWidth, p.dr.dataHeight);
 
 		final Color transparent = new Color(0, 0 ,0, 0);
-		final FnEach<Integer> drawPixel = ordinal -> {			
+		final Consumer<Integer> drawPixel = ordinal -> {			
 			if (maximumIndex > ordinal) {
 				Color c = data.get(ordinal);
 				if (c == null) c = transparent;

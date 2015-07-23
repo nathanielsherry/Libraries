@@ -9,9 +9,9 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.function.Consumer;
 
 import fava.functionable.Functionable;
-import fava.signatures.FnEach;
 import fava.signatures.FnFold;
 import fava.signatures.FnMap;
 
@@ -278,11 +278,11 @@ public class Spectrum extends Functionable<Float> implements Serializable
 
 	
 	@Override
-	public void each(FnEach<Float> f)
+	public void each(Consumer<Float> f)
 	{
 		for (int i = 0; i < size; i++)
 		{
-			f.f(data[i]);
+			f.accept(data[i]);
 		}
 	}
 	

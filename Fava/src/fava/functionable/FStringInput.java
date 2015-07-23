@@ -14,11 +14,11 @@ import java.nio.channels.ReadableByteChannel;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Scanner;
+import java.util.function.Consumer;
 import java.util.regex.Pattern;
 
 import sun.nio.ch.ChannelInputStream;
 import fava.Functions;
-import fava.signatures.FnEach;
 import fava.signatures.FnFold;
 import fava.signatures.FnMap;
 
@@ -377,13 +377,13 @@ public class FStringInput implements Iterator<String>, Closeable{
 	
 
 
-	public void each(FnEach<String> f)
+	public void each(Consumer<String> f)
 	{
 		if (isClosed) throw new ClosedInputException();
 		
 		while (this.hasNext())
 		{
-			f.f(this.next());
+			f.accept(this.next());
 		}
 		
 		try {

@@ -13,7 +13,6 @@ import scitypes.SigDigits;
 import fava.Functions;
 import fava.datatypes.Pair;
 import fava.functionable.FList;
-import fava.signatures.FnEach;
 import fava.signatures.FnFold;
 
 
@@ -239,14 +238,10 @@ public class SpectrumCoordsAxisPainter extends AbstractKeyCoordAxisPainter
 
 			}
 
-			markings.each(new FnEach<Pair<Float, String>>() {
-
-				public void f(Pair<Float, String> element)
-				{
-					if (element.first > 1.0) element.first = 1.0f;
-					float textWidth = p.context.getTextWidth(element.second);
-					p.context.writeText(element.second, position + ((width - textWidth) * element.first), textBaseline);
-				}
+			markings.each((Pair<Float, String> element) -> {
+				if (element.first > 1.0) element.first = 1.0f;
+				float textWidth = p.context.getTextWidth(element.second);
+				p.context.writeText(element.second, position + ((width - textWidth) * element.first), textBaseline);
 			});
 
 

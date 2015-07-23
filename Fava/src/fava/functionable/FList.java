@@ -8,12 +8,12 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.function.Consumer;
 
 import fava.Fn;
 import fava.Functions;
 import fava.datatypes.Pair;
 import fava.signatures.FnCombine;
-import fava.signatures.FnEach;
 import fava.signatures.FnFold;
 import fava.signatures.FnMap;
 import fava.signatures.FnMap2;
@@ -418,7 +418,7 @@ public class FList<T> extends Functionable<T> implements List<T>, Serializable{
 	
 	
 	@Override
-	public void each(FnEach<T> f)
+	public void each(Consumer<T> f)
 	{
 		Fn.each(backing, f);
 	}

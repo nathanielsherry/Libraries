@@ -3,6 +3,7 @@ package scidraw.drawing.map.painters;
 
 import java.awt.Color;
 import java.util.List;
+import java.util.function.Consumer;
 
 import plural.executor.eachindex.implementations.PluralEachIndexExecutor;
 import scidraw.drawing.backends.Buffer;
@@ -10,7 +11,6 @@ import scidraw.drawing.map.palettes.AbstractPalette;
 import scidraw.drawing.painters.PainterData;
 import scitypes.Spectrum;
 import scitypes.SpectrumCalculations;
-import fava.signatures.FnEach;
 
 /**
  * 
@@ -75,15 +75,11 @@ public class RasterSpectrumMapPainter extends SpectrumMapPainter
 
 		final Buffer b = p.context.getImageBuffer(p.dr.dataWidth, p.dr.dataHeight);
 
-		final FnEach<Integer> drawPixel = new FnEach<Integer>() {
-
-			public void f(Integer ordinal)
-			{				
-				float intensity = data.get(ordinal);
-				
-				if (maximumIndex > ordinal) {
-					b.setPixelValue(ordinal, getColourFromRules(intensity, maxIntensity));
-				}
+		final Consumer<Integer> drawPixel = (Integer ordinal) -> {				
+			float intensity = data.get(ordinal);
+			
+			if (maximumIndex > ordinal) {
+				b.setPixelValue(ordinal, getColourFromRules(intensity, maxIntensity));
 			}
 		};
 

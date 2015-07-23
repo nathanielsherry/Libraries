@@ -9,7 +9,6 @@ import java.util.List;
 
 import plural.executor.Plural;
 import fava.functionable.FList;
-import fava.signatures.FnEach;
 import fava.signatures.FnFold;
 
 
@@ -226,12 +225,8 @@ public class SpectrumCalculations
 
 		final Spectrum result = new Spectrum(data.size());
 
-		Plural.eachIndex(data.size(), new FnEach<Integer>() {
-
-			public void f(Integer ordinal)
-			{
-				result.set(ordinal, data.get(ordinal) * value);
-			}
+		Plural.eachIndex(data.size(), (Integer ordinal) -> {
+			result.set(ordinal, data.get(ordinal) * value);
 		});
 
 		return result;
@@ -294,12 +289,8 @@ public class SpectrumCalculations
 
 		final Spectrum result = new Spectrum(data.size());
 
-		Plural.eachIndex(data.size(), new FnEach<Integer>() {
-
-			public void f(Integer ordinal)
-			{
-				result.set(ordinal, data.get(ordinal) / value);
-			}
+		Plural.eachIndex(data.size(), (Integer ordinal) -> {
+			result.set(ordinal, data.get(ordinal) / value);
 		});
 
 		return result;
@@ -396,14 +387,10 @@ public class SpectrumCalculations
 
 		final Spectrum result = new Spectrum(data.size());
 
-		Plural.eachIndex(data.size(), new FnEach<Integer>() {
-
-			public void f(Integer ordinal)
-			{
-				float newvalue = data.get(ordinal) - value;
-				if (!Float.isNaN(minimum) && newvalue < minimum) newvalue = minimum;
-				result.set(ordinal, newvalue);
-			}
+		Plural.eachIndex(data.size(), (Integer ordinal) -> {
+			float newvalue = data.get(ordinal) - value;
+			if (!Float.isNaN(minimum) && newvalue < minimum) newvalue = minimum;
+			result.set(ordinal, newvalue);
 		});
 
 		return result;
@@ -474,12 +461,8 @@ public class SpectrumCalculations
 
 		final Spectrum result = new Spectrum(l1.size());
 
-		Plural.eachIndex(l1.size(), new FnEach<Integer>() {
-
-			public void f(Integer ordinal)
-			{
-				result.set(ordinal, l1.get(ordinal) + l2.get(ordinal));
-			}
+		Plural.eachIndex(l1.size(), (Integer ordinal) -> {
+			result.set(ordinal, l1.get(ordinal) + l2.get(ordinal));
 		});
 
 		return result;
@@ -580,14 +563,10 @@ public class SpectrumCalculations
 
 		final Spectrum result = new Spectrum(l1.size());
 
-		Plural.eachIndex(l1.size(), new FnEach<Integer>() {
-
-			public void f(Integer ordinal)
-			{
-				float newValue = l1.get(ordinal) - l2.get(ordinal);
-				if (!Float.isNaN(minimum) && newValue < minimum) newValue = minimum;
-				result.set(ordinal, newValue);
-			}
+		Plural.eachIndex(l1.size(), (Integer ordinal) -> {
+			float newValue = l1.get(ordinal) - l2.get(ordinal);
+			if (!Float.isNaN(minimum) && newValue < minimum) newValue = minimum;
+			result.set(ordinal, newValue);
 		});
 
 		return result;
@@ -635,12 +614,8 @@ public class SpectrumCalculations
 
 		final Spectrum result = new Spectrum(l1.size());
 
-		Plural.eachIndex(l1.size(), new FnEach<Integer>() {
-
-			public void f(Integer ordinal)
-			{
-				result.set(ordinal, l1.get(ordinal) * l2.get(ordinal));
-			}
+		Plural.eachIndex(l1.size(), (Integer ordinal) -> {
+			result.set(ordinal, l1.get(ordinal) * l2.get(ordinal));
 		});
 
 		return result;
@@ -780,17 +755,11 @@ public class SpectrumCalculations
 
 		final Spectrum result = new Spectrum(data.size(), 0.0f);
 
-		Plural.eachIndex(data.size(), new FnEach<Integer>() {
-
-			public void f(Integer ordinal)
-			{
-				float logValue = (float)Math.log(data.get(ordinal) + 1.0);
-
-				logValue = logValue < 0 ? 0 : logValue;
-				logValue = Float.isNaN(logValue) ? 0 : logValue;
-
-				result.set(ordinal, logValue);
-			}
+		Plural.eachIndex(data.size(), (Integer ordinal) -> {
+			float logValue = (float)Math.log(data.get(ordinal) + 1.0);
+			logValue = logValue < 0 ? 0 : logValue;
+			logValue = Float.isNaN(logValue) ? 0 : logValue;
+			result.set(ordinal, logValue);
 		});
 
 		return result;

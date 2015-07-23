@@ -1,13 +1,13 @@
 package plural.executor;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 import plural.executor.eachindex.implementations.PluralEachIndexExecutor;
 import plural.executor.filter.implementations.PluralFilterExecutor;
 import plural.executor.fold.implementations.PluralFoldExecutor;
 import plural.executor.map.implementations.PluralMapExecutor;
 import fava.signatures.FnCondition;
-import fava.signatures.FnEach;
 import fava.signatures.FnFold;
 import fava.signatures.FnMap;
 
@@ -60,12 +60,12 @@ public class Plural {
 	}
 	
 	
-	public static void eachIndex(int size, FnEach<Integer> each)
+	public static void eachIndex(int size, Consumer<Integer> each)
 	{
 		new PluralEachIndexExecutor(size, each).executeBlocking();
 	}
 	
-	public static void eachIndex(int size, FnEach<Integer> each, int threads)
+	public static void eachIndex(int size, Consumer<Integer> each, int threads)
 	{
 		new PluralEachIndexExecutor(size, each, threads).executeBlocking();
 	}

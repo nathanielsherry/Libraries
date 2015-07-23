@@ -1,10 +1,11 @@
 package plural.executor.eachindex.implementations;
 
 
+import java.util.function.Consumer;
+
 import plural.executor.TicketManager;
 import plural.executor.eachindex.EachIndexExecutor;
 import plural.executor.map.MapExecutor;
-import fava.signatures.FnEach;
 
 /**
  * 
@@ -22,7 +23,7 @@ public class PluralEachIndexExecutor extends EachIndexExecutor
 	protected TicketManager	ticketManager;
 
 
-	public PluralEachIndexExecutor(int size, FnEach<Integer> pluralEachIndex)
+	public PluralEachIndexExecutor(int size, Consumer<Integer> pluralEachIndex)
 	{
 		super(size, pluralEachIndex);
 		
@@ -30,7 +31,7 @@ public class PluralEachIndexExecutor extends EachIndexExecutor
 		
 	}
 	
-	public PluralEachIndexExecutor(int size, FnEach<Integer> pluralEachIndex, int threads)
+	public PluralEachIndexExecutor(int size, Consumer<Integer> pluralEachIndex, int threads)
 	{
 		super(size, pluralEachIndex);
 		threadCount = Math.max(threads, 1);
@@ -90,7 +91,7 @@ public class PluralEachIndexExecutor extends EachIndexExecutor
 			size = ticketManager.getBlockSize(blockNum);
 			end = start + size;
 			
-			for (int i = start; i < end; i++) { eachIndex.f(i); }
+			for (int i = start; i < end; i++) { eachIndex.accept(i); }
 			
 			if (super.executorSet != null) {
 

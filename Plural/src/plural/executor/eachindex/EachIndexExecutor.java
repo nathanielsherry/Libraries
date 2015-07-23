@@ -4,14 +4,15 @@ package plural.executor.eachindex;
 import plural.executor.AbstractExecutor;
 import plural.executor.ExecutorState;
 import plural.executor.map.MapExecutor;
-import fava.signatures.FnEach;
+
+import java.util.function.Consumer;
 
 public abstract class EachIndexExecutor extends AbstractExecutor {
 
-	protected FnEach<Integer>		eachIndex;
+	protected Consumer<Integer>		eachIndex;
 	
 	
-	public EachIndexExecutor(int size, FnEach<Integer> eachIndex)
+	public EachIndexExecutor(int size, Consumer<Integer> eachIndex)
 	{
 
 		super();
@@ -39,7 +40,7 @@ public abstract class EachIndexExecutor extends AbstractExecutor {
 	 * @param map
 	 *            the {@link PluralMap} to execute.
 	 */
-	public void setEachIndex(FnEach<Integer> eachIndex)
+	public void setEachIndex(Consumer<Integer> eachIndex)
 	{
 		if (this.eachIndex != null && super.getState() != ExecutorState.UNSTARTED) return;
 		this.eachIndex = eachIndex;

@@ -12,11 +12,11 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Consumer;
 
 import fava.datatypes.Pair;
 import fava.functionable.FList;
 import fava.signatures.FnCombine;
-import fava.signatures.FnEach;
 import fava.signatures.FnFold;
 import fava.signatures.FnMap;
 import fava.signatures.FnMap2;
@@ -206,22 +206,22 @@ public class Fn
 	//////////////////////////////////////////////////////////
 	// EACH
 	//////////////////////////////////////////////////////////
-	public static <T1> void each(T1[] list, FnEach<T1> f)
+	public static <T1> void each(T1[] list, Consumer<T1> f)
 	{
 
 		for (T1 element : list)
 		{
-			f.f(element);
+			f.accept(element);
 		}
 
 	}
 
-	public static <T1> void each(Iterable<T1> list, FnEach<T1> f)
+	public static <T1> void each(Iterable<T1> list, Consumer<T1> f)
 	{
 
 		for (T1 element : list)
 		{
-			f.f(element);
+			f.accept(element);
 		}
 
 	}

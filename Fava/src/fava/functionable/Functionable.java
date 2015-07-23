@@ -3,9 +3,9 @@ package fava.functionable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.function.Consumer;
 
 import fava.Functions;
-import fava.signatures.FnEach;
 import fava.signatures.FnFold;
 import fava.signatures.FnMap;
 
@@ -41,7 +41,7 @@ public abstract class Functionable<T1> implements Iterable<T1> {
 	 * Applies the given {@link FnEach} function to each contained element. 
 	 * @param f
 	 */
-	public void each(FnEach<T1> f)
+	public void each(Consumer<T1> f)
 	{
 		each(this, f);
 	}
@@ -113,16 +113,10 @@ public abstract class Functionable<T1> implements Iterable<T1> {
 	{
 		final StringBuilder sb = new StringBuilder();
 		
-		
-		
-		this.map(Functions.<T1>show()).each(new FnEach<String>() {
-
-			public void f(String element) {
-				sb.append(element);
-				sb.append(",");
-			}
+		this.map(Functions.<T1>show()).each(element -> {
+			sb.append(element);
+			sb.append(",");
 		});
-		
 		
 		return "[" + sb.substring(0, Math.max(sb.length()-1, 0)) + "]";
 	}
@@ -156,11 +150,11 @@ public abstract class Functionable<T1> implements Iterable<T1> {
 	
 	
 
-	protected static <S1> void each(Iterable<S1> source, FnEach<S1> f)
+	protected static <S1> void each(Iterable<S1> source, Consumer<S1> f)
 	{
 		for (S1 s : source)
 		{
-			f.f(s);
+			f.accept(s);
 		}
 
 	}

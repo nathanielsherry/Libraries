@@ -5,12 +5,12 @@ package fava;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.List;
+import java.util.function.Consumer;
 
 import fava.datatypes.Pair;
 import fava.functionable.FList;
 import fava.signatures.FnCombine;
 import fava.signatures.FnCondition;
-import fava.signatures.FnEach;
 import fava.signatures.FnFold;
 import fava.signatures.FnMap;
 import fava.signatures.FnMap2;
@@ -266,15 +266,9 @@ public class Functions
 
 	
 
-	public static <T1> FnEach<T1> print()
+	public static <T1> Consumer<T1> print()
 	{
-		return new FnEach<T1>() {
-
-			public void f(T1 element)
-			{
-				System.out.println(element.toString());
-			}
-		};
+		return element -> System.out.println(element.toString());		
 	}
 
 	public static <T1> FnMap<T1, String> show()
