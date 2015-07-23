@@ -12,6 +12,10 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 
 import javax.swing.ButtonModel;
 import javax.swing.ImageIcon;
@@ -23,8 +27,6 @@ import swidget.Swidget;
 import swidget.icons.IconFactory;
 import swidget.icons.IconSize;
 import swidget.icons.StockIcon;
-import fava.Functions;
-import fava.functionable.FList;
 
 
 public class ImageButton extends JButton
@@ -418,7 +420,7 @@ public class ImageButton extends JButton
 	public static String getWrappingTooltipText(Component c, String text)
 	{
 		int width = 400;
-		FList<String> lines = new FList<String>();
+		List<String> lines = new ArrayList<String>();
 		
 		Font font = c.getFont();
 		FontMetrics metrics = c.getFontMetrics(font);
@@ -426,7 +428,7 @@ public class ImageButton extends JButton
 		String line = "";
 		Graphics g = c.getGraphics();
 		
-		FList<String> chars = new FList<String>(text.split(" "));
+		List<String> chars = new ArrayList<String>(Arrays.asList(text.split(" ")));
 		
 		
 		lines.clear();
@@ -437,8 +439,8 @@ public class ImageButton extends JButton
 			{
 				if (chars.size() == 0) break;
 				if (line != "") line += " ";
-				line = line + chars.head();
-				chars = chars.tail();
+				line = line + chars.get(0);
+				chars = chars.subList(1, chars.size());
 			}
 			
 			lines.add(line);
@@ -446,7 +448,8 @@ public class ImageButton extends JButton
 			
 		}
 		
-		return "<html>" + lines.foldl(Functions.strcat("<br>")) + "</html>";
+		Optional<String> str = lines.stream().reduce((a, b) -> a + "<br>" + b);
+		return "<html>" + str.orElse("") + "</html>";
 	}
 	
 	@Override

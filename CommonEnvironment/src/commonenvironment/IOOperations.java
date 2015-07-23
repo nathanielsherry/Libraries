@@ -6,11 +6,10 @@ import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-
-import fava.Functions;
-import fava.functionable.FList;
-import fava.functionable.FStringInput;
+import java.util.Scanner;
 
 
 
@@ -66,15 +65,16 @@ public class IOOperations
 	public static String getFileNameLessExt(String filename)
 	{
 		
-		FList<String> parts = new FList<String>(new File(filename).getName().split("\\."));
-		parts = parts.take(parts.size() - 1);
-		return parts.fold(Functions.strcat("."));
+		List<String> parts = new ArrayList<String>(Arrays.asList(new File(filename).getName().split("\\.")));
+		parts = parts.subList(0, parts.size() - 1);
+		if (parts.size() == 0) { return ""; }
+		return parts.stream().reduce((a, b) -> a + "." + b).get();
 	}
 	
 	public static String getFileExt(String filename)
 	{
-		FList<String> parts = new FList<String>(new File(filename).getName().split("\\."));
-		return parts.last();
+		List<String> parts = new ArrayList<String>(Arrays.asList(new File(filename).getName().split("\\.")));
+		return parts.get(parts.size() - 1);
 	}
 	
 
@@ -97,7 +97,10 @@ public class IOOperations
 			return "";
 		}
 
-		text = FStringInput.contents(br);
+		@SuppressWarnings("resource")
+		Scanner sc = new Scanner(br).useDelimiter("\\Z");
+		text = sc.next();
+		sc.close();
 
 
 		return text;

@@ -29,6 +29,7 @@ public abstract class AbstractDecor extends AbstractView implements Decor {
 	}
 
 	
+	@SuppressWarnings("rawtypes")
 	public static Group wrap() {
 		Class cls = new Object() { }.getClass().getEnclosingClass();
 		Dummy model = new Dummy(cls);

@@ -8,9 +8,12 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.jnlp.FileContents;
 import javax.jnlp.FileOpenService;
@@ -28,10 +31,6 @@ import swidget.icons.StockIcon;
 
 import commonenvironment.AbstractFile;
 import commonenvironment.Env;
-
-import fava.functionable.FList;
-import fava.signatures.FnMap;
-
 
 
 public class SwidgetIO
@@ -121,13 +120,10 @@ public class SwidgetIO
 			int returnVal = chooser.showOpenDialog(parent);
 			if (returnVal == JFileChooser.APPROVE_OPTION)
 			{
-				return new FList<File>(chooser.getSelectedFiles()).map(new FnMap<File, AbstractFile>() {
-
-					public AbstractFile f(File f)
-					{
-						return new AbstractFile(f.toString());
-					}
-				});
+				return Arrays.asList(chooser.getSelectedFiles())
+						.stream()
+						.map(f -> new AbstractFile(f.toString()))
+						.collect(Collectors.toList());
 
 			}
 			else
@@ -307,14 +303,12 @@ public class SwidgetIO
 		{
 			fos = (FileOpenService) ServiceManager.lookup("javax.jnlp.FileOpenService");
 			
-			return new FList<FileContents>(fos.openMultiFileDialog(path, extensions)).map(new FnMap<FileContents, AbstractFile>(){
 
-				
-				public AbstractFile f(FileContents element)
-				{
-					return new AbstractFile(element);
-				}});
 			
+			return Arrays.asList(fos.openMultiFileDialog(path, extensions))
+					.stream()
+					.map(element -> new AbstractFile(element))
+					.collect(Collectors.toList());
 		}
 		catch (IOException e)
 		{

@@ -5,10 +5,10 @@ import java.awt.Component;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import autodialog.view.editors.IEditor;
-import fava.functionable.FList;
 
 /**
  * 
@@ -36,7 +36,7 @@ public class Parameter<T> implements Serializable
 	
 	public Parameter(String name, IEditor<T> editor, T value, String group)
 	{
-		this(name, editor, value, new FList<>(group));
+		this(name, editor, value, new ArrayList<>(Collections.singletonList(group)));
 	}
 	
 	public Parameter(String name, IEditor<T> editor, T value, String... group){

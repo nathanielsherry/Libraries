@@ -3,6 +3,8 @@ package autodialog.view.editors;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.JComboBox;
@@ -10,7 +12,6 @@ import javax.swing.JComponent;
 
 import autodialog.model.Parameter;
 import eventful.Eventful;
-import fava.functionable.FList;
 
 
 public class ListEditor<T> extends Eventful implements IEditor<T>
@@ -23,7 +24,7 @@ public class ListEditor<T> extends Eventful implements IEditor<T>
 
 
 	public ListEditor(T[] possibleValues) {
-		this(new FList<>(possibleValues));
+		this(new ArrayList<>(Arrays.asList(possibleValues)));
 	}
 	
 	public ListEditor(List<T> possibleValues) {

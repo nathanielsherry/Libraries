@@ -4,7 +4,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/CommonEnvironment"/>
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/Eventful"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/Fava"/>
 	<classpathentry exported="true" kind="lib" path="jars/swingx-core-1.6.2.jar"/>
 	<classpathentry exported="true" kind="lib" path="jars/miglayout-3.7.4.jar"/>
 	<classpathentry exported="true" kind="lib" path="jars/task-dialog-1.3.5.jar"/>

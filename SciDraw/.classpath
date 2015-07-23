@@ -24,5 +24,6 @@
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/SciTypes"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Swidget"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Plural"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Fava"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

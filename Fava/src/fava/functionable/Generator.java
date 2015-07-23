@@ -2,8 +2,8 @@ package fava.functionable;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
-import fava.datatypes.Maybe;
 import fava.signatures.FnGet;
 
 /**
@@ -15,13 +15,13 @@ import fava.signatures.FnGet;
 
 public class Generator<T> extends Functionable<T>{
 
-	private FnGet<Maybe<T>> generate;
+	private FnGet<Optional<T>> generate;
 	
 	/**
 	 * Create a new Generator with the given {@link FnGet} function to generate new values
 	 * @param generate the {@link FnGet} function to generate values
 	 */
-	public Generator(FnGet<Maybe<T>> generate)
+	public Generator(FnGet<Optional<T>> generate)
 	{
 		this.generate = generate;
 	}
@@ -30,7 +30,7 @@ public class Generator<T> extends Functionable<T>{
 
 		return new Iterator<T>() {
 
-			Maybe<T> nextElement;
+			Optional<T> nextElement;
 			
 			public boolean hasNext() {
 				
@@ -41,7 +41,7 @@ public class Generator<T> extends Functionable<T>{
 				if (nextElement == null) return false;
 				
 				
-				return nextElement.is();
+				return nextElement.isPresent();
 				
 			}
 
@@ -54,7 +54,7 @@ public class Generator<T> extends Functionable<T>{
 				if (nextElement == null) throw new NoSuchElementException();
 				
 				
-				if (nextElement.is()) {
+				if (nextElement.isPresent()) {
 					T element = nextElement.get();
 					nextElement = null;
 					return element;

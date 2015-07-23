@@ -1,6 +1,7 @@
 package autodialog;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JFileChooser;
@@ -27,7 +28,6 @@ import autodialog.view.layouts.FramesADLayout;
 import autodialog.view.layouts.IADLayout;
 import autodialog.view.layouts.SimpleADLayout;
 import autodialog.view.layouts.TabbedADLayout;
-import fava.functionable.FList;
 
 public class Test {
 
@@ -36,7 +36,7 @@ public class Test {
 		
 		Swidget.initialize();
 		
-		final FList<Parameter<?>> params = new FList<>();
+		final List<Parameter<?>> params = new ArrayList<>();
 		
 
 		final String g1 = "First Set";
