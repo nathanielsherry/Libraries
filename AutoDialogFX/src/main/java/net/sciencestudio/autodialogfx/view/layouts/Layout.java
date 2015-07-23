@@ -9,10 +9,10 @@ public interface Layout extends View {
 
 	void initialize(Group group);
 	
-	public static Layout forGroup(Group group, Class<? extends Layout> layoutClass) {
+	public static Layout forGroup(Group group) {
 
 		try {
-			Layout layout = layoutClass.newInstance();
+			Layout layout = (Layout) group.getView().newInstance();
 			layout.initialize(group);
 			return layout;
 		} catch (InstantiationException | IllegalAccessException e) {

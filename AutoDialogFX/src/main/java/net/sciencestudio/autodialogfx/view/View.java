@@ -18,18 +18,18 @@ public interface View {
 	String getTitle();
 	ViewProperties getProperties();
 	
-	public static View forModel(Model<?> model, Class<? extends View> viewClass) {
+	public static View forModel(Model<?> model) {
 		
 		if (model instanceof Value) {
-			return Editor.forValue((Value)model, (Class)viewClass);
+			return Editor.forValue((Value<?>)model);
 		}
 		
 		if (model instanceof Group) {
-			return Layout.forGroup((Group)model, (Class)viewClass);
+			return Layout.forGroup((Group)model);
 		}
 		
 		if (model instanceof Dummy) {
-			return Decor.forDummy((Dummy)model, (Class)viewClass);
+			return Decor.forDummy((Dummy)model);
 		}
 		
 		return null;

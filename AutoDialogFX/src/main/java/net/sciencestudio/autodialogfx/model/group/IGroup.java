@@ -42,7 +42,7 @@ public class IGroup extends AbstractModel<List<Model<?>>> implements Group {
 
 	@Override
 	public Group addAll(List<Model<?>> models) {
-		models.addAll(models);
+		this.models.addAll(models);
 		return this;
 	}
 

@@ -2,8 +2,14 @@ package net.sciencestudio.autodialogfx;
 
 import net.sciencestudio.autodialogfx.model.Model;
 import net.sciencestudio.autodialogfx.model.group.Group;
+import net.sciencestudio.autodialogfx.model.group.IGroup;
+import net.sciencestudio.autodialogfx.model.value.IValue;
+import net.sciencestudio.autodialogfx.model.value.Value;
 import net.sciencestudio.autodialogfx.view.AbstractView;
 import net.sciencestudio.autodialogfx.view.View;
+import net.sciencestudio.autodialogfx.view.editors.SpinnerIntegerEditor;
+import net.sciencestudio.autodialogfx.view.layouts.TitledLayout;
+import net.sciencestudio.autodialogfx.view.layouts.VerticalLayout;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -16,6 +22,10 @@ public class AutoDialog extends AbstractView implements View {
 	private Group group;
 	
 	
+
+	public AutoDialog(Value<?> value) {
+		this(new IGroup(VerticalLayout.class, value.getTitle()).add(value), new Insets(6));
+	}
 	
 	public AutoDialog(Group group) {
 		this(group, new Insets(6));
@@ -25,8 +35,7 @@ public class AutoDialog extends AbstractView implements View {
 		this.group = group;
 		node = new BorderPane();
 		node.setPadding(insets);
-		
-		node.setCenter(View.forModel(group, group.getView()).getNode());
+		node.setCenter(View.forModel(group).getNode());
 		
 	}
 	
@@ -49,7 +58,7 @@ public class AutoDialog extends AbstractView implements View {
 	
 	public Stage present(Stage stage) {
 		
-		Scene scene = new Scene(new javafx.scene.Group(getNode()));
+		Scene scene = new Scene(node);
 		stage.setScene(scene);
 		stage.setTitle(getTitle());
 		stage.sizeToScene();
@@ -57,4 +66,7 @@ public class AutoDialog extends AbstractView implements View {
 		return stage;
 	}
 	
+
+	
 }
+

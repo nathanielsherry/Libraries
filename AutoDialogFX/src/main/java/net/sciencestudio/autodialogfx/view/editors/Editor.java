@@ -1,6 +1,5 @@
 package net.sciencestudio.autodialogfx.view.editors;
 
-import net.sciencestudio.autodialogfx.model.Model;
 import net.sciencestudio.autodialogfx.model.value.Value;
 import net.sciencestudio.autodialogfx.view.View;
 
@@ -10,9 +9,9 @@ public interface Editor<T> extends View {
 	//boolean accepts(Value<?> value);
 	Editor<T> initialize(Value<T> value);
 
-	public static <T> Editor<T> forValue(Value<T> model, Class<? extends Editor<T>> viewClass) {
+	public static <T> Editor<T> forValue(Value<T> model) {
 		try {
-			Editor<T> view = viewClass.newInstance();
+			Editor<T> view = (Editor<T>) model.getView().newInstance();
 			view.initialize(model);
 			return view;
 		} catch (InstantiationException | IllegalAccessException e) {

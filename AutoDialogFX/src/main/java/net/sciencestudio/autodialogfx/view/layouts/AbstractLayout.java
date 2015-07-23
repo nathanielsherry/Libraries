@@ -2,7 +2,9 @@ package net.sciencestudio.autodialogfx.view.layouts;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import javafx.scene.Node;
 import net.sciencestudio.autodialogfx.model.Model;
 import net.sciencestudio.autodialogfx.model.group.Group;
 import net.sciencestudio.autodialogfx.model.group.IGroup;
@@ -19,7 +21,7 @@ public abstract class AbstractLayout extends AbstractView implements Layout {
 	public void initialize(Group group) {
 		this.group = group;
 		for(Model<?> model : group.getModels()) {
-			addChild(View.forModel(model, model.getView()));
+			addChild(View.forModel(model));
 		}
 		layout();
 		getProperties().labelStyle = LabelStyle.LABEL_ON_TOP;
@@ -28,9 +30,7 @@ public abstract class AbstractLayout extends AbstractView implements Layout {
 	protected void addChild(View editor) {
 		children.add(editor);
 	}
-	
-
-	
+		
 	protected List<View> getChildren() {
 		return children;
 	}
@@ -39,12 +39,15 @@ public abstract class AbstractLayout extends AbstractView implements Layout {
 		return group.getTitle();
 	}
 
-
 	@Override
 	public Model<?> getModel() {
 		return group;
 	}
 	
+	protected List<Node> getChildNodes() {
+		List<Node> nodes = getChildren().stream().map(child -> child.getNode()).collect(Collectors.toList());
+		return nodes;
+	}
 
 	public abstract void layout();
 
