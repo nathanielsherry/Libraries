@@ -1,10 +1,11 @@
 package bolt.scripting;
 
+import java.util.function.BiFunction;
+
 import bolt.scripting.languages.Language;
-import fava.signatures.FnCombine;
 
 
-public class BoltCombine<T1, T2> extends BoltScripter implements FnCombine<T1, T2> {
+public class BoltCombine<T1, T2> extends BoltScripter implements BiFunction<T1, T1, T2> {
 
 	private String input1, input2, output;
 

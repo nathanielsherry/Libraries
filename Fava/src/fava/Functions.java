@@ -13,7 +13,6 @@ import java.util.function.Predicate;
 
 import fava.datatypes.Pair;
 import fava.functionable.FList;
-import fava.signatures.FnCombine;
 
 
 public class Functions
@@ -78,15 +77,6 @@ public class Functions
 		};
 	}
 
-	
-
-	public static <T1> Predicate<T1> notEquiv(final T1 item)
-	{
-		return compose(b -> !b, e -> item.equals(e));
-	}
-	
-
-	
 
 	public static <T1, T2> Function<Pair<T1, T2>, T1> first()
 	{
@@ -154,44 +144,7 @@ public class Functions
 			}};
 	}
 	
-	
-	
-	public static <T1, T2, T3> Function<T1, T3> compose(final Function<T2, T3> h, final Function<T1, T2> g)
-	{
-		return new Function<T1, T3>(){
-
-			public T3 apply(T1 element) {
-				return h.apply(g.apply(element));
-			}};
-	}
-	
-	public static <T1, T2> Predicate<T1> compose(final Predicate<T2> h, final Function<T1, T2> g)
-	{
-		return e -> h.test((g.apply(e)));
-	}
-	
-	public static <T1, T2, T3> FnCombine<T1, T3> compose(final Function<T2, T3> h, final FnCombine<T1, T2> g)
-	{
-		return new FnCombine<T1, T3>() {
-
-			public T3 apply(T1 v1, T1 v2) {
-				return h.apply(g.apply(v1, v2));
-			}
-
-		};
-	}
-	
-	public static <T1a, T1b, T2, T3> BiFunction<T1a, T1b, T3> compose(final Function<T2, T3> h, final BiFunction<T1a, T1b, T2> g)
-	{
-		return new BiFunction<T1a, T1b, T3>() {
-
-			public T3 apply(T1a v1, T1b v2) {
-				return h.apply(g.apply(v1, v2));
-			}
-		};
-	}
-	
-	
+		
 	public static <T1 extends Number> Predicate<T1> lt(final Number compare)
 	{
 		return num -> num.doubleValue() < compare.doubleValue();

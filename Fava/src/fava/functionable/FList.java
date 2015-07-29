@@ -16,7 +16,6 @@ import java.util.function.Predicate;
 import fava.Fn;
 import fava.Functions;
 import fava.datatypes.Pair;
-import fava.signatures.FnCombine;
 
 /**
  * FList is a class which implements the List interface and acts as a pass-through
@@ -379,7 +378,7 @@ public class FList<T> extends Functionable<T> implements List<T>, Serializable{
 	}
 	
 	
-	public FList<Boolean> zipEquivWith(Iterable<T> other, FnCombine<T, Boolean> f)
+	public FList<Boolean> zipEquivWith(Iterable<T> other, BiFunction<T, T, Boolean> f)
 	{
 		FList<Boolean> target = newTarget();
 		return Fn.zipWith_target(backing, other, target, f);
@@ -447,7 +446,7 @@ public class FList<T> extends Functionable<T> implements List<T>, Serializable{
 		return Fn.unique_target(backing, target);
 	}
 	
-	public FList<T> uniqueBy(FnCombine<T, Boolean> f)
+	public FList<T> uniqueBy(BiFunction<T, T, Boolean> f)
 	{
 		FList<T> target = newTarget();
 		return Fn.uniqueBy_target(backing, target, f);
@@ -464,7 +463,7 @@ public class FList<T> extends Functionable<T> implements List<T>, Serializable{
 		return FList.mapToFunctionable(result);
 	}
 	
-	public FList<Functionable<T>> groupBy(FnCombine<T, Boolean> f)
+	public FList<Functionable<T>> groupBy(BiFunction<T, T, Boolean> f)
 	{
 		FList<List<T>> result = newTarget();
 		result = Fn.groupBy_target(backing, result, f, element -> newTarget());		

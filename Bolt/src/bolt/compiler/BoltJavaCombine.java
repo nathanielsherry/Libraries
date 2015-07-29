@@ -1,11 +1,11 @@
 package bolt.compiler;
 
-import fava.signatures.FnCombine;
+import java.util.function.BiFunction;
 
 
-public class BoltJavaCombine<T1, T2> extends BoltJavaFunction implements FnCombine<T1, T2>{
+public class BoltJavaCombine<T1, T2> extends BoltJavaFunction implements BiFunction<T1, T1, T2>{
 
-	private FnCombine<T1, T2> innerFn;
+	private BiFunction<T1, T1, T2> innerFn;
 
 	private String value1, value2;
 	private Class<?> t1, t2;
@@ -36,7 +36,7 @@ public class BoltJavaCombine<T1, T2> extends BoltJavaFunction implements FnCombi
 	@SuppressWarnings("unchecked")
 	private void compile()
 	{
-		innerFn = (FnCombine<T1, T2>)getFunctionObject();	
+		innerFn = (BiFunction<T1, T1, T2>)getFunctionObject();	
 	}
 	
 	
