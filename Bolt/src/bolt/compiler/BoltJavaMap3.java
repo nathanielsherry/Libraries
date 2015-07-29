@@ -1,10 +1,10 @@
 package bolt.compiler;
 
-import fava.signatures.FnMap3;
+import fava.signatures.TriFunction;
 
-public class BoltJavaMap3<T1, T2, T3, T4> extends BoltJavaFunction implements FnMap3<T1, T2, T3, T4>{
+public class BoltJavaMap3<T1, T2, T3, T4> extends BoltJavaFunction implements TriFunction<T1, T2, T3, T4>{
 
-	private FnMap3<T1, T2, T3, T4> innerFn;
+	private TriFunction<T1, T2, T3, T4> innerFn;
 
 	private String value1;
 	private String value2;
@@ -40,16 +40,16 @@ public class BoltJavaMap3<T1, T2, T3, T4> extends BoltJavaFunction implements Fn
 	@SuppressWarnings("unchecked")
 	private void compile()
 	{
-		innerFn = (FnMap3<T1, T2, T3, T4>)getFunctionObject();
+		innerFn = (TriFunction<T1, T2, T3, T4>)getFunctionObject();
 	}
 	
 	
 	
 	
 	@Override
-	public T4 f(T1 v1, T2 v2, T3 v3) {
+	public T4 apply(T1 v1, T2 v2, T3 v3) {
 		if (innerFn == null) compile();
-		return innerFn.f(v1, v2, v3);
+		return innerFn.apply(v1, v2, v3);
 	}
 
 

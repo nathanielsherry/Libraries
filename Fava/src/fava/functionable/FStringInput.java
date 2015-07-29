@@ -298,7 +298,7 @@ public class FStringInput implements Iterator<String>, Closeable{
 		t2 = System.currentTimeMillis();
 		if (verbose) System.out.println("Scanner - Lines: " + (t2-t1) + "ms");
 		
-		if (verbose) System.out.println(o1.zipEquiv(o2).fold(Functions.and()));
+		if (verbose) System.out.println(o1.zipEquiv(o2).fold((a, b) -> a && b));
 		
 		
 		
@@ -341,7 +341,7 @@ public class FStringInput implements Iterator<String>, Closeable{
 		
 		System.out.println(o2.size());
 		
-		if (verbose) System.out.println(o1.zipEquiv(o2).fold(Functions.and()));
+		if (verbose) System.out.println(o1.zipEquiv(o2).fold((a, b) -> a && b));
 		
 		
 	}

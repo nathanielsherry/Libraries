@@ -388,7 +388,7 @@ public class FList<T> extends Functionable<T> implements List<T>, Serializable{
 	public FList<Boolean> zipEquiv(Iterable<T> other)
 	{
 		FList<Boolean> target = newTarget();
-		return Fn.zipWith_target(backing, other, target, Functions.<T>equiv());
+		return Fn.zipWith_target(backing, other, target, (a, b) -> a.equals(b));
 	}
 	
 	public <T2> FList<Pair<T, T2>> zip(Iterable<T2> other)

@@ -90,7 +90,7 @@ public class BoltPluginLoader<T extends BoltPlugin>
 			public T apply(Class<T> f)
 			{
 					return createNewInstanceFromClass(f);
-			}}).filter(Functions.<T>notNull());
+			}}).filter(e -> e != null);
 	}
 	
 

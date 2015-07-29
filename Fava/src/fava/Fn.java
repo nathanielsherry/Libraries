@@ -1,10 +1,5 @@
 package fava;
 
-
-import static fava.Functions.and;
-import static fava.Functions.equiv;
-import static fava.Functions.or;
-
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
@@ -19,7 +14,6 @@ import java.util.function.Predicate;
 
 import fava.datatypes.Pair;
 import fava.functionable.FList;
-import fava.signatures.FnCombine;
 
 public class Fn
 {
@@ -441,14 +435,14 @@ public class Fn
 	{
 		if (list == null) return false;
 
-		return foldr(map(list, e -> item.equals(e)), false,	or());
+		return foldr(map(list, e -> item.equals(e)), false,	(a, b) -> a || b);
 	}
 
 	public static <T1> boolean includeBy(Iterable<T1> list, Predicate<T1> f)
 	{
 		FList<Boolean> blist = map(list, e -> f.test(e));
 		if (blist.size() == 0) return false;
-		return foldr(blist, or());
+		return foldr(blist, (a, b) -> a || b);
 	}
 
 		
@@ -480,16 +474,6 @@ public class Fn
 
 		return asFList(target);
 
-	}
-	
-	public static <T1> FList<Boolean> zipEquiv(List<T1> l1, List<T1> l2)
-	{
-		return zipWith(l1, l2, Functions.<T1>equiv());
-	}
-
-	public static <T1> FList<Boolean> zipEquiv_target(List<T1> l1, List<T1> l2, List<Boolean> target)
-	{
-		return zipWith_target(l1, l2, target, Functions.<T1>equiv());
 	}
 	
 	public static <T1, T2> FList<Pair<T1, T2>> zipPair(List<T1> l1, List<T2> l2)
@@ -563,16 +547,13 @@ public class Fn
 
 	}
 
-	public static <T1> FList<T1> uniqueBy(Iterable<T1> list, FnCombine<T1, Boolean> f)
+	public static <T1> FList<T1> uniqueBy(Iterable<T1> list, BiFunction<T1, T1, Boolean> f)
 	{
-
 		FList<T1> newlist = Fn.<T1> list();
-
 		return uniqueBy_target(list, newlist, f);
-
 	}
 	
-	public static <T1> FList<T1> uniqueBy_target(Iterable<T1> sourceIter, List<T1> target, FnCombine<T1, Boolean> f)
+	public static <T1> FList<T1> uniqueBy_target(Iterable<T1> sourceIter, List<T1> target, BiFunction<T1, T1, Boolean> f)
 	{
 	
 		boolean inlist;
@@ -637,15 +618,15 @@ public class Fn
 	
 	public static <T1> FList<List<T1>> group(final Iterable<T1> list)
 	{
-		return groupBy(list, Functions.<T1>equiv());
+		return groupBy(list, (a, b) -> a.equals(b));
 	}
 	
 	public static <T1> FList<List<T1>> group_target(final Iterable<T1> list, final List<List<T1>> target, final Function<T1, List<T1>> getSublist)
 	{
-		return groupBy_target(list, target, Functions.<T1>equiv(), getSublist);
+		return groupBy_target(list, target, (a, b) -> a.equals(b), getSublist);
 	}
 	
-	public static <T1> FList<List<T1>> groupBy(final Iterable<T1> list, final FnCombine<T1, Boolean> f)
+	public static <T1> FList<List<T1>> groupBy(final Iterable<T1> list, final BiFunction<T1, T1, Boolean> f)
 	{
 
 		//function f determines if two elements belong in the same group;
@@ -658,7 +639,7 @@ public class Fn
 
 	}
 	
-	public static <T1> FList<List<T1>> groupBy_target(final Iterable<T1> list, final List<List<T1>> target, final FnCombine<T1, Boolean> f, final Function<T1, List<T1>> getSublist)
+	public static <T1> FList<List<T1>> groupBy_target(final Iterable<T1> list, final List<List<T1>> target, final BiFunction<T1, T1, Boolean> f, final Function<T1, List<T1>> getSublist)
 	{
 	
 		//generate a unique list
@@ -731,22 +712,22 @@ public class Fn
 	//////////////////////////////////////////////////////////
 	public static <T1> Boolean any(final Iterable<T1> list, Predicate<T1>f)
 	{
-		return foldr(map(list, e -> f.test(e)), or());
+		return foldr(map(list, e -> f.test(e)), (a, b) -> a || b);
 	}
 
 	public static Boolean any(final Iterable<Boolean> list)
 	{
-		return fold(list, or());
+		return fold(list, (a, b) -> a || b);
 	}
 	
 	public static <T1> Boolean all(final Iterable<T1> list, Predicate<T1>f)
 	{
-		return foldr(map(list, e -> f.test(e)), and());
+		return foldr(map(list, e -> f.test(e)), (a, b) -> a && b);
 	}
 	
 	public static Boolean all(final Iterable<Boolean> list)
 	{
-		return fold(list, and());
+		return fold(list, (a, b) -> a && b);
 	}
 
 	

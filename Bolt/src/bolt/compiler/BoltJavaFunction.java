@@ -1,7 +1,5 @@
 package bolt.compiler;
 
-import fava.signatures.FnSignature;
-
 
 abstract class BoltJavaFunction {
 
@@ -75,7 +73,7 @@ abstract class BoltJavaFunction {
 		"\n}\n";
 	}
 	
-	protected FnSignature getFunctionObject()
+	protected Object getFunctionObject()
 	{
 		
 		compiler.setSourceCode(getSourceCode());
@@ -83,7 +81,7 @@ abstract class BoltJavaFunction {
 		Class<?> mainClass = compiler.getMainClass();
 		
 		try {
-			return (FnSignature)mainClass.newInstance();
+			return mainClass.newInstance();
 		} catch (InstantiationException e) {
 			e.printStackTrace();
 			throw new BoltCompilationException("Error instantiating class");

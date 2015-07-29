@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.List;
 import java.util.function.BiFunction;
+import java.util.function.BiPredicate;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -78,21 +79,10 @@ public class Functions
 	}
 
 	
-	
-	public static <T1> FnCombine<T1, Boolean> equiv()
-	{
-		return new FnCombine<T1, Boolean>() {
-
-			public Boolean apply(T1 o1, T1 o2)
-			{
-				return o1.equals(o2);
-			}
-		};
-	}
 
 	public static <T1> Predicate<T1> notEquiv(final T1 item)
 	{
-		return compose(not(), e -> item.equals(e));
+		return compose(b -> !b, e -> item.equals(e));
 	}
 	
 
@@ -148,29 +138,7 @@ public class Functions
 
 	
 
-	public static <T1> Predicate<T1> notNull()
-	{
-		return e -> e != null;
-	}
 
-
-	
-	public static BiFunction<Boolean, Boolean, Boolean> and()
-	{
-		return (b1, b2) -> b1 && b2;
-	}
-
-	public static BiFunction<Boolean, Boolean, Boolean> or()
-	{
-		return (b1, b2) -> b1 || b2;
-	}
-
-	public static Predicate<Boolean> not()
-	{
-		return e -> !e;
-	}
-
-	
 
 	public static <T1> Consumer<T1> print()
 	{

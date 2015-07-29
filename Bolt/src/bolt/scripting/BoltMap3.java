@@ -1,9 +1,9 @@
 package bolt.scripting;
 
 import bolt.scripting.languages.Language;
-import fava.signatures.FnMap3;
+import fava.signatures.TriFunction;
 
-public class BoltMap3<T1, T2, T3, T4> extends BoltScripter implements FnMap3<T1, T2, T3, T4>{
+public class BoltMap3<T1, T2, T3, T4> extends BoltScripter implements TriFunction<T1, T2, T3, T4>{
 
 	private String input1, input2, input3, output;
 	
@@ -29,7 +29,7 @@ public class BoltMap3<T1, T2, T3, T4> extends BoltScripter implements FnMap3<T1,
 
 	
 	@Override
-	public T4 f(T1 v1, T2 v2, T3 v3) {
+	public T4 apply(T1 v1, T2 v2, T3 v3) {
 		
 		if (hasSideEffects || !multithreaded) {
 			synchronized(this)
