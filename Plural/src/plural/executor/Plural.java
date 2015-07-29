@@ -1,6 +1,7 @@
 package plural.executor;
 
 import java.util.List;
+import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -9,11 +10,10 @@ import plural.executor.eachindex.implementations.PluralEachIndexExecutor;
 import plural.executor.filter.implementations.PluralFilterExecutor;
 import plural.executor.fold.implementations.PluralFoldExecutor;
 import plural.executor.map.implementations.PluralMapExecutor;
-import fava.signatures.FnFold;
 
 public class Plural {
 
-	public static <T1> T1 fold(List<T1> elements, FnFold<T1, T1> fold)
+	public static <T1> T1 fold(List<T1> elements, BiFunction<T1, T1, T1> fold)
 	{
 		return new PluralFoldExecutor<T1>(elements, fold).executeBlocking();
 	}
@@ -27,7 +27,7 @@ public class Plural {
 	 * @param fold
 	 * @return
 	 */
-	public static <T1> T1 fold(List<T1> elements, T1 base, FnFold<T1, T1> fold)
+	public static <T1> T1 fold(List<T1> elements, T1 base, BiFunction<T1, T1, T1> fold)
 	{
 		return new PluralFoldExecutor<>(elements, base, fold).executeBlocking();
 	}
@@ -42,7 +42,7 @@ public class Plural {
 	 * @param fold
 	 * @return
 	 */
-	public static <T1> T1 fold(List<T1> elements, T1 base, FnFold<T1, T1> fold, int threads)
+	public static <T1> T1 fold(List<T1> elements, T1 base, BiFunction<T1, T1, T1> fold, int threads)
 	{
 		return new PluralFoldExecutor<>(elements, base, fold, threads).executeBlocking();
 	}

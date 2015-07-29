@@ -14,13 +14,13 @@ import java.nio.channels.ReadableByteChannel;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Scanner;
+import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.regex.Pattern;
 
 import sun.nio.ch.ChannelInputStream;
 import fava.Functions;
-import fava.signatures.FnFold;
 
 
 public class FStringInput implements Iterator<String>, Closeable{
@@ -436,7 +436,7 @@ public class FStringInput implements Iterator<String>, Closeable{
 	}
 	
 	
-	public String fold(FnFold<String, String> f)
+	public String fold(BiFunction<String, String, String> f)
 	{
 		
 		
@@ -462,7 +462,7 @@ public class FStringInput implements Iterator<String>, Closeable{
 	}
 	
 	
-	public <S2> S2 fold(S2 base, FnFold<String, S2> f)
+	public <S2> S2 fold(S2 base, BiFunction<String, S2, S2> f)
 	{
 		if (isClosed) throw new ClosedInputException();
 		S2 acc = base;

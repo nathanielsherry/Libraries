@@ -3,12 +3,12 @@ package fava.functionable;
 import java.util.ArrayList;	
 import java.util.Collection;
 import java.util.List;
+import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
 import fava.Functions;
-import fava.signatures.FnFold;
 
 /**
  * This is a base abstract class which provides a default implementation of some of the most common functional commands. 
@@ -86,7 +86,7 @@ public abstract class Functionable<T1> implements Iterable<T1> {
 	 * @param f the folding function to apply
 	 * @return the result of applying this function to all elements as if it were an n-ary function 
 	 */
-	public T1 fold(FnFold<T1, T1> f)
+	public T1 fold(BiFunction<T1, T1, T1> f)
 	{
 		return fold(this, f);
 	}
@@ -98,7 +98,7 @@ public abstract class Functionable<T1> implements Iterable<T1> {
 	 * @param f the folding function to apply
 	 * @return the result of applying this function to all elements as if it were an n-ary function 
 	 */
-	public <T2> T2 fold(T2 base, FnFold<T1, T2> f)
+	public <T2> T2 fold(T2 base, BiFunction<T1, T2, T2> f)
 	{
 		return fold(this, base, f);
 	}
@@ -183,7 +183,7 @@ public abstract class Functionable<T1> implements Iterable<T1> {
 	}
 	
 
-	protected static <S1> S1 fold(Iterable<S1> source, FnFold<S1, S1> f)
+	protected static <S1> S1 fold(Iterable<S1> source, BiFunction<S1, S1, S1> f)
 
 	{
 		S1 acc = null;
@@ -200,7 +200,7 @@ public abstract class Functionable<T1> implements Iterable<T1> {
 	
 
 	
-	protected static <S1, S2> S2 fold(Iterable<S1> source, S2 base, FnFold<S1, S2> f)
+	protected static <S1, S2> S2 fold(Iterable<S1> source, S2 base, BiFunction<S1, S2, S2> f)
 	{
 		S2 acc = base;
 		

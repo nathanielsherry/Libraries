@@ -10,7 +10,6 @@ import plural.executor.TicketManager;
 import plural.executor.filter.FilterExecutor;
 import plural.executor.map.MapExecutor;
 import fava.functionable.FList;
-import fava.signatures.FnFold;
 
 /**
  * 
@@ -84,13 +83,7 @@ public class PluralFilterExecutor<T1> extends FilterExecutor<T1>
 		
 		
 		//super.result = Fn.fold(results, fold);
-		int size = FList.wrap(acceptedLists).fold(0, new FnFold<LinkedList<T1>, Integer>() {
-
-			@Override
-			public Integer apply(LinkedList<T1> list, Integer sum) {
-				return sum+list.size();
-			}
-		});
+		int size = FList.wrap(acceptedLists).fold(0, (list, sum) -> sum+list.size());
 		
 		result = new ArrayList<T1>(size);
 		for (int i = 0; i < acceptedLists.size(); i++)

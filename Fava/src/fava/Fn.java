@@ -20,7 +20,6 @@ import java.util.function.Predicate;
 import fava.datatypes.Pair;
 import fava.functionable.FList;
 import fava.signatures.FnCombine;
-import fava.signatures.FnFold;
 
 public class Fn
 {
@@ -289,28 +288,28 @@ public class Fn
 	//////////////////////////////////////////////////////////
 	// FOLD
 	//////////////////////////////////////////////////////////
-	public static <T1, T2> T2 fold(T1 list[], T2 base, FnFold<T1, T2> f)
+	public static <T1, T2> T2 fold(T1 list[], T2 base, BiFunction<T1, T2, T2> f)
 	{
 		return foldl(Arrays.asList(list), base, f);
 	}
 
-	public static <T1> T1 fold(T1 list[], FnFold<T1, T1> f)
+	public static <T1> T1 fold(T1 list[], BiFunction<T1, T1, T1> f)
 	{
 
 		return foldl(Arrays.asList(list), f);
 	}
 
-	public static <T1, T2> T2 fold(List<T1> list, T2 base, FnFold<T1, T2> f)
+	public static <T1, T2> T2 fold(List<T1> list, T2 base, BiFunction<T1, T2, T2> f)
 	{
 		return foldl(list, base, f);
 	}
 	
-	public static <T1> T1 fold(List<T1> list, FnFold<T1, T1> f)
+	public static <T1> T1 fold(List<T1> list, BiFunction<T1, T1, T1> f)
 	{
 		return foldl(list, f);
 	}
 	
-	public static <T1, T2> T2 fold(Iterable<T1> list, T2 base, FnFold<T1, T2> f)
+	public static <T1, T2> T2 fold(Iterable<T1> list, T2 base, BiFunction<T1, T2, T2> f)
 	{
 		T2 result = base;
 		if (list == null) return base;
@@ -323,7 +322,7 @@ public class Fn
 		return result;
 	}
 
-	public static <T1> T1 fold(Iterable<T1> list, FnFold<T1, T1> f)
+	public static <T1> T1 fold(Iterable<T1> list, BiFunction<T1, T1, T1> f)
 	{
 
 		if (list == null) return null;
@@ -347,17 +346,17 @@ public class Fn
 	//////////////////////////////////////////////////////////
 	// FOLDR
 	//////////////////////////////////////////////////////////
-	public static <T1, T2> T2 foldr(T1[] list, T2 base, FnFold<T1, T2> f)
+	public static <T1, T2> T2 foldr(T1[] list, T2 base, BiFunction<T1, T2, T2> f)
 	{
 		return foldr(Arrays.asList(list), base, f);
 	}
 	
-	public static <T1> T1 foldr(T1[] list, FnFold<T1, T1> f)
+	public static <T1> T1 foldr(T1[] list, BiFunction<T1, T1, T1> f)
 	{
 		return foldr(Arrays.asList(list), f);
 	}
 	
-	public static <T1, T2> T2 foldr(List<T1> list, T2 base, FnFold<T1, T2> f)
+	public static <T1, T2> T2 foldr(List<T1> list, T2 base, BiFunction<T1, T2, T2> f)
 	{
 		T2 result = base;
 
@@ -372,7 +371,7 @@ public class Fn
 		return result;
 	}
 
-	public static <T1> T1 foldr(List<T1> list, FnFold<T1, T1> f)
+	public static <T1> T1 foldr(List<T1> list, BiFunction<T1, T1, T1> f)
 	{
 		if (list == null) return null;
 		if (list.size() == 0) return null;
@@ -394,17 +393,17 @@ public class Fn
 	//////////////////////////////////////////////////////////
 	// FOLDL
 	//////////////////////////////////////////////////////////
-	public static <T1, T2> T2 foldl(T1[] list, T2 base, FnFold<T1, T2> f)
+	public static <T1, T2> T2 foldl(T1[] list, T2 base, BiFunction<T1, T2, T2> f)
 	{
 		return foldl(Arrays.asList(list), base, f);
 	}
 	
-	public static <T1> T1 foldl(T1[] list, FnFold<T1, T1> f)
+	public static <T1> T1 foldl(T1[] list, BiFunction<T1, T1, T1> f)
 	{
 		return foldl(Arrays.asList(list), f);
 	}
 	
-	public static <T1, T2> T2 foldl(List<T1> list, T2 base, FnFold<T1, T2> f)
+	public static <T1, T2> T2 foldl(List<T1> list, T2 base, BiFunction<T1, T2, T2> f)
 	{
 		T2 result = base;
 		if (list == null) return base;
@@ -418,7 +417,7 @@ public class Fn
 		return result;
 	}
 
-	public static <T1> T1 foldl(List<T1> list, FnFold<T1, T1> f)
+	public static <T1> T1 foldl(List<T1> list, BiFunction<T1, T1, T1> f)
 	{
 		if (list == null) return null;
 		if (list.size() == 0) return null;

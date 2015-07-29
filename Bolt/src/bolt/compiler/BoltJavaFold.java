@@ -1,11 +1,11 @@
 package bolt.compiler;
 
-import fava.signatures.FnFold;
+import java.util.function.BiFunction;
 
-public class BoltJavaFold<T1, T2> extends BoltJavaFunction implements FnFold<T1, T2>{
+public class BoltJavaFold<T1, T2> extends BoltJavaFunction implements BiFunction<T1, T2, T2>{
 
 
-	private FnFold<T1, T2> innerFn;
+	private BiFunction<T1, T2, T2> innerFn;
 
 	private String base, value;
 	private Class<?> t1, t2;
@@ -36,7 +36,7 @@ public class BoltJavaFold<T1, T2> extends BoltJavaFunction implements FnFold<T1,
 	@SuppressWarnings("unchecked")
 	private void compile()
 	{
-		innerFn = (FnFold<T1, T2>)getFunctionObject();
+		innerFn = (BiFunction<T1, T2, T2>)getFunctionObject();
 	}
 	
 	

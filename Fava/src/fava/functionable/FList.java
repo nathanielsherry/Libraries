@@ -17,7 +17,6 @@ import fava.Fn;
 import fava.Functions;
 import fava.datatypes.Pair;
 import fava.signatures.FnCombine;
-import fava.signatures.FnFold;
 
 /**
  * FList is a class which implements the List interface and acts as a pass-through
@@ -348,22 +347,22 @@ public class FList<T> extends Functionable<T> implements List<T>, Serializable{
 	}
 
 	
-	public T foldr(FnFold<T, T> f)
+	public T foldr(BiFunction<T, T, T> f)
 	{
 		return Fn.foldr(backing, f);
 	}
 	
-	public <T2> T2 foldr(T2 base, FnFold<T, T2> f)
+	public <T2> T2 foldr(T2 base, BiFunction<T, T2, T2> f)
 	{
 		return Fn.foldr(backing, base, f);
 	}
 	
-	public T foldl(FnFold<T, T> f)
+	public T foldl(BiFunction<T, T, T> f)
 	{
 		return Fn.foldl(backing, f);
 	}
 	
-	public <T2> T2 foldl(T2 base, FnFold<T, T2> f)
+	public <T2> T2 foldl(T2 base, BiFunction<T, T2, T2> f)
 	{
 		return Fn.foldr(backing, base, f);
 	}

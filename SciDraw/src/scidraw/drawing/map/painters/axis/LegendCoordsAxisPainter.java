@@ -13,7 +13,6 @@ import scitypes.SISize;
 import fava.Functions;
 import fava.datatypes.Pair;
 import fava.functionable.FList;
-import fava.signatures.FnFold;
 
 
 public class LegendCoordsAxisPainter extends AbstractKeyCoordAxisPainter
@@ -82,21 +81,17 @@ public class LegendCoordsAxisPainter extends AbstractKeyCoordAxisPainter
 		}
 
 		float startX = offsetX + ((width - expectedTextWidth) / 2.0f);
-		entries.foldr(startX, new FnFold<Pair<Color, String>, Float>() {
+		entries.foldr(startX, (Pair<Color, String> entry, Float position) -> {
 
-			public Float apply(Pair<Color, String> entry, Float position)
-			{
+			p.context.rectangle(position, textBaseline, keyHeight, -keyHeight);
+			p.context.setSource(entry.first);
+			p.context.fillPreserve();
+			p.context.setSource(Color.black);
+			p.context.stroke();
 
-				p.context.rectangle(position, textBaseline, keyHeight, -keyHeight);
-				p.context.setSource(entry.first);
-				p.context.fillPreserve();
-				p.context.setSource(Color.black);
-				p.context.stroke();
+			p.context.writeText(entry.second, position + keyHeight * 1.5f, textBaseline);
 
-				p.context.writeText(entry.second, position + keyHeight * 1.5f, textBaseline);
-
-				return position + p.context.getTextWidth(entry.second) + keyHeight * 2.5f;
-			}
+			return position + p.context.getTextWidth(entry.second) + keyHeight * 2.5f;
 		});
 
 		float centerWidth = p.context.getTextWidth(descriptor);

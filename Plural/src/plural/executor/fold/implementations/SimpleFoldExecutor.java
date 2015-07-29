@@ -2,11 +2,11 @@ package plural.executor.fold.implementations;
 
 
 import java.util.List;
+import java.util.function.BiFunction;
 
 import plural.executor.ExecutorSet;
 import plural.executor.fold.FoldExecutor;
 import plural.executor.map.MapExecutor;
-import fava.signatures.FnFold;
 
 /**
  * 
@@ -22,12 +22,12 @@ import fava.signatures.FnFold;
 public class SimpleFoldExecutor<T1> extends FoldExecutor<T1>
 {
 
-	public SimpleFoldExecutor(List<T1> sourceData, FnFold<T1, T1> t)
+	public SimpleFoldExecutor(List<T1> sourceData, BiFunction<T1, T1, T1> t)
 	{
 		super(sourceData, t);
 	}
 
-	public SimpleFoldExecutor(List<T1> sourceData, T1 base, FnFold<T1, T1> t)
+	public SimpleFoldExecutor(List<T1> sourceData, T1 base, BiFunction<T1, T1, T1> t)
 	{
 		super(sourceData, base, t);
 	}

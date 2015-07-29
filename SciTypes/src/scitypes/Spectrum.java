@@ -9,11 +9,11 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
 import fava.functionable.Functionable;
-import fava.signatures.FnFold;
 
 public class Spectrum extends Functionable<Float> implements Serializable
 {
@@ -312,7 +312,7 @@ public class Spectrum extends Functionable<Float> implements Serializable
 	
 	
 	@Override
-	public Float fold(FnFold<Float, Float> f)
+	public Float fold(BiFunction<Float, Float, Float> f)
 	{
 		
 		if (this.size == 0) return 0f;
@@ -329,7 +329,7 @@ public class Spectrum extends Functionable<Float> implements Serializable
 	}
 	
 	@Override
-	public <T2> T2 fold(T2 base, FnFold<Float, T2> f)
+	public <T2> T2 fold(T2 base, BiFunction<Float, T2, T2> f)
 	{
 		
 		T2 result = base;
@@ -344,7 +344,7 @@ public class Spectrum extends Functionable<Float> implements Serializable
 		return result;
 	}
 	
-	public Spectrum zipWith(Spectrum other, FnFold<Float, Float> f)
+	public Spectrum zipWith(Spectrum other, BiFunction<Float, Float, Float> f)
 	{
 		
 		Spectrum newSpectrum = new Spectrum(size);

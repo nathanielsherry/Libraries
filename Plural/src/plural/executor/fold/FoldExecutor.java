@@ -2,6 +2,7 @@ package plural.executor.fold;
 
 
 import java.util.List;
+import java.util.function.BiFunction;
 
 import plural.executor.AbstractExecutor;
 import plural.executor.ExecutorSet;
@@ -9,7 +10,6 @@ import plural.executor.ExecutorState;
 import plural.executor.map.MapExecutor;
 import plural.executor.map.implementations.PluralMapExecutor;
 import plural.executor.map.implementations.SimpleMapExecutor;
-import fava.signatures.FnFold;
 
 /**
  * 
@@ -26,12 +26,12 @@ import fava.signatures.FnFold;
 public abstract class FoldExecutor<T1> extends AbstractExecutor
 {
 
-	protected FnFold<T1, T1>		fold;
-	protected List<T1>				sourceData;
-	protected T1					result;
+	protected BiFunction<T1, T1, T1>	fold;
+	protected List<T1>					sourceData;
+	protected T1						result;
 	
 	
-	public FoldExecutor(List<T1> sourceData, FnFold<T1, T1> fold)
+	public FoldExecutor(List<T1> sourceData, BiFunction<T1, T1, T1> fold)
 	{
 		super();
 		
@@ -43,7 +43,7 @@ public abstract class FoldExecutor<T1> extends AbstractExecutor
 	}
 	
 	
-	public FoldExecutor(List<T1> sourceData, T1 base, FnFold<T1, T1> fold)
+	public FoldExecutor(List<T1> sourceData, T1 base, BiFunction<T1, T1, T1> fold)
 	{
 		this(sourceData, fold);
 		
@@ -68,7 +68,7 @@ public abstract class FoldExecutor<T1> extends AbstractExecutor
 	 * @param map
 	 *            the {@link PluralMap} to execute.
 	 */
-	public void setFold(FnFold<T1, T1> fold)
+	public void setFold(BiFunction<T1, T1, T1> fold)
 	{
 
 		if (this.fold != null && super.getState() != ExecutorState.UNSTARTED) return;

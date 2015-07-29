@@ -13,7 +13,6 @@ import scitypes.SigDigits;
 import fava.Functions;
 import fava.datatypes.Pair;
 import fava.functionable.FList;
-import fava.signatures.FnFold;
 
 
 
@@ -216,15 +215,12 @@ public class SpectrumCoordsAxisPainter extends AbstractKeyCoordAxisPainter
 			*/
 			
 			
-			String longestMarking = markings.map(Functions.<Float, String>second()).fold(new FnFold<String, String>() {
-
-				public String apply(String s1, String s2)
-				{
-					Float l1 = p.context.getTextWidth(s1);
-					Float l2 = p.context.getTextWidth(s2);
-					if (l1 > l2) return s1;
-					return s2;
-				}});
+			String longestMarking = markings.map(Functions.<Float, String>second()).fold((String s1, String s2) -> {
+				Float l1 = p.context.getTextWidth(s1);
+				Float l2 = p.context.getTextWidth(s2);
+				if (l1 > l2) return s1;
+				return s2;
+			});
 			
 			//keep shrinking the font size until all of the text until the font size is small enough that it fits
 			while (width > 0.0 && fontSize > 1.0)

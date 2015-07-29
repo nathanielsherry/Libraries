@@ -1,10 +1,11 @@
 package bolt.scripting;
 
+import java.util.function.BiFunction;
+
 import bolt.scripting.languages.Language;
-import fava.signatures.FnFold;
 
 
-public class BoltFold<T1, T2> extends BoltScripter implements FnFold<T1, T2>{
+public class BoltFold<T1, T2> extends BoltScripter implements BiFunction<T1, T2, T2>{
 
 	private String base, value, result;
 

@@ -1,7 +1,6 @@
 package scitypes;
 
 
-import static fava.Functions.addf;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -9,7 +8,6 @@ import java.util.List;
 
 import plural.executor.Plural;
 import fava.functionable.FList;
-import fava.signatures.FnFold;
 
 
 /**
@@ -120,13 +118,7 @@ public class SpectrumCalculations
 	public static float maxDataset(List<Spectrum> dataset)
 	{
 
-		return FList.wrap(dataset).foldr(max(dataset.get(0)), new FnFold<Spectrum, Float>() {
-
-			public Float apply(Spectrum list, Float currentMax)
-			{
-				return Math.max(currentMax, max(list));
-			}
-		});
+		return FList.wrap(dataset).foldr(max(dataset.get(0)), (list, currentMax) -> Math.max(currentMax, max(list)));
 
 	}
 
@@ -776,7 +768,7 @@ public class SpectrumCalculations
 	public static float sumValuesInList(Spectrum list)
 	{
 
-		return list.fold(0f, addf());
+		return list.fold(0f, (f1, f2) -> f1 + f2);
 
 	}
 	
