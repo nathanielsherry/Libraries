@@ -125,7 +125,7 @@ public abstract class AbstractScratchList<T> extends Functionable<T> implements 
 					return s2.compareTo(s1);
 					
 				}
-			}, Functions.<Range>id());
+			}, a -> a);
 			
 			
 			if (bigRanges.size() != 0)

@@ -211,13 +211,7 @@ public class FSet<S> extends FCollection<S> implements Set<S>
 		System.out.println(ints.show());
 		
 		System.out.println(
-			ints.map(new Function<Integer, Integer>() {
-	
-				@Override
-				public Integer apply(Integer v) {
-					return 1;
-				}
-			}).show()
+			ints.map(v ->  1).show()
 		);
 		
 		

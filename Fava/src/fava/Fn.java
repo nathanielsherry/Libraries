@@ -835,29 +835,21 @@ public class Fn
 		
 		if (list.size() == 0) return new FList<List<T1>>(new FList<T1>());
 		
-		
 		//map each element to a list of permutations with 'element' at the head
-		return concat(map(list, new Function<T1, List<List<T1>>>() {
+		return concat(map(list, element -> {
 
-			public List<List<T1>> apply(final T1 element) {
-				
-				
-				List<T1> rest = map(list, Functions.<T1>id());
+				List<T1> rest = map(list, a -> a);
 				rest.remove(element);
-				
-				
-				return map(permutations(rest), new Function<List<T1>, List<T1>>(){
 
-					public List<T1> apply(List<T1> sublist) {
-						List<T1> target = map(sublist, Functions.<T1>id());
+				return map(permutations(rest), sublist -> {
+						List<T1> target = map(sublist, a -> a);
 						target.add(element);
 						return target;
 					}
-				});
-								
+				);
 				
 			}
-		}));
+		));
 		
 		
 	}

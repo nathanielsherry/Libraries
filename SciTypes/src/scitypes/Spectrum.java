@@ -360,28 +360,23 @@ public class Spectrum extends Functionable<Float> implements Serializable
 	{
 
 		//Function to serialize a spectrum
-		return  new Function<Spectrum, byte[]>()
-		{
+		return s -> {
 
-			public byte[] apply(Spectrum s)
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			ObjectOutputStream oos;
+			try
 			{
-
-				ByteArrayOutputStream baos = new ByteArrayOutputStream();
-				ObjectOutputStream oos;
-				try
-				{
-					oos = new ObjectOutputStream(baos);
-					oos.writeObject(s);
-					oos.close();
-					return baos.toByteArray();
-				}
-				catch (IOException e)
-				{
-					e.printStackTrace();
-					return new byte[0];
-				}
-
+				oos = new ObjectOutputStream(baos);
+				oos.writeObject(s);
+				oos.close();
+				return baos.toByteArray();
 			}
+			catch (IOException e)
+			{
+				e.printStackTrace();
+				return new byte[0];
+			}
+
 		};
 	}
 
@@ -389,32 +384,27 @@ public class Spectrum extends Functionable<Float> implements Serializable
 
 		//Function to deserialize a spectrum
 
-		return new Function<byte[], Spectrum>()
-		{
-
-			public Spectrum apply(byte[] bs)
+		return bs -> {
+			ByteArrayInputStream bais = new ByteArrayInputStream(bs);
+			ObjectInputStream ois;
+			try
 			{
-				ByteArrayInputStream bais = new ByteArrayInputStream(bs);
-				ObjectInputStream ois;
-				try
-				{
-					ois = new ObjectInputStream(bais);
-					Spectrum s = (Spectrum) ois.readObject();
-					ois.close();
-					return s;
-				}
-				catch (IOException e)
-				{
-					e.printStackTrace();
-					return null;
-				}
-				catch (ClassNotFoundException e)
-				{
-					e.printStackTrace();
-					return null;
-				}
-
+				ois = new ObjectInputStream(bais);
+				Spectrum s = (Spectrum) ois.readObject();
+				ois.close();
+				return s;
 			}
+			catch (IOException e)
+			{
+				e.printStackTrace();
+				return null;
+			}
+			catch (ClassNotFoundException e)
+			{
+				e.printStackTrace();
+				return null;
+			}
+
 		};
 
 	}

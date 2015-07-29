@@ -2,8 +2,6 @@ package scidraw.drawing.map.painters.axis;
 
 
 
-import static fava.Functions.strcat;
-
 import java.awt.Color;
 import java.util.List;
 
@@ -62,7 +60,7 @@ public class LegendCoordsAxisPainter extends AbstractKeyCoordAxisPainter
 		
 		// concatenate the list of strings to display so we can check the width of the total string
 		//String markingsText = foldr(map(entries, Functions.<Color, String>second()), strcat(" "));
-		String markingsText = entries.map(Functions.<Color, String>second()).foldr(strcat(" "));
+		String markingsText = entries.map(e -> e.second).foldr((a, b) -> a + " " + b);
 		float legendSquareWidth = entries.size() * keyHeight * 2.5f - keyHeight; // -keyHeight because we don't need
 																					// padding on the end
 
@@ -82,7 +80,6 @@ public class LegendCoordsAxisPainter extends AbstractKeyCoordAxisPainter
 
 		float startX = offsetX + ((width - expectedTextWidth) / 2.0f);
 		entries.foldr(startX, (Pair<Color, String> entry, Float position) -> {
-
 			p.context.rectangle(position, textBaseline, keyHeight, -keyHeight);
 			p.context.setSource(entry.first);
 			p.context.fillPreserve();
