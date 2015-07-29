@@ -8,15 +8,16 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.function.BiFunction;
 import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
 import fava.Fn;
 import fava.Functions;
 import fava.datatypes.Pair;
 import fava.signatures.FnCombine;
 import fava.signatures.FnFold;
-import fava.signatures.FnMap;
-import fava.signatures.FnMap2;
 
 /**
  * FList is a class which implements the List interface and acts as a pass-through
@@ -290,7 +291,7 @@ public class FList<T> extends Functionable<T> implements List<T>, Serializable{
 	// Overriding Functionable Methods
 	////////////////////////////////////////////////
 
-	public <S> FList<S> map(FnMap<T, S> f)
+	public <S> FList<S> map(Function<T, S> f)
 	{
 		
 		Collection<S> target = this.<S>getNewCollection();		
@@ -300,10 +301,10 @@ public class FList<T> extends Functionable<T> implements List<T>, Serializable{
 	}
 	
 
-	public FList<T> filter(FnMap<T, Boolean> f)
+	public FList<T> filter(Predicate<T> f)
 	{
 		Collection<T> target = getNewCollection();		
-		filter(this, f, target);
+		filter(this, e -> f.test(e), target);
 		return wrapNewCollection(target);
 	}
 	
@@ -316,7 +317,7 @@ public class FList<T> extends Functionable<T> implements List<T>, Serializable{
 	}
 	
 	
-	public FList<T> takeWhile(FnMap<T, Boolean> f)
+	public FList<T> takeWhile(Function<T, Boolean> f)
 	{
 		Collection<T> target = getNewCollection();
 		takeWhile(this, f, target);
@@ -337,11 +338,11 @@ public class FList<T> extends Functionable<T> implements List<T>, Serializable{
 	////////////////////////////////////////////////
 	
 	
-	public FList<T> map_i(FnMap<T, T> f)
+	public FList<T> map_i(Function<T, T> f)
 	{
 		for (int i = 0; i < backing.size(); i++)
 		{
-			backing.set(i, f.f(backing.get(i)));
+			backing.set(i, f.apply(backing.get(i)));
 		}
 		return this;
 	}
@@ -372,7 +373,7 @@ public class FList<T> extends Functionable<T> implements List<T>, Serializable{
 
 	
 	
-	public <T2, T3> FList<T3> zipWith(Iterable<T2> other, FnMap2<T, T2, T3> f)
+	public <T2, T3> FList<T3> zipWith(Iterable<T2> other, BiFunction<T, T2, T3> f)
 	{
 		FList<T3> target = newTarget();
 		return Fn.zipWith_target(backing, other, target, f);
@@ -398,7 +399,7 @@ public class FList<T> extends Functionable<T> implements List<T>, Serializable{
 	}
 	
 	
-	public <T1, T2> Pair<FList<T1>, FList<T2>> unzipWith(FnMap<T, Pair<T1, T2>> f)
+	public <T1, T2> Pair<FList<T1>, FList<T2>> unzipWith(Function<T, Pair<T1, T2>> f)
 	{
 		Pair<T1, T2> p;
 		
@@ -407,7 +408,7 @@ public class FList<T> extends Functionable<T> implements List<T>, Serializable{
 		
 		for (T t : backing)
 		{
-			p = f.f(t);
+			p = f.apply(t);
 			t1s.add(p.first);
 			t2s.add(p.second);			
 		}
@@ -432,7 +433,7 @@ public class FList<T> extends Functionable<T> implements List<T>, Serializable{
 		//return Fn.include(backing, element);
 	}
 	
-	public boolean includeBy(T element, FnMap<T, Boolean> f)
+	public boolean includeBy(T element, Predicate<T> f)
 	{
 		return Fn.includeBy(backing, f);
 	}
@@ -474,12 +475,12 @@ public class FList<T> extends Functionable<T> implements List<T>, Serializable{
 	
 	
 	
-	public boolean any(FnMap<T, Boolean> f)
+	public boolean any(Predicate<T> f)
 	{
 		return Fn.any(backing, f);
 	}
 	
-	public boolean all(FnMap<T, Boolean> f)
+	public boolean all(Predicate<T> f)
 	{
 		return Fn.all(backing, f);
 	}
@@ -494,7 +495,7 @@ public class FList<T> extends Functionable<T> implements List<T>, Serializable{
 		return Fn.showList_target(backing, target);
 	}
 	
-	public FList<String> showListBy(FnMap<T, String> f)
+	public FList<String> showListBy(Function<T, String> f)
 	{
 		FList<String> target = newTarget();
 		return Fn.showListBy_target(backing, target, f);
@@ -531,10 +532,10 @@ public class FList<T> extends Functionable<T> implements List<T>, Serializable{
 	}
 
 
-	public String showBy(final FnMap<T, String> f)
+	public String showBy(final Function<T, String> f)
 	{
 		final StringBuilder b = new StringBuilder();
-		this.each(element -> b.append(f.f(element)));
+		this.each(element -> b.append(f.apply(element)));
 		return b.toString();
 	}
 	
@@ -577,7 +578,7 @@ public class FList<T> extends Functionable<T> implements List<T>, Serializable{
 		return ts;
 	}
 	
-	public FList<T> shiftWhile(FnMap<T, Boolean> condition)
+	public FList<T> shiftWhile(Function<T, Boolean> condition)
 	{
 		FList<T> ts = takeWhile(condition);
 		for (int i = 0; i < ts.size(); i++){ backing.remove(0); }
@@ -624,14 +625,14 @@ public class FList<T> extends Functionable<T> implements List<T>, Serializable{
 	}
 */
 	
-	public <S> void sort(Comparator<S> comparator, FnMap<T, S> mapping) {
+	public <S> void sort(Comparator<S> comparator, Function<T, S> mapping) {
 		
 		Fn.sortBy(backing, comparator, mapping);
 	}
 	
 	
-	public <S extends Comparable<? super S>> void sort(final FnMap<T, S> mapping) {
-		Collections.sort(backing, (v1, v2) -> mapping.f(v1).compareTo(mapping.f(v2)));
+	public <S extends Comparable<? super S>> void sort(final Function<T, S> mapping) {
+		Collections.sort(backing, (v1, v2) -> mapping.apply(v1).compareTo(mapping.apply(v2)));
 	}
 	
 	
@@ -675,11 +676,11 @@ public class FList<T> extends Functionable<T> implements List<T>, Serializable{
 	}
 	
 	
-	protected static <S1> Collection<S1> takeWhile(Iterable<S1> source, FnMap<S1, Boolean> f, Collection<S1> target)
+	protected static <S1> Collection<S1> takeWhile(Iterable<S1> source, Function<S1, Boolean> f, Collection<S1> target)
 	{
 		for (S1 s : source)
 		{
-			if (!f.f(s)) break;
+			if (!f.apply(s)) break;
 			target.add(s);
 		}
 		

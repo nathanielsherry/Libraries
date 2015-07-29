@@ -4,12 +4,12 @@ package plural.executor.filter.implementations;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Predicate;
 
 import plural.executor.TicketManager;
 import plural.executor.filter.FilterExecutor;
 import plural.executor.map.MapExecutor;
 import fava.functionable.FList;
-import fava.signatures.FnCondition;
 import fava.signatures.FnFold;
 
 /**
@@ -29,7 +29,7 @@ public class PluralFilterExecutor<T1> extends FilterExecutor<T1>
 	protected TicketManager	ticketManager;
 
 
-	public PluralFilterExecutor(List<T1> sourceData, FnCondition<T1> t)
+	public PluralFilterExecutor(List<T1> sourceData, Predicate<T1> t)
 	{
 		super(sourceData, t);
 		
@@ -37,7 +37,7 @@ public class PluralFilterExecutor<T1> extends FilterExecutor<T1>
 	}
 
 	
-	public PluralFilterExecutor(List<T1> sourceData, FnCondition<T1> t, int threads)
+	public PluralFilterExecutor(List<T1> sourceData, Predicate<T1> t, int threads)
 	{
 		super(sourceData, t);
 		
@@ -87,7 +87,7 @@ public class PluralFilterExecutor<T1> extends FilterExecutor<T1>
 		int size = FList.wrap(acceptedLists).fold(0, new FnFold<LinkedList<T1>, Integer>() {
 
 			@Override
-			public Integer f(LinkedList<T1> list, Integer sum) {
+			public Integer apply(LinkedList<T1> list, Integer sum) {
 				return sum+list.size();
 			}
 		});
@@ -133,7 +133,7 @@ public class PluralFilterExecutor<T1> extends FilterExecutor<T1>
 			for (int i = start; i < end; i++)
 			{
 
-				if(  filter.f(sourceData.get(i))  ){
+				if(  filter.test(sourceData.get(i))  ){
 					accepted.add(sourceData.get(i));
 				}
 

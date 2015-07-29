@@ -1,5 +1,7 @@
 package fava.signatures;
 
+import java.util.function.BiFunction;
+
 /**
  * Function signature for a function which accepts two values of the same type and returns a value of a (potentially) different type
  * @author Nathaniel Sherry, 2010-2011
@@ -8,6 +10,6 @@ package fava.signatures;
  * @param <T2>
  */
 
-public interface FnCombine<T1, T2> extends FnMap2<T1, T1, T2> {
+public interface FnCombine<T1, T2> extends BiFunction<T1, T1, T2> {
 
 }

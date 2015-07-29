@@ -3,8 +3,8 @@ package fava.functionable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.function.Function;
 
-import fava.signatures.FnMap;
 
 public class FCollection<T> extends Functionable<T> implements Collection<T>{
 
@@ -119,7 +119,7 @@ public class FCollection<T> extends Functionable<T> implements Collection<T>{
 	// Overriding Functionable methods
 	////////////////////////////////////////////////
 
-	public <T2> FCollection<T2> map(FnMap<T, T2> f)
+	public <T2> FCollection<T2> map(Function<T, T2> f)
 	{
 		
 		Collection<T2> target = getNewCollection();		
@@ -129,7 +129,7 @@ public class FCollection<T> extends Functionable<T> implements Collection<T>{
 	}
 	
 
-	public FCollection<T> filter(FnMap<T, Boolean> f)
+	public FCollection<T> filter(Function<T, Boolean> f)
 	{
 		Collection<T> target = getNewCollection();		
 		filter(this, f, target);

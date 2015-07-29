@@ -68,7 +68,7 @@ public class SimpleFoldExecutor<T1> extends FoldExecutor<T1>
 			if (i == 0) {
 				super.result = super.sourceData.get(i);
 			} else {
-				super.result = super.fold.f(super.sourceData.get(i), super.result);
+				super.result = super.fold.apply(super.sourceData.get(i), super.result);
 			}
 			
 			workunits++;

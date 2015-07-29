@@ -1,10 +1,10 @@
 package bolt.compiler;
 
-import fava.signatures.FnMap;
+import java.util.function.Function;
 
-public class BoltJavaMap<T1, T2> extends BoltJavaFunction implements FnMap<T1, T2>{
+public class BoltJavaMap<T1, T2> extends BoltJavaFunction implements Function<T1, T2>{
 
-	private FnMap<T1, T2> innerFn;
+	private Function<T1, T2> innerFn;
 
 	private String value;
 	private Class<?> t1, t2;
@@ -34,16 +34,16 @@ public class BoltJavaMap<T1, T2> extends BoltJavaFunction implements FnMap<T1, T
 	@SuppressWarnings("unchecked")
 	private void compile()
 	{
-		innerFn = (FnMap<T1, T2>)getFunctionObject();
+		innerFn = (Function<T1, T2>)getFunctionObject();
 	}
 	
 	
 	
 	
 	@Override
-	public T2 f(T1 v) {
+	public T2 apply(T1 v) {
 		if (innerFn == null) compile();
-		return innerFn.f(v);
+		return innerFn.apply(v);
 	}
 
 

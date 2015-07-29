@@ -15,12 +15,12 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Scanner;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.regex.Pattern;
 
 import sun.nio.ch.ChannelInputStream;
 import fava.Functions;
 import fava.signatures.FnFold;
-import fava.signatures.FnMap;
 
 
 public class FStringInput implements Iterator<String>, Closeable{
@@ -394,7 +394,7 @@ public class FStringInput implements Iterator<String>, Closeable{
 
 	}
 	
-	public <S2> FList<S2> map(FnMap<String, S2> f)
+	public <S2> FList<S2> map(Function<String, S2> f)
 	{
 		
 		if (isClosed) throw new ClosedInputException();
@@ -402,7 +402,7 @@ public class FStringInput implements Iterator<String>, Closeable{
 		
 		while (this.hasNext())
 		{
-			target.add(   f.f(this.next())   );
+			target.add(   f.apply(this.next())   );
 		}
 		
 		try {
@@ -415,7 +415,7 @@ public class FStringInput implements Iterator<String>, Closeable{
 	}
 	
 	
-	public FList<String> filter(FnMap<String, Boolean> f)
+	public FList<String> filter(Function<String, Boolean> f)
 	{
 		if (isClosed) throw new ClosedInputException();
 		FList<String> target = new FList<>();
@@ -423,7 +423,7 @@ public class FStringInput implements Iterator<String>, Closeable{
 		while (this.hasNext())
 		{
 			String token = this.next();
-			if (   f.f(token)   ) target.add(   token   );
+			if (   f.apply(token)   ) target.add(   token   );
 		}
 		
 		try {
@@ -448,7 +448,7 @@ public class FStringInput implements Iterator<String>, Closeable{
 		{
 			String s = this.next();
 			if (first) { acc = s; }
-			else { acc = f.f(s, acc); }
+			else { acc = f.apply(s, acc); }
 		}
 		
 		try {
@@ -470,7 +470,7 @@ public class FStringInput implements Iterator<String>, Closeable{
 		while (this.hasNext())
 		{
 			String s = this.next();
-			acc = f.f(s, acc);
+			acc = f.apply(s, acc);
 		}
 		
 		

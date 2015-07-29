@@ -12,14 +12,15 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.function.BiFunction;
 import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
 import fava.datatypes.Pair;
 import fava.functionable.FList;
 import fava.signatures.FnCombine;
 import fava.signatures.FnFold;
-import fava.signatures.FnMap;
-import fava.signatures.FnMap2;
 
 public class Fn
 {
@@ -35,14 +36,14 @@ public class Fn
 	//////////////////////////////////////////////////////////
 	
 	/**
-	 * Transforms the elements of type T1 in 'list' using the given {@link FnMap} function, and returns the results
+	 * Transforms the elements of type T1 in 'list' using the given {@link Function} function, and returns the results
 	 * @param <T1>
 	 * @param <T2>
 	 * @param list the input list
 	 * @param f the transformation function
 	 * @return an FList<T2> containing the results of the transformation 
 	 */
-	public static <T1, T2> FList<T2> map(Iterable<T1> list, FnMap<T1, T2> f)
+	public static <T1, T2> FList<T2> map(Iterable<T1> list, Function<T1, T2> f)
 	{
 
 		if (list == null) return null;
@@ -55,14 +56,14 @@ public class Fn
 	}
 
 	/**
-	 * Transforms the elements of type T1 in 'array' using the given {@link FnMap} function, and returns the results
+	 * Transforms the elements of type T1 in 'array' using the given {@link Function} function, and returns the results
 	 * @param <T1>
 	 * @param <T2>
 	 * @param array the input array
 	 * @param f the transformation function
 	 * @return an FList<T2> containing the results of the transformation 
 	 */
-	public static <T1, T2> FList<T2> map(T1 array[], FnMap<T1, T2> f)
+	public static <T1, T2> FList<T2> map(T1 array[], Function<T1, T2> f)
 	{
 
 		if (array == null) return null;
@@ -75,7 +76,7 @@ public class Fn
 	}
 
 	
-	public static <T1, T2> FList<T2> mapIndex(List<T1> list, FnMap<Integer, T2> f)
+	public static <T1, T2> FList<T2> mapIndex(List<T1> list, Function<Integer, T2> f)
 	{
 		if (list == null) return null;
 		FList<T2> newlist = Fn.<T2> list();
@@ -86,7 +87,7 @@ public class Fn
 
 	}
 	
-	public static <T1, T2> FList<T2> mapIndex(Iterable<T1> iterable, FnMap<Integer, T2> f)
+	public static <T1, T2> FList<T2> mapIndex(Iterable<T1> iterable, Function<Integer, T2> f)
 	{
 		if (iterable == null) return null;
 		FList<T2> newlist = Fn.<T2> list();
@@ -98,7 +99,7 @@ public class Fn
 	}
 
 	
-	public static <T1, T2> FList<T2> mapWithIndex(List<T1> list, FnMap2<T1, Integer, T2> f)
+	public static <T1, T2> FList<T2> mapWithIndex(List<T1> list, BiFunction<T1, Integer, T2> f)
 	{
 		if (list == null) return null;
 		FList<T2> newlist = Fn.<T2> list();
@@ -109,7 +110,7 @@ public class Fn
 
 	}
 	
-	public static <T1, T2> FList<T2> mapWithIndex(Iterable<T1> iterable, FnMap2<T1, Integer, T2> f)
+	public static <T1, T2> FList<T2> mapWithIndex(Iterable<T1> iterable, BiFunction<T1, Integer, T2> f)
 	{
 		if (iterable == null) return null;
 		FList<T2> newlist = Fn.<T2> list();
@@ -121,21 +122,21 @@ public class Fn
 	}
 	
 	
-	public static <T1, T2> FList<T2> map_target(Iterable<T1> list, List<T2> target, FnMap<T1, T2> f)
+	public static <T1, T2> FList<T2> map_target(Iterable<T1> list, List<T2> target, Function<T1, T2> f)
 	{
 
 		if (list == null) return null;
 
 		for (T1 t : list)
 		{
-			target.add(f.f(t));
+			target.add(f.apply(t));
 		}
 		
 		return asFList(target);
 
 	}
 	
-	public static <T1, T2> FList<T2> map_index_target(List<T1> list, List<T2> target, FnMap<Integer, T2> f)
+	public static <T1, T2> FList<T2> map_index_target(List<T1> list, List<T2> target, Function<Integer, T2> f)
 	{
 
 		if (list == null) return null;
@@ -144,7 +145,7 @@ public class Fn
 
 		for (int i = 0; i < list.size(); i++)
 		{
-			target.add(f.f(i));
+			target.add(f.apply(i));
 		}
 		
 		return asFList(target);
@@ -152,7 +153,7 @@ public class Fn
 	}
 	
 	@SuppressWarnings("unused")
-	public static <T1, T2> FList<T2> map_index_target(Iterable<T1> iterable, List<T2> target, FnMap<Integer, T2> f)
+	public static <T1, T2> FList<T2> map_index_target(Iterable<T1> iterable, List<T2> target, Function<Integer, T2> f)
 	{
 
 		if (iterable == null) return null;
@@ -161,7 +162,7 @@ public class Fn
 
 		int i = 0;
 		for (T1 t1 : iterable) {
-			target.add(f.f(i));
+			target.add(f.apply(i));
 			i++;
 		}
 		
@@ -170,7 +171,7 @@ public class Fn
 	}
 
 	
-	public static <T1, T2> FList<T2> map_with_index_target(List<T1> list, List<T2> target, FnMap2<T1, Integer, T2> f)
+	public static <T1, T2> FList<T2> map_with_index_target(List<T1> list, List<T2> target, BiFunction<T1, Integer, T2> f)
 	{
 
 		if (list == null) return null;
@@ -179,14 +180,14 @@ public class Fn
 
 		for (int i = 0; i < list.size(); i++)
 		{
-			target.add(f.f(list.get(i), i));
+			target.add(f.apply(list.get(i), i));
 		}
 		
 		return asFList(target);
 
 	}
 	
-	public static <T1, T2> FList<T2> map_with_index_target(Iterable<T1> iterable, List<T2> target, FnMap2<T1, Integer, T2> f)
+	public static <T1, T2> FList<T2> map_with_index_target(Iterable<T1> iterable, List<T2> target, BiFunction<T1, Integer, T2> f)
 	{
 
 		if (iterable == null) return null;
@@ -195,7 +196,7 @@ public class Fn
 
 		int i = 0;
 		for (T1 t1 : iterable) {
-			target.add(f.f(t1, i));
+			target.add(f.apply(t1, i));
 			i++;
 		}
 		
@@ -230,7 +231,7 @@ public class Fn
 	//////////////////////////////////////////////////////////
 	// FILTER
 	//////////////////////////////////////////////////////////
-	public static <T1> FList<T1> filter(Iterable<T1> list, FnMap<T1, Boolean> f)
+	public static <T1> FList<T1> filter(Iterable<T1> list, Predicate<T1> f)
 	{
 
 		if (list == null) return null;
@@ -243,7 +244,7 @@ public class Fn
 	}
 	
 
-	public static <T1> FList<T1> filter_index(List<T1> list, FnMap<Integer, Boolean> f)
+	public static <T1> FList<T1> filter_index(List<T1> list, Predicate<Integer> f)
 	{
 		if (list == null) return null;
 		FList<T1> newlist = Fn.<T1> list();
@@ -257,27 +258,27 @@ public class Fn
 
 	
 	
-	public static <T1> FList<T1> filter_target(Iterable<T1> list, List<T1> target, FnMap<T1, Boolean> f)
+	public static <T1> FList<T1> filter_target(Iterable<T1> list, List<T1> target, Predicate<T1> f)
 	{
 
 		if (list == null) return null;
 
 		for (T1 element : list)
 		{
-			if (f.f(element)) target.add(element);
+			if (f.test(element)) target.add(element);
 		}
 		
 		return asFList(target);
 
 	}
 	
-	public static <T1> FList<T1> filter_index_target(List<T1> list, List<T1> target, FnMap<Integer, Boolean> f)
+	public static <T1> FList<T1> filter_index_target(List<T1> list, List<T1> target, Predicate<Integer> f)
 	{
 		if (list == null) return null;
 
 		for (int i = 0; i <= list.size(); i++)
 		{
-			if (f.f(i)) target.add(list.get(i));
+			if (f.test(i)) target.add(list.get(i));
 		}
 		
 		return asFList(target);
@@ -316,7 +317,7 @@ public class Fn
 
 		for (T1 elem : list)
 		{
-			result = f.f(elem, result);
+			result = f.apply(elem, result);
 		}
 
 		return result;
@@ -335,7 +336,7 @@ public class Fn
 				result = elem;
 				needsAssigning = false;
 			} else {
-				result = f.f(elem, result);
+				result = f.apply(elem, result);
 			}
 		}
 
@@ -365,7 +366,7 @@ public class Fn
 		// order matters for foldr/foldl so we use a counter variable instead of an iterator
 		for (int i = list.size() - 1; i >= 0; i--)
 		{
-			result = f.f(list.get(i), result);
+			result = f.apply(list.get(i), result);
 		}
 
 		return result;
@@ -381,7 +382,7 @@ public class Fn
 		// order matters for foldr/foldl so we use a counter variable instead of an iterator
 		for (int i = list.size() - 2; i >= 0; i--)
 		{
-			result = f.f(list.get(i), result);
+			result = f.apply(list.get(i), result);
 		}
 
 		return result;
@@ -411,7 +412,7 @@ public class Fn
 		// order matters for foldr/foldl so we use a counter variable instead of an iterator
 		for (int i = 0; i < list.size(); i++)
 		{
-			result = f.f(list.get(i), result);
+			result = f.apply(list.get(i), result);
 		}
 
 		return result;
@@ -427,7 +428,7 @@ public class Fn
 		// order matters for foldr/foldl so we use a counter variable instead of an iterator
 		for (int i = 1; i < list.size(); i++)
 		{
-			result = f.f(list.get(i), result);
+			result = f.apply(list.get(i), result);
 		}
 
 		return result;
@@ -441,12 +442,12 @@ public class Fn
 	{
 		if (list == null) return false;
 
-		return foldr(map(list, equiv(item)), false,	or());
+		return foldr(map(list, e -> item.equals(e)), false,	or());
 	}
 
-	public static <T1> boolean includeBy(Iterable<T1> list, FnMap<T1, Boolean> f)
+	public static <T1> boolean includeBy(Iterable<T1> list, Predicate<T1> f)
 	{
-		FList<Boolean> blist = map(list, f);
+		FList<Boolean> blist = map(list, e -> f.test(e));
 		if (blist.size() == 0) return false;
 		return foldr(blist, or());
 	}
@@ -456,7 +457,7 @@ public class Fn
 	//////////////////////////////////////////////////////////
 	// ZIP
 	//////////////////////////////////////////////////////////
-	public static <T1, T2, T3> FList<T3> zipWith(List<T1> l1, List<T2> l2, FnMap2<T1, T2, T3> f)
+	public static <T1, T2, T3> FList<T3> zipWith(List<T1> l1, List<T2> l2, BiFunction<T1, T2, T3> f)
 	{
 
 		FList<T3> l3 = Fn.<T3>list();
@@ -465,7 +466,7 @@ public class Fn
 
 	}
 	
-	public static <T1, T2, T3> FList<T3> zipWith_target(Iterable<T1> l1, Iterable<T2> l2, List<T3> target, FnMap2<T1, T2, T3> f)
+	public static <T1, T2, T3> FList<T3> zipWith_target(Iterable<T1> l1, Iterable<T2> l2, List<T3> target, BiFunction<T1, T2, T3> f)
 	{
 
 		if (l1 == null || l2 == null) return null;
@@ -475,7 +476,7 @@ public class Fn
 		
 		while (t1i.hasNext() && t2i.hasNext())
 		{
-			target.add(f.f(t1i.next(), t2i.next()));
+			target.add(f.apply(t1i.next(), t2i.next()));
 		}
 
 		return asFList(target);
@@ -494,23 +495,23 @@ public class Fn
 	
 	public static <T1, T2> FList<Pair<T1, T2>> zipPair(List<T1> l1, List<T2> l2)
 	{
-		return zipWith(l1, l2, new FnMap2<T1, T2, Pair<T1, T2>>(){
+		return zipWith(l1, l2, new BiFunction<T1, T2, Pair<T1, T2>>(){
 
-			public Pair<T1, T2> f(T1 o1, T2 o2) {
+			public Pair<T1, T2> apply(T1 o1, T2 o2) {
 				return new Pair<T1, T2>(o1, o2);
 			}});
 	}
 	
 	public static <T1, T2> FList<Pair<T1, T2>> zipPair_target(Iterable<T1> l1, Iterable<T2> l2, List<Pair<T1, T2>> target)
 	{
-		return zipWith_target(l1, l2, target, new FnMap2<T1, T2, Pair<T1, T2>>(){
+		return zipWith_target(l1, l2, target, new BiFunction<T1, T2, Pair<T1, T2>>(){
 
-			public Pair<T1, T2> f(T1 o1, T2 o2) {
+			public Pair<T1, T2> apply(T1 o1, T2 o2) {
 				return new Pair<T1, T2>(o1, o2);
 			}});
 	}
 	
- 	public static <T1, T2, T3> FList<T3> zipWith(T1[] l1, T2[] l2, FnMap2<T1, T2, T3> f)
+ 	public static <T1, T2, T3> FList<T3> zipWith(T1[] l1, T2[] l2, BiFunction<T1, T2, T3> f)
 	{
  		
 		if (l1 == null || l2 == null) return null;
@@ -581,7 +582,7 @@ public class Fn
 			inlist = false;
 			for (T1 newelem : target)
 			{
-				inlist |= f.f(elem, newelem);
+				inlist |= f.apply(elem, newelem);
 				if (inlist) break;
 			}
 
@@ -600,27 +601,27 @@ public class Fn
 	//////////////////////////////////////////////////////////
 	// SORT
 	//////////////////////////////////////////////////////////
-	public static <T1, T2> void sortBy(List<T1> list, final Comparator<T2> c, final FnMap<T1, T2> f)
+	public static <T1, T2> void sortBy(List<T1> list, final Comparator<T2> c, final Function<T1, T2> f)
 	{
 
 		Collections.sort(list, new Comparator<T1>() {
 
 			public int compare(T1 o1, T1 o2)
 			{
-				return c.compare(f.f(o1), f.f(o2));
+				return c.compare(f.apply(o1), f.apply(o2));
 			}
 		});
 
 	}
 	
-	public static <T1, T2 extends Comparable<T2>> void sortBy(List<T1> list, final FnMap<T1, T2> f)
+	public static <T1, T2 extends Comparable<T2>> void sortBy(List<T1> list, final Function<T1, T2> f)
 	{
 
 		Collections.sort(list, new Comparator<T1>() {
 
 			public int compare(T1 o1, T1 o2)
 			{
-				return f.f(o1).compareTo(f.f(o2));
+				return f.apply(o1).compareTo(f.apply(o2));
 			}
 		});
 
@@ -640,7 +641,7 @@ public class Fn
 		return groupBy(list, Functions.<T1>equiv());
 	}
 	
-	public static <T1> FList<List<T1>> group_target(final Iterable<T1> list, final List<List<T1>> target, final FnMap<T1, List<T1>> getSublist)
+	public static <T1> FList<List<T1>> group_target(final Iterable<T1> list, final List<List<T1>> target, final Function<T1, List<T1>> getSublist)
 	{
 		return groupBy_target(list, target, Functions.<T1>equiv(), getSublist);
 	}
@@ -654,44 +655,18 @@ public class Fn
 		List<T1> uniques = uniqueBy(list, f);
 
 		//map the list into a list of lists
-		return map(uniques, new FnMap<T1, List<T1>>() {
-
-			public List<T1> f(final T1 o1)
-			{
-				return filter(list, new FnMap<T1, Boolean>() {
-
-					public Boolean f(T1 o2)
-					{
-						return f.f(o1, o2);
-					}
-				});
-			}
-		});
+		return map(uniques, o1 -> filter(list, o2 -> f.apply(o1, o2)));
 
 	}
 	
-	public static <T1> FList<List<T1>> groupBy_target(final Iterable<T1> list, final List<List<T1>> target, final FnCombine<T1, Boolean> f, final FnMap<T1, List<T1>> getSublist)
+	public static <T1> FList<List<T1>> groupBy_target(final Iterable<T1> list, final List<List<T1>> target, final FnCombine<T1, Boolean> f, final Function<T1, List<T1>> getSublist)
 	{
 	
 		//generate a unique list
 		List<T1> uniques = uniqueBy(list, f);
 
-		
-		
 		//map the list into a list of lists
-		return map_target(uniques, target, new FnMap<T1, List<T1>>() {
-
-			public List<T1> f(final T1 o1)
-			{				
-				return filter_target(list, getSublist.f(null), new FnMap<T1, Boolean>() {
-
-					public Boolean f(T1 o2)
-					{
-						return f.f(o1, o2);
-					}
-				});
-			}
-		});
+		return map_target(uniques, target, o1 -> filter_target(list, getSublist.apply(null), o2 -> f.apply(o1, o2)));
 
 	}
 	
@@ -745,7 +720,7 @@ public class Fn
 	}
 	
 	
-	public static <T1, T2> FList<T2> concatMap(final List<T1> list, FnMap<T1, List<T2>> f)
+	public static <T1, T2> FList<T2> concatMap(final List<T1> list, Function<T1, List<T2>> f)
 	{
 		return concat(map(list, f));	
 	}
@@ -755,9 +730,9 @@ public class Fn
 	//////////////////////////////////////////////////////////
 	// LOGICAL OPERATOR MAPPINGS
 	//////////////////////////////////////////////////////////
-	public static <T1> Boolean any(final Iterable<T1> list, FnMap<T1, Boolean>f)
+	public static <T1> Boolean any(final Iterable<T1> list, Predicate<T1>f)
 	{
-		return foldr(map(list, f), or());
+		return foldr(map(list, e -> f.test(e)), or());
 	}
 
 	public static Boolean any(final Iterable<Boolean> list)
@@ -765,9 +740,9 @@ public class Fn
 		return fold(list, or());
 	}
 	
-	public static <T1> Boolean all(final Iterable<T1> list, FnMap<T1, Boolean>f)
+	public static <T1> Boolean all(final Iterable<T1> list, Predicate<T1>f)
 	{
-		return foldr(map(list, f), and());
+		return foldr(map(list, e -> f.test(e)), and());
 	}
 	
 	public static Boolean all(final Iterable<Boolean> list)
@@ -791,11 +766,11 @@ public class Fn
 		return map_target(list, target, Functions.<T1>show());
 	}
 	
-	public static <T1> FList<String> showListBy(List<T1> list, FnMap<T1, String> f)
+	public static <T1> FList<String> showListBy(List<T1> list, Function<T1, String> f)
 	{
 		return map(list, f);
 	}
-	public static <T1> FList<String> showListBy_target(List<T1> list, List<String> target, FnMap<T1, String> f)
+	public static <T1> FList<String> showListBy_target(List<T1> list, List<String> target, Function<T1, String> f)
 	{
 		return map_target(list, target, f);
 	}
@@ -815,28 +790,28 @@ public class Fn
 	public static <T1> FList<T1> take_target(Iterable<T1> list, List<T1> target, final int count)
 	{
 		FList<T1> newlist = Fn.<T1> list();
-		return takeWhile_target(list, newlist, new FnMap<T1, Boolean>() {
+		return takeWhile_target(list, newlist, new Predicate<T1>() {
 
 			int takeCount = 0;
 			
-			public Boolean f(T1 element) {
+			public boolean test(T1 element) {
 				return takeCount++ < count;
 				
 			}
 		});
 	}	
 	
-	public static <T1> FList<T1> takeWhile(Iterable<T1> list, FnMap<T1, Boolean> f)
+	public static <T1> FList<T1> takeWhile(Iterable<T1> list, Predicate<T1> f)
 	{
 		FList<T1> newlist = Fn.<T1> list();
 		return takeWhile_target(list, newlist, f);
 	}
 	
-	public static <T1> FList<T1> takeWhile_target(Iterable<T1> list, List<T1> target, FnMap<T1, Boolean> f)
+	public static <T1> FList<T1> takeWhile_target(Iterable<T1> list, List<T1> target, Predicate<T1> f)
 	{
 		for (T1 t : list)
 		{
-			if (f.f(t))
+			if (f.test(t))
 				target.add(t);
 			else
 				break;
@@ -882,18 +857,18 @@ public class Fn
 		
 		
 		//map each element to a list of permutations with 'element' at the head
-		return concat(map(list, new FnMap<T1, List<List<T1>>>() {
+		return concat(map(list, new Function<T1, List<List<T1>>>() {
 
-			public List<List<T1>> f(final T1 element) {
+			public List<List<T1>> apply(final T1 element) {
 				
 				
 				List<T1> rest = map(list, Functions.<T1>id());
 				rest.remove(element);
 				
 				
-				return map(permutations(rest), new FnMap<List<T1>, List<T1>>(){
+				return map(permutations(rest), new Function<List<T1>, List<T1>>(){
 
-					public List<T1> f(List<T1> sublist) {
+					public List<T1> apply(List<T1> sublist) {
 						List<T1> target = map(sublist, Functions.<T1>id());
 						target.add(element);
 						return target;

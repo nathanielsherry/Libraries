@@ -1,14 +1,20 @@
 package bolt.scripting;
 
-import bolt.scripting.languages.Language;
-import fava.signatures.FnCondition;
+import java.util.function.Predicate;
 
-public class BoltCondition<T1> extends BoltMap<T1, Boolean> implements FnCondition<T1>
+import bolt.scripting.languages.Language;
+
+public class BoltCondition<T1> extends BoltMap<T1, Boolean> implements Predicate<T1>
 {
 
 	public BoltCondition(Language language, String inputName, String outputName, String script)
 	{
 		super(language, inputName, outputName, script);
+	}
+
+	@Override
+	public boolean test(T1 t) {
+		return apply(t);
 	}
 
 }

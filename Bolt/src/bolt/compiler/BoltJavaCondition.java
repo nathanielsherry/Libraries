@@ -1,12 +1,12 @@
 package bolt.compiler;
 
-import fava.signatures.FnCondition;
+import java.util.function.Predicate;
 
-public class BoltJavaCondition<T1> extends BoltJavaFunction implements FnCondition<T1>
+public class BoltJavaCondition<T1> extends BoltJavaFunction implements Predicate<T1>
 {
 
 
-	private FnCondition<T1> innerFn;
+	private Predicate<T1> innerFn;
 
 	private String value;
 	private Class<?> t1;
@@ -35,16 +35,16 @@ public class BoltJavaCondition<T1> extends BoltJavaFunction implements FnConditi
 	@SuppressWarnings("unchecked")
 	private void compile()
 	{
-		innerFn = (FnCondition<T1>)getFunctionObject();
+		innerFn = (Predicate<T1>)getFunctionObject();
 	}
 	
 	
 	
 	
 	@Override
-	public Boolean f(T1 v) {
+	public boolean test(T1 v) {
 		if (innerFn == null) compile();
-		return innerFn.f(v);
+		return innerFn.test(v);
 	}
 
 

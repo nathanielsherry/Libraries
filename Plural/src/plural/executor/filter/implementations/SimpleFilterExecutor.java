@@ -2,11 +2,11 @@ package plural.executor.filter.implementations;
 
 
 import java.util.List;
+import java.util.function.Predicate;
 
 import plural.executor.ExecutorSet;
 import plural.executor.filter.FilterExecutor;
 import plural.executor.map.MapExecutor;
-import fava.signatures.FnCondition;
 
 
 /**
@@ -23,7 +23,7 @@ import fava.signatures.FnCondition;
 public class SimpleFilterExecutor<T1> extends FilterExecutor<T1>
 {
 
-	public SimpleFilterExecutor(List<T1> sourceData, FnCondition<T1> t)
+	public SimpleFilterExecutor(List<T1> sourceData, Predicate<T1> t)
 	{
 		super(sourceData, t);
 	}
@@ -62,7 +62,7 @@ public class SimpleFilterExecutor<T1> extends FilterExecutor<T1>
 		int percent = 0, lastpercent = 0, workunits = 0;
 		for (int i = 0; i < super.getDataSize(); i++) {
 			
-			if (super.filter.f(super.sourceData.get(i)))
+			if (super.filter.test(super.sourceData.get(i)))
 			{
 				result.add(super.sourceData.get(i));
 			}

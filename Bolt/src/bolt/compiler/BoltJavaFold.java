@@ -41,9 +41,9 @@ public class BoltJavaFold<T1, T2> extends BoltJavaFunction implements FnFold<T1,
 	
 	
 	@Override
-	public T2 f(T1 v, T2 b) {
+	public T2 apply(T1 v, T2 b) {
 		if (innerFn == null) compile();
-		return innerFn.f(v, b);
+		return innerFn.apply(v, b);
 	}
 
 

@@ -2,8 +2,7 @@ package fava.functionable;
 
 
 import java.io.Serializable;
-
-import fava.signatures.FnMap;
+import java.util.function.Function;
 
 
 /**
@@ -111,23 +110,16 @@ public class Range extends Sequence<Integer> implements Serializable
 			
 		
 		
-		
 		super.setStartValue(this.start);
-		super.setNextFunction(new FnMap<Integer, Integer>() {
-
-			public Integer f(Integer element) {
-				
-				if (element == null) return null;
-				Integer next = element+Range.this.step;			
-				
-				if (step < 0)
-				{
-					return next >= Range.this.stop ? next : null;
-				} else {
-					return next <= Range.this.stop ? next : null;	
-				}
-				
-				
+		super.setNextFunction(element -> {
+			if (element == null) return null;
+			Integer next = element+Range.this.step;			
+			
+			if (step < 0)
+			{
+				return next >= Range.this.stop ? next : null;
+			} else {
+				return next <= Range.this.stop ? next : null;	
 			}
 		});
 		

@@ -3,8 +3,8 @@ package fava.functionable;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.function.Supplier;
 
-import fava.signatures.FnGet;
 
 /**
  * Generates a sequence of elements of type T. Similar to {@link Sequence}, but does not directly rely on the previous element to generate the next.
@@ -15,13 +15,13 @@ import fava.signatures.FnGet;
 
 public class Generator<T> extends Functionable<T>{
 
-	private FnGet<Optional<T>> generate;
+	private Supplier<Optional<T>> generate;
 	
 	/**
-	 * Create a new Generator with the given {@link FnGet} function to generate new values
-	 * @param generate the {@link FnGet} function to generate values
+	 * Create a new Generator with the given {@link Supplier} function to generate new values
+	 * @param generate the {@link Supplier} function to generate values
 	 */
-	public Generator(FnGet<Optional<T>> generate)
+	public Generator(Supplier<Optional<T>> generate)
 	{
 		this.generate = generate;
 	}
@@ -36,7 +36,7 @@ public class Generator<T> extends Functionable<T>{
 				
 				if (nextElement == null)
 				{
-					nextElement = generate.f();
+					nextElement = generate.get();
 				}
 				if (nextElement == null) return false;
 				
@@ -49,7 +49,7 @@ public class Generator<T> extends Functionable<T>{
 				
 				if (nextElement == null)
 				{
-					nextElement = generate.f();
+					nextElement = generate.get();
 				}
 				if (nextElement == null) throw new NoSuchElementException();
 				

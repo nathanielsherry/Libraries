@@ -28,7 +28,7 @@ public class BoltFold<T1, T2> extends BoltScripter implements FnFold<T1, T2>{
 	
 
 	@Override
-	public T2 f(T1 v1, T2 v2) {
+	public T2 apply(T1 v1, T2 v2) {
 		
 		if (hasSideEffects || !multithreaded) {
 			synchronized(this)

@@ -4,8 +4,8 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Set;
+import java.util.function.Function;
 
-import fava.signatures.FnMap;
 
 
 public class FSet<S> extends FCollection<S> implements Set<S> 
@@ -172,7 +172,7 @@ public class FSet<S> extends FCollection<S> implements Set<S>
 	// Overriding Functionable methods
 	////////////////////////////////////////////////
 
-	public <T2> FSet<T2> map(FnMap<S, T2> f)
+	public <T2> FSet<T2> map(Function<S, T2> f)
 	{
 		
 		Collection<T2> target = getNewCollection();		
@@ -182,7 +182,7 @@ public class FSet<S> extends FCollection<S> implements Set<S>
 	}
 	
 
-	public FSet<S> filter(FnMap<S, Boolean> f)
+	public FSet<S> filter(Function<S, Boolean> f)
 	{
 		Collection<S> target = getNewCollection();		
 		filter(this, f, target);
@@ -211,10 +211,10 @@ public class FSet<S> extends FCollection<S> implements Set<S>
 		System.out.println(ints.show());
 		
 		System.out.println(
-			ints.map(new FnMap<Integer, Integer>() {
+			ints.map(new Function<Integer, Integer>() {
 	
 				@Override
-				public Integer f(Integer v) {
+				public Integer apply(Integer v) {
 					return 1;
 				}
 			}).show()

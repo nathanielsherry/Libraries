@@ -4,11 +4,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-
-import fava.signatures.FnMap;
+import java.util.function.Function;
 
 /**
- * Produces a sequence of values by taking an initial value and a {@link FnMap} to produce the next value from the current one.
+ * Produces a sequence of values by taking an initial value and a {@link Function} to produce the next value from the current one.
  * 
  * @author Nathaniel Sherry, 2010-2011
  *
@@ -18,7 +17,7 @@ import fava.signatures.FnMap;
 public class Sequence<T> extends Functionable<T> 
 {
 
-	private FnMap<T, T> f;
+	private Function<T, T> f;
 	private T start;
 		
 	
@@ -41,11 +40,11 @@ public class Sequence<T> extends Functionable<T>
 	
 	
 	/**
-	 * Creates a new Sequence with the given starting value and {@link FnMap} to compute the following values
+	 * Creates a new Sequence with the given starting value and {@link Function} to compute the following values
 	 * @param start the initial value
 	 * @param f the sequence function to compute further values
 	 */
-	public Sequence(T start, FnMap<T, T> f) {
+	public Sequence(T start, Function<T, T> f) {
 		
 		this.f = f;
 		this.start = start;
@@ -60,7 +59,7 @@ public class Sequence<T> extends Functionable<T>
 	 */
 	public T nextValue(T oldValue)
 	{
-		return f.f(oldValue);
+		return f.apply(oldValue);
 	}
 	
 
@@ -76,7 +75,7 @@ public class Sequence<T> extends Functionable<T>
 	 * Sets the sequence function for generating new values from the current one
 	 * @param next
 	 */
-	protected void setNextFunction(FnMap<T, T> next)
+	protected void setNextFunction(Function<T, T> next)
 	{
 		f = next;
 	}
@@ -111,7 +110,7 @@ public class Sequence<T> extends Functionable<T>
 				T cur = current;
 												
 				//the next element becomes the new current element
-				current = f.f(current);
+				current = f.apply(current);
 
 				//return the current value
 				return cur;
@@ -136,7 +135,7 @@ public class Sequence<T> extends Functionable<T>
 	// Overriding Functionable Methods
 	////////////////////////////////////////////////
 
-	public <T2> FList<T2> map(FnMap<T, T2> f)
+	public <T2> FList<T2> map(Function<T, T2> f)
 	{
 		
 		Collection<T2> target = getNewCollection();		
@@ -146,7 +145,7 @@ public class Sequence<T> extends Functionable<T>
 	}
 	
 
-	public FList<T> filter(FnMap<T, Boolean> f)
+	public FList<T> filter(Function<T, Boolean> f)
 	{
 		Collection<T> target = getNewCollection();		
 		filter(this, f, target);
@@ -162,7 +161,7 @@ public class Sequence<T> extends Functionable<T>
 	}
 	
 	
-	public FList<T> takeWhile(FnMap<T, Boolean> f)
+	public FList<T> takeWhile(Function<T, Boolean> f)
 	{
 		Collection<T> target = getNewCollection();
 		takeWhile(this, f, target);
@@ -196,11 +195,11 @@ public class Sequence<T> extends Functionable<T>
 	}
 	
 	
-	protected static <S1> Collection<S1> takeWhile(Iterable<S1> source, FnMap<S1, Boolean> f, Collection<S1> target)
+	protected static <S1> Collection<S1> takeWhile(Iterable<S1> source, Function<S1, Boolean> f, Collection<S1> target)
 	{
 		for (S1 s : source)
 		{
-			if (!f.f(s)) break;
+			if (!f.apply(s)) break;
 			target.add(s);
 		}
 		

@@ -3,13 +3,13 @@ package plural.executor.map;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 import plural.executor.AbstractExecutor;
 import plural.executor.ExecutorSet;
 import plural.executor.ExecutorState;
 import plural.executor.map.implementations.PluralMapExecutor;
 import plural.executor.map.implementations.SimpleMapExecutor;
-import fava.signatures.FnMap;
 
 /**
  * 
@@ -26,17 +26,17 @@ import fava.signatures.FnMap;
 public abstract class MapExecutor<T1, T2> extends AbstractExecutor
 {
 
-	protected FnMap<T1, T2>			map;
+	protected Function<T1, T2>		map;
 	protected List<T1>				sourceData;
 	protected List<T2>				targetList;
 	
 
-	public MapExecutor(List<T1> sourceData, FnMap<T1, T2> map)
+	public MapExecutor(List<T1> sourceData, Function<T1, T2> map)
 	{
 		this(sourceData, null, map);
 	}
 	
-	public MapExecutor(List<T1> sourceData, List<T2> target, FnMap<T1, T2> map)
+	public MapExecutor(List<T1> sourceData, List<T2> target, Function<T1, T2> map)
 	{
 		super();
 		
@@ -77,7 +77,7 @@ public abstract class MapExecutor<T1, T2> extends AbstractExecutor
 	 * @param map
 	 *            the {@link PluralMap} to execute.
 	 */
-	public void setMap(FnMap<T1, T2> map)
+	public void setMap(Function<T1, T2> map)
 	{
 
 		if (this.map != null && super.getState() != ExecutorState.UNSTARTED) return;

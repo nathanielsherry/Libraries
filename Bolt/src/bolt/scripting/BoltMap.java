@@ -1,10 +1,11 @@
 package bolt.scripting;
 
+import java.util.function.Function;
+
 import bolt.scripting.languages.Language;
-import fava.signatures.FnMap;
 
 
-public class BoltMap<T1, T2> extends BoltScripter implements FnMap<T1, T2>{
+public class BoltMap<T1, T2> extends BoltScripter implements Function<T1, T2>{
 
 	private String inputName, outputName;
 	
@@ -28,7 +29,7 @@ public class BoltMap<T1, T2> extends BoltScripter implements FnMap<T1, T2>{
 
 
 	@Override
-	public T2 f(T1 v) {
+	public T2 apply(T1 v) {
 		
 		if (hasSideEffects || !multithreaded) {
 			synchronized(this)

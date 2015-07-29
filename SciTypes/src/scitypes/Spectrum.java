@@ -10,10 +10,10 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 import fava.functionable.Functionable;
 import fava.signatures.FnFold;
-import fava.signatures.FnMap;
 
 public class Spectrum extends Functionable<Float> implements Serializable
 {
@@ -286,11 +286,11 @@ public class Spectrum extends Functionable<Float> implements Serializable
 		}
 	}
 	
-	public void map_i(FnMap<Float, Float> f)
+	public void map_i(Function<Float, Float> f)
 	{
 		for (int i = 0; i < size; i++)
 		{
-			set(i, f.f(data[i]));
+			set(i, f.apply(data[i]));
 		}
 	}
 	
@@ -321,7 +321,7 @@ public class Spectrum extends Functionable<Float> implements Serializable
 		
 		for (int i = 1; i < size; i++)
 		{
-			result = f.f(get(i), result);
+			result = f.apply(get(i), result);
 		}
 		
 		return result;
@@ -338,7 +338,7 @@ public class Spectrum extends Functionable<Float> implements Serializable
 		
 		for (int i = 0; i < size; i++)
 		{
-			result = f.f(get(i), result);
+			result = f.apply(get(i), result);
 		}
 		
 		return result;
@@ -350,20 +350,20 @@ public class Spectrum extends Functionable<Float> implements Serializable
 		Spectrum newSpectrum = new Spectrum(size);
 		for (int i = 0; i < size; i++)
 		{
-			newSpectrum.set(i, f.f(data[i], other.data[i]));
+			newSpectrum.set(i, f.apply(data[i], other.data[i]));
 		}
 		return newSpectrum;
 		
 	}
 
-	public static FnMap<Spectrum, byte[]> getEncoder()
+	public static Function<Spectrum, byte[]> getEncoder()
 	{
 
 		//Function to serialize a spectrum
-		return  new FnMap<Spectrum, byte[]>()
+		return  new Function<Spectrum, byte[]>()
 		{
 
-			public byte[] f(Spectrum s)
+			public byte[] apply(Spectrum s)
 			{
 
 				ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -385,14 +385,14 @@ public class Spectrum extends Functionable<Float> implements Serializable
 		};
 	}
 
-	public static FnMap<byte[], Spectrum> getDecoder(){
+	public static Function<byte[], Spectrum> getDecoder(){
 
 		//Function to deserialize a spectrum
 
-		return new FnMap<byte[], Spectrum>()
+		return new Function<byte[], Spectrum>()
 		{
 
-			public Spectrum f(byte[] bs)
+			public Spectrum apply(byte[] bs)
 			{
 				ByteArrayInputStream bais = new ByteArrayInputStream(bs);
 				ObjectInputStream ois;

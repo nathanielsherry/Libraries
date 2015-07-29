@@ -133,13 +133,13 @@ public class PluralFoldExecutor<T1> extends FoldExecutor<T1>
 					runningTotal = sourceData.get(i);
 					first = false;
 				} else {
-					runningTotal = fold.f(sourceData.get(i), runningTotal);
+					runningTotal = fold.apply(sourceData.get(i), runningTotal);
 				}
 
 			}
 			
 			synchronized (this) {
-				result = (  (result == null) ? runningTotal : fold.f(runningTotal, result)  );	
+				result = (  (result == null) ? runningTotal : fold.apply(runningTotal, result)  );	
 			}
 			
 			if (super.executorSet != null) {

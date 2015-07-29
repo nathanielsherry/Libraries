@@ -1,4 +1,6 @@
 package bolt;
+import java.util.function.Function;
+
 import javax.script.ScriptEngineFactory;
 import javax.script.ScriptEngineManager;
 
@@ -10,7 +12,6 @@ import bolt.scripting.languages.PythonLanguage;
 import bolt.scripting.languages.RubyLanguage;
 import fava.functionable.FList;
 import fava.functionable.Range;
-import fava.signatures.FnMap;
 
 
 public class Test {
@@ -37,7 +38,7 @@ public class Test {
 		inc.setFunctionText("return i+1;");
 		
 		try {
-			inc.f(1);
+			inc.apply(1);
 		} catch (Exception e) {
 
 			System.out.println(e.getMessage());
@@ -55,13 +56,7 @@ public class Test {
 		
 		Range ints = new Range(1, rangeSize);
 
-		FnMap<Integer, Integer> jinc = new FnMap<Integer, Integer>() {
-
-			@Override
-			public Integer f(Integer v) {
-				return v+1;
-			}
-		};
+		Function<Integer, Integer> jinc = v -> v+1;
 		
 		testMap("Java", jinc, ints);
 
@@ -71,14 +66,14 @@ public class Test {
 		
 	}
 	
-	public static void testMap(String language, FnMap<Integer, Integer> inc, Iterable<Integer> ints)
+	public static void testMap(String language, Function<Integer, Integer> inc, Iterable<Integer> ints)
 	{
 		
 		long startTime = System.currentTimeMillis();
 		
 		for (Integer i : ints)
 		{
-			inc.f(i);
+			inc.apply(i);
 		}
 
 		System.out.println("\n" + language + ":");

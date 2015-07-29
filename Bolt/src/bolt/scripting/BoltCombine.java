@@ -29,7 +29,7 @@ public class BoltCombine<T1, T2> extends BoltScripter implements FnCombine<T1, T
 	
 	
 	@Override
-	public T2 f(T1 v1, T1 v2) {
+	public T2 apply(T1 v1, T1 v2) {
 		
 		if (hasSideEffects || !multithreaded) {
 			synchronized(this)

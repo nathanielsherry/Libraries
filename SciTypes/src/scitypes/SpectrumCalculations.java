@@ -122,7 +122,7 @@ public class SpectrumCalculations
 
 		return FList.wrap(dataset).foldr(max(dataset.get(0)), new FnFold<Spectrum, Float>() {
 
-			public Float f(Spectrum list, Float currentMax)
+			public Float apply(Spectrum list, Float currentMax)
 			{
 				return Math.max(currentMax, max(list));
 			}

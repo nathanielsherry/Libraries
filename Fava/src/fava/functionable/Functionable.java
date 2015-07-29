@@ -1,13 +1,14 @@
 package fava.functionable;
 
-import java.util.ArrayList;
+import java.util.ArrayList;	
 import java.util.Collection;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
 import fava.Functions;
 import fava.signatures.FnFold;
-import fava.signatures.FnMap;
 
 /**
  * This is a base abstract class which provides a default implementation of some of the most common functional commands. 
@@ -48,13 +49,13 @@ public abstract class Functionable<T1> implements Iterable<T1> {
 	
 	
 	/**
-	 * Applies the given {@link FnMap} function to each contained element. Returns a Functionable object representing 
+	 * Applies the given {@link Function} function to each contained element. Returns a Functionable object representing 
 	 * the results of those applications. 
 	 * @param <T2>
 	 * @param f the mapping function to apply
-	 * @return a Functionable object containing the results of applying the {@link FnMap} to the elements in this Functionable object
+	 * @return a Functionable object containing the results of applying the {@link Function} to the elements in this Functionable object
 	 */
-	public <T2> Functionable<T2> map(FnMap<T1, T2> f)
+	public <T2> Functionable<T2> map(Function<T1, T2> f)
 	{
 		
 		Collection<T2> target = getNewCollection();		
@@ -66,16 +67,16 @@ public abstract class Functionable<T1> implements Iterable<T1> {
 
 	
 	/**
-	 * Applies the given {@link FnMap} function to each contained element. Returns a Functionable object containing the 
+	 * Applies the given {@link Function} function to each contained element. Returns a Functionable object containing the 
 	 * elements of this object for which the given function returned true.
 	 * @param f the condition function to apply
 	 * @return a Functionable object containing only those elements in this Functionable object for which the given 
 	 * function returned true
 	 */
-	public Functionable<T1> filter(FnMap<T1, Boolean> f)
+	public Functionable<T1> filter(Predicate<T1> f)
 	{
 		Collection<T1> target = getNewCollection();		
-		filter(this, f, target);
+		filter(this, e -> f.test(e), target);
 		return wrapNewCollection(target);
 	}
 	
@@ -159,11 +160,11 @@ public abstract class Functionable<T1> implements Iterable<T1> {
 
 	}
 	
-	protected static <S1, S2> Collection<S2> map(Iterable<S1> source, FnMap<S1, S2> f, Collection<S2> target)
+	protected static <S1, S2> Collection<S2> map(Iterable<S1> source, Function<S1, S2> f, Collection<S2> target)
 	{
 		for (S1 s : source)
 		{
-			target.add(f.f(s));
+			target.add(f.apply(s));
 		}
 		
 		return target;
@@ -171,11 +172,11 @@ public abstract class Functionable<T1> implements Iterable<T1> {
 	
 
 	
-	protected static <S1> Collection<S1> filter(Iterable<S1> source, FnMap<S1, Boolean> f, Collection<S1> target)
+	protected static <S1> Collection<S1> filter(Iterable<S1> source, Function<S1, Boolean> f, Collection<S1> target)
 	{
 		for (S1 s : source)
 		{
-			if (f.f(s)) target.add(s);
+			if (f.apply(s)) target.add(s);
 		}
 		
 		return target;
@@ -191,7 +192,7 @@ public abstract class Functionable<T1> implements Iterable<T1> {
 		for (S1 s : source)
 		{
 			if (first) { acc = s; first = false; }
-			else { acc = f.f(s, acc); }
+			else { acc = f.apply(s, acc); }
 		}
 		
 		return acc;
@@ -205,7 +206,7 @@ public abstract class Functionable<T1> implements Iterable<T1> {
 		
 		for (S1 s : source)
 		{
-			acc = f.f(s, acc);
+			acc = f.apply(s, acc);
 		}
 		
 		return acc;

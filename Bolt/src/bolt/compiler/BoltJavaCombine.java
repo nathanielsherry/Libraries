@@ -43,9 +43,9 @@ public class BoltJavaCombine<T1, T2> extends BoltJavaFunction implements FnCombi
 	
 	
 	@Override
-	public T2 f(T1 v1, T1 v2) {
+	public T2 apply(T1 v1, T1 v2) {
 		if (innerFn == null) compile();
-		return innerFn.f(v1, v2);
+		return innerFn.apply(v1, v2);
 	}
 
 

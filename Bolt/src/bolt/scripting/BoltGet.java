@@ -1,9 +1,10 @@
 package bolt.scripting;
 
-import bolt.scripting.languages.Language;
-import fava.signatures.FnGet;
+import java.util.function.Supplier;
 
-public class BoltGet<T1> extends BoltScripter implements FnGet<T1>{
+import bolt.scripting.languages.Language;
+
+public class BoltGet<T1> extends BoltScripter implements Supplier<T1>{
 
 	private String get;
 	
@@ -24,7 +25,7 @@ public class BoltGet<T1> extends BoltScripter implements FnGet<T1>{
 
 	
 	@Override
-	public T1 f() {
+	public T1 get() {
 		
 		if (hasSideEffects || !multithreaded) {
 			synchronized(this)

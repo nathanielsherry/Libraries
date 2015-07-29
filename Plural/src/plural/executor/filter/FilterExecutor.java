@@ -4,6 +4,7 @@ package plural.executor.filter;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Predicate;
 
 import plural.executor.AbstractExecutor;
 import plural.executor.ExecutorSet;
@@ -11,7 +12,6 @@ import plural.executor.ExecutorState;
 import plural.executor.map.MapExecutor;
 import plural.executor.map.implementations.PluralMapExecutor;
 import plural.executor.map.implementations.SimpleMapExecutor;
-import fava.signatures.FnCondition;
 
 /**
  * 
@@ -28,7 +28,7 @@ import fava.signatures.FnCondition;
 public abstract class FilterExecutor<T1> extends AbstractExecutor
 {
 
-	protected FnCondition<T1>		filter;
+	protected Predicate<T1>		filter;
 	protected List<T1>				sourceData;
 	
 	protected List<LinkedList<T1>>	acceptedLists;
@@ -36,7 +36,7 @@ public abstract class FilterExecutor<T1> extends AbstractExecutor
 	
 
 
-	public FilterExecutor(List<T1> sourceData, FnCondition<T1> filter)
+	public FilterExecutor(List<T1> sourceData, Predicate<T1> filter)
 	{
 		super();
 		
@@ -67,7 +67,7 @@ public abstract class FilterExecutor<T1> extends AbstractExecutor
 	 * @param map
 	 *            the {@link PluralMap} to execute.
 	 */
-	public void setFilter(FnCondition<T1> filter)
+	public void setFilter(Predicate<T1> filter)
 	{
 
 		if (this.filter != null && super.getState() != ExecutorState.UNSTARTED) return;

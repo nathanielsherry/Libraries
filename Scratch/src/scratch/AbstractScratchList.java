@@ -9,13 +9,13 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.function.Predicate;
 
 import fava.Functions;
 import fava.functionable.FList;
 import fava.functionable.Functionable;
 import fava.functionable.Range;
 import fava.functionable.RangeSet;
-import fava.signatures.FnCondition;
 
 
 /**
@@ -113,13 +113,7 @@ public abstract class AbstractScratchList<T> extends Functionable<T> implements 
 			byte[] encoded = encodeObject(element);
 			final int encodedLength = encoded.length;
 			
-			FList<Range> bigRanges = discardedRanges.getRanges().filter(new FnCondition<Range>() {
-
-				public Boolean f(Range r) {
-					return r.size() >= encodedLength;
-				}
-			});
-			
+			FList<Range> bigRanges = discardedRanges.getRanges().filter(r -> r.size() >= encodedLength);			
 			
 						
 			bigRanges.sort(new Comparator<Range>() {

@@ -9,13 +9,13 @@ import java.net.URLClassLoader;
 import java.util.List;
 import java.util.ServiceConfigurationError;
 import java.util.ServiceLoader;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
 import commonenvironment.Env;
 
 import fava.Functions;
 import fava.functionable.FList;
-import fava.signatures.FnCondition;
-import fava.signatures.FnMap;
 
 
 
@@ -26,9 +26,8 @@ public class BoltPluginLoader<T extends BoltPlugin>
 	public FList<Class<T>>			availablePlugins;
 	private Class<T> 				target;
 
-	private FnCondition<Class<T>> 	filter;
+	private Predicate<Class<T>> 	filter;
 		
-
 	
 	/**
 	 * Creates a PluginLoader which will locate any plugins which are subclasses or implementations of the target
@@ -42,12 +41,12 @@ public class BoltPluginLoader<T extends BoltPlugin>
 		
 		this.target = target;
 		
-		filter = new FnCondition<Class<T>>() {
+		filter = new Predicate<Class<T>>() {
 
 			boolean isTargetInterface = Modifier.isInterface(target.getModifiers());
 			
 			@Override
-			public Boolean f(Class<T> c) {
+			public boolean test(Class<T> c) {
 				
 				//make sure its not an interface or an abstract class
 				if (!isActualPlugin(c)) return false;
@@ -86,9 +85,9 @@ public class BoltPluginLoader<T extends BoltPlugin>
 
 	public List<T> getNewInstancesForAllPlugins()
 	{	
-		return availablePlugins.map(new FnMap<Class<T>, T>() {
+		return availablePlugins.map(new Function<Class<T>, T>() {
 
-			public T f(Class<T> f)
+			public T apply(Class<T> f)
 			{
 					return createNewInstanceFromClass(f);
 			}}).filter(Functions.<T>notNull());
@@ -104,7 +103,7 @@ public class BoltPluginLoader<T extends BoltPlugin>
 			@SuppressWarnings("unchecked")
 			Class<T> clazz = (Class<T>)loadedClass;
 					
-			if (filter.f(clazz) && isEnabledPlugin(clazz)) availablePlugins.add(clazz);
+			if (filter.test(clazz) && isEnabledPlugin(clazz)) availablePlugins.add(clazz);
 			
 			availablePlugins = availablePlugins.unique();
 			

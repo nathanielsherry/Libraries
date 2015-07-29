@@ -1,9 +1,10 @@
 package bolt.scripting;
 
-import bolt.scripting.languages.Language;
-import fava.signatures.FnMap2;
+import java.util.function.BiFunction;
 
-public class BoltMap2<T1, T2, T3> extends BoltScripter implements FnMap2<T1, T2, T3>{
+import bolt.scripting.languages.Language;
+
+public class BoltMap2<T1, T2, T3> extends BoltScripter implements BiFunction<T1, T2, T3>{
 
 	private String input1, input2, output;
 
@@ -27,7 +28,7 @@ public class BoltMap2<T1, T2, T3> extends BoltScripter implements FnMap2<T1, T2,
 
 	
 	@Override
-	public T3 f(T1 v1, T2 v2) {
+	public T3 apply(T1 v1, T2 v2) {
 		
 		if (hasSideEffects || !multithreaded) {
 			synchronized(this)

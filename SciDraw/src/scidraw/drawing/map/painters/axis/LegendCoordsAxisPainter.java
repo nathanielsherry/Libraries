@@ -84,7 +84,7 @@ public class LegendCoordsAxisPainter extends AbstractKeyCoordAxisPainter
 		float startX = offsetX + ((width - expectedTextWidth) / 2.0f);
 		entries.foldr(startX, new FnFold<Pair<Color, String>, Float>() {
 
-			public Float f(Pair<Color, String> entry, Float position)
+			public Float apply(Pair<Color, String> entry, Float position)
 			{
 
 				p.context.rectangle(position, textBaseline, keyHeight, -keyHeight);

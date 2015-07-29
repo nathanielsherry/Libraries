@@ -218,7 +218,7 @@ public class SpectrumCoordsAxisPainter extends AbstractKeyCoordAxisPainter
 			
 			String longestMarking = markings.map(Functions.<Float, String>second()).fold(new FnFold<String, String>() {
 
-				public String f(String s1, String s2)
+				public String apply(String s1, String s2)
 				{
 					Float l1 = p.context.getTextWidth(s1);
 					Float l2 = p.context.getTextWidth(s2);

@@ -2,10 +2,10 @@ package plural.executor.map.implementations;
 
 
 import java.util.List;
+import java.util.function.Function;
 
 import plural.executor.TicketManager;
 import plural.executor.map.MapExecutor;
-import fava.signatures.FnMap;
 
 /**
  * 
@@ -24,7 +24,7 @@ public class PluralMapExecutor<T1, T2> extends MapExecutor<T1, T2>
 	protected TicketManager	ticketManager;
 
 
-	public PluralMapExecutor(List<T1> sourceData, FnMap<T1, T2> t)
+	public PluralMapExecutor(List<T1> sourceData, Function<T1, T2> t)
 	{
 		super(sourceData, t);
 		
@@ -32,7 +32,7 @@ public class PluralMapExecutor<T1, T2> extends MapExecutor<T1, T2>
 	}
 
 
-	public PluralMapExecutor(List<T1> sourceData, List<T2> targetList, FnMap<T1, T2> t)
+	public PluralMapExecutor(List<T1> sourceData, List<T2> targetList, Function<T1, T2> t)
 	{
 		super(sourceData, targetList, t);
 		
@@ -40,7 +40,7 @@ public class PluralMapExecutor<T1, T2> extends MapExecutor<T1, T2>
 	}
 
 	
-	public PluralMapExecutor(List<T1> sourceData, FnMap<T1, T2> t, int threads)
+	public PluralMapExecutor(List<T1> sourceData, Function<T1, T2> t, int threads)
 	{
 		super(sourceData, t);
 		
@@ -48,7 +48,7 @@ public class PluralMapExecutor<T1, T2> extends MapExecutor<T1, T2>
 	}
 
 
-	public PluralMapExecutor(List<T1> sourceData, List<T2> targetList, FnMap<T1, T2> t, int threads)
+	public PluralMapExecutor(List<T1> sourceData, List<T2> targetList, Function<T1, T2> t, int threads)
 	{
 		super(sourceData, targetList, t);
 		
@@ -128,7 +128,7 @@ public class PluralMapExecutor<T1, T2> extends MapExecutor<T1, T2>
 			T2 t2;
 			for (int i = start; i < end; i++)
 			{
-				t2 = map.f(sourceData.get(i));
+				t2 = map.apply(sourceData.get(i));
 				targetList.set(i, t2);
 			}
 			

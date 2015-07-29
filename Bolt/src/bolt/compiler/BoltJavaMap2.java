@@ -1,11 +1,11 @@
 package bolt.compiler;
 
-import fava.signatures.FnMap2;
+import java.util.function.BiFunction;
 
 
-public class BoltJavaMap2<T1, T2, T3> extends BoltJavaFunction implements FnMap2<T1, T2, T3>{
+public class BoltJavaMap2<T1, T2, T3> extends BoltJavaFunction implements BiFunction<T1, T2, T3>{
 
-	private FnMap2<T1, T2, T3> innerFn;
+	private BiFunction<T1, T2, T3> innerFn;
 
 	private String value1;
 	private String value2;
@@ -38,16 +38,16 @@ public class BoltJavaMap2<T1, T2, T3> extends BoltJavaFunction implements FnMap2
 	@SuppressWarnings("unchecked")
 	private void compile()
 	{
-		innerFn = (FnMap2<T1, T2, T3>)getFunctionObject();
+		innerFn = (BiFunction<T1, T2, T3>)getFunctionObject();
 	}
 	
 	
 	
 	
 	@Override
-	public T3 f(T1 v1, T2 v2) {
+	public T3 apply(T1 v1, T2 v2) {
 		if (innerFn == null) compile();
-		return innerFn.f(v1, v2);
+		return innerFn.apply(v1, v2);
 	}
 
 

@@ -1,10 +1,10 @@
 package bolt.compiler;
 
-import fava.signatures.FnGet;
+import java.util.function.Supplier;
 
-public class BoltJavaGet<T1> extends BoltJavaFunction implements FnGet<T1>{
+public class BoltJavaGet<T1> extends BoltJavaFunction implements Supplier<T1>{
 
-	private FnGet<T1> innerFn;
+	private Supplier<T1> innerFn;
 
 	private Class<?> t1;
 		
@@ -31,16 +31,16 @@ public class BoltJavaGet<T1> extends BoltJavaFunction implements FnGet<T1>{
 	@SuppressWarnings("unchecked")
 	private void compile()
 	{
-		innerFn = (FnGet<T1>)getFunctionObject();
+		innerFn = (Supplier<T1>)getFunctionObject();
 	}
 	
 	
 	
 	
 	@Override
-	public T1 f() {
+	public T1 get() {
 		if (innerFn == null) compile();
-		return innerFn.f();
+		return innerFn.get();
 	}
 
 

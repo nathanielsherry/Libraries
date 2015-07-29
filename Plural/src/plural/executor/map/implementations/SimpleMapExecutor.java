@@ -2,10 +2,10 @@ package plural.executor.map.implementations;
 
 
 import java.util.List;
+import java.util.function.Function;
 
 import plural.executor.ExecutorSet;
 import plural.executor.map.MapExecutor;
-import fava.signatures.FnMap;
 
 /**
  * 
@@ -21,12 +21,12 @@ import fava.signatures.FnMap;
 public class SimpleMapExecutor<T1, T2> extends MapExecutor<T1, T2>
 {
 
-	public SimpleMapExecutor(List<T1> sourceData, FnMap<T1, T2> t)
+	public SimpleMapExecutor(List<T1> sourceData, Function<T1, T2> t)
 	{
 		super(sourceData, t);
 	}
 
-	public SimpleMapExecutor(List<T1> sourceData, List<T2> targetList, FnMap<T1, T2> t)
+	public SimpleMapExecutor(List<T1> sourceData, List<T2> targetList, Function<T1, T2> t)
 	{
 		super(sourceData, targetList, t);
 	}
@@ -63,7 +63,7 @@ public class SimpleMapExecutor<T1, T2> extends MapExecutor<T1, T2>
 		int percent = 0, lastpercent = 0, workunits = 0;
 		for (int i = 0; i < super.getDataSize(); i++) {
 			
-			super.targetList.set(  i, super.map.f(super.sourceData.get(i))  );
+			super.targetList.set(  i, super.map.apply(super.sourceData.get(i))  );
 			
 			workunits++;
 			if (super.executorSet != null) {

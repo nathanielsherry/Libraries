@@ -2,14 +2,14 @@ package plural.executor;
 
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
 import plural.executor.eachindex.implementations.PluralEachIndexExecutor;
 import plural.executor.filter.implementations.PluralFilterExecutor;
 import plural.executor.fold.implementations.PluralFoldExecutor;
 import plural.executor.map.implementations.PluralMapExecutor;
-import fava.signatures.FnCondition;
 import fava.signatures.FnFold;
-import fava.signatures.FnMap;
 
 public class Plural {
 
@@ -49,12 +49,12 @@ public class Plural {
 	
 	
 	
-	public static <T1, T2> List<T2> map(List<T1> elements, FnMap<T1, T2> map)
+	public static <T1, T2> List<T2> map(List<T1> elements, Function<T1, T2> map)
 	{
 		return new PluralMapExecutor<>(elements, map).executeBlocking();
 	}
 	
-	public static <T1, T2> List<T2> map(List<T1> elements, FnMap<T1, T2> map, int threads)
+	public static <T1, T2> List<T2> map(List<T1> elements, Function<T1, T2> map, int threads)
 	{
 		return new PluralMapExecutor<>(elements, map, threads).executeBlocking();
 	}
@@ -72,12 +72,12 @@ public class Plural {
 	
 	
 	
-	public static <T1> List<T1> filter(List<T1> elements, FnCondition<T1> filter)
+	public static <T1> List<T1> filter(List<T1> elements, Predicate<T1> filter)
 	{
 		return new PluralFilterExecutor<>(elements, filter).executeBlocking();
 	}
 	
-	public static <T1> List<T1> filter(List<T1> elements, FnCondition<T1> filter, int threads)
+	public static <T1> List<T1> filter(List<T1> elements, Predicate<T1> filter, int threads)
 	{
 		return new PluralFilterExecutor<>(elements, filter, threads).executeBlocking();
 	}
