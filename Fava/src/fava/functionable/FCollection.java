@@ -129,12 +129,12 @@ public class FCollection<T> extends Functionable<T> implements Collection<T>{
 	}
 	
 
-	public FCollection<T> filter(Function<T, Boolean> f)
-	{
-		Collection<T> target = getNewCollection();		
-		filter(this, f, target);
-		return wrapNewCollection(target);
-	}
+//	public FCollection<T> filter(Function<T, Boolean> f)
+//	{
+//		Collection<T> target = getNewCollection();		
+//		filter(this, f, target);
+//		return wrapNewCollection(target);
+//	}
 	
 	
 

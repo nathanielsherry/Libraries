@@ -182,14 +182,14 @@ public class FSet<S> extends FCollection<S> implements Set<S>
 	}
 	
 
-	public FSet<S> filter(Function<S, Boolean> f)
-	{
-		Collection<S> target = getNewCollection();		
-		filter(this, f, target);
-		return wrapNewCollection(target);
-	}
-
-	
+//	public FSet<S> filter(Function<S, Boolean> f)
+//	{
+//		Collection<S> target = getNewCollection();		
+//		filter(this, f, target);
+//		return wrapNewCollection(target);
+//	}
+//
+//	
 	
 	
 	

@@ -8,10 +8,25 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Optional;
+import java.util.Spliterator;
+import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
+import java.util.function.BinaryOperator;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.IntFunction;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
+import java.util.function.ToDoubleFunction;
+import java.util.function.ToIntFunction;
+import java.util.function.ToLongFunction;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+import java.util.stream.DoubleStream;
+import java.util.stream.IntStream;
+import java.util.stream.LongStream;
+import java.util.stream.Stream;
 
 import fava.Fn;
 import fava.Functions;
@@ -34,8 +49,7 @@ public class FList<T> extends Functionable<T> implements List<T>, Serializable{
 	
 	
 	
-	
-	
+
 	
 	
 	////////////////////////////////////////////////
@@ -299,13 +313,13 @@ public class FList<T> extends Functionable<T> implements List<T>, Serializable{
 	}
 	
 
-	public FList<T> filter(Predicate<T> f)
-	{
-		Collection<T> target = getNewCollection();		
-		filter(this, e -> f.test(e), target);
-		return wrapNewCollection(target);
-	}
-	
+//	public FList<T> filter(Predicate<T> f)
+//	{
+//		Collection<T> target = getNewCollection();		
+//		filter(this, e -> f.test(e), target);
+//		return wrapNewCollection(target);
+//	}
+//	
 	
 	public FList<T> take(int number)
 	{
@@ -685,5 +699,12 @@ public class FList<T> extends Functionable<T> implements List<T>, Serializable{
 		return target;
 	}
 	
+	@Override
+	public FStream<T> stream() {
+		return new FStream<>(backing.stream());
+	}
+	
+	
+
 		
 }

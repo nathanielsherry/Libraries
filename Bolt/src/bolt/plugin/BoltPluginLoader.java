@@ -11,6 +11,7 @@ import java.util.ServiceConfigurationError;
 import java.util.ServiceLoader;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import commonenvironment.Env;
 
@@ -85,7 +86,7 @@ public class BoltPluginLoader<T extends BoltPlugin>
 
 	public List<T> getNewInstancesForAllPlugins()
 	{	
-		return availablePlugins.map(f -> createNewInstanceFromClass(f)).filter(e -> e != null);
+		return availablePlugins.map(f -> createNewInstanceFromClass(f)).stream().filter(e -> e != null).collect(Collectors.toList());
 	}
 	
 

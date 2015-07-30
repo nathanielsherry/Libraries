@@ -73,13 +73,13 @@ public abstract class Functionable<T1> implements Iterable<T1> {
 	 * @return a Functionable object containing only those elements in this Functionable object for which the given 
 	 * function returned true
 	 */
-	public Functionable<T1> filter(Predicate<T1> f)
-	{
-		Collection<T1> target = getNewCollection();		
-		filter(this, e -> f.test(e), target);
-		return wrapNewCollection(target);
-	}
-	
+//	public Functionable<T1> filter(Predicate<T1> f)
+//	{
+//		Collection<T1> target = getNewCollection();		
+//		filter(this, e -> f.test(e), target);
+//		return wrapNewCollection(target);
+//	}
+//	
 	/**
 	 * Applies the given {@link FnFold} function to consecutive contained elements, also threading a running sum or 
 	 * result from call to call. When the function has been applied to every element, the result will be a single value. 
@@ -172,15 +172,15 @@ public abstract class Functionable<T1> implements Iterable<T1> {
 	
 
 	
-	protected static <S1> Collection<S1> filter(Iterable<S1> source, Function<S1, Boolean> f, Collection<S1> target)
-	{
-		for (S1 s : source)
-		{
-			if (f.apply(s)) target.add(s);
-		}
-		
-		return target;
-	}
+//	protected static <S1> Collection<S1> filter(Iterable<S1> source, Function<S1, Boolean> f, Collection<S1> target)
+//	{
+//		for (S1 s : source)
+//		{
+//			if (f.apply(s)) target.add(s);
+//		}
+//		
+//		return target;
+//	}
 	
 
 	protected static <S1> S1 fold(Iterable<S1> source, BiFunction<S1, S1, S1> f)
@@ -214,7 +214,9 @@ public abstract class Functionable<T1> implements Iterable<T1> {
 	
 	
 	
-	
+	public FStream<T1> stream() {
+		return toSink().stream();
+	}
 	
 	
 	

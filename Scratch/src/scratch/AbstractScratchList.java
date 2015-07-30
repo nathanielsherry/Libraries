@@ -10,6 +10,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import fava.Functions;
 import fava.functionable.FList;
@@ -113,24 +114,19 @@ public abstract class AbstractScratchList<T> extends Functionable<T> implements 
 			byte[] encoded = encodeObject(element);
 			final int encodedLength = encoded.length;
 			
-			FList<Range> bigRanges = discardedRanges.getRanges().filter(r -> r.size() >= encodedLength);			
+			List<Range> bigRanges = discardedRanges.getRanges().stream().filter(r -> r.size() >= encodedLength).collect(Collectors.toList());			
 			
 						
-			bigRanges.sort(new Comparator<Range>() {
-
-				public int compare(Range o1, Range o2) {
-					Integer s1 = o1.size();
-					Integer s2 = o2.size();
-					
-					return s2.compareTo(s1);
-					
-				}
-			}, a -> a);
+			bigRanges.sort((o1, o2) -> {
+				Integer s1 = o1.size();
+				Integer s2 = o2.size();
+				return s2.compareTo(s1);
+			});
 			
 			
 			if (bigRanges.size() != 0)
 			{
-				writePosition = bigRanges.head().getStart();
+				writePosition = bigRanges.get(0).getStart();
 			}
 			
 			raf.seek(writePosition);

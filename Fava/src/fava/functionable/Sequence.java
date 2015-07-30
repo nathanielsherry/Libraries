@@ -145,13 +145,13 @@ public class Sequence<T> extends Functionable<T>
 	}
 	
 
-	public FList<T> filter(Function<T, Boolean> f)
-	{
-		Collection<T> target = getNewCollection();		
-		filter(this, f, target);
-		return wrapNewCollection(target);
-	}
-	
+//	public FList<T> filter(Function<T, Boolean> f)
+//	{
+//		Collection<T> target = getNewCollection();		
+//		filter(this, f, target);
+//		return wrapNewCollection(target);
+//	}
+//	
 	
 	public FList<T> take(int number)
 	{
