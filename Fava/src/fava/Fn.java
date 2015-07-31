@@ -739,11 +739,11 @@ public class Fn
 	//////////////////////////////////////////////////////////
 	public static <T1> FList<String> showList(List<T1> list)
 	{
-		return map(list, Functions.<T1>show());
+		return map(list, a -> a.toString());
 	}
 	public static <T1> FList<String> showList_target(List<T1> list, List<String> target)
 	{
-		return map_target(list, target, Functions.<T1>show());
+		return map_target(list, target, a -> a.toString());
 	}
 	
 	public static <T1> FList<String> showListBy(List<T1> list, Function<T1, String> f)

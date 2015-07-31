@@ -119,15 +119,15 @@ public class FCollection<T> extends Functionable<T> implements Collection<T>{
 	// Overriding Functionable methods
 	////////////////////////////////////////////////
 
-	public <T2> FCollection<T2> map(Function<T, T2> f)
-	{
-		
-		Collection<T2> target = getNewCollection();		
-		map(this, f, target);
-		return wrapNewCollection(target);
-		
-	}
-	
+//	public <T2> FCollection<T2> map(Function<T, T2> f)
+//	{
+//		
+//		Collection<T2> target = getNewCollection();		
+//		map(this, f, target);
+//		return wrapNewCollection(target);
+//		
+//	}
+//	
 
 //	public FCollection<T> filter(Function<T, Boolean> f)
 //	{

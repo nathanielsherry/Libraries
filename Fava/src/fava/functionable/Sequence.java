@@ -135,14 +135,14 @@ public class Sequence<T> extends Functionable<T>
 	// Overriding Functionable Methods
 	////////////////////////////////////////////////
 
-	public <T2> FList<T2> map(Function<T, T2> f)
-	{
-		
-		Collection<T2> target = getNewCollection();		
-		map(this, f, target);
-		return wrapNewCollection(target);
-		
-	}
+//	public <T2> FList<T2> map(Function<T, T2> f)
+//	{
+//		
+//		Collection<T2> target = getNewCollection();		
+//		map(this, f, target);
+//		return wrapNewCollection(target);
+//		
+//	}
 	
 
 //	public FList<T> filter(Function<T, Boolean> f)

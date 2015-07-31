@@ -4,6 +4,7 @@ package scidraw.drawing.map.painters.axis;
 
 import java.awt.Color;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import scidraw.drawing.painters.PainterData;
 import scitypes.Coord;
@@ -60,7 +61,7 @@ public class LegendCoordsAxisPainter extends AbstractKeyCoordAxisPainter
 		
 		// concatenate the list of strings to display so we can check the width of the total string
 		//String markingsText = foldr(map(entries, Functions.<Color, String>second()), strcat(" "));
-		String markingsText = entries.map(e -> e.second).foldr((a, b) -> a + " " + b);
+		String markingsText = entries.stream().map(e -> e.second).collect(Collectors.joining(" "));
 		float legendSquareWidth = entries.size() * keyHeight * 2.5f - keyHeight; // -keyHeight because we don't need
 																					// padding on the end
 

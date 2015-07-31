@@ -86,7 +86,7 @@ public class BoltPluginLoader<T extends BoltPlugin>
 
 	public List<T> getNewInstancesForAllPlugins()
 	{	
-		return availablePlugins.map(f -> createNewInstanceFromClass(f)).stream().filter(e -> e != null).collect(Collectors.toList());
+		return availablePlugins.stream().map(f -> createNewInstanceFromClass(f)).filter(e -> e != null).collect(Collectors.toList());
 	}
 	
 

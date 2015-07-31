@@ -303,14 +303,14 @@ public class FList<T> extends Functionable<T> implements List<T>, Serializable{
 	// Overriding Functionable Methods
 	////////////////////////////////////////////////
 
-	public <S> FList<S> map(Function<T, S> f)
-	{
-		
-		Collection<S> target = this.<S>getNewCollection();		
-		map(this, f, target);
-		return this.<S>wrapNewCollection(target);
-		
-	}
+//	public <S> FList<S> map(Function<T, S> f)
+//	{
+//		
+//		Collection<S> target = this.<S>getNewCollection();		
+//		map(this, f, target);
+//		return this.<S>wrapNewCollection(target);
+//		
+//	}
 	
 
 //	public FList<T> filter(Predicate<T> f)
@@ -651,7 +651,7 @@ public class FList<T> extends Functionable<T> implements List<T>, Serializable{
 	
 	protected static <T> FList<Functionable<T>> mapToFunctionable(FList<List<T>> list)
 	{
-		return list.map(element -> FList.<T>wrap(element));
+		return FList.wrap(list.stream().map(e -> FList.wrap(e)).collect(Collectors.toList()));
 	}
 	
 	

@@ -7,6 +7,7 @@ import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import fava.Functions;
 
@@ -55,14 +56,14 @@ public abstract class Functionable<T1> implements Iterable<T1> {
 	 * @param f the mapping function to apply
 	 * @return a Functionable object containing the results of applying the {@link Function} to the elements in this Functionable object
 	 */
-	public <T2> Functionable<T2> map(Function<T1, T2> f)
-	{
-		
-		Collection<T2> target = getNewCollection();		
-		map(this, f, target);
-		return wrapNewCollection(target);
-		
-	}
+//	public <T2> Functionable<T2> map(Function<T1, T2> f)
+//	{
+//		
+//		Collection<T2> target = getNewCollection();		
+//		map(this, f, target);
+//		return wrapNewCollection(target);
+//		
+//	}
 	
 
 	
@@ -111,15 +112,8 @@ public abstract class Functionable<T1> implements Iterable<T1> {
 	 * @return a String representation of the contained elements
 	 */
 	public String show(String separator)
-	{
-		final StringBuilder sb = new StringBuilder();
-		
-		this.map(Functions.<T1>show()).each(element -> {
-			sb.append(element);
-			sb.append(",");
-		});
-		
-		return "[" + sb.substring(0, Math.max(sb.length()-1, 0)) + "]";
+	{		
+		return "[" +  this.stream().map(a -> a.toString()).collect(Collectors.joining(",")) + "]";
 	}
 	
 	/**
@@ -160,15 +154,15 @@ public abstract class Functionable<T1> implements Iterable<T1> {
 
 	}
 	
-	protected static <S1, S2> Collection<S2> map(Iterable<S1> source, Function<S1, S2> f, Collection<S2> target)
-	{
-		for (S1 s : source)
-		{
-			target.add(f.apply(s));
-		}
-		
-		return target;
-	}
+//	protected static <S1, S2> Collection<S2> map(Iterable<S1> source, Function<S1, S2> f, Collection<S2> target)
+//	{
+//		for (S1 s : source)
+//		{
+//			target.add(f.apply(s));
+//		}
+//		
+//		return target;
+//	}
 	
 
 	

@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 
 
@@ -172,14 +173,14 @@ public class FSet<S> extends FCollection<S> implements Set<S>
 	// Overriding Functionable methods
 	////////////////////////////////////////////////
 
-	public <T2> FSet<T2> map(Function<S, T2> f)
-	{
-		
-		Collection<T2> target = getNewCollection();		
-		map(this, f, target);
-		return wrapNewCollection(target);
-		
-	}
+//	public <T2> FSet<T2> map(Function<S, T2> f)
+//	{
+//		
+//		Collection<T2> target = getNewCollection();		
+//		map(this, f, target);
+//		return wrapNewCollection(target);
+//		
+//	}
 	
 
 //	public FSet<S> filter(Function<S, Boolean> f)
@@ -211,11 +212,16 @@ public class FSet<S> extends FCollection<S> implements Set<S>
 		System.out.println(ints.show());
 		
 		System.out.println(
-			ints.map(v ->  1).show()
+			ints.stream().map(v -> 1).collect(Collectors.toList())
 		);
 		
 		
 	}
+	
+	public FStream<S> stream() {
+		return new FStream<>(backing.stream());
+	}
+	
 	
 	
 }

@@ -215,7 +215,7 @@ public class SpectrumCoordsAxisPainter extends AbstractKeyCoordAxisPainter
 			*/
 			
 			
-			String longestMarking = markings.map(e -> e.second).fold((s1, s2) -> {
+			String longestMarking = markings.stream().map(e -> e.second).reduce("", (s1, s2) -> {
 				Float l1 = p.context.getTextWidth(s1);
 				Float l2 = p.context.getTextWidth(s2);
 				if (l1 > l2) return s1;

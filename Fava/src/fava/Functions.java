@@ -39,15 +39,5 @@ public class Functions
 		};
 	}
 
-
-	public static <T1> Consumer<T1> print()
-	{
-		return element -> System.out.println(element.toString());		
-	}
-
-	public static <T1> Function<T1, String> show()
-	{
-		return element -> element.toString();
-	}
 	
 }
