@@ -1,5 +1,7 @@
 package fava;
 
+import static java.util.stream.Collectors.toList;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
@@ -11,8 +13,11 @@ import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 import fava.datatypes.Pair;
+import fava.functionable.FIterable;
 import fava.functionable.FList;
 
 public class Fn
@@ -36,17 +41,17 @@ public class Fn
 	 * @param f the transformation function
 	 * @return an FList<T2> containing the results of the transformation 
 	 */
-	public static <T1, T2> FList<T2> map(Iterable<T1> list, Function<T1, T2> f)
-	{
-
-		if (list == null) return null;
-		FList<T2> newlist = Fn.<T2> list();
-
-		map_target(list, newlist, f);
-		
-		return newlist;
-
-	}
+//	public static <T1, T2> FList<T2> map(Iterable<T1> list, Function<T1, T2> f)
+//	{
+//
+//		if (list == null) return null;
+//		FList<T2> newlist = Fn.<T2> list();
+//
+//		map_target(list, newlist, f);
+//		
+//		return newlist;
+//
+//	}
 
 	/**
 	 * Transforms the elements of type T1 in 'array' using the given {@link Function} function, and returns the results
@@ -56,17 +61,17 @@ public class Fn
 	 * @param f the transformation function
 	 * @return an FList<T2> containing the results of the transformation 
 	 */
-	public static <T1, T2> FList<T2> map(T1 array[], Function<T1, T2> f)
-	{
-
-		if (array == null) return null;
-		FList<T2> newlist = Fn.<T2> list();
-
-		map_target(Arrays.asList(array), newlist, f);
-		
-		return newlist;
-
-	}
+//	public static <T1, T2> FList<T2> map(T1 array[], Function<T1, T2> f)
+//	{
+//
+//		if (array == null) return null;
+//		FList<T2> newlist = Fn.<T2> list();
+//
+//		map_target(Arrays.asList(array), newlist, f);
+//		
+//		return newlist;
+//
+//	}
 
 	
 	public static <T1, T2> FList<T2> mapIndex(List<T1> list, Function<Integer, T2> f)
@@ -224,18 +229,18 @@ public class Fn
 	//////////////////////////////////////////////////////////
 	// FILTER
 	//////////////////////////////////////////////////////////
-	public static <T1> FList<T1> filter(Iterable<T1> list, Predicate<T1> f)
-	{
-
-		if (list == null) return null;
-		FList<T1> newlist = Fn.<T1> list();
-
-		filter_target(list, newlist, f);
-		
-		return newlist;
-
-	}
-	
+//	public static <T1> FList<T1> filter(Iterable<T1> list, Predicate<T1> f)
+//	{
+//
+//		if (list == null) return null;
+//		FList<T1> newlist = Fn.<T1> list();
+//
+//		filter_target(list, newlist, f);
+//		
+//		return newlist;
+//
+//	}
+//	
 
 	public static <T1> FList<T1> filter_index(List<T1> list, Predicate<Integer> f)
 	{
@@ -282,59 +287,59 @@ public class Fn
 	//////////////////////////////////////////////////////////
 	// FOLD
 	//////////////////////////////////////////////////////////
-	public static <T1, T2> T2 fold(T1 list[], T2 base, BiFunction<T1, T2, T2> f)
-	{
-		return foldl(Arrays.asList(list), base, f);
-	}
-
-	public static <T1> T1 fold(T1 list[], BiFunction<T1, T1, T1> f)
-	{
-
-		return foldl(Arrays.asList(list), f);
-	}
-
-	public static <T1, T2> T2 fold(List<T1> list, T2 base, BiFunction<T1, T2, T2> f)
-	{
-		return foldl(list, base, f);
-	}
+//	public static <T1, T2> T2 fold(T1 list[], T2 base, BiFunction<T1, T2, T2> f)
+//	{
+//		return foldl(Arrays.asList(list), base, f);
+//	}
+//
+//	public static <T1> T1 fold(T1 list[], BiFunction<T1, T1, T1> f)
+//	{
+//
+//		return foldl(Arrays.asList(list), f);
+//	}
+//
+//	public static <T1, T2> T2 fold(List<T1> list, T2 base, BiFunction<T1, T2, T2> f)
+//	{
+//		return foldl(list, base, f);
+//	}
+//	
+//	public static <T1> T1 fold(List<T1> list, BiFunction<T1, T1, T1> f)
+//	{
+//		return foldl(list, f);
+//	}
 	
-	public static <T1> T1 fold(List<T1> list, BiFunction<T1, T1, T1> f)
-	{
-		return foldl(list, f);
-	}
-	
-	public static <T1, T2> T2 fold(Iterable<T1> list, T2 base, BiFunction<T1, T2, T2> f)
-	{
-		T2 result = base;
-		if (list == null) return base;
+//	public static <T1, T2> T2 fold(Iterable<T1> list, T2 base, BiFunction<T1, T2, T2> f)
+//	{
+//		T2 result = base;
+//		if (list == null) return base;
+//
+//		for (T1 elem : list)
+//		{
+//			result = f.apply(elem, result);
+//		}
+//
+//		return result;
+//	}
 
-		for (T1 elem : list)
-		{
-			result = f.apply(elem, result);
-		}
-
-		return result;
-	}
-
-	public static <T1> T1 fold(Iterable<T1> list, BiFunction<T1, T1, T1> f)
-	{
-
-		if (list == null) return null;
-		boolean needsAssigning = true;
-		
-		T1 result = null;
-		for (T1 elem : list)
-		{
-			if (needsAssigning) {
-				result = elem;
-				needsAssigning = false;
-			} else {
-				result = f.apply(elem, result);
-			}
-		}
-
-		return result;
-	}
+//	public static <T1> T1 fold(Iterable<T1> list, BiFunction<T1, T1, T1> f)
+//	{
+//
+//		if (list == null) return null;
+//		boolean needsAssigning = true;
+//		
+//		T1 result = null;
+//		for (T1 elem : list)
+//		{
+//			if (needsAssigning) {
+//				result = elem;
+//				needsAssigning = false;
+//			} else {
+//				result = f.apply(elem, result);
+//			}
+//		}
+//
+//		return result;
+//	}
 
 	
 	//////////////////////////////////////////////////////////
@@ -387,62 +392,60 @@ public class Fn
 	//////////////////////////////////////////////////////////
 	// FOLDL
 	//////////////////////////////////////////////////////////
-	public static <T1, T2> T2 foldl(T1[] list, T2 base, BiFunction<T1, T2, T2> f)
-	{
-		return foldl(Arrays.asList(list), base, f);
-	}
+//	public static <T1, T2> T2 foldl(T1[] list, T2 base, BiFunction<T1, T2, T2> f)
+//	{
+//		return foldl(Arrays.asList(list), base, f);
+//	}
+//	
+//	public static <T1> T1 foldl(T1[] list, BiFunction<T1, T1, T1> f)
+//	{
+//		return foldl(Arrays.asList(list), f);
+//	}
 	
-	public static <T1> T1 foldl(T1[] list, BiFunction<T1, T1, T1> f)
-	{
-		return foldl(Arrays.asList(list), f);
-	}
-	
-	public static <T1, T2> T2 foldl(List<T1> list, T2 base, BiFunction<T1, T2, T2> f)
-	{
-		T2 result = base;
-		if (list == null) return base;
-
-		// order matters for foldr/foldl so we use a counter variable instead of an iterator
-		for (int i = 0; i < list.size(); i++)
-		{
-			result = f.apply(list.get(i), result);
-		}
-
-		return result;
-	}
-
-	public static <T1> T1 foldl(List<T1> list, BiFunction<T1, T1, T1> f)
-	{
-		if (list == null) return null;
-		if (list.size() == 0) return null;
-
-		T1 result = list.get(0);
-
-		// order matters for foldr/foldl so we use a counter variable instead of an iterator
-		for (int i = 1; i < list.size(); i++)
-		{
-			result = f.apply(list.get(i), result);
-		}
-
-		return result;
-	}
+//	public static <T1, T2> T2 foldl(List<T1> list, T2 base, BiFunction<T1, T2, T2> f)
+//	{
+//		T2 result = base;
+//		if (list == null) return base;
+//
+//		// order matters for foldr/foldl so we use a counter variable instead of an iterator
+//		for (int i = 0; i < list.size(); i++)
+//		{
+//			result = f.apply(list.get(i), result);
+//		}
+//
+//		return result;
+//	}
+//
+//	public static <T1> T1 foldl(List<T1> list, BiFunction<T1, T1, T1> f)
+//	{
+//		if (list == null) return null;
+//		if (list.size() == 0) return null;
+//
+//		T1 result = list.get(0);
+//
+//		// order matters for foldr/foldl so we use a counter variable instead of an iterator
+//		for (int i = 1; i < list.size(); i++)
+//		{
+//			result = f.apply(list.get(i), result);
+//		}
+//
+//		return result;
+//	}
 
 	
 	//////////////////////////////////////////////////////////
 	// INCLUDE
 	//////////////////////////////////////////////////////////
-	public static <T1> boolean include(Iterable<T1> list, T1 item)
-	{
-		if (list == null) return false;
+//	public static <T1> boolean include(Iterable<T1> list, T1 item)
+//	{
+//		if (list == null) return false;
+//
+//		return foldr(map(list, e -> item.equals(e)), false,	(a, b) -> a || b);
+//	}
 
-		return foldr(map(list, e -> item.equals(e)), false,	(a, b) -> a || b);
-	}
-
-	public static <T1> boolean includeBy(Iterable<T1> list, Predicate<T1> f)
+	public static <T1> boolean includeBy(Stream<T1> stream, Predicate<T1> f)
 	{
-		FList<Boolean> blist = map(list, e -> f.test(e));
-		if (blist.size() == 0) return false;
-		return foldr(blist, (a, b) -> a || b);
+		return stream.map(e -> f.test(e)).reduce(false, Boolean::logicalOr);
 	}
 
 		
@@ -616,7 +619,7 @@ public class Fn
 	// GROUP
 	//////////////////////////////////////////////////////////
 	
-	public static <T1> FList<List<T1>> group(final Iterable<T1> list)
+	public static <T1> List<List<T1>> group(final Iterable<T1> list)
 	{
 		return groupBy(list, (a, b) -> a.equals(b));
 	}
@@ -626,7 +629,7 @@ public class Fn
 		return groupBy_target(list, target, (a, b) -> a.equals(b), getSublist);
 	}
 	
-	public static <T1> FList<List<T1>> groupBy(final Iterable<T1> list, final BiFunction<T1, T1, Boolean> f)
+	public static <T1> List<List<T1>> groupBy(final Iterable<T1> list, final BiFunction<T1, T1, Boolean> f)
 	{
 
 		//function f determines if two elements belong in the same group;
@@ -635,7 +638,10 @@ public class Fn
 		List<T1> uniques = uniqueBy(list, f);
 
 		//map the list into a list of lists
-		return map(uniques, o1 -> filter(list, o2 -> f.apply(o1, o2)));
+		return uniques.stream().map(o1 -> {
+			return StreamSupport.stream(list.spliterator(), false).filter(o2 -> f.apply(o1,  o2)).collect(toList());
+		}).collect(toList());
+		//return map(uniques, o1 -> filter(list, o2 -> f.apply(o1, o2)));
 
 	}
 	
@@ -700,9 +706,10 @@ public class Fn
 	}
 	
 	
-	public static <T1, T2> FList<T2> concatMap(final List<T1> list, Function<T1, List<T2>> f)
+	public static <T1, T2> List<T2> concatMap(final List<T1> list, Function<T1, List<T2>> f)
 	{
-		return concat(map(list, f));	
+		return list.stream().flatMap(a -> f.apply(a).stream()).collect(toList());
+		//return concat(map(list, f));	
 	}
 	
 	
@@ -710,45 +717,36 @@ public class Fn
 	//////////////////////////////////////////////////////////
 	// LOGICAL OPERATOR MAPPINGS
 	//////////////////////////////////////////////////////////
-	public static <T1> Boolean any(final Iterable<T1> list, Predicate<T1>f)
-	{
-		return foldr(map(list, e -> f.test(e)), (a, b) -> a || b);
-	}
+//	public static <T1> Boolean any(final Iterable<T1> list, Predicate<T1>f)
+//	{
+//		return foldr(map(list, e -> f.test(e)), (a, b) -> a || b);
+//	}
 
-	public static Boolean any(final Iterable<Boolean> list)
-	{
-		return fold(list, (a, b) -> a || b);
-	}
+//	public static Boolean any(final Iterable<Boolean> list)
+//	{
+//		return fold(list, (a, b) -> a || b);
+//	}
+//	
+//	public static <T1> Boolean all(final Iterable<T1> list, Predicate<T1>f)
+//	{
+//		return foldr(map(list, e -> f.test(e)), (a, b) -> a && b);
+//	}
 	
-	public static <T1> Boolean all(final Iterable<T1> list, Predicate<T1>f)
-	{
-		return foldr(map(list, e -> f.test(e)), (a, b) -> a && b);
-	}
-	
-	public static Boolean all(final Iterable<Boolean> list)
-	{
-		return fold(list, (a, b) -> a && b);
-	}
-
-	
+//	public static Boolean all(final Iterable<Boolean> list)
+//	{
+//		return fold(list, (a, b) -> a && b);
+//	}
+//
+//	
 	
 	
 	
 	//////////////////////////////////////////////////////////
 	// SHOW
 	//////////////////////////////////////////////////////////
-	public static <T1> FList<String> showList(List<T1> list)
-	{
-		return map(list, a -> a.toString());
-	}
 	public static <T1> FList<String> showList_target(List<T1> list, List<String> target)
 	{
 		return map_target(list, target, a -> a.toString());
-	}
-	
-	public static <T1> FList<String> showListBy(List<T1> list, Function<T1, String> f)
-	{
-		return map(list, f);
 	}
 	public static <T1> FList<String> showListBy_target(List<T1> list, List<String> target, Function<T1, String> f)
 	{
@@ -836,20 +834,19 @@ public class Fn
 		if (list.size() == 0) return new FList<List<T1>>(new FList<T1>());
 		
 		//map each element to a list of permutations with 'element' at the head
-		return concat(map(list, element -> {
+		return concat(list.stream().map(element -> {
 
-				List<T1> rest = map(list, a -> a);
+				List<T1> rest = list.stream().map(a -> a).collect(toList());
 				rest.remove(element);
 
-				return map(permutations(rest), sublist -> {
-						List<T1> target = map(sublist, a -> a);
+				return permutations(rest).stream().map(sublist -> {
+						List<T1> target = sublist.stream().map(a -> a).collect(toList());
 						target.add(element);
 						return target;
-					}
-				);
+					}).collect(toList());
 				
-			}
-		));
+			}).collect(toList())
+		);
 		
 		
 	}

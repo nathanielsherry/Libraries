@@ -370,16 +370,16 @@ public class FList<T> extends Functionable<T> implements List<T>, Serializable{
 		return Fn.foldr(backing, base, f);
 	}
 	
-	public T foldl(BiFunction<T, T, T> f)
-	{
-		return Fn.foldl(backing, f);
-	}
-	
-	public <T2> T2 foldl(T2 base, BiFunction<T, T2, T2> f)
-	{
-		return Fn.foldr(backing, base, f);
-	}
-	
+//	public T foldl(BiFunction<T, T, T> f)
+//	{
+//		return Fn.foldl(backing, f);
+//	}
+//	
+//	public <T2> T2 foldl(T2 base, BiFunction<T, T2, T2> f)
+//	{
+//		return Fn.foldr(backing, base, f);
+//	}
+//	
 	
 	
 
@@ -447,7 +447,7 @@ public class FList<T> extends Functionable<T> implements List<T>, Serializable{
 	
 	public boolean includeBy(T element, Predicate<T> f)
 	{
-		return Fn.includeBy(backing, f);
+		return Fn.includeBy(backing.stream(), f);
 	}
 	
 	
@@ -487,17 +487,17 @@ public class FList<T> extends Functionable<T> implements List<T>, Serializable{
 	
 	
 	
-	public boolean any(Predicate<T> f)
-	{
-		return Fn.any(backing, f);
-	}
-	
-	public boolean all(Predicate<T> f)
-	{
-		return Fn.all(backing, f);
-	}
-	
-	
+//	public boolean any(Predicate<T> f)
+//	{
+//		return Fn.any(backing, f);
+//	}
+//	
+//	public boolean all(Predicate<T> f)
+//	{
+//		return Fn.all(backing, f);
+//	}
+//	
+//	
 	
 	
 	
