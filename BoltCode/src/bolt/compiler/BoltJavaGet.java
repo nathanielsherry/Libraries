@@ -21,7 +21,7 @@ public class BoltJavaGet<T1> extends BoltJavaFunction implements Supplier<T1>{
 	protected String getSourceCode()
 	{
 		return generateSourceCode(
-				"FnGet",
+				"Supplier", "get",
 				t1.getSimpleName(), 
 				t1.getSimpleName(), 
 				""

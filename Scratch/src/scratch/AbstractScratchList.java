@@ -54,7 +54,7 @@ public abstract class AbstractScratchList<T> extends Functionable<T> implements 
 	{
 		
 		
-		file = File.createTempFile(name + " ➤ Scratch List [temp:", "]");
+		file = File.createTempFile(name + " - Scratch List [temp - ", "]");
 		file.deleteOnExit();
 		
 		init();

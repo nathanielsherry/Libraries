@@ -91,7 +91,7 @@ public class Test {
         	try {
         		System.out.print(factory.getEngineName() + ": ");        		
         		
-        		new BoltScripter(factory.getLanguageName(), false, "");
+        		new BoltScripter(BoltScripter.customLanguage(factory.getLanguageName(), false), "");
         		        		
         		System.out.println("PASS");
         		factories.add(factory);

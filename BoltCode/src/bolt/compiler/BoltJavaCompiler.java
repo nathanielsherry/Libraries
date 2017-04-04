@@ -60,7 +60,7 @@ public class BoltJavaCompiler {
 			
 			
 
-			boolean success = BatchCompiler.compile("-source 1.6 " + "\"" + sourceFile.getCanonicalPath() + "\"", new PrintWriter(out), new PrintWriter(err), null);
+			boolean success = BatchCompiler.compile("-source 1.8 " + "\"" + sourceFile.getCanonicalPath() + "\"", new PrintWriter(out), new PrintWriter(err), null);
 			
 			if (!success)
 			{

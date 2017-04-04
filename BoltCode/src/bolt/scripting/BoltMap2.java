@@ -9,12 +9,6 @@ public class BoltMap2<T1, T2, T3> extends BoltScripter implements BiFunction<T1,
 	private String input1, input2, output;
 
 	
-	public BoltMap2(String language, boolean compilable, String input1, String input2, String output, String script) {
-		
-		this(customLanguage(language, compilable), input1, input2, output, script);
-		
-	}
-	
 	
 	public BoltMap2(Language language, String input1, String input2, String output, String script) {
 		super(language, script);

@@ -10,12 +10,6 @@ public class BoltCombine<T1, T2> extends BoltScripter implements BiFunction<T1, 
 	private String input1, input2, output;
 
 	
-	public BoltCombine(final String language, final boolean compilable, String input1, String input2, String output, String script) {
-		
-		this(customLanguage(language, compilable), input1, input2, output, script);
-		
-	}
-	
 	
 	public BoltCombine(Language language, String input1, String input2, String output, String script) {
 		super(language, script);

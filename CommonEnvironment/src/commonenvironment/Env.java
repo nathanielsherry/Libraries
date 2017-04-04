@@ -95,17 +95,21 @@ public class Env
 	}
 	
 	
-	public static File appDataDirectory(String appname)
+	public static File appDataDirectory(String appname) {
+		return appDataDirectory(appname, "");
+	}
+	
+	public static File appDataDirectory(String appname, String subpath)
 	{
 		switch (getOS())
 		{
-			case WINDOWS: return new File(System.getenv("APPDATA") + "\\" + appname);
-			case MAC: return new File(System.getProperty("user.home") + "/Library/Application Support/" + appname);
+			case WINDOWS: return new File(System.getenv("APPDATA") + "\\" + appname + "\\" + subpath);
+			case MAC: return new File(System.getProperty("user.home") + "/Library/Application Support/" + appname + "/" + subpath);
 			
 			case OTHER:
 			case UNIX:
 			default:
-				return new File(System.getProperty("user.home") + "/.config/" + appname);
+				return new File(System.getProperty("user.home") + "/.config/" + appname + "/" + subpath);
 		}
 
 	}

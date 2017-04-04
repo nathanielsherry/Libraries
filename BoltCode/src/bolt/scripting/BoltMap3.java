@@ -8,11 +8,6 @@ public class BoltMap3<T1, T2, T3, T4> extends BoltScripter implements TriFunctio
 	private String input1, input2, input3, output;
 	
 	
-	public BoltMap3(String language, boolean compilable, String input1, String input2, String input3, String output, String script) {
-		
-		this(customLanguage(language, compilable), input1, input2, input3, output, script);
-		
-	}
 	
 
 	public BoltMap3(Language language, String input1, String input2, String input3, String output, String script) {

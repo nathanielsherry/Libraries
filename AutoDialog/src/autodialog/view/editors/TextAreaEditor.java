@@ -55,4 +55,6 @@ public class TextAreaEditor extends WrappingEditor<String, JTextArea> {
 		return component.getText();
 	}
 
+
+
 }

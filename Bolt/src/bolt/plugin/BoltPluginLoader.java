@@ -98,8 +98,10 @@ public class BoltPluginLoader<T extends BoltPlugin>
 			
 			@SuppressWarnings("unchecked")
 			Class<T> clazz = (Class<T>)loadedClass;
-					
-			if (filter.test(clazz) && isEnabledPlugin(clazz)) availablePlugins.add(clazz);
+			
+			if (filter.test(clazz) && isEnabledPlugin(clazz)) {
+				availablePlugins.add(clazz);
+			}
 			
 			availablePlugins = availablePlugins.unique();
 			
@@ -204,14 +206,7 @@ public class BoltPluginLoader<T extends BoltPlugin>
 		File[] files;
 		if (file.isDirectory())
 		{
-			files = file.listFiles(new FilenameFilter() {
-				
-				@Override
-				public boolean accept(File dir, String name)
-				{
-					return name.toLowerCase().endsWith(".jar");
-				}
-			});
+			files = file.listFiles((dir, name) -> name.toLowerCase().endsWith(".jar"));
 		}
 		else
 		{
@@ -241,9 +236,13 @@ public class BoltPluginLoader<T extends BoltPlugin>
 		URLClassLoader urlLoader = new URLClassLoader(new URL[]{url});
 		ServiceLoader<T> loader = ServiceLoader.load(target, urlLoader);
 		
-		for (T t : loader)
-		{
-			registerPlugin(t.getClass());
+		try {
+			for (T t : loader)
+			{	
+				registerPlugin(t.getClass());
+			}
+		} catch (ServiceConfigurationError e) {
+			e.printStackTrace();
 		}
 	}
 	

@@ -30,7 +30,7 @@ public class BoltJavaMap3<T1, T2, T3, T4> extends BoltJavaFunction implements Tr
 	protected String getSourceCode()
 	{
 		return generateSourceCode(
-				"FnMap3",
+				"TriFunction", "apply",
 				t1.getSimpleName() + ", " + t2.getSimpleName() + ", " + t3.getSimpleName() + ", " + t4.getSimpleName(), 
 				t4.getSimpleName(), 
 				t1.getSimpleName() + " " + value1 + ", " + t2.getSimpleName() + " " + value2 + ", " + t3.getSimpleName() + " " + value3

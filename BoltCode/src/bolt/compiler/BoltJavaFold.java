@@ -26,8 +26,8 @@ public class BoltJavaFold<T1, T2> extends BoltJavaFunction implements BiFunction
 	protected String getSourceCode()
 	{
 		return generateSourceCode(
-				"FnFold",
-				t1.getSimpleName() + ", " + t2.getSimpleName(), 
+				"BiFunction", "apply",
+				t1.getSimpleName() + ", " + t2.getSimpleName() + ", " + t2.getSimpleName(), 
 				t2.getSimpleName(), 
 				t1.getSimpleName() + " " + value + ", " + t2.getSimpleName() + " " + base
 			);

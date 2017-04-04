@@ -7,18 +7,37 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
+import java.util.Spliterator;
+import java.util.Spliterators;
+import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
+import java.util.function.BinaryOperator;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.IntFunction;
+import java.util.function.Predicate;
+import java.util.function.Supplier;
+import java.util.function.ToDoubleFunction;
+import java.util.function.ToIntFunction;
+import java.util.function.ToLongFunction;
+import java.util.stream.Collector;
+import java.util.stream.DoubleStream;
+import java.util.stream.IntStream;
+import java.util.stream.LongStream;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 import fava.functionable.Functionable;
 
 public class Spectrum extends Functionable<Float> implements Serializable
 {
 
-	private float		data[];
+	private float	data[];
 	private int		size;
 	private int		maxIndex;
 
@@ -136,7 +155,7 @@ public class Spectrum extends Functionable<Float> implements Serializable
 	 */
 	public Spectrum(Spectrum copy)
 	{
-		this.data = copy.toArray();
+		this.data = copy.backingArrayCopy();
 		this.size = copy.size;
 		this.maxIndex = copy.maxIndex;		
 	}
@@ -216,7 +235,7 @@ public class Spectrum extends Functionable<Float> implements Serializable
 	/**
 	 * Returns a copy of the data as an array
 	 */
-	public float[] toArray()
+	public float[] backingArrayCopy()
 	{
 		return Arrays.copyOf(data, data.length);
 	}
@@ -245,6 +264,16 @@ public class Spectrum extends Functionable<Float> implements Serializable
 	public float[] backingArray()
 	{
 		return data;
+	}
+	
+
+	/**
+	 * Return a stream accessing the backing array
+	 * @return
+	 */
+	public Stream<Float> j8stream() 
+	{
+		return StreamSupport.stream(Spliterators.spliteratorUnknownSize(iterator(), Spliterator.ORDERED), false);
 	}
 
 

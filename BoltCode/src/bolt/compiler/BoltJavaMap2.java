@@ -28,7 +28,7 @@ public class BoltJavaMap2<T1, T2, T3> extends BoltJavaFunction implements BiFunc
 	protected String getSourceCode()
 	{
 		return generateSourceCode(
-				"FnMap2",
+				"BiFunction", "apply",
 				t1.getSimpleName() + ", " + t2.getSimpleName() + ", " + t3.getSimpleName(), 
 				t3.getSimpleName(), 
 				t1.getSimpleName() + " " + value1 + ", " + t2.getSimpleName() + " " + value2

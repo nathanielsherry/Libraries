@@ -29,7 +29,7 @@ abstract class BoltJavaFunction {
 	}
 	public String getIncludeText()
 	{
-		return "import fava.signatures.*;\n" + includeText;
+		return "import fava.signatures.*;\nimport java.util.function.*;\n" + includeText;
 	}
 	
 	public void setFunctionText(String function)
@@ -58,13 +58,13 @@ abstract class BoltJavaFunction {
 		return classname;
 	}
 	
-	protected String generateSourceCode(String interfaceName, String interfaceTypes, String returnType, String functionSignature)
+	protected String generateSourceCode(String interfaceName, String functionName, String interfaceTypes, String returnType, String functionSignature)
 	{
 		return getIncludeText() +
 		"\n" +
 		"public class " + getClassName() + " implements " + interfaceName + "<" + interfaceTypes + "> {\n" +
 		"	@Override \n" +
-		"	public " + returnType + " f(" + functionSignature + "){\n" +
+		"	public " + returnType + " " + functionName + "(" + functionSignature + "){\n" +
 		getFunctionText() +
 		"\n" + 
 		"	}\n" +

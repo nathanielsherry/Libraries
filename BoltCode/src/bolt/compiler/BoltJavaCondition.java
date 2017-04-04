@@ -25,7 +25,7 @@ public class BoltJavaCondition<T1> extends BoltJavaFunction implements Predicate
 	protected String getSourceCode()
 	{
 		return generateSourceCode(
-				"FnCondition",
+				"Predicate", "test",
 				t1.getSimpleName(), 
 				"Boolean", 
 				t1.getSimpleName() + " " + value

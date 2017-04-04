@@ -9,12 +9,7 @@ public class BoltFold<T1, T2> extends BoltScripter implements BiFunction<T1, T2,
 
 	private String base, value, result;
 
-	public BoltFold(final String language, final boolean compilable, String base, String value, String result, String script) {
-		
-		this(customLanguage(language, compilable), base, value, result, script);
-		
-	}
-	
+
 	
 	public BoltFold(Language language, String base, String value, String result, String script) {
 		

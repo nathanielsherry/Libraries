@@ -24,7 +24,7 @@ public class BoltJavaMap<T1, T2> extends BoltJavaFunction implements Function<T1
 	protected String getSourceCode()
 	{
 		return generateSourceCode(
-				"FnMap",
+				"java.util.function.Function", "apply",
 				t1.getSimpleName() + ", " + t2.getSimpleName(), 
 				t2.getSimpleName(), 
 				t1.getSimpleName() + " " + value

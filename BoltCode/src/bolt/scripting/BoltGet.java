@@ -8,11 +8,6 @@ public class BoltGet<T1> extends BoltScripter implements Supplier<T1>{
 
 	private String get;
 	
-	public BoltGet(String language, boolean compilable, String get, String script) {
-		
-		this(customLanguage(language, compilable), get, script);
-		
-	}
 	
 	public BoltGet(Language language, String get, String script) {
 		

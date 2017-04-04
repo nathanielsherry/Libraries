@@ -26,8 +26,8 @@ public class BoltJavaCombine<T1, T2> extends BoltJavaFunction implements BiFunct
 	protected String getSourceCode()
 	{
 		return generateSourceCode(
-				"FnCombine",
-				t1.getSimpleName() + ", " + t2.getSimpleName(), 
+				"BiFunction", "apply",
+				t1.getSimpleName() + ", " + t1.getSimpleName() + ", " + t2.getSimpleName(), 
 				t2.getSimpleName(), 
 				t1.getSimpleName() + " " + value1 + ", " + t1.getSimpleName() + " " + value2
 			);

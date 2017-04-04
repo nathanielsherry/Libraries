@@ -34,14 +34,7 @@ public class BoltScripter {
 	
 	
 	
-	public BoltScripter(final String language, final boolean compilable, String script)  {
-		
-		this(customLanguage(language, compilable), script);
-		
-	}
-	
 	public BoltScripter(Language language, String script)  {
-		
 		this.language = language;
 		
 		threadEngines = new LinkedHashMap<Thread, ScriptEngine>();
@@ -52,13 +45,14 @@ public class BoltScripter {
 		errorWriter = new StringWriter();
 		
 		setScript(script);
-		
 	}
+	
+
 	
 	protected ScriptEngine createEngine()
 	{
 		
-		ScriptEngine engine = new ScriptEngineManager().getEngineByName(language.getName());
+		ScriptEngine engine = new ScriptEngineManager(language.getClassLoader()).getEngineByName(language.getName());
 		if (engine == null) throw new NullPointerException("Could not create scripting engine");
 		ScriptContext context1 = new SimpleScriptContext();
 		engine.setContext(context1);
@@ -253,7 +247,7 @@ public class BoltScripter {
 	}
 	
 	
-	protected static Language customLanguage(final String language, final boolean compilable)
+	public static Language customLanguage(final String language, final boolean compilable)
 	{
 		
 		return new Language() {
