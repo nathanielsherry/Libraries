@@ -111,9 +111,5 @@ public class IOOperations
     	return IOOperations.class.getResource(s);
     }
     
-    public static AbstractFile getFileFromJar(String s)
-    {
-    	return new AbstractFile(getURLFromJar(s));
-    }
 	
 }

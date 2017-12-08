@@ -32,11 +32,11 @@ public class SavePicture extends JDialog
 {
 
 	private GraphicsPanel			controller;
-	private String					startingFolder;
+	private File					startingFolder;
 	private ComplexToggleGroup		group;
 	private JPanel					controlsPanel;
 	
-	public SavePicture(Window owner, GraphicsPanel controller, String startingFolder)
+	public SavePicture(Window owner, GraphicsPanel controller, File startingFolder)
 	{
 
 		super(owner, "Save as Image");
@@ -177,7 +177,7 @@ public class SavePicture extends JDialog
 			os.close();
 			
 			InputStream is = new FileInputStream(tempfile);
-			String result = SwidgetIO.saveFile(this, "Save Picture As...", "png", "Portable Network Graphic", startingFolder, is);
+			File result = SwidgetIO.saveFile(this, "Save Picture As...", "png", "Portable Network Graphic", startingFolder, is);
 			is.close();
 			
 			tempfile.delete();
@@ -221,7 +221,7 @@ public class SavePicture extends JDialog
 			os.close();
 			
 			InputStream is = new FileInputStream(tempfile);
-			String result = SwidgetIO.saveFile(this, "Save Picture As...", "svg", "Scalable Vector Graphic", startingFolder, is);
+			File result = SwidgetIO.saveFile(this, "Save Picture As...", "svg", "Scalable Vector Graphic", startingFolder, is);
 			is.close();
 			
 			tempfile.delete();
@@ -264,7 +264,7 @@ public class SavePicture extends JDialog
 			os.close();
 			
 			InputStream is = new FileInputStream(tempfile);
-			String result = SwidgetIO.saveFile(this, "Save Picture As...", "pdf", "Portable Document Format", startingFolder, is);
+			File result = SwidgetIO.saveFile(this, "Save Picture As...", "pdf", "Portable Document Format", startingFolder, is);
 			is.close();
 			
 			tempfile.delete();
@@ -287,7 +287,7 @@ public class SavePicture extends JDialog
 	}
 
 	
-	public String getStartingFolder()
+	public File getStartingFolder()
 	{
 		return startingFolder;
 	}

@@ -29,330 +29,155 @@ import org.apache.commons.io.IOUtils;
 import swidget.icons.IconSize;
 import swidget.icons.StockIcon;
 
-import commonenvironment.AbstractFile;
 import commonenvironment.Env;
 
 
 public class SwidgetIO
 {
 
-	public static List<AbstractFile> openFiles(
+	public static List<File> openFiles(
 			Container	parent, 
 			String 		title, 
 			String[][] 	exts, 
 			String[] 	extDesc,
-			String 		startDir)
+			File 		startDir)
 	{
 		return openFiles(parent, title, exts, extDesc, startDir, false);
 	}
 	
-	public static List<AbstractFile> openFiles(
+	public static List<File> openFiles(
 			Container	parent, 
 			String 		title, 
 			String[][] 	exts, 
 			String[] 	extDesc,
-			String 		startDir,
+			File 		startDir,
 			boolean		allowFolders)
 	{
 
-		if (Env.isWebStart())
-		{
+		JFileChooser chooser = new JFileChooser(startDir);
+		FileFilter defaultFilter = chooser.getFileFilter();
+		chooser.setMultiSelectionEnabled(true);
+		chooser.setDialogTitle(title);
+		if (allowFolders) chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
 
-			Set<String> allExts = new HashSet<String>();
-			for (String extset[] : exts)
+		SimpleFileFilter filter;
+		for (int i = 0; i < exts.length; i++)
+		{
+			filter = new SimpleFileFilter();
+			for (String ext : exts[i])
 			{
-				for (String ext : extset)
-				{
-					allExts.add(ext);
-				}
+				filter.addExtension(ext);
 			}
+			if (extDesc.length >= i) filter.setDescription(extDesc[i]);
 			
-			try
-			{
-				return wsOpenFiles("~/", allExts.toArray(new String[]{}));
-			}
-			catch (UnavailableServiceException e)
-			{
-				JOptionPane.showMessageDialog(
-						parent,
-						"The Web Start File-Read Service is not Available.",
-						"Read Failed.",
-						JOptionPane.ERROR_MESSAGE,
-						StockIcon.BADGE_WARNING.toImageIcon(IconSize.ICON));
-				return null;
-			}
+			chooser.addChoosableFileFilter(filter);
+		}
+		
+		chooser.setFileFilter(defaultFilter);
+		
+		int returnVal = chooser.showOpenDialog(parent);
+		if (returnVal == JFileChooser.APPROVE_OPTION)
+		{
+			return Arrays.asList(chooser.getSelectedFiles());
 
 		}
 		else
 		{
-
-			JFileChooser chooser = new JFileChooser(startDir);
-			FileFilter defaultFilter = chooser.getFileFilter();
-			chooser.setMultiSelectionEnabled(true);
-			chooser.setDialogTitle(title);
-			if (allowFolders) chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-
-			SimpleFileFilter filter;
-			for (int i = 0; i < exts.length; i++)
-			{
-				filter = new SimpleFileFilter();
-				for (String ext : exts[i])
-				{
-					filter.addExtension(ext);
-				}
-				if (extDesc.length >= i) filter.setDescription(extDesc[i]);
-				
-				chooser.addChoosableFileFilter(filter);
-			}
-			
-			chooser.setFileFilter(defaultFilter);
-			
-			/*
-			SimpleFileFilter filter = new SimpleFileFilter();
-			for (String ext : exts)
-			{
-				filter.addExtension(ext);
-			}
-			filter.setDescription(extDesc);
-			chooser.setFileFilter(filter);
-			*/
-
-			int returnVal = chooser.showOpenDialog(parent);
-			if (returnVal == JFileChooser.APPROVE_OPTION)
-			{
-				return Arrays.asList(chooser.getSelectedFiles())
-						.stream()
-						.map(f -> new AbstractFile(f.toString()))
-						.collect(Collectors.toList());
-
-			}
-			else
-			{
-				return null;
-			}
-
+			return null;
 		}
+
 
 	}
 
-	public static AbstractFile openFile(
+	public static File openFile(
 			Container	parent, 
 			String 		title, 
 			String[][] 	exts, 
 			String[] 	extDesc, 
-			String 		startDir
+			File 		startDir
 		)
 	{
 		return openFile(parent, title, exts, extDesc, startDir, false);
 	}
 	
-	public static AbstractFile openFile(
+	public static File openFile(
 			Container	parent, 
 			String 		title, 
 			String[][] 	exts, 
 			String[] 	extDesc, 
-			String 		startDir,
+			File 		startDir,
 			boolean		allowFolders
 		)
 	{
 
-		if (Env.isWebStart())
+	
+		JFileChooser chooser = new JFileChooser(startDir);
+		chooser.setMultiSelectionEnabled(true);
+		chooser.setDialogTitle(title);
+		if (allowFolders) chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+		
+		SimpleFileFilter filter;
+		for (int i = 0; i < exts.length; i++)
 		{
-
-			Set<String> allExts = new HashSet<String>();
-			for (String extset[] : exts)
+			filter = new SimpleFileFilter();
+			for (String ext : exts[i])
 			{
-				for (String ext : extset)
-				{
-					allExts.add(ext);
-				}
+				filter.addExtension(ext);
 			}
+			if (extDesc.length >= i) filter.setDescription(extDesc[i]);
 			
-			try
-			{
-				return wsOpenFile("~/", allExts.toArray(new String[]{}));
-			}
-			catch (UnavailableServiceException e)
-			{
-				JOptionPane.showMessageDialog(
-						parent,
-						"The Web Start File-Read Service is not Available.",
-						"Read Failed.",
-						JOptionPane.ERROR_MESSAGE,
-						StockIcon.BADGE_WARNING.toImageIcon(IconSize.ICON));
-				return null;
-			}
+			chooser.addChoosableFileFilter(filter);
+		}
 
+		int returnVal = chooser.showOpenDialog(parent);
+		if (returnVal == JFileChooser.APPROVE_OPTION)
+		{
+			return chooser.getSelectedFile();
 		}
 		else
 		{
-
-			JFileChooser chooser = new JFileChooser(startDir);
-			chooser.setMultiSelectionEnabled(true);
-			chooser.setDialogTitle(title);
-			if (allowFolders) chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-			
-			/*
-			if (exts.length > 0) 
-			{
-				SimpleFileFilter filter = new SimpleFileFilter();
-				for (String ext : exts)
-				{
-					filter.addExtension(ext);
-				}
-				filter.setDescription(extDesc);
-				chooser.setFileFilter(filter);
-			}
-			*/
-			SimpleFileFilter filter;
-			for (int i = 0; i < exts.length; i++)
-			{
-				filter = new SimpleFileFilter();
-				for (String ext : exts[i])
-				{
-					filter.addExtension(ext);
-				}
-				if (extDesc.length >= i) filter.setDescription(extDesc[i]);
-				
-				chooser.addChoosableFileFilter(filter);
-			}
-
-			int returnVal = chooser.showOpenDialog(parent);
-			if (returnVal == JFileChooser.APPROVE_OPTION)
-			{
-				return new AbstractFile(chooser.getSelectedFile().toString());
-			}
-			else
-			{
-				return null;
-			}
-
+			return null;
 		}
 
 
 	}
 
 
-	public static String saveFile(Container parent, String title, String ext, String extDesc, String startDir,
+	public static File saveFile(Container parent, String title, String ext, String extDesc, File startDir,
 			ByteArrayOutputStream outStream) throws IOException
 	{
 		outStream.close();
 		InputStream inStream = new ByteArrayInputStream(outStream.toByteArray());
-		String result = saveFile(parent, title, ext, extDesc, startDir, inStream);
+		File result = saveFile(parent, title, ext, extDesc, startDir, inStream);
 		inStream.close();
 		return result;
 	}
 
 	
-	public static String saveFile(Container parent, String title, String ext, String extDesc, String startDir,
+	public static File saveFile(Container parent, String title, String ext, String extDesc, File startDir,
 			InputStream inStream) throws IOException
 	{
 		
+		String saveFilename = SimpleIODialogues.chooseFileSave(parent, title, startDir, ext, extDesc);
 
-		if (Env.isWebStart())
+		if (saveFilename != null)
 		{
+			File saveFile = new File(saveFilename);
+			File savePictureFolder = saveFile.getParentFile();
+			FileOutputStream fos = new FileOutputStream(saveFile);
+			IOUtils.copy(inStream, fos);
+			fos.flush();
+			fos.close();
 
-			try
-			{
-				wsSaveFile("~/", "", new String[] { ext }, inStream);
-			}
-			catch (UnavailableServiceException e)
-			{
-				JOptionPane.showMessageDialog(
-						parent,
-						"The Web Start File-Write Service is not Available.",
-						"Write Failed.",
-						JOptionPane.ERROR_MESSAGE,
-						StockIcon.BADGE_WARNING.toImageIcon(IconSize.ICON));
-				return null;
-			}
-			return "";
-
-		}
-		else
-		{
-
-			String saveFilename = SimpleIODialogues.chooseFileSave(parent, title, startDir, ext, extDesc);
-
-			if (saveFilename != null)
-			{
-				File saveFile = new File(saveFilename);
-				String savePictureFolder = saveFile.getParent();
-				FileOutputStream fos = new FileOutputStream(saveFile);
-				IOUtils.copy(inStream, fos);
-				fos.flush();
-				fos.close();
-
-				return savePictureFolder;
-			}
-
-			return "";
-
+			return savePictureFolder;
 		}
 
+		return new File("/");
 
 	}
 	
 	
 	
 	
-	private static List<AbstractFile> wsOpenFiles(String path, String[] extensions) throws UnavailableServiceException
-	{
-		FileOpenService fos;
-		try
-		{
-			fos = (FileOpenService) ServiceManager.lookup("javax.jnlp.FileOpenService");
-			
-
-			
-			return Arrays.asList(fos.openMultiFileDialog(path, extensions))
-					.stream()
-					.map(element -> new AbstractFile(element))
-					.collect(Collectors.toList());
-		}
-		catch (IOException e)
-		{
-			return null;
-		}
-	
-	}
-	
-	private static AbstractFile wsOpenFile(String path, String[] extensions) throws UnavailableServiceException
-	{
-		FileOpenService fos;
-		try
-		{
-			fos = (FileOpenService) ServiceManager.lookup("javax.jnlp.FileOpenService");
-			
-			return new AbstractFile(  fos.openFileDialog(path, extensions)  );			
-		}
-		catch (IOException e)
-		{
-			return null;
-		}
-	
-	}
-	
-
-	private static FileContents wsSaveFile(String path, String name, String[] extensions, InputStream inputStream) throws UnavailableServiceException
-	{
-		FileSaveService fss;
-
-		try
-		{
-			
-			fss = (FileSaveService) ServiceManager.lookup("javax.jnlp.FileSaveService");
-			return fss.saveFileDialog(  path, extensions, inputStream, name  );
-			
-		}
-		catch (IOException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		return null;
-
-	}
 
 }

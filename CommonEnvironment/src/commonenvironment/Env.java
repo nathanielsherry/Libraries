@@ -78,11 +78,6 @@ public class Env
 		if (isUnix()) return OS.UNIX;
 		return OS.OTHER;
 	}
-
-	public static boolean isWebStart()
-	{
-		return (ServiceManager.getServiceNames() != null && ServiceManager.getServiceNames().length != 0);
-	}
 	
 	public static long heapSize()
 	{
@@ -104,18 +99,23 @@ public class Env
 		switch (getOS())
 		{
 			case WINDOWS: return new File(System.getenv("APPDATA") + "\\" + appname + "\\" + subpath);
-			case MAC: return new File(System.getProperty("user.home") + "/Library/Application Support/" + appname + "/" + subpath);
+			case MAC: return new File(homeDirectory() + "/Library/Application Support/" + appname + "/" + subpath);
 			
 			case OTHER:
 			case UNIX:
 			default:
-				return new File(System.getProperty("user.home") + "/.config/" + appname + "/" + subpath);
+				return new File(homeDirectory() + "/.config/" + appname + "/" + subpath);
 		}
 
 	}
 	
 	public static void main(String[] args) {
 		
+	}
+
+
+	public static File homeDirectory() {
+		return new File(System.getProperty("user.home"));
 	}
 	
 

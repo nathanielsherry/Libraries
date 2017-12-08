@@ -13,7 +13,7 @@ import javax.swing.JOptionPane;
 class SimpleIODialogues
 {
 	
-	public static String chooseFileSave(Component parent, String title, String startingFolder, String fileExtention, String extDescription)
+	public static String chooseFileSave(Component parent, String title, File startingFolder, String fileExtention, String extDescription)
 	{
 
 		JFileChooser chooser = new JFileChooser(startingFolder);
@@ -30,8 +30,9 @@ class SimpleIODialogues
 			if (!filename.toLowerCase().endsWith("." + fileExtention.toLowerCase())) {
 				filename += "." + fileExtention;
 			}
+			File file = new File(filename);
 
-			if (warnFileExists(parent, filename)) return filename;
+			if (warnFileExists(parent, file)) return filename;
 
 		}
 
@@ -40,7 +41,7 @@ class SimpleIODialogues
 	}
 
 
-	public static String chooseFileOpen(Window parent, String title, String startingFolder, String fileExtention,
+	public static String chooseFileOpen(Window parent, String title, File startingFolder, String fileExtention,
 			String fileDescription)
 	{
 		JFileChooser chooser = new JFileChooser(startingFolder);
@@ -67,11 +68,10 @@ class SimpleIODialogues
 	}
 
 
-	private static boolean warnFileExists(Component parent, String filename)
+	private static boolean warnFileExists(Component parent, File filename)
 	{
-		File f = new File(filename);
 		
-		if (f.exists()) {
+		if (filename.exists()) {
 			
 			int response = JOptionPane.showConfirmDialog(parent,
 					"The file you have selected already exists, are you sure you want to replace it?",
