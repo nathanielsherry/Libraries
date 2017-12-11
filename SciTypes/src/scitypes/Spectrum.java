@@ -1,14 +1,11 @@
 package scitypes;
 
 import java.io.Serializable;
-import java.util.Iterator;
 import java.util.List;
 import java.util.function.BiFunction;
-import java.util.function.Consumer;
 import java.util.function.Function;
-import java.util.stream.Stream;
 
-public interface Spectrum extends Serializable, Iterable<Float> {
+public interface Spectrum extends Serializable, Iterable<Float>, ReadOnlySpectrum {
 
 	/**
 	 * Copies the values from the given spectrum into this one. 
@@ -37,63 +34,16 @@ public interface Spectrum extends Serializable, Iterable<Float> {
 	void set(int i, float value);
 
 	/**
-	 * Gets the value of the entry at index i
-	 * @param i
-	 */
-	float get(int i);
-
-	/**
-	 * Gets the size of this Spectrum
-	 */
-	int size();
-
-	/**
-	 * Returns a copy of the data as an array
-	 */
-	float[] backingArrayCopy();
-
-	/**
-	 * Returns a new Spectrum containing a copy of the data for a subsection of this spectrum.
-	 * @param start
-	 * @param stop
-	 */
-	Spectrum subSpectrum(int start, int stop);
-
-	/**
 	 * Return the array which is backing this Spectrum. This method does not return a copy, 
 	 * but the real array. Modifying the contents of this array will modify the contents 
 	 * of the Spectrum.
 	 */
 	float[] backingArray();
 
-	/**
-	 * Return a stream accessing the backing array
-	 * @return
-	 */
-	Stream<Float> stream();
-
-	/**
-	 * Returns an iterator over {@link Float} values for this Spectrum
-	 */
-	Iterator<Float> iterator();
-
-	void each(Consumer<Float> f);
-
 	void map_i(Function<Float, Float> f);
-
-	Float fold(BiFunction<Float, Float, Float> f);
-
-	<T2> T2 fold(T2 base, BiFunction<Float, T2, T2> f);
-
+	
+	//narrow the return type
 	Spectrum zipWith(ISpectrum other, BiFunction<Float, Float, Float> f);
-
-	/**
-	 * Hash code returns the integer sum of the first 10 (or less) elements
-	 */
-	int hashCode();
-
-	boolean equals(Object oother);
-
-	String toString();
+	Spectrum subSpectrum(int start, int stop);
 
 }
