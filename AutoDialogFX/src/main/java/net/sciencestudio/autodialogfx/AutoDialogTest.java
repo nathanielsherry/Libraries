@@ -4,9 +4,6 @@ import java.io.IOException;
 
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 import net.sciencestudio.autodialogfx.model.group.Group;
 import net.sciencestudio.autodialogfx.model.group.IGroup;

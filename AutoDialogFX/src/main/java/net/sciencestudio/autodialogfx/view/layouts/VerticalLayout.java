@@ -1,16 +1,11 @@
 package net.sciencestudio.autodialogfx.view.layouts;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
-import net.sciencestudio.autodialogfx.view.View;
-import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
-import javafx.scene.layout.VBox;
+import net.sciencestudio.autodialogfx.view.View;
 
 public class VerticalLayout extends AbstractLayout {
 

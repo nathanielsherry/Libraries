@@ -5,8 +5,6 @@ package commonenvironment;
 import java.io.File;
 import java.net.URISyntaxException;
 
-import javax.jnlp.ServiceManager;
-
 
 
 

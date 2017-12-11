@@ -3,7 +3,6 @@ package net.sciencestudio.autodialogfx.view.editors;
 import javafx.scene.Node;
 import javafx.scene.control.TextField;
 import net.sciencestudio.autodialogfx.model.value.Value;
-import net.sciencestudio.chanje.ChangeBus;
 
 public class TextFieldEditor extends AbstractEditor<String> {
 

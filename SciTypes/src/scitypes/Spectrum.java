@@ -2,7 +2,6 @@ package scitypes;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.function.BiFunction;
 import java.util.function.Function;
 
 public interface Spectrum extends Serializable, Iterable<Float>, ReadOnlySpectrum {

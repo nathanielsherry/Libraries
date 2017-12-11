@@ -1,16 +1,10 @@
 package net.sciencestudio.autodialogfx.model.group;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import net.sciencestudio.autodialogfx.model.AbstractModel;
 import net.sciencestudio.autodialogfx.model.Model;
-import net.sciencestudio.autodialogfx.model.value.Value;
-import net.sciencestudio.autodialogfx.view.View;
 import net.sciencestudio.autodialogfx.view.layouts.Layout;
 
 public class IGroup extends AbstractModel<List<Model<?>>> implements Group {

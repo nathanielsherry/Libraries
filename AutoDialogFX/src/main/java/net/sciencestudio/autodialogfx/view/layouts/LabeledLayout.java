@@ -1,22 +1,14 @@
 package net.sciencestudio.autodialogfx.view.layouts;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
-import net.sciencestudio.autodialogfx.model.Model;
-import net.sciencestudio.autodialogfx.model.group.Group;
-import net.sciencestudio.autodialogfx.view.View;
-import net.sciencestudio.autodialogfx.view.ViewProperties.LabelStyle;
-import net.sciencestudio.autodialogfx.view.editors.Editor;
 import javafx.geometry.HPos;
-import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
+import net.sciencestudio.autodialogfx.model.group.Group;
+import net.sciencestudio.autodialogfx.view.View;
+import net.sciencestudio.autodialogfx.view.ViewProperties.LabelStyle;
 
 public class LabeledLayout extends AbstractLayout {
 

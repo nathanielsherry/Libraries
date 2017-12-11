@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 import javafx.scene.Node;
 import net.sciencestudio.autodialogfx.model.Model;
 import net.sciencestudio.autodialogfx.model.group.Group;
-import net.sciencestudio.autodialogfx.model.group.IGroup;
 import net.sciencestudio.autodialogfx.view.AbstractView;
 import net.sciencestudio.autodialogfx.view.View;
 import net.sciencestudio.autodialogfx.view.ViewProperties.LabelStyle;

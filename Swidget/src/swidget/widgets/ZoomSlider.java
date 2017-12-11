@@ -9,9 +9,9 @@ import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import eventful.swing.EventfulPanel;
 import swidget.icons.StockIcon;
 import swidget.widgets.ImageButton.Layout;
-import eventful.swing.EventfulPanel;
 
 
 public class ZoomSlider extends EventfulPanel

@@ -1,7 +1,5 @@
 package net.sciencestudio.autodialogfx.view.layouts;
 
-import net.sciencestudio.autodialogfx.model.group.Group;
-import net.sciencestudio.autodialogfx.view.View;
 import javafx.scene.Node;
 import javafx.scene.control.TitledPane;
 

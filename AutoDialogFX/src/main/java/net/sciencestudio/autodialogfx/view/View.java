@@ -1,6 +1,7 @@
 package net.sciencestudio.autodialogfx.view;
 
 
+import javafx.scene.Node;
 import net.sciencestudio.autodialogfx.model.Model;
 import net.sciencestudio.autodialogfx.model.dummy.Dummy;
 import net.sciencestudio.autodialogfx.model.group.Group;
@@ -8,7 +9,6 @@ import net.sciencestudio.autodialogfx.model.value.Value;
 import net.sciencestudio.autodialogfx.view.decor.Decor;
 import net.sciencestudio.autodialogfx.view.editors.Editor;
 import net.sciencestudio.autodialogfx.view.layouts.Layout;
-import javafx.scene.Node;
 
 public interface View {
 

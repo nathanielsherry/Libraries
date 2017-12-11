@@ -5,7 +5,6 @@ import java.awt.Color;
 
 import scidraw.drawing.painters.PainterData;
 import scitypes.ReadOnlySpectrum;
-import scitypes.Spectrum;
 
 public class OriginalDataPainter extends LinePainter
 {

@@ -2,16 +2,9 @@ package fava;
 
 
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.List;
 import java.util.function.BiFunction;
-import java.util.function.BiPredicate;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Predicate;
 
-import fava.datatypes.Pair;
 import fava.functionable.FList;
 
 

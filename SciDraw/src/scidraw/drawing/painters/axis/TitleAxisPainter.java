@@ -1,8 +1,8 @@
 package scidraw.drawing.painters.axis;
 
+import fava.datatypes.Pair;
 import scidraw.drawing.Drawing;
 import scidraw.drawing.painters.PainterData;
-import fava.datatypes.Pair;
 
 /**
  * Draws titles for all 4 axes. Can be used to draw a title for the whole {@link Drawing} as well.

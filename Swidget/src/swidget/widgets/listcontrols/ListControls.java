@@ -12,11 +12,11 @@ import java.util.List;
 
 import javax.swing.JPopupMenu;
 
+import eventful.EventfulEnumListener;
 import swidget.icons.StockIcon;
 import swidget.widgets.ClearPanel;
 import swidget.widgets.DropdownImageButton.Actions;
 import swidget.widgets.Spacing;
-import eventful.EventfulEnumListener;
 
 
 

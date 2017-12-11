@@ -4,6 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 
+import javafx.application.Application;
+import javafx.geometry.Insets;
+import javafx.stage.Stage;
 import net.sciencestudio.autodialogfx.AutoDialog;
 import net.sciencestudio.autodialogfx.model.dummy.Dummy;
 import net.sciencestudio.autodialogfx.model.group.Group;
@@ -25,9 +28,6 @@ import net.sciencestudio.autodialogfx.view.layouts.LabeledLayout;
 import net.sciencestudio.autodialogfx.view.layouts.TabbedLayout;
 import net.sciencestudio.autodialogfx.view.layouts.TitledLayout;
 import net.sciencestudio.autodialogfx.view.layouts.VerticalLayout;
-import javafx.application.Application;
-import javafx.geometry.Insets;
-import javafx.stage.Stage;
 
 public class FXTest extends Application {
 

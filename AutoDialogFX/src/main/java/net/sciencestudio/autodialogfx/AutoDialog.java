@@ -1,20 +1,17 @@
 package net.sciencestudio.autodialogfx;
 
-import net.sciencestudio.autodialogfx.model.Model;
-import net.sciencestudio.autodialogfx.model.group.Group;
-import net.sciencestudio.autodialogfx.model.group.IGroup;
-import net.sciencestudio.autodialogfx.model.value.IValue;
-import net.sciencestudio.autodialogfx.model.value.Value;
-import net.sciencestudio.autodialogfx.view.AbstractView;
-import net.sciencestudio.autodialogfx.view.View;
-import net.sciencestudio.autodialogfx.view.editors.SpinnerIntegerEditor;
-import net.sciencestudio.autodialogfx.view.layouts.TitledLayout;
-import net.sciencestudio.autodialogfx.view.layouts.VerticalLayout;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import net.sciencestudio.autodialogfx.model.Model;
+import net.sciencestudio.autodialogfx.model.group.Group;
+import net.sciencestudio.autodialogfx.model.group.IGroup;
+import net.sciencestudio.autodialogfx.model.value.Value;
+import net.sciencestudio.autodialogfx.view.AbstractView;
+import net.sciencestudio.autodialogfx.view.View;
+import net.sciencestudio.autodialogfx.view.layouts.VerticalLayout;
 
 public class AutoDialog extends AbstractView implements View {
 

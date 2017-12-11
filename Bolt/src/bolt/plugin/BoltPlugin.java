@@ -1,5 +1,7 @@
 package bolt.plugin;
 
+import com.sun.webkit.plugin.Plugin;
+
 /**
  * This is the base interface that any plugin system using the Bolt plugin 
  * system must extend or implement. To create a system of plugins, BoltPlugin 

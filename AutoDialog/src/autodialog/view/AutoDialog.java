@@ -13,6 +13,11 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import autodialog.controller.IADController;
+import autodialog.controller.SimpleADController;
+import autodialog.model.Parameter;
+import autodialog.view.layouts.IADLayout;
+import autodialog.view.layouts.SimpleADLayout;
 import swidget.icons.IconSize;
 import swidget.icons.StockIcon;
 import swidget.widgets.ButtonBox;
@@ -20,11 +25,6 @@ import swidget.widgets.ImageButton;
 import swidget.widgets.ImageButton.Layout;
 import swidget.widgets.Spacing;
 import swidget.widgets.TextWrapping;
-import autodialog.controller.IADController;
-import autodialog.controller.SimpleADController;
-import autodialog.model.Parameter;
-import autodialog.view.layouts.IADLayout;
-import autodialog.view.layouts.SimpleADLayout;
 
 
 public class AutoDialog extends JDialog

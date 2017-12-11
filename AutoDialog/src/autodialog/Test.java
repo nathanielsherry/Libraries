@@ -8,8 +8,6 @@ import javax.swing.JFileChooser;
 import javax.swing.JSeparator;
 import javax.swing.JSlider;
 
-import swidget.Swidget;
-import swidget.dialogues.fileio.SimpleFileFilter;
 import autodialog.controller.SimpleADController;
 import autodialog.model.Parameter;
 import autodialog.view.AutoDialog;
@@ -28,6 +26,8 @@ import autodialog.view.layouts.FramesADLayout;
 import autodialog.view.layouts.IADLayout;
 import autodialog.view.layouts.SimpleADLayout;
 import autodialog.view.layouts.TabbedADLayout;
+import swidget.Swidget;
+import swidget.dialogues.fileio.SimpleFileFilter;
 
 public class Test {
 

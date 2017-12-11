@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import plural.executor.Plural;
 import fava.functionable.FList;
+import plural.executor.Plural;
 
 
 /**

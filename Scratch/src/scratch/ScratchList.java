@@ -9,9 +9,9 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.List;
 
+import fava.functionable.FList;
 import scitypes.ISpectrum;
 import scitypes.Spectrum;
-import fava.functionable.FList;
 
 
 /**

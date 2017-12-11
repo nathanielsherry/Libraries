@@ -5,14 +5,13 @@ package scidraw.drawing.map.painters.axis;
 import java.awt.Color;
 import java.util.List;
 
+import fava.datatypes.Pair;
+import fava.functionable.FList;
 import scidraw.drawing.map.palettes.AbstractPalette;
 import scidraw.drawing.painters.PainterData;
 import scitypes.Coord;
 import scitypes.SISize;
 import scitypes.SigDigits;
-import fava.Functions;
-import fava.datatypes.Pair;
-import fava.functionable.FList;
 
 
 

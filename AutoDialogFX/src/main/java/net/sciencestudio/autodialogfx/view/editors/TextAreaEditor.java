@@ -4,7 +4,6 @@ import javafx.scene.Node;
 import javafx.scene.control.TextArea;
 import net.sciencestudio.autodialogfx.model.value.Value;
 import net.sciencestudio.autodialogfx.view.ViewProperties.LabelStyle;
-import net.sciencestudio.chanje.ChangeBus;
 
 public class TextAreaEditor extends AbstractEditor<String> {
 

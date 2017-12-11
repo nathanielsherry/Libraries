@@ -1,13 +1,9 @@
 package net.sciencestudio.autodialogfx.view.editors;
 
-import java.util.Optional;
-
 import net.sciencestudio.autodialogfx.changes.EnabledChange;
 import net.sciencestudio.autodialogfx.changes.ValuedChange;
-import net.sciencestudio.autodialogfx.model.Model;
 import net.sciencestudio.autodialogfx.model.value.Value;
 import net.sciencestudio.autodialogfx.view.AbstractView;
-import net.sciencestudio.autodialogfx.view.ViewProperties;
 
 public abstract class AbstractEditor<T> extends AbstractView implements Editor<T> {
 

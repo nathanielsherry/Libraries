@@ -12,11 +12,11 @@ import javax.swing.JPanel;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
-import swidget.widgets.Spacing;
 import autodialog.model.Parameter;
 import autodialog.view.AutoPanel;
 import autodialog.view.editors.IEditor;
 import autodialog.view.editors.IEditor.LabelStyle;
+import swidget.widgets.Spacing;
 
 public class FramesADLayout extends AbstractGroupingADLayout {
 

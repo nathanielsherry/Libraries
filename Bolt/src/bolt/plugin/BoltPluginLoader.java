@@ -2,20 +2,16 @@ package bolt.plugin;
 
 
 import java.io.File;
-import java.io.FilenameFilter;
 import java.lang.reflect.Modifier;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.List;
 import java.util.ServiceConfigurationError;
 import java.util.ServiceLoader;
-import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import commonenvironment.Env;
-
-import fava.Functions;
 import fava.functionable.FList;
 
 

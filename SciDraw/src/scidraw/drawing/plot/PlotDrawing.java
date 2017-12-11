@@ -4,6 +4,7 @@ package scidraw.drawing.plot;
 import java.util.ArrayList;
 import java.util.List;
 
+import fava.datatypes.Pair;
 import scidraw.drawing.Drawing;
 import scidraw.drawing.DrawingRequest;
 import scidraw.drawing.ViewTransform;
@@ -18,7 +19,6 @@ import scitypes.ISpectrum;
 import scitypes.ReadOnlySpectrum;
 import scitypes.Spectrum;
 import scitypes.SpectrumCalculations;
-import fava.datatypes.Pair;
 
 /**
  * 

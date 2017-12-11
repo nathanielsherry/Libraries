@@ -17,7 +17,6 @@ import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 import fava.datatypes.Pair;
-import fava.functionable.FIterable;
 import fava.functionable.FList;
 
 public class Fn

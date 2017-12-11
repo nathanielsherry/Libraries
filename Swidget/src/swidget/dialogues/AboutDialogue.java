@@ -23,14 +23,13 @@ import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
 
+import commonenvironment.Apps;
 import swidget.icons.IconFactory;
 import swidget.icons.IconSize;
 import swidget.icons.StockIcon;
 import swidget.widgets.ButtonBox;
 import swidget.widgets.ImageButton;
 import swidget.widgets.Spacing;
-
-import commonenvironment.Apps;
 
 
 public class AboutDialogue extends JDialog

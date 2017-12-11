@@ -6,12 +6,11 @@ import java.awt.Color;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import fava.datatypes.Pair;
+import fava.functionable.FList;
 import scidraw.drawing.painters.PainterData;
 import scitypes.Coord;
 import scitypes.SISize;
-import fava.Functions;
-import fava.datatypes.Pair;
-import fava.functionable.FList;
 
 
 public class LegendCoordsAxisPainter extends AbstractKeyCoordAxisPainter

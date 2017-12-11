@@ -5,14 +5,11 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.Collection;
-import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import fava.Functions;
 import fava.functionable.FList;
 import fava.functionable.Functionable;
 import fava.functionable.Range;

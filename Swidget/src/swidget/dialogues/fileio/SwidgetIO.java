@@ -8,28 +8,13 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
-import javax.jnlp.FileContents;
-import javax.jnlp.FileOpenService;
-import javax.jnlp.FileSaveService;
-import javax.jnlp.ServiceManager;
-import javax.jnlp.UnavailableServiceException;
 import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
 
 import org.apache.commons.io.IOUtils;
-
-import swidget.icons.IconSize;
-import swidget.icons.StockIcon;
-
-import commonenvironment.Env;
 
 
 public class SwidgetIO

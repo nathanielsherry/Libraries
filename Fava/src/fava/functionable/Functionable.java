@@ -1,15 +1,11 @@
 package fava.functionable;
 
-import java.util.ArrayList;	
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
-
-import fava.Functions;
 
 /**
  * This is a base abstract class which provides a default implementation of some of the most common functional commands. 

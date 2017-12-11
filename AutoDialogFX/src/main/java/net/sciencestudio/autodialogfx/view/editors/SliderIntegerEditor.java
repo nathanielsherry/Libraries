@@ -4,8 +4,6 @@ import javafx.scene.Node;
 import javafx.scene.control.Slider;
 import net.sciencestudio.autodialogfx.model.value.Value;
 import net.sciencestudio.autodialogfx.model.value.bounded.BoundedValue;
-import net.sciencestudio.autodialogfx.model.value.bounded.IBoundedValue;
-import net.sciencestudio.chanje.ChangeBus;
 
 public class SliderIntegerEditor extends AbstractEditor<Integer> {
 

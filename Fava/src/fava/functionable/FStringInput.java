@@ -20,7 +20,6 @@ import java.util.function.Function;
 import java.util.regex.Pattern;
 
 import sun.nio.ch.ChannelInputStream;
-import fava.Functions;
 
 
 public class FStringInput implements Iterator<String>, Closeable{

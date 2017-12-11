@@ -3,7 +3,6 @@ package net.sciencestudio.autodialogfx.model.value;
 import java.io.Serializable;
 
 import net.sciencestudio.autodialogfx.changes.ValuedChange;
-import net.sciencestudio.autodialogfx.view.View;
 import net.sciencestudio.autodialogfx.view.editors.Editor;
 
 /**

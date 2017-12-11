@@ -11,11 +11,11 @@ import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import autodialog.model.Parameter;
+import eventful.Eventful;
 import swidget.icons.StockIcon;
 import swidget.widgets.ImageButton;
 import swidget.widgets.ImageButton.Layout;
-import autodialog.model.Parameter;
-import eventful.Eventful;
 
 public class FilenameEditor extends Eventful implements IEditor<String> {
 

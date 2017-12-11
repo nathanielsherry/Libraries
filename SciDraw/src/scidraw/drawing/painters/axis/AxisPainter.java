@@ -3,13 +3,13 @@ package scidraw.drawing.painters.axis;
 
 import java.util.List;
 
+import fava.datatypes.Pair;
 import scidraw.drawing.DrawingRequest;
 import scidraw.drawing.backends.Surface;
 import scidraw.drawing.painters.Painter;
 import scidraw.drawing.painters.PainterData;
 import scitypes.Bounds;
 import scitypes.Coord;
-import fava.datatypes.Pair;
 
 /**
  * An AxisPainter is a special kind of painter used to paint Axes on a drawing. Unlike other {@link Painter}s,

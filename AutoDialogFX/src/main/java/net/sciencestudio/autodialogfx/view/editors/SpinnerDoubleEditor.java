@@ -7,8 +7,6 @@ import javafx.scene.Node;
 import jfxtras.labs.scene.control.BigDecimalField;
 import net.sciencestudio.autodialogfx.model.value.Value;
 import net.sciencestudio.autodialogfx.model.value.bounded.BoundedValue;
-import net.sciencestudio.autodialogfx.model.value.bounded.IBoundedValue;
-import net.sciencestudio.chanje.ChangeBus;
 
 public class SpinnerDoubleEditor extends AbstractEditor<Double> {
 

@@ -3,7 +3,6 @@ package fava.functionable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.function.Function;
 
 
 public class FCollection<T> extends Functionable<T> implements Collection<T>{

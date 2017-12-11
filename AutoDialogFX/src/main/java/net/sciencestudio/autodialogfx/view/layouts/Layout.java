@@ -1,8 +1,6 @@
 package net.sciencestudio.autodialogfx.view.layouts;
 
-import net.sciencestudio.autodialogfx.model.Model;
 import net.sciencestudio.autodialogfx.model.group.Group;
-import net.sciencestudio.autodialogfx.model.group.IGroup;
 import net.sciencestudio.autodialogfx.view.View;
 
 public interface Layout extends View {
