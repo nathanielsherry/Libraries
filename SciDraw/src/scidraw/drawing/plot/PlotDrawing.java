@@ -15,6 +15,7 @@ import scidraw.drawing.plot.painters.plot.LinePainter;
 import scitypes.Bounds;
 import scitypes.Coord;
 import scitypes.ISpectrum;
+import scitypes.ReadOnlySpectrum;
 import scitypes.Spectrum;
 import scitypes.SpectrumCalculations;
 import fava.datatypes.Pair;
@@ -419,7 +420,7 @@ public class PlotDrawing extends Drawing
 		
 	}	
 	
-	public static float getDataScale(DrawingRequest dr, Spectrum data)
+	public static float getDataScale(DrawingRequest dr, ReadOnlySpectrum data)
 	{
 		
 		float datascale;

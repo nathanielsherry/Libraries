@@ -153,7 +153,7 @@ public class ISpectrum implements Spectrum
 	 * Creates a new spectrum copied from the given spectrum
 	 * @param copy
 	 */
-	public ISpectrum(Spectrum copy)
+	public ISpectrum(ReadOnlySpectrum copy)
 	{
 		if (copy instanceof ISpectrum) {
 			ISpectrum source = (ISpectrum) copy;

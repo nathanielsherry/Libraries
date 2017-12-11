@@ -10,6 +10,7 @@ import scidraw.drawing.plot.PlotDrawing;
 import scitypes.Bounds;
 import scitypes.Coord;
 import scitypes.ISpectrum;
+import scitypes.ReadOnlySpectrum;
 import scitypes.Spectrum;
 import scitypes.SpectrumCalculations;
 
@@ -39,7 +40,7 @@ public abstract class PlotPainter extends Painter{
 	 * @param p the {@link PainterData} structure containing objects and information needed to draw to the plot
 	 * @param data the data series to trace
 	 */
-	protected void traceData(PainterData p, Spectrum data)
+	protected void traceData(PainterData p, ReadOnlySpectrum data)
 	{
 		traceData(p, data, TraceType.CONNECTED);
 	}
@@ -50,7 +51,7 @@ public abstract class PlotPainter extends Painter{
 	 * @param data the data series to trace
 	 * @param connected should the data points be drawn as part of a connected series, or should each point be shown as an individual line
 	 */
-	protected void traceData(PainterData p, Spectrum data, TraceType traceType)
+	protected void traceData(PainterData p, ReadOnlySpectrum data, TraceType traceType)
 	{
 		traceData(p.context, p.dr, p.plotSize, p.dataHeights, traceType, data);
 	}
@@ -64,7 +65,7 @@ public abstract class PlotPainter extends Painter{
 	 * @param connected should the data points be drawn as part of a connected series, or should each point be shown as an individual line
 	 * @param data the data series to trace
 	 */
-	protected void traceData(Surface context, DrawingRequest dr, Coord<Float> plotSize, Spectrum dataHeights, TraceType traceType, Spectrum data)
+	protected void traceData(Surface context, DrawingRequest dr, Coord<Float> plotSize, Spectrum dataHeights, TraceType traceType, ReadOnlySpectrum data)
 	{
 
 
@@ -187,7 +188,7 @@ public abstract class PlotPainter extends Painter{
 	}
 	
 	
-	protected Spectrum transformDataForPlot(DrawingRequest dr, Spectrum data)
+	protected Spectrum transformDataForPlot(DrawingRequest dr, ReadOnlySpectrum data)
 	{
 
 		Spectrum transformedData = new ISpectrum(data);

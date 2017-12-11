@@ -6,15 +6,16 @@ import scidraw.drawing.DrawingRequest;
 import scidraw.drawing.backends.Surface;
 import scidraw.drawing.painters.PainterData;
 import scitypes.Coord;
+import scitypes.ReadOnlySpectrum;
 import scitypes.Spectrum;
 
 
 public abstract class SpectrumPainter extends PlotPainter
 {
 
-	protected Spectrum data;
+	protected ReadOnlySpectrum data;
 	
-	public SpectrumPainter(Spectrum data)
+	public SpectrumPainter(ReadOnlySpectrum data)
 	{
 		this.data = data;
 	}

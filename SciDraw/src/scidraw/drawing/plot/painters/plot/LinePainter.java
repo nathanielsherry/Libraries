@@ -5,6 +5,7 @@ import java.awt.Color;
 
 import scidraw.drawing.painters.PainterData;
 import scidraw.drawing.plot.painters.SpectrumPainter;
+import scitypes.ReadOnlySpectrum;
 import scitypes.Spectrum;
 
 public class LinePainter extends SpectrumPainter
@@ -13,13 +14,13 @@ public class LinePainter extends SpectrumPainter
 	protected Color colour;
 	
 	
-	public LinePainter(Spectrum data, Color colour)
+	public LinePainter(ReadOnlySpectrum data, Color colour)
 	{
 		super(data);
 		this.colour = colour;
 	}
 	
-	public LinePainter(Spectrum data)
+	public LinePainter(ReadOnlySpectrum data)
 	{
 		super(data);
 		this.colour = new Color(0, 0, 0);

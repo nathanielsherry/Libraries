@@ -4,16 +4,17 @@ package scidraw.drawing.plot.painters.plot;
 import java.awt.Color;
 
 import scidraw.drawing.painters.PainterData;
+import scitypes.ReadOnlySpectrum;
 import scitypes.Spectrum;
 
 public class OriginalDataPainter extends LinePainter
 {
 	
-	public OriginalDataPainter(Spectrum data, boolean isMonochrome)
+	public OriginalDataPainter(ReadOnlySpectrum data, boolean isMonochrome)
 	{
 		super(data, getColour(isMonochrome));
 	}
-	public OriginalDataPainter(Spectrum data)
+	public OriginalDataPainter(ReadOnlySpectrum data)
 	{
 		super(data, getColour(false));
 	}

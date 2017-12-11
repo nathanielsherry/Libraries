@@ -29,7 +29,7 @@ public class SpectrumCalculations
 	 * @param list
 	 * @return max(list)
 	 */
-	public static float max(Spectrum list)
+	public static float max(ReadOnlySpectrum list)
 	{
 		float max = Float.MIN_VALUE;
 
@@ -38,7 +38,7 @@ public class SpectrumCalculations
 	}
 
 
-	public static Spectrum maxlist_inplace(final Spectrum s1, final Spectrum s2)
+	public static Spectrum maxlist_inplace(final Spectrum s1, final ReadOnlySpectrum s2)
 	{
 		int size = Math.min(s1.size(), s2.size());
 
@@ -419,7 +419,7 @@ public class SpectrumCalculations
 	 * @param l1
 	 * @param l2
 	 */
-	public static void addLists_inplace(final Spectrum l1, final Spectrum l2)
+	public static void addLists_inplace(final Spectrum l1, final ReadOnlySpectrum l2)
 	{
 
 		int maxInd = Math.min(l1.size(), l2.size());
@@ -469,7 +469,7 @@ public class SpectrumCalculations
 	 * @param l2
 	 * @return a list which is the result of l1 - l2
 	 */
-	public static Spectrum subtractLists(Spectrum l1, Spectrum l2)
+	public static Spectrum subtractLists(ReadOnlySpectrum l1, ReadOnlySpectrum l2)
 	{
 
 		return subtractLists(l1, l2, Float.NaN);
@@ -484,7 +484,7 @@ public class SpectrumCalculations
 	 * @param minimum
 	 * @return a list which is the result of l1 - l2
 	 */
-	public static Spectrum subtractLists(Spectrum l1, Spectrum l2, final float minimum)
+	public static Spectrum subtractLists(ReadOnlySpectrum l1, ReadOnlySpectrum l2, final float minimum)
 	{
 
 		Spectrum result = new ISpectrum(l1.size());
@@ -621,7 +621,7 @@ public class SpectrumCalculations
 	 * @param dataset
 	 * @return the per-channel-averaged scan
 	 */
-	public static Spectrum getDatasetAverage(List<Spectrum> dataset)
+	public static Spectrum getDatasetAverage(List<ReadOnlySpectrum> dataset)
 	{
 
 		Spectrum average = new ISpectrum(dataset.get(0).size());
