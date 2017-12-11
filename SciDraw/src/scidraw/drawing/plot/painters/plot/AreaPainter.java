@@ -5,6 +5,7 @@ import java.awt.Color;
 
 import scidraw.drawing.painters.PainterData;
 import scidraw.drawing.plot.painters.SpectrumPainter;
+import scitypes.ReadOnlySpectrum;
 import scitypes.Spectrum;
 
 
@@ -13,7 +14,7 @@ public class AreaPainter extends SpectrumPainter
 
 	private Color topColour, bottomColour, strokeColour;
 
-	public AreaPainter(Spectrum data, Color top, Color bottom, Color stroke)
+	public AreaPainter(ReadOnlySpectrum data, Color top, Color bottom, Color stroke)
 	{
 		super(data);
 		topColour = top;
@@ -22,7 +23,7 @@ public class AreaPainter extends SpectrumPainter
 	}
 
 	
-	public AreaPainter(Spectrum data)
+	public AreaPainter(ReadOnlySpectrum data)
 	{
 		super(data);
 		topColour = new Color(0.5f, 0.5f, 0.5f);

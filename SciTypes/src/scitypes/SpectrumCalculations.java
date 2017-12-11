@@ -78,7 +78,7 @@ public class SpectrumCalculations
 	 * @param list
 	 * @return min(list)
 	 */
-	public static float min(Spectrum list)
+	public static float min(ReadOnlySpectrum list)
 	{
 		float min = Float.MAX_VALUE;
 		for (int i = 0; i < list.size(); i++) min = Math.min(min, list.get(i));
@@ -166,7 +166,7 @@ public class SpectrumCalculations
 	 * @param value
 	 * @return a copy of data multiplied value
 	 */
-	public static Spectrum multiplyBy(Spectrum source, final float value)
+	public static Spectrum multiplyBy(ReadOnlySpectrum source, final float value)
 	{
 
 		Spectrum result = new ISpectrum(source.size());
@@ -232,7 +232,7 @@ public class SpectrumCalculations
 	 * @param value
 	 * @return a copy of data divided by value
 	 */
-	public static Spectrum divideBy(Spectrum source, final float value)
+	public static Spectrum divideBy(ReadOnlySpectrum source, final float value)
 	{
 
 		Spectrum result = new ISpectrum(source.size());
@@ -296,7 +296,7 @@ public class SpectrumCalculations
 	 * @param value
 	 * @return a copy of data, with value subtracted from each element
 	 */
-	public static Spectrum subtractFromList(Spectrum data, float value)
+	public static Spectrum subtractFromList(ReadOnlySpectrum data, float value)
 	{
 		Spectrum target = new ISpectrum(data.size());
 		return subtractFromList(data, target, value, Float.NaN);
@@ -348,7 +348,7 @@ public class SpectrumCalculations
 	 * @param minimum
 	 * @return a copy of data, with value subtracted from each element
 	 */
-	public static Spectrum subtractFromList(Spectrum source, Spectrum target, final float value, final float minimum)
+	public static Spectrum subtractFromList(ReadOnlySpectrum source, Spectrum target, final float value, final float minimum)
 	{
 
 		float newvalue;
@@ -765,10 +765,13 @@ public class SpectrumCalculations
 	 * @param list
 	 * @return the sum of the values in the list
 	 */
-	public static float sumValuesInList(Spectrum list)
+	public static float sumValuesInList(ReadOnlySpectrum list)
 	{
-
-		return list.stream().reduce(0f, (f1, f2) -> f1 + f2);
+		float acc = 0f;
+		for (Float f : list) {
+			acc += f;
+		}
+		return acc;
 
 	}
 	
@@ -778,7 +781,7 @@ public class SpectrumCalculations
 	 * @param list
 	 * @return the sum of the values in the list
 	 */
-	public static float sumValuesInList(Spectrum list, int start, int stop)
+	public static float sumValuesInList(ReadOnlySpectrum list, int start, int stop)
 	{
 		float sum = 0;
 		for (int i = start; i < stop; i++)

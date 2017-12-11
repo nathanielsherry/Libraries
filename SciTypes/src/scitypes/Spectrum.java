@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.function.Function;
 
-public interface Spectrum extends Serializable, Iterable<Float>, ReadOnlySpectrum {
+public interface Spectrum extends ReadOnlySpectrum {
 
 	/**
 	 * Copies the values from the given spectrum into this one. 

@@ -1,9 +1,10 @@
 package scitypes;
 
+import java.io.Serializable;
 import java.util.Iterator;
 import java.util.stream.Stream;
 
-public interface ReadOnlySpectrum {
+public interface ReadOnlySpectrum extends Serializable, Iterable<Float> {
 
 	/**
 	 * Gets the value of the entry at index i
@@ -29,7 +30,8 @@ public interface ReadOnlySpectrum {
 	ReadOnlySpectrum subSpectrum(int start, int stop);
 
 	/**
-	 * Return a stream accessing the backing array
+	 * Return a stream accessing the backing array. Note that stream processing tends to be 
+	 * considerably slower than looping over the Spectrum.
 	 * @return
 	 */
 	Stream<Float> stream();

@@ -3,6 +3,7 @@ package scidraw.drawing.plot.painters.plot;
 
 import java.awt.Color;
 
+import scitypes.ReadOnlySpectrum;
 import scitypes.Spectrum;
 
 
@@ -11,11 +12,11 @@ import scitypes.Spectrum;
 public class PrimaryPlotPainter extends AreaPainter
 {
 
-	public PrimaryPlotPainter(Spectrum data, boolean isMonochrome)
+	public PrimaryPlotPainter(ReadOnlySpectrum data, boolean isMonochrome)
 	{
 		super(data, getTopColor(isMonochrome), getBottomColor(isMonochrome), getStrokeColor(isMonochrome));
 	}
-	public PrimaryPlotPainter(Spectrum data)
+	public PrimaryPlotPainter(ReadOnlySpectrum data)
 	{
 		super(data, getTopColor(false), getBottomColor(false), getStrokeColor(false));
 	}
