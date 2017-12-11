@@ -43,7 +43,6 @@ public interface Spectrum extends Serializable, Iterable<Float>, ReadOnlySpectru
 	void map_i(Function<Float, Float> f);
 	
 	//narrow the return type
-	Spectrum zipWith(ISpectrum other, BiFunction<Float, Float, Float> f);
 	Spectrum subSpectrum(int start, int stop);
 
 }

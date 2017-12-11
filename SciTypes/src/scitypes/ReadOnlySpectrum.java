@@ -41,13 +41,6 @@ public interface ReadOnlySpectrum {
 	 */
 	Iterator<Float> iterator();
 
-	void each(Consumer<Float> f);
-
-	Float fold(BiFunction<Float, Float, Float> f);
-
-	<T2> T2 fold(T2 base, BiFunction<Float, T2, T2> f);
-
-	ReadOnlySpectrum zipWith(ISpectrum other, BiFunction<Float, Float, Float> f);
 
 	/**
 	 * Hash code returns the integer sum of the first 10 (or less) elements

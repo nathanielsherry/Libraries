@@ -37,22 +37,6 @@ public class IReadOnlySpectrum implements ReadOnlySpectrum {
 		return backer.iterator();
 	}
 
-	public void each(Consumer<Float> f) {
-		backer.each(f);
-	}
-
-	public Float fold(BiFunction<Float, Float, Float> f) {
-		return backer.fold(f);
-	}
-
-	public <T2> T2 fold(T2 base, BiFunction<Float, T2, T2> f) {
-		return backer.fold(base, f);
-	}
-
-	public ReadOnlySpectrum zipWith(ISpectrum other, BiFunction<Float, Float, Float> f) {
-		return backer.zipWith(other, f);
-	}
-
 	public int hashCode() {
 		return backer.hashCode();
 	}

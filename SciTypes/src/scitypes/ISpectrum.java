@@ -319,16 +319,7 @@ public class ISpectrum implements Spectrum
 		};
 	}
 
-	
-	@Override
-	public void each(Consumer<Float> f)
-	{
-		for (int i = 0; i < size; i++)
-		{
-			f.accept(data[i]);
-		}
-	}
-	
+		
 	@Override
 	public void map_i(Function<Float, Float> f)
 	{
@@ -338,68 +329,6 @@ public class ISpectrum implements Spectrum
 		}
 	}
 	
-
-	/*
-	public Spectrum map(FnMap<Float, Float> f)
-	{
-		
-		Spectrum newSpectrum = new Spectrum(size);
-		for (int i = 0; i < size; i++)
-		{
-			newSpectrum.set(i, f.f(data[i]));
-		}
-		return newSpectrum;
-		
-	}
-	*/
-	
-	
-	
-	@Override
-	public Float fold(BiFunction<Float, Float, Float> f)
-	{
-		
-		if (this.size == 0) return 0f;
-		
-		Float result = this.get(0);
-		
-		for (int i = 1; i < size; i++)
-		{
-			result = f.apply(get(i), result);
-		}
-		
-		return result;
-		
-	}
-	
-	@Override
-	public <T2> T2 fold(T2 base, BiFunction<Float, T2, T2> f)
-	{
-		
-		T2 result = base;
-		
-		if (this.size == 0) return result;
-		
-		for (int i = 0; i < size; i++)
-		{
-			result = f.apply(get(i), result);
-		}
-		
-		return result;
-	}
-	
-	@Override
-	public Spectrum zipWith(ISpectrum other, BiFunction<Float, Float, Float> f)
-	{
-		
-		Spectrum newSpectrum = new ISpectrum(size);
-		for (int i = 0; i < size; i++)
-		{
-			newSpectrum.set(i, f.apply(data[i], other.data[i]));
-		}
-		return newSpectrum;
-		
-	}
 
 	public static Function<ISpectrum, byte[]> getEncoder()
 	{

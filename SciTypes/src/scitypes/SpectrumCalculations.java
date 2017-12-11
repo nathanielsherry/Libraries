@@ -768,7 +768,7 @@ public class SpectrumCalculations
 	public static float sumValuesInList(Spectrum list)
 	{
 
-		return list.fold(0f, (f1, f2) -> f1 + f2);
+		return list.stream().reduce(0f, (f1, f2) -> f1 + f2);
 
 	}
 	
