@@ -9,6 +9,7 @@ import scidraw.drawing.painters.PainterData;
 import scidraw.drawing.plot.PlotDrawing;
 import scitypes.Bounds;
 import scitypes.Coord;
+import scitypes.ISpectrum;
 import scitypes.Spectrum;
 import scitypes.SpectrumCalculations;
 
@@ -189,7 +190,7 @@ public abstract class PlotPainter extends Painter{
 	protected Spectrum transformDataForPlot(DrawingRequest dr, Spectrum data)
 	{
 
-		Spectrum transformedData = new Spectrum(data);
+		Spectrum transformedData = new ISpectrum(data);
 		if (dr.viewTransform == ViewTransform.LOG) transformedData = SpectrumCalculations.logList(transformedData);
 		float dataMax = PlotDrawing.getDataScale(dr, data);
 		transformedData = SpectrumCalculations.divideBy(transformedData, dataMax);

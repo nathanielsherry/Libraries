@@ -60,7 +60,7 @@ public class SpectrumCalculations
 	 */
 	public static Spectrum abs(Spectrum source)
 	{
-		Spectrum result = new Spectrum(source.size());
+		Spectrum result = new ISpectrum(source.size());
 		float newvalue;
 		for (int i = 0; i < source.size(); i++)
 		{
@@ -169,7 +169,7 @@ public class SpectrumCalculations
 	public static Spectrum multiplyBy(Spectrum source, final float value)
 	{
 
-		Spectrum result = new Spectrum(source.size());
+		Spectrum result = new ISpectrum(source.size());
 		float newvalue;
 		for (int i = 0; i < source.size(); i++)
 		{
@@ -215,7 +215,7 @@ public class SpectrumCalculations
 
 		if (data.size() < MIN_SIZE_FOR_THREADING) return multiplyBy(data, value);
 
-		final Spectrum result = new Spectrum(data.size());
+		final Spectrum result = new ISpectrum(data.size());
 
 		Plural.eachIndex(data.size(), (Integer ordinal) -> {
 			result.set(ordinal, data.get(ordinal) * value);
@@ -235,7 +235,7 @@ public class SpectrumCalculations
 	public static Spectrum divideBy(Spectrum source, final float value)
 	{
 
-		Spectrum result = new Spectrum(source.size());
+		Spectrum result = new ISpectrum(source.size());
 		float newvalue;
 		for (int i = 0; i < source.size(); i++)
 		{
@@ -279,7 +279,7 @@ public class SpectrumCalculations
 
 		if (data.size() < MIN_SIZE_FOR_THREADING) return divideBy(data, value);
 
-		final Spectrum result = new Spectrum(data.size());
+		final Spectrum result = new ISpectrum(data.size());
 
 		Plural.eachIndex(data.size(), (Integer ordinal) -> {
 			result.set(ordinal, data.get(ordinal) / value);
@@ -298,7 +298,7 @@ public class SpectrumCalculations
 	 */
 	public static Spectrum subtractFromList(Spectrum data, float value)
 	{
-		Spectrum target = new Spectrum(data.size());
+		Spectrum target = new ISpectrum(data.size());
 		return subtractFromList(data, target, value, Float.NaN);
 	}
 
@@ -327,7 +327,7 @@ public class SpectrumCalculations
 	public static Spectrum subtractFromList(Spectrum source, final float value, final float minimum)
 	{
 
-		Spectrum result = new Spectrum(source.size());
+		Spectrum result = new ISpectrum(source.size());
 		float newvalue;
 		for (int i = 0; i < source.size(); i++)
 		{
@@ -377,7 +377,7 @@ public class SpectrumCalculations
 
 		if (data.size() < MIN_SIZE_FOR_THREADING) return subtractFromList(data, value, minimum);
 
-		final Spectrum result = new Spectrum(data.size());
+		final Spectrum result = new ISpectrum(data.size());
 
 		Plural.eachIndex(data.size(), (Integer ordinal) -> {
 			float newvalue = data.get(ordinal) - value;
@@ -400,7 +400,7 @@ public class SpectrumCalculations
 	public static Spectrum addLists(Spectrum l1, Spectrum l2)
 	{
 
-		Spectrum result = new Spectrum(l1.size());
+		Spectrum result = new ISpectrum(l1.size());
 		int maxInd = Math.min(l1.size(), l2.size());
 		float value;
 		for (int i = 0; i < maxInd; i++)
@@ -451,7 +451,7 @@ public class SpectrumCalculations
 
 		if (l1.size() < MIN_SIZE_FOR_THREADING) return addLists(l1, l2);
 
-		final Spectrum result = new Spectrum(l1.size());
+		final Spectrum result = new ISpectrum(l1.size());
 
 		Plural.eachIndex(l1.size(), (Integer ordinal) -> {
 			result.set(ordinal, l1.get(ordinal) + l2.get(ordinal));
@@ -487,7 +487,7 @@ public class SpectrumCalculations
 	public static Spectrum subtractLists(Spectrum l1, Spectrum l2, final float minimum)
 	{
 
-		Spectrum result = new Spectrum(l1.size());
+		Spectrum result = new ISpectrum(l1.size());
 		int maxInd = Math.min(l1.size(), l2.size());
 		float value;
 		for (int i = 0; i < maxInd; i++)
@@ -553,7 +553,7 @@ public class SpectrumCalculations
 
 		if (l1.size() < MIN_SIZE_FOR_THREADING) return subtractLists(l1, l2, minimum);
 
-		final Spectrum result = new Spectrum(l1.size());
+		final Spectrum result = new ISpectrum(l1.size());
 
 		Plural.eachIndex(l1.size(), (Integer ordinal) -> {
 			float newValue = l1.get(ordinal) - l2.get(ordinal);
@@ -577,7 +577,7 @@ public class SpectrumCalculations
 	{
 
 		int maxInd = Math.min(l1.size(), l2.size());
-		Spectrum result = new Spectrum(maxInd);
+		Spectrum result = new ISpectrum(maxInd);
 		for (int i = 0; i < maxInd; i++)
 		{
 			result.set(i, l1.get(i) * l2.get(i));
@@ -604,7 +604,7 @@ public class SpectrumCalculations
 
 		if (l1.size() < MIN_SIZE_FOR_THREADING) return multiplyLists(l1, l2);
 
-		final Spectrum result = new Spectrum(l1.size());
+		final Spectrum result = new ISpectrum(l1.size());
 
 		Plural.eachIndex(l1.size(), (Integer ordinal) -> {
 			result.set(ordinal, l1.get(ordinal) * l2.get(ordinal));
@@ -624,7 +624,7 @@ public class SpectrumCalculations
 	public static Spectrum getDatasetAverage(List<Spectrum> dataset)
 	{
 
-		Spectrum average = new Spectrum(dataset.get(0).size());
+		Spectrum average = new ISpectrum(dataset.get(0).size());
 
 		float channelSum;
 		for (int channel = 0; channel < dataset.get(0).size(); channel++)
@@ -653,7 +653,7 @@ public class SpectrumCalculations
 	{
 
 		// a list for eventual maximums, and a list for all values for a particular channel
-		Spectrum maximums = new Spectrum(dataset.get(0).size());
+		Spectrum maximums = new ISpectrum(dataset.get(0).size());
 		List<Float> valuesAtChannel = new ArrayList<Float>();
 
 		// determine a range for the top 10th of a list
@@ -707,7 +707,7 @@ public class SpectrumCalculations
 	public static Spectrum logList(Spectrum list)
 	{
 
-		Spectrum result = new Spectrum(list.size());
+		Spectrum result = new ISpectrum(list.size());
 		logList_target(list, result);
 		return result;
 
@@ -745,7 +745,7 @@ public class SpectrumCalculations
 
 		if (data.size() < MIN_SIZE_FOR_THREADING) return logList(data);
 
-		final Spectrum result = new Spectrum(data.size(), 0.0f);
+		final Spectrum result = new ISpectrum(data.size(), 0.0f);
 
 		Plural.eachIndex(data.size(), (Integer ordinal) -> {
 			float logValue = (float)Math.log(data.get(ordinal) + 1.0);
@@ -797,7 +797,7 @@ public class SpectrumCalculations
 	public static Spectrum gridYReverse(Spectrum data, GridPerspective<Float> grid)
 	{
 
-		Spectrum result = new Spectrum(grid.height * grid.width, 0.0f);
+		Spectrum result = new ISpectrum(grid.height * grid.width, 0.0f);
 		int y_reverse;
 
 		for (int x = 0; x < grid.width; x++) {

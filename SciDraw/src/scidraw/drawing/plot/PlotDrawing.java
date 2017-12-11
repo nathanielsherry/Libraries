@@ -14,6 +14,7 @@ import scidraw.drawing.plot.painters.PlotPainter;
 import scidraw.drawing.plot.painters.plot.LinePainter;
 import scitypes.Bounds;
 import scitypes.Coord;
+import scitypes.ISpectrum;
 import scitypes.Spectrum;
 import scitypes.SpectrumCalculations;
 import fava.datatypes.Pair;
@@ -153,7 +154,7 @@ public class PlotDrawing extends Drawing
 		
 		if (context == null) return;
 		
-		dataHeights = new Spectrum(dr.dataWidth, 0.0f);
+		dataHeights = new ISpectrum(dr.dataWidth, 0.0f);
 
 		context.setLineWidth(getPenWidth(getBaseUnitSize(dr), dr));
 		

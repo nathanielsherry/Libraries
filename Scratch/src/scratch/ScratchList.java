@@ -9,6 +9,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.List;
 
+import scitypes.ISpectrum;
 import scitypes.Spectrum;
 import fava.functionable.FList;
 
@@ -29,11 +30,11 @@ public class ScratchList<T extends Serializable> extends AbstractScratchList<T>
 
 	public static void main(String args[])
 	{
-		Spectrum s1 = new Spectrum(10, 1);
-		Spectrum s2 = new Spectrum(5, 2);
-		Spectrum s3 = new Spectrum(20, 3);
-		Spectrum s4 = new Spectrum(20, 4);
-		Spectrum s5 = new Spectrum(9, 5);
+		Spectrum s1 = new ISpectrum(10, 1);
+		Spectrum s2 = new ISpectrum(5, 2);
+		Spectrum s3 = new ISpectrum(20, 3);
+		Spectrum s4 = new ISpectrum(20, 4);
+		Spectrum s5 = new ISpectrum(9, 5);
 		
 		try {
 			
@@ -52,9 +53,9 @@ public class ScratchList<T extends Serializable> extends AbstractScratchList<T>
 			list.remove(s3);
 			//list.add(s3);
 			
-			System.out.println(list.get(0).show());
-			System.out.println(list.get(2).show());
-			System.out.println(list.get(3).show());
+			System.out.println(list.get(0).toString());
+			System.out.println(list.get(2).toString());
+			System.out.println(list.get(3).toString());
 			
 			
 		} catch (IOException e) {

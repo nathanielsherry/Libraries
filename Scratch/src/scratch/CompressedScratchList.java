@@ -9,6 +9,7 @@ import java.util.zip.Deflater;
 import java.util.zip.DeflaterOutputStream;
 import java.util.zip.InflaterInputStream;
 
+import scitypes.ISpectrum;
 import scitypes.Spectrum;
 import fava.functionable.FList;
 
@@ -20,11 +21,11 @@ public class CompressedScratchList<T extends Serializable> extends ScratchList<T
 
 	public static void main(String args[])
 	{
-		Spectrum s1 = new Spectrum(10000, 4);
-		Spectrum s2 = new Spectrum(5000, 3);
-		Spectrum s3 = new Spectrum(20000, 2);
-		Spectrum s4 = new Spectrum(20000, 7);
-		Spectrum s5 = new Spectrum(9000, 20);
+		Spectrum s1 = new ISpectrum(10000, 4);
+		Spectrum s2 = new ISpectrum(5000, 3);
+		Spectrum s3 = new ISpectrum(20000, 2);
+		Spectrum s4 = new ISpectrum(20000, 7);
+		Spectrum s5 = new ISpectrum(9000, 20);
 		
 		try {
 			
@@ -40,9 +41,9 @@ public class CompressedScratchList<T extends Serializable> extends ScratchList<T
 			list.add(s5);
 			list.add(s4);
 			
-			System.out.println(list.get(0).show());
-			System.out.println(list.get(2).show());
-			System.out.println(list.get(3).show());
+			System.out.println(list.get(0).toString());
+			System.out.println(list.get(2).toString());
+			System.out.println(list.get(3).toString());
 			
 			
 		} catch (IOException e) {
