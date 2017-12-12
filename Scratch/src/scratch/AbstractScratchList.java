@@ -12,8 +12,8 @@ import java.util.stream.Collectors;
 
 import fava.functionable.FList;
 import fava.functionable.Functionable;
-import fava.functionable.Range;
-import fava.functionable.RangeSet;
+import scitypes.Range;
+import scitypes.RangeSet;
 
 
 /**
@@ -34,7 +34,7 @@ public abstract class AbstractScratchList<T> extends Functionable<T> implements 
 
 	
 	//stores the locations of all entries as offset/length pairs
-	private FList<Range> elementPositions;
+	private List<Range> elementPositions;
 	private RangeSet discardedRanges;
 	
 

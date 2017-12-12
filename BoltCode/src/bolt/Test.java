@@ -11,7 +11,7 @@ import bolt.scripting.languages.JavascriptLanguage;
 import bolt.scripting.languages.PythonLanguage;
 import bolt.scripting.languages.RubyLanguage;
 import fava.functionable.FList;
-import fava.functionable.Range;
+import scitypes.Range;
 
 
 public class Test {

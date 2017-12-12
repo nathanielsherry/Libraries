@@ -1,4 +1,4 @@
-package fava.functionable;
+package scitypes;
 
 
 import java.io.Serializable;
@@ -174,28 +174,39 @@ public class Range extends Sequence<Integer> implements Serializable
 		return (int)Math.ceil(size() / (float)step);
 	}
 
+	
 	/**
-	 * Determines if this Range is overlapping with another Range. Ranges which overlap by start and end position, 
+	 * Determines if this Range occupies the same area as another Range. Overlapped ranges do not need to share any points, 
+	 * it is sufficient that their start->end spans overlap in some way.
+	 * @param other the other Range to compare against
+	 * @return true if the two Ranges occupy some of the same area, false otherwise 
+	 */
+	public boolean isOverlapped(Range other) {
+		
+		//if neither of their ends lies within our ends, and none of our ends lies within theirs
+
+		return
+				// check if their stop or start in contained in our range
+				(other.stop >= start && other.stop <= stop) 
+				|| 
+				(other.start >= start && other.start <= stop)
+				||
+				//check if the other range completely engulfs us, since then neither of their ends would be in our range
+				(other.start < start && other.stop > stop);
+	}
+	
+	/**
+	 * Determines if this Range shares some or all of it's points with another Range. Ranges which overlap by start and end position, 
 	 * but which have different step sizes, or have the same step size, but out of phase, are considered to be not 
-	 * truly overlapping. This allows for the creation of more complex patterns using {@link RangeSet}, such as 
+	 * truly coincident. This allows for the creation of more complex patterns using {@link RangeSet}, such as 
 	 * joining two ranges: eg 1..10:3 => [1, 4, 7, 10] and 2..11:3 => [2, 5, 8, 11] to produce [1, 2, 4, 5, 7, 8, 10, 11] 
 	 * @param other the other Range to compare against
 	 * @return true if the two Ranges contain common elements with a common step size, false otherwise 
 	 */
-	public boolean isOverlapping(Range other)
+	public boolean isCoincident(Range other)
 	{
 		
-		//if neither of their ends lies within our ends, and none of our ends lies within theirs
-		if (
-				// check if their stop or start in contained in our range
-				! ((other.stop >= start && other.stop <= stop) || (other.start >= start && other.start <= stop))
-				
-				&&
-				
-				// check if the other range complete engulfs us, since then neither of their ends would be in out range
-				! (other.start < start && other.stop > stop)
-				
-		) return false;
+		if (!isOverlapped(other)) return false;
 		
 		//if their step sizes aren't the same, they don't really overlap
 		if (other.step != step) return false;
@@ -228,13 +239,13 @@ public class Range extends Sequence<Integer> implements Serializable
 	}
 	
 	/**
-	 * Equivalent to {@link Range#isOverlapping(Range)} OR {@link Range#isAdjacent(Range)}
+	 * Equivalent to {@link Range#isCoincident(Range)} OR {@link Range#isAdjacent(Range)}
 	 * @param other the Range to check this Range against
 	 * @return true if the two ranges are touching, false otherwise
 	 */
 	public boolean isTouching(Range other)
 	{
-		return isOverlapping(other) || isAdjacent(other);
+		return isCoincident(other) || isAdjacent(other);
 	}
 	
 	
@@ -264,7 +275,7 @@ public class Range extends Sequence<Integer> implements Serializable
 	{
 		RangeSet result = new RangeSet();
 		
-		if (! isOverlapping(other))
+		if (! isCoincident(other))
 		{
 			result.addRange(this);
 			return result;
@@ -281,7 +292,7 @@ public class Range extends Sequence<Integer> implements Serializable
 	
 	
 	@Override
-	public String show(String separator)
+	public String toString()
 	{
 		return "[" + start + ".." + stop + (step == 1 ? "" : ":" + step) + "]";
 	}	

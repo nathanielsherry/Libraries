@@ -8,11 +8,11 @@ import java.awt.geom.Area;
 import java.util.ArrayList;
 import java.util.List;
 
-import fava.functionable.Range;
 import scidraw.drawing.backends.Surface.LineJoin;
 import scidraw.drawing.map.palettes.AbstractPalette;
 import scidraw.drawing.painters.PainterData;
 import scitypes.GridPerspective;
+import scitypes.Range;
 import scitypes.Spectrum;
 
 

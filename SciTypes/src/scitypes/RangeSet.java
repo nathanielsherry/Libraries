@@ -1,7 +1,14 @@
-package fava.functionable;
+package scitypes;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Spliterator;
+import java.util.Spliterators;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 /**
  * 
@@ -10,17 +17,17 @@ import java.util.Iterator;
  */
 
 
-public class RangeSet extends Functionable<Integer> implements Serializable
+public class RangeSet implements Serializable, Iterable<Integer>
 {
 
-	private FList<Range> ranges;
+	private List<Range> ranges;
 	
 	/**
 	 * Create a new RangeSet containing no {@link Range}s
 	 */
 	public RangeSet()
 	{
-		ranges = new FList<>();
+		ranges = new ArrayList<>();
 	}
 	
 
@@ -85,7 +92,7 @@ public class RangeSet extends Functionable<Integer> implements Serializable
 		while (i.hasNext())
 		{
 			r = i.next();
-			if (r.isOverlapping(range))
+			if (r.isCoincident(range))
 			{			
 				i.remove();
 				difference.addRangeSet( r.difference(range) );
@@ -103,6 +110,11 @@ public class RangeSet extends Functionable<Integer> implements Serializable
 	public void clear()
 	{
 		ranges.clear();
+	}
+	
+	
+	public Stream<Integer> stream() {
+		return StreamSupport.stream(Spliterators.spliteratorUnknownSize(iterator(), Spliterator.ORDERED + Spliterator.IMMUTABLE + Spliterator.NONNULL), false);
 	}
 	
 	public Iterator<Integer> iterator()
@@ -181,12 +193,12 @@ public class RangeSet extends Functionable<Integer> implements Serializable
 	 * @param other the Range to compare
 	 * @return true if the given Range is overlapping this RangeSet, false otherwise
 	 */
-	public boolean isOverlapping(Range other)
+	public boolean isCoincident(Range other)
 	{
 		
 		for (Range r : ranges)
 		{		
-			if (r.isOverlapping(other)) return true;
+			if (r.isCoincident(other)) return true;
 		}
 		
 		return false;
@@ -198,12 +210,12 @@ public class RangeSet extends Functionable<Integer> implements Serializable
 	 * @param other the RangeSet to compare
 	 * @return true if the given other RangeSet is overlapping this RangeSet, false otherwise
 	 */
-	public boolean isOverlapping(RangeSet other)
+	public boolean isCoincident(RangeSet other)
 	{
 		
 		for (Range r : other.ranges)
 		{
-			if (isOverlapping(r)) return true;
+			if (isCoincident(r)) return true;
 		}
 		
 		return false;
@@ -211,25 +223,43 @@ public class RangeSet extends Functionable<Integer> implements Serializable
 	
 	
 	@Override
-	public String show()
+	public String toString()
 	{
-		return ranges.show();
+		return ranges.toString();
 	}
 
-	@Override
-	public String show(String separator)
-	{
-		return ranges.show(separator);
-	}
 	
 	
 	/**
 	 * Get a list of the {@link Range}s included in this RangeSet
 	 * @return a list of {@link Range}s making up this RangeSet
 	 */
-	public FList<Range> getRanges()
+	public List<Range> getRanges()
 	{
-		return ranges.toSink();
+		return new ArrayList<>(ranges);
+	}
+	
+	public static void main(String[] args) {
+		
+		Range r1 = new Range(1, 10, 2);
+		Range r2 = new Range(6, 20, 2);
+		
+		assert(r1.isOverlapped(r2));
+		assert(!r1.isCoincident(r2));
+		assert(!r1.isAdjacent(r2));
+		assert(!r1.isTouching(r2));
+		
+		System.out.println(r1.stream().collect(Collectors.toList()));
+		System.out.println(r2.stream().collect(Collectors.toList()));
+		
+		
+		
+		RangeSet rs1 = new RangeSet();
+		rs1.addRange(r1);
+		rs1.addRange(r2);
+		System.out.println(rs1.stream().collect(Collectors.toList()));
+		
+		
 	}
 	
 }
