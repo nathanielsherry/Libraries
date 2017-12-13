@@ -20,6 +20,7 @@ public class ComponentListPanel extends ClearPanel {
 		content.setLayout(layout);
 		gbc.gridx = 0;
 		gbc.gridy = 0;
+		gbc.insets = Spacing.iSmall();
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 							
 
