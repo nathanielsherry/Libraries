@@ -1,6 +1,7 @@
 package bolt;
 import java.util.function.Function;
 
+import javax.script.ScriptEngine;
 import javax.script.ScriptEngineFactory;
 import javax.script.ScriptEngineManager;
 
@@ -8,6 +9,7 @@ import bolt.compiler.BoltJavaMap;
 import bolt.scripting.BoltMap;
 import bolt.scripting.BoltScripter;
 import bolt.scripting.languages.JavascriptLanguage;
+import bolt.scripting.languages.Language;
 import bolt.scripting.languages.PythonLanguage;
 import bolt.scripting.languages.RubyLanguage;
 import fava.functionable.FList;
@@ -22,10 +24,23 @@ public class Test {
 	{
 		
 		//listScriptingEngines();
+		testing();
 		compiling();
 		script();
 		
 		//System.out.println(Integer.class.getSimpleName());
+		
+	}
+	
+	public static void testing() {
+		Language js = new JavascriptLanguage();
+		System.out.println(js.getEngine());
+		
+		Language python = new PythonLanguage();
+		System.out.println(python.getEngine());
+		
+		Language ruby = new RubyLanguage();
+		System.out.println(ruby.getEngine());
 		
 	}
 	

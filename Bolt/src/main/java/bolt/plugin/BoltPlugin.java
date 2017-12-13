@@ -26,5 +26,21 @@ public interface BoltPlugin {
 	 */
 	boolean pluginEnabled();
 
+	/**
+	 * A short, descriptive name for this plugin.
+	 */
+	String pluginName();
+
+	/**
+	 * A longer description of what this plugin is and what it does.
+	 * @return
+	 */
+	String pluginDescription();
+	
+	/**
+	 * A version string for this plugin.
+	 */
+	String pluginVersion();
+	
 	
 }

@@ -228,13 +228,12 @@ public class BoltPluginLoader<T extends BoltPlugin>
 	
 	public void register(URL url) throws ClassInstantiationException
 	{
-
 		URLClassLoader urlLoader = new URLClassLoader(new URL[]{url});
 		ServiceLoader<T> loader = ServiceLoader.load(target, urlLoader);
-		
+
 		try {
 			for (T t : loader)
-			{	
+			{
 				registerPlugin(t.getClass());
 			}
 		} catch (ServiceConfigurationError e) {

@@ -1,5 +1,8 @@
 package bolt.scripting.languages;
 
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+
 public abstract class Language {
 
 	//needed in cases where the language support files are loaded by a specific class-loader
@@ -17,4 +20,8 @@ public abstract class Language {
 	public abstract String getName();
 	public abstract boolean isCompilable();
 
+	public ScriptEngine getEngine() {
+		return new ScriptEngineManager(this.getClassLoader()).getEngineByName(this.getName());
+	}
+	
 }
