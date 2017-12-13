@@ -8,7 +8,6 @@ import java.net.URLClassLoader;
 import java.util.List;
 import java.util.ServiceConfigurationError;
 import java.util.ServiceLoader;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import commonenvironment.Env;
@@ -20,11 +19,11 @@ import fava.functionable.FList;
 public class BoltPluginLoader<T extends BoltPlugin>
 {
 
-	public FList<Class<T>>			availablePlugins;
-	private Class<T> 				target;
-
-	private Predicate<Class<T>> 	filter;
-		
+	private FList<BoltPluginController<T>>	availablePlugins;
+	private Class<T> 						target;
+	
+	private boolean 						isTargetInterface;
+	
 	
 	/**
 	 * Creates a PluginLoader which will locate any plugins which are subclasses or implementations of the target
@@ -34,38 +33,9 @@ public class BoltPluginLoader<T extends BoltPlugin>
 	public BoltPluginLoader(final Class<T> target) throws ClassInheritanceException
 	{
 		
-		availablePlugins = new FList<Class<T>>();
-		
+		availablePlugins = new FList<BoltPluginController<T>>();		
 		this.target = target;
-		
-		filter = new Predicate<Class<T>>() {
-
-			boolean isTargetInterface = Modifier.isInterface(target.getModifiers());
-			
-			@Override
-			public boolean test(Class<T> c) {
-				
-				//make sure its not an interface or an abstract class
-				if (!isActualPlugin(c)) return false;
-								
-				//if target is an interface, c must implement it
-				if (isTargetInterface)
-				{
-					//make sure the class implements the target interface
-					if (!checkImplementsInterface(c, target)) return false;
-				}
-				//if target is a class, c must extend it
-				else
-				{
-					//make sure the plugin is a subclass of the given class
-					if (!checkSuperclasses(c, target)) return false;
-				}
-				
-				
-				return true;
-				
-				
-			}};
+		isTargetInterface = Modifier.isInterface(target.getModifiers());
 		
 		if (!checkImplementsInterface(target, BoltPlugin.class)) {
 			throw new ClassInheritanceException();
@@ -74,7 +44,7 @@ public class BoltPluginLoader<T extends BoltPlugin>
 	}
 	
 	
-	public List<Class<T>> getAvailablePlugins()
+	public List<BoltPluginController<T>> getAvailablePlugins()
 	{
 		return availablePlugins.toSink();
 	}
@@ -82,25 +52,24 @@ public class BoltPluginLoader<T extends BoltPlugin>
 
 	public List<T> getNewInstancesForAllPlugins()
 	{	
-		return availablePlugins.stream().map(f -> createNewInstanceFromClass(f)).filter(e -> e != null).collect(Collectors.toList());
+		return availablePlugins.stream().map(BoltPluginController::create).filter(e -> e != null).collect(Collectors.toList());
 	}
 	
 
-	public void registerPlugin(Class<?> loadedClass) throws ClassInstantiationException
+	public void registerPlugin(Class<? extends T> loadedClass) throws ClassInstantiationException
 	{
 		
 		try 
 		{
+			if (!test(loadedClass)) { return; } 
 			
-			@SuppressWarnings("unchecked")
-			Class<T> clazz = (Class<T>)loadedClass;
+			BoltPluginController<T> plugin = new BoltPluginController<>(target, loadedClass);
 			
-			if (filter.test(clazz) && isEnabledPlugin(clazz)) {
-				availablePlugins.add(clazz);
+			if (plugin.isEnabled()) {
+				availablePlugins.add(plugin);
+				availablePlugins = availablePlugins.unique();
 			}
-			
-			availablePlugins = availablePlugins.unique();
-			
+
 		}
 		catch (ServiceConfigurationError e)
 		{
@@ -109,41 +78,27 @@ public class BoltPluginLoader<T extends BoltPlugin>
 		}
 	}
 	
-	
-
-	private boolean isEnabledPlugin(Class<T> clazz)
-	{
-		T instance = createNewInstanceFromClass(clazz);
-		return instance != null && instance.pluginEnabled();			
+	private boolean test(Class<? extends T> clazz) {
+		//make sure its not an interface or an abstract class
+		if (!isActualPlugin(clazz)) return false;
+						
+		//if target is an interface, c must implement it
+		if (isTargetInterface)
+		{
+			//make sure the class implements the target interface
+			if (!checkImplementsInterface(clazz, target)) return false;
+		}
+		//if target is a class, c must extend it
+		else
+		{
+			//make sure the plugin is a subclass of the given class
+			if (!checkSuperclasses(clazz, target)) return false;
+		}
+		
+		return true;
 	}
 	
-	@SuppressWarnings("unchecked")
-	protected static <S extends BoltPlugin> S createNewInstance(S f)
-	{
-		return createNewInstanceFromClass((Class<S>)f.getClass());
-	}
 
-
-	protected static <S extends BoltPlugin> S createNewInstanceFromClass(Class<S> f)
-	{
-		try
-		{
-			return f.newInstance();
-		}
-		catch (InstantiationException e)
-		{
-			e.printStackTrace();
-			System.out.println(f);
-			return null;
-		}
-		catch (IllegalAccessException e)
-		{
-			e.printStackTrace();
-			System.out.println(f);
-			return null;
-		}
-	}
-	
 	private boolean checkSuperclasses(Class<?> c, Class<?> target)
 	{
 		
@@ -234,7 +189,7 @@ public class BoltPluginLoader<T extends BoltPlugin>
 		try {
 			for (T t : loader)
 			{
-				registerPlugin(t.getClass());
+				registerPlugin((Class<? extends T>) t.getClass());
 			}
 		} catch (ServiceConfigurationError e) {
 			e.printStackTrace();
