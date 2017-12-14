@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.function.Consumer;
 
 import autodialog.model.style.Style;
+import eventful.EventfulType;
 
 /**
  * 
@@ -28,7 +28,8 @@ public class Parameter<T> implements Serializable
 	private T				value;
 	private List<String>	groups;
 	
-	private List<Consumer<Boolean>> enabledListeners = new ArrayList<>();
+	private EventfulType<T>	valueHook = new EventfulType<>();
+	private EventfulType<Boolean> enabledHook = new EventfulType<>();
 		
 	
 	public Parameter(String name, Style<T> style, T value)
@@ -55,13 +56,11 @@ public class Parameter<T> implements Serializable
 	}
 
 	
-	public void setValue(T value)
-	{
+	public void setValue(T value) {
 		this.value = value;
 	}
 	
-	public T getValue()
-	{
+	public T getValue() {
 		return value;
 	}
 
@@ -77,7 +76,7 @@ public class Parameter<T> implements Serializable
 
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
-		notifyEnabledListeners();
+		getEnabledHook().updateListeners(enabled);
 	}
 	
 	public String toString()
@@ -97,21 +96,16 @@ public class Parameter<T> implements Serializable
 	{
 		return new ArrayList<>(groups);
 	}
-	
-	
-	public void addEnabledListener(Consumer<Boolean> listener) {
-		enabledListeners.add(listener);
-	}
-	
-	public void removeEnabledListener(Consumer<Boolean> listener) {
-		enabledListeners.remove(listener);
-	}
-	
-	private void notifyEnabledListeners() {
-		for (Consumer<Boolean> listener : enabledListeners) {
-			listener.accept(enabled);
-		}
+
+	public EventfulType<T> getValueHook() {
+		return valueHook;
 	}
 
+	public EventfulType<Boolean> getEnabledHook() {
+		return enabledHook;
+	}
+	
+
+	
 	
 }

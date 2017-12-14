@@ -17,7 +17,7 @@ import swidget.icons.StockIcon;
 import swidget.widgets.ImageButton;
 import swidget.widgets.ImageButton.Layout;
 
-public class FilenameEditor extends Eventful implements ISwingEditor<String> {
+public class FilenameEditor extends AbstractSwingEditor<String> {
 
 	private Parameter<String> param;
 	private FileSelector control = new FileSelector(this);
@@ -34,6 +34,10 @@ public class FilenameEditor extends Eventful implements ISwingEditor<String> {
 	@Override
 	public void initialize(Parameter<String> param) {
 		this.param = param;
+		
+		setFromParameter();
+		param.getValueHook().addListener(v -> this.setFromParameter());
+		
 	}
 	
 	public void setFileChooser(JFileChooser chooser) {
@@ -117,7 +121,7 @@ class FileSelector extends JPanel
 				
 				//update with selection
 				setFilename(chooser.getSelectedFile().toString());
-				parent.updateListeners();
+				parent.getValueHook().updateListeners(parent.getEditorValue());
 				
 			}
 		});

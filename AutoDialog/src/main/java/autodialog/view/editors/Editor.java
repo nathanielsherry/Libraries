@@ -1,9 +1,10 @@
 package autodialog.view.editors;
 
 import autodialog.model.Parameter;
+import eventful.EventfulType;
 import eventful.IEventful;
 
-public interface IEditor<T> extends IEventful
+public interface Editor<T>
 {
 	
 		
@@ -48,4 +49,10 @@ public interface IEditor<T> extends IEventful
 	 */
 	Object getComponent();
 	
+	
+	/**
+	 * Returns a hook which can be used to listen for changes to the editor's value
+	 * @return
+	 */
+	EventfulType<T> getValueHook();
 }

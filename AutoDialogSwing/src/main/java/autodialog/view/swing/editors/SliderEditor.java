@@ -27,13 +27,15 @@ public class SliderEditor extends WrappingEditor<Integer, JSlider> {
 	public void initialize(Parameter<Integer> param) {
 		
 		this.param = param;
+
 		setFromParameter();
+		param.getValueHook().addListener(v -> this.setFromParameter());
 		
 		getComponent().addChangeListener(new ChangeListener() {
 			
 			@Override
 			public void stateChanged(ChangeEvent e) {
-				updateListeners();
+				getValueHook().updateListeners(getEditorValue());
 			}
 		});				
 	}

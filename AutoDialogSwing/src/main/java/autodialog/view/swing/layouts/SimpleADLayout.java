@@ -13,10 +13,10 @@ import javax.swing.border.Border;
 
 import autodialog.model.Parameter;
 import autodialog.view.swing.AutoPanel;
-import autodialog.view.swing.editors.ISwingEditor;
+import autodialog.view.swing.editors.SwingEditor;
 import autodialog.view.swing.editors.SwingEditorFactory;
-import autodialog.view.editors.IEditor;
-import autodialog.view.editors.IEditor.LabelStyle;
+import autodialog.view.editors.Editor;
+import autodialog.view.editors.Editor.LabelStyle;
 import swidget.widgets.Spacing;
 
 public class SimpleADLayout extends AbstractADLayout {
@@ -36,7 +36,7 @@ public class SimpleADLayout extends AbstractADLayout {
 	
 
 	@Override
-	public void addEditors(List<IEditor<?>> editors)
+	public void addEditors(List<Editor<?>> editors)
 	{
 		root.setOpaque(false);
 		root.setLayout(layout);
@@ -47,9 +47,9 @@ public class SimpleADLayout extends AbstractADLayout {
 		root.add(Box.createHorizontalGlue(), c);
 		c.insets = Spacing.iSmall();
 		
-		for (IEditor<?> e : editors)
+		for (Editor<?> e : editors)
 		{
-			ISwingEditor<?> editor = (ISwingEditor<?>) e;
+			SwingEditor<?> editor = (SwingEditor<?>) e;
 			
 			JLabel paramLabel = new JLabel(editor.getParameter().name);
 			paramLabel.setFont(paramLabel.getFont().deriveFont(Font.PLAIN));

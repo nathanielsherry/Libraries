@@ -3,10 +3,10 @@ package autodialog.view.swing.editors;
 import javax.swing.JComponent;
 
 import autodialog.model.Parameter;
-import autodialog.view.editors.IEditor;
+import autodialog.view.editors.Editor;
 import eventful.IEventful;
 
-public interface ISwingEditor<T> extends IEditor<T>
+public interface SwingEditor<T> extends Editor<T>
 {
 	
 	

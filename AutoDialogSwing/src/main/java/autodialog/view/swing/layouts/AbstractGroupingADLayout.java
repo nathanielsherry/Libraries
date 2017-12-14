@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import autodialog.model.Parameter;
-import autodialog.view.editors.IEditor;
+import autodialog.view.editors.Editor;
 
 public abstract class AbstractGroupingADLayout extends AbstractADLayout {
 
@@ -15,10 +15,10 @@ public abstract class AbstractGroupingADLayout extends AbstractADLayout {
 	protected int level;
 
 	
-	private List<IEditor<?>> getGroupParams(List<IEditor<?>> editors, String group)
+	private List<Editor<?>> getGroupParams(List<Editor<?>> editors, String group)
 	{
-		List<IEditor<?>> selected = new ArrayList<>();
-		for (IEditor<?> editor : editors)
+		List<Editor<?>> selected = new ArrayList<>();
+		for (Editor<?> editor : editors)
 		{
 			if (editor.getParameter().getGroup(level) == null) continue;
 			if (editor.getParameter().getGroup(level).equals(group)) selected.add(editor);
@@ -28,11 +28,11 @@ public abstract class AbstractGroupingADLayout extends AbstractADLayout {
 	
 
 	@Override
-	public void addEditors(List<IEditor<?>> editors) {
+	public void addEditors(List<Editor<?>> editors) {
 		
 		startPanel();
 		
-		for (IEditor<?> editor : editors)
+		for (Editor<?> editor : editors)
 		{
 		
 			if (editor.getParameter().getGroup(level) == null)
@@ -59,9 +59,9 @@ public abstract class AbstractGroupingADLayout extends AbstractADLayout {
 	
 	
 	
-	protected abstract void addEditorGroup(List<IEditor<?>> editors, String title);
+	protected abstract void addEditorGroup(List<Editor<?>> editors, String title);
 	
-	protected abstract void addSingleEditor(IEditor<?> param);
+	protected abstract void addSingleEditor(Editor<?> param);
 	
 	
 	

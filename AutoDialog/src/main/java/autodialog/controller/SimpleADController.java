@@ -3,11 +3,11 @@ package autodialog.controller;
 import java.util.List;
 
 import autodialog.model.Parameter;
-import autodialog.view.editors.IEditor;
+import autodialog.view.editors.Editor;
 
 public class SimpleADController extends AbstractADController {
 
-	public SimpleADController(List<IEditor<?>> params) {
+	public SimpleADController(List<Editor<?>> params) {
 		super(params);
 	}
 	

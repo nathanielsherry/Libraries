@@ -17,7 +17,7 @@ import javax.swing.JScrollPane;
 import autodialog.controller.IADController;
 import autodialog.controller.SimpleADController;
 import autodialog.model.Parameter;
-import autodialog.view.editors.IEditor;
+import autodialog.view.editors.Editor;
 import autodialog.view.swing.editors.SwingEditorFactory;
 import autodialog.view.swing.layouts.IADLayout;
 import autodialog.view.swing.layouts.SimpleADLayout;
@@ -51,11 +51,11 @@ public class AutoDialog extends JDialog
 	private ImageButton info;
 	
 
-	public AutoDialog(List<IEditor<?>> editors) {
+	public AutoDialog(List<Editor<?>> editors) {
 		this(new SimpleADController(editors), AutoDialogButtons.OK_CANCEL);
 	}
 
-	public AutoDialog(List<IEditor<?>> editors, AutoDialogButtons buttons) {
+	public AutoDialog(List<Editor<?>> editors, AutoDialogButtons buttons) {
 		this(new SimpleADController(editors), buttons);
 	}
 	

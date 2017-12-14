@@ -11,10 +11,9 @@ import autodialog.model.Parameter;
 import eventful.Eventful;
 
 
-public class BooleanEditor extends Eventful implements ISwingEditor<Boolean>
+public class BooleanEditor extends AbstractSwingEditor<Boolean>
 {
 	
-	private Parameter<Boolean> param;
 	private JCheckBox control;
 
 	public BooleanEditor() {
@@ -24,9 +23,12 @@ public class BooleanEditor extends Eventful implements ISwingEditor<Boolean>
 	@Override
 	public void initialize(Parameter<Boolean> param)
 	{
+		
 		this.param = param;
 		
 		setFromParameter();
+		param.getValueHook().addListener(v -> this.setFromParameter());
+		
 		control.setAlignmentX(Component.LEFT_ALIGNMENT);
 		control.setOpaque(false);
 		
@@ -34,7 +36,7 @@ public class BooleanEditor extends Eventful implements ISwingEditor<Boolean>
 			
 			@Override
 			public void stateChanged(ChangeEvent e) {
-				updateListeners();
+				getValueHook().updateListeners(getEditorValue());
 			}
 		});
 	}

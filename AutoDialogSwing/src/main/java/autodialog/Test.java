@@ -20,8 +20,8 @@ import autodialog.model.style.styles.ListStyle;
 import autodialog.model.style.styles.RealSliderStyle;
 import autodialog.model.style.styles.SeparatorStyle;
 import autodialog.model.style.styles.TextAreaStyle;
-import autodialog.view.editors.IEditor;
-import autodialog.view.editors.IEditor.LabelStyle;
+import autodialog.view.editors.Editor;
+import autodialog.view.editors.Editor.LabelStyle;
 import autodialog.view.swing.AutoDialog;
 import autodialog.view.swing.AutoDialog.AutoDialogButtons;
 import autodialog.view.swing.editors.BooleanEditor;
@@ -85,7 +85,7 @@ public class Test {
 		d.initialize(new FramesADLayout(new ADLayoutFactory() {
 			
 			@Override
-			public IADLayout getLayout(List<IEditor<?>> editors, int level, String group) {
+			public IADLayout getLayout(List<Editor<?>> editors, int level, String group) {
 				return new FramesADLayout(this);
 			}
 		}));
@@ -95,7 +95,7 @@ public class Test {
 		d.initialize(new TabbedADLayout(new ADLayoutFactory() {
 			
 			@Override
-			public IADLayout getLayout(List<IEditor<?>> editors, int level, String group) {
+			public IADLayout getLayout(List<Editor<?>> editors, int level, String group) {
 				System.out.println(group);
 				System.out.println(level);
 				System.out.println("---");

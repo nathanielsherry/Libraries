@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 import javax.swing.JPanel;
 
 import autodialog.model.Parameter;
-import autodialog.view.editors.IEditor;
+import autodialog.view.editors.Editor;
 import autodialog.view.swing.editors.SwingEditorFactory;
 import autodialog.view.swing.layouts.IADLayout;
 import autodialog.view.swing.layouts.SimpleADLayout;
@@ -15,21 +15,21 @@ import autodialog.view.swing.layouts.SimpleADLayout;
 public class AutoPanel extends JPanel {
 
 	
-	private List<IEditor<?>> editors;
+	private List<Editor<?>> editors;
 	private IADLayout layout;
 	
 
 
 
-	public AutoPanel(List<IEditor<?>> editors) {
+	public AutoPanel(List<Editor<?>> editors) {
 		this(editors, new SimpleADLayout());
 	}
 	
-	public AutoPanel(List<IEditor<?>> editors, IADLayout layout) {
+	public AutoPanel(List<Editor<?>> editors, IADLayout layout) {
 		this(editors, layout, 0);
 	}
 	
-	public AutoPanel(List<IEditor<?>> editors, IADLayout layout, int level) {
+	public AutoPanel(List<Editor<?>> editors, IADLayout layout, int level) {
 		layout.setAutoPanel(this, level);
 		this.editors = new ArrayList<>(editors);
 		this.layout = layout;
@@ -46,14 +46,14 @@ public class AutoPanel extends JPanel {
 	
 	
 	public boolean expandVertical() {
-		for (IEditor<?> editor : editors) {
+		for (Editor<?> editor : editors) {
 			if (editor.expandVertical()) return true;
 		}
 		return false;
 	}
 
 	public boolean expandHorizontal() {
-		for (IEditor<?> editor : editors) {
+		for (Editor<?> editor : editors) {
 			if (editor.expandHorizontal()) return true;
 		}
 		return false;

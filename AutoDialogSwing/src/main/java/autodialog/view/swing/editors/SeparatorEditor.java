@@ -2,21 +2,22 @@ package autodialog.view.swing.editors;
 
 import javax.swing.JComponent;
 import javax.swing.JPanel;
+import javax.swing.JSeparator;
 
 import autodialog.model.Parameter;
 import eventful.Eventful;
 
-public class DummyEditor extends Eventful implements ISwingEditor<Object> {
+public class SeparatorEditor extends AbstractSwingEditor<Object> {
 
 	private Parameter<Object> param;
 	private JComponent component;
 	
 
-	public DummyEditor() {
-		this(new JPanel());
+	public SeparatorEditor() {
+		this(new JSeparator());
 	}
 	
-	public DummyEditor(JComponent component) {
+	public SeparatorEditor(JComponent component) {
 		this.component = component;
 	}
 	

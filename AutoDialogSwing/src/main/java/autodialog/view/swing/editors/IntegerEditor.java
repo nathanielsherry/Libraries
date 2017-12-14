@@ -11,7 +11,7 @@ import autodialog.model.Parameter;
 import eventful.Eventful;
 
 
-public class IntegerEditor extends Eventful implements ISwingEditor<Integer>
+public class IntegerEditor extends AbstractSwingEditor<Integer>
 {
 
 	private Parameter<Integer> param;
@@ -26,6 +26,9 @@ public class IntegerEditor extends Eventful implements ISwingEditor<Integer>
 	{	
 		this.param = param;
 		
+		setFromParameter();
+		param.getValueHook().addListener(v -> this.setFromParameter());
+		
 		control.getEditor().setPreferredSize(new Dimension(70, control.getEditor().getPreferredSize().height));
 		control.setValue(param.getValue());
 
@@ -34,7 +37,7 @@ public class IntegerEditor extends Eventful implements ISwingEditor<Integer>
 			
 			@Override
 			public void stateChanged(ChangeEvent e) {
-				updateListeners();
+				getValueHook().updateListeners(getEditorValue());
 			}
 		});
 	}

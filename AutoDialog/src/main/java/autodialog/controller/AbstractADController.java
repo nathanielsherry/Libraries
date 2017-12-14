@@ -1,40 +1,37 @@
 package autodialog.controller;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import autodialog.model.Parameter;
-import autodialog.view.editors.IEditor;
-import autodialog.view.swing.EditorListener;
+import autodialog.view.editors.Editor;
 
 public abstract class AbstractADController implements IADController {
 
 
-	private List<IEditor<?>> editors;
+	protected List<Editor<?>> editors;
 	
 	/**
 	 * Creates an new controller to manage the provided {@link Parameter}s 
 	 * @param params
 	 */
-	public AbstractADController(Collection<IEditor<?>> editors) {
+	public AbstractADController(List<Editor<?>> editors) {
 		this.editors = new ArrayList<>(editors);
-		for(IEditor<?> editor : editors)
+		for(Editor<?> editor : editors)
 		{
-			editor.addListener(new EditorListener<>(editor, this));
+			editor.getValueHook().addListener(v -> editorUpdated(editor));
 		}
 	}
 	
 	
 	/**
 	 * This method is called by {@link ParamListener} when a parameter's editor component is updated.
-	 * It will call {@link IADController#validateParameters validateParameters}, and if validation succeeds,
+	 * It will call {@link IADController#validate}, and if validation succeeds,
 	 * it will call {@link #parameterUpdated}. If validation fails, it will restore call 
-	 * {@link IEditor#validateFailed validateFailed} on the {@link IEditor} for this {@link Parameter}
+	 * {@link Editor#validateFailed validateFailed} on the {@link Editor} for this {@link Parameter}
 	 */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
-	public <T> void editorUpdated(IEditor<T> editor) {
+	public <T> void editorUpdated(Editor<T> editor) {
 
 		Parameter<T> param = editor.getParameter();
 		T oldValue = param.getValue();
@@ -59,12 +56,12 @@ public abstract class AbstractADController implements IADController {
 
 
 	@Override
-	public List<IEditor<?>> getEditors() {
+	public List<Editor<?>> getEditors() {
 		return new ArrayList<>(editors);
 	}
 	
 	/**
-	 * This method will be called once an {@link IEditor} for a {@link Parameter} has been changed,
+	 * This method will be called once an {@link Editor} for a {@link Parameter} has been changed,
 	 * and the new value has been validated with a call to {@link IADController#validate() validateParameters} 
 	 * @param param
 	 */

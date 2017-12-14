@@ -12,7 +12,7 @@ import autodialog.model.Parameter;
 import eventful.Eventful;
 
 
-public class FloatEditor extends Eventful implements ISwingEditor<Float>
+public class FloatEditor extends AbstractSwingEditor<Float>
 {
 
 	private Parameter<Float> param;
@@ -27,6 +27,9 @@ public class FloatEditor extends Eventful implements ISwingEditor<Float>
 	{
 		this.param = param;
 		
+		setFromParameter();
+		param.getValueHook().addListener(v -> this.setFromParameter());
+		
 		
 		control.setModel(new SpinnerNumberModel((Float)param.getValue(), null, null, 0.1d));
 		control.getEditor().setPreferredSize(new Dimension(70, control.getEditor().getPreferredSize().height));
@@ -37,7 +40,7 @@ public class FloatEditor extends Eventful implements ISwingEditor<Float>
 			
 			@Override
 			public void stateChanged(ChangeEvent e) {
-				updateListeners();
+				getValueHook().updateListeners(getEditorValue());
 			}
 		});
 

@@ -11,6 +11,7 @@
   
   <modules>
     <module>AutoDialog</module>
+    <module>AutoDialogSwing</module>
     <module>AutoDialogFX</module>
     <module>Bolt</module>
     <module>BoltCode</module>

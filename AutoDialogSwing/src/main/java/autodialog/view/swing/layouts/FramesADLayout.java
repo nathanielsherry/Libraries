@@ -14,9 +14,9 @@ import javax.swing.border.TitledBorder;
 
 import autodialog.model.Parameter;
 import autodialog.view.swing.AutoPanel;
-import autodialog.view.editors.IEditor;
-import autodialog.view.editors.IEditor.LabelStyle;
-import autodialog.view.swing.editors.ISwingEditor;
+import autodialog.view.editors.Editor;
+import autodialog.view.editors.Editor.LabelStyle;
+import autodialog.view.swing.editors.SwingEditor;
 import autodialog.view.swing.editors.SwingEditorFactory;
 import swidget.widgets.Spacing;
 
@@ -34,7 +34,7 @@ public class FramesADLayout extends AbstractGroupingADLayout {
 		this(new ADLayoutFactory() {
 			
 			@Override
-			public IADLayout getLayout(List<IEditor<?>> editors, int level, String group) {
+			public IADLayout getLayout(List<Editor<?>> editors, int level, String group) {
 				return new SimpleADLayout();
 			}
 		});
@@ -88,7 +88,7 @@ public class FramesADLayout extends AbstractGroupingADLayout {
 	
 	
 	@Override
-	protected void addEditorGroup(List<IEditor<?>> editors, String title)
+	protected void addEditorGroup(List<Editor<?>> editors, String title)
 	{
 
 		AutoPanel subpanel = new AutoPanel(editors, factory.getLayout(editors, level+1, title), level+1);
@@ -111,9 +111,9 @@ public class FramesADLayout extends AbstractGroupingADLayout {
 	}
 	
 	@Override
-	protected void addSingleEditor(IEditor<?> e)
+	protected void addSingleEditor(Editor<?> e)
 	{
-		ISwingEditor<?> editor = (ISwingEditor<?>) e;
+		SwingEditor<?> editor = (SwingEditor<?>) e;
 
 		JLabel paramLabel = new JLabel(editor.getParameter().name);
 		paramLabel.setFont(paramLabel.getFont().deriveFont(Font.PLAIN));

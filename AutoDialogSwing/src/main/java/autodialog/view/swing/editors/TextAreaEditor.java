@@ -6,7 +6,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import autodialog.model.Parameter;
-import autodialog.view.editors.IEditor.LabelStyle;
+import autodialog.view.editors.Editor.LabelStyle;
 
 public class TextAreaEditor extends WrappingEditor<String, JTextArea> {
 
@@ -25,23 +25,25 @@ public class TextAreaEditor extends WrappingEditor<String, JTextArea> {
 	@Override
 	public void initialize(Parameter<String> param) {
 		this.param = param;
+
 		setFromParameter();
+		param.getValueHook().addListener(v -> this.setFromParameter());
 		
 		component.getDocument().addDocumentListener(new DocumentListener() {
 			
 			@Override
 			public void removeUpdate(DocumentEvent arg0) {
-				updateListeners();
+				getValueHook().updateListeners(getEditorValue());
 			}
 			
 			@Override
 			public void insertUpdate(DocumentEvent arg0) {
-				updateListeners();
+				getValueHook().updateListeners(getEditorValue());
 			}
 			
 			@Override
 			public void changedUpdate(DocumentEvent arg0) {
-				updateListeners();
+				getValueHook().updateListeners(getEditorValue());
 			}
 		});
 	}

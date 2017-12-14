@@ -5,7 +5,7 @@ import javax.swing.JComponent;
 import eventful.Eventful;
 
 
-public abstract class WrappingEditor<T, S extends JComponent> extends Eventful implements ISwingEditor<T> {
+public abstract class WrappingEditor<T, S extends JComponent> extends AbstractSwingEditor<T> {
 
 	protected S component;
 	private boolean expandVertical = false;

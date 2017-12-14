@@ -15,7 +15,7 @@ import autodialog.model.SelectionParameter;
 import eventful.Eventful;
 
 
-public class ListEditor<T> extends Eventful implements ISwingEditor<T>
+public class ListEditor<T> extends AbstractSwingEditor<T>
 {
 
 	private SelectionParameter<T> param;
@@ -35,16 +35,17 @@ public class ListEditor<T> extends Eventful implements ISwingEditor<T>
 		
 		
 		for (T t : param.getPossibleValues()) control.addItem(t);
-		
-		control.setSelectedItem(param.getValue());
 		control.setAlignmentX(Component.LEFT_ALIGNMENT);
+		
+		setFromParameter();
+		param.getValueHook().addListener(v -> this.setFromParameter());
 		
 		
 		control.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				updateListeners();
+				getValueHook().updateListeners(getEditorValue());
 			}
 		});
 	}

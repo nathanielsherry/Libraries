@@ -3,9 +3,7 @@ package autodialog.controller;
 import java.util.List;
 
 import autodialog.model.Parameter;
-import autodialog.view.editors.IEditor;
-import autodialog.view.swing.AutoDialog;
-import autodialog.view.swing.AutoPanel;
+import autodialog.view.editors.Editor;
 
 /**
  * Controller for a set of {@link Parameter}s added to an {@link AutoPanel} or {@link AutoDialog}. This
@@ -28,13 +26,13 @@ public interface IADController {
 	 * Allows real-time monitoring of the Editor values. This is useful if you don't want to wait
 	 * until the dialog is dismissed before applying values.
 	 */
-	<T> void editorUpdated(IEditor<T> editor);
+	<T> void editorUpdated(Editor<T> editor);
 	
 	
 	/** 
-	 * Returns a list of {@link IEditor}s to be used in this controller.
+	 * Returns a list of {@link Editor}s to be used in this controller.
 	 **/
-	List<IEditor<?>> getEditors();
+	List<Editor<?>> getEditors();
 	
 
 	

@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.swing.border.Border;
 
-import autodialog.view.editors.IEditor;
+import autodialog.view.editors.Editor;
 import autodialog.view.swing.AutoPanel;
 
 public interface IADLayout {
@@ -12,7 +12,7 @@ public interface IADLayout {
 	void setAutoPanel(AutoPanel root);
 	void setAutoPanel(AutoPanel root, int level);
 
-	void addEditors(List<IEditor<?>> params);
+	void addEditors(List<Editor<?>> params);
 	
 	Border topLevelBorder();
 	
