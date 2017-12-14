@@ -1,14 +1,18 @@
 package bolt.plugin;
 
+import java.net.URL;
+
 public class BoltPluginController<T extends BoltPlugin> {
 
 	private Class<T> pluginClass;
 	private Class<? extends T> implClass;
+	private URL source;
 	private T instance;
 	
-	public BoltPluginController(Class<T> pluginClass, Class<? extends T> implClass) {
+	public BoltPluginController(Class<T> pluginClass, Class<? extends T> implClass, URL source) {
 		this.pluginClass = pluginClass;
 		this.implClass = implClass;
+		this.source = source;
 		instance = create();
 	}
 	
@@ -67,6 +71,10 @@ public class BoltPluginController<T extends BoltPlugin> {
 	public String getVersion() {
 		if (instance == null) return null;
 		return instance.pluginVersion();
+	}
+	
+	public URL getSource() {
+		return source;
 	}
 	
 	

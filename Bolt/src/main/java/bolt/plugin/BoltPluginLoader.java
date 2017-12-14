@@ -3,6 +3,7 @@ package bolt.plugin;
 
 import java.io.File;
 import java.lang.reflect.Modifier;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.List;
@@ -52,18 +53,30 @@ public class BoltPluginLoader<T extends BoltPlugin>
 
 	public List<T> getNewInstancesForAllPlugins()
 	{	
-		return availablePlugins.stream().map(BoltPluginController::create).filter(e -> e != null).collect(Collectors.toList());
+		List<T> list = availablePlugins.stream().map(BoltPluginController::create).filter(e -> e != null).collect(Collectors.toList());
+		list.sort((a, b) -> a.pluginName().compareTo(b.pluginName()));
+		return list;
 	}
 	
 
 	public void registerPlugin(Class<? extends T> loadedClass) throws ClassInstantiationException
+	{
+		URL url = null;
+		try {
+			url = Env.getJarForClass(loadedClass).toURI().toURL();
+		} catch (MalformedURLException | NullPointerException e) {
+		}
+		registerPlugin(loadedClass, url);
+	}
+	
+	public void registerPlugin(Class<? extends T> loadedClass, URL source) throws ClassInstantiationException
 	{
 		
 		try 
 		{
 			if (!test(loadedClass)) { return; } 
 			
-			BoltPluginController<T> plugin = new BoltPluginController<>(target, loadedClass);
+			BoltPluginController<T> plugin = new BoltPluginController<>(target, loadedClass, source);
 			
 			if (plugin.isEnabled()) {
 				availablePlugins.add(plugin);
@@ -189,7 +202,7 @@ public class BoltPluginLoader<T extends BoltPlugin>
 		try {
 			for (T t : loader)
 			{
-				registerPlugin((Class<? extends T>) t.getClass());
+				registerPlugin((Class<? extends T>) t.getClass(), url);
 			}
 		} catch (ServiceConfigurationError e) {
 			e.printStackTrace();
