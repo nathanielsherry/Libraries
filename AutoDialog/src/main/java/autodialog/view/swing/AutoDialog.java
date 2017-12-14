@@ -1,4 +1,4 @@
-package autodialog.view;
+package autodialog.view.swing;
 
 
 import java.awt.BorderLayout;
@@ -7,6 +7,7 @@ import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
@@ -16,8 +17,10 @@ import javax.swing.JScrollPane;
 import autodialog.controller.IADController;
 import autodialog.controller.SimpleADController;
 import autodialog.model.Parameter;
-import autodialog.view.layouts.IADLayout;
-import autodialog.view.layouts.SimpleADLayout;
+import autodialog.view.editors.IEditor;
+import autodialog.view.swing.editors.SwingEditorFactory;
+import autodialog.view.swing.layouts.IADLayout;
+import autodialog.view.swing.layouts.SimpleADLayout;
 import swidget.icons.IconSize;
 import swidget.icons.StockIcon;
 import swidget.widgets.ButtonBox;
@@ -48,13 +51,22 @@ public class AutoDialog extends JDialog
 	private ImageButton info;
 	
 
-	public AutoDialog(List<Parameter<?>> params) {
-		this(new SimpleADController(params), AutoDialogButtons.OK_CANCEL);
+	public AutoDialog(List<IEditor<?>> editors) {
+		this(new SimpleADController(editors), AutoDialogButtons.OK_CANCEL);
 	}
 
-	public AutoDialog(List<Parameter<?>> params, AutoDialogButtons buttons) {
-		this(new SimpleADController(params), buttons);
+	public AutoDialog(List<IEditor<?>> editors, AutoDialogButtons buttons) {
+		this(new SimpleADController(editors), buttons);
 	}
+	
+	public static AutoDialog fromParameters(List<Parameter<?>> params) {
+		return new AutoDialog(SwingEditorFactory.forParameters(params));
+	}
+	
+	public static AutoDialog fromParameters(List<Parameter<?>> params, AutoDialogButtons buttons) {
+		return new AutoDialog(SwingEditorFactory.forParameters(params), buttons);
+	}
+	
 	
 	public AutoDialog(IADController _controller, AutoDialogButtons buttons, Window owner)
 	{
@@ -81,7 +93,7 @@ public class AutoDialog extends JDialog
 		Container c = this.getContentPane();
 		c.setLayout(new BorderLayout());
 		
-		AutoPanel view = new AutoPanel(controller.getParameters(), layout, 0);
+		AutoPanel view = new AutoPanel(controller.getEditors(), layout, 0);
 		
 		JScrollPane scroller = new JScrollPane(view);
 		scroller.setBorder(Spacing.bNone());

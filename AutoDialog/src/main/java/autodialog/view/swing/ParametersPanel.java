@@ -1,4 +1,4 @@
-package autodialog.view;
+package autodialog.view.swing;
 
 import java.awt.Dimension;
 import java.awt.Rectangle;

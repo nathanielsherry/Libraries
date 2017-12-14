@@ -1,10 +1,9 @@
-package autodialog.view.editors;
+package autodialog.view.swing.editors;
 
 import java.awt.Dimension;
 
 import javax.swing.JComponent;
 import javax.swing.JSpinner;
-import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -12,26 +11,24 @@ import autodialog.model.Parameter;
 import eventful.Eventful;
 
 
-public class DoubleEditor extends Eventful implements IEditor<Double>
+public class IntegerEditor extends Eventful implements ISwingEditor<Integer>
 {
 
-	private Parameter<Double> param;
+	private Parameter<Integer> param;
 	private JSpinner control;
 	
-	public DoubleEditor() {
+	public IntegerEditor() {
 		control = new JSpinner();
 	}
 	
 	@Override
-	public void initialize(Parameter<Double> param)
-	{
+	public void initialize(Parameter<Integer> param)
+	{	
 		this.param = param;
 		
-		
-		control.setModel(new SpinnerNumberModel((Double)param.getValue(), null, null, 0.1d));
 		control.getEditor().setPreferredSize(new Dimension(70, control.getEditor().getPreferredSize().height));
-		control.setValue((Double)param.getValue());
-		
+		control.setValue(param.getValue());
+
 		
 		control.addChangeListener(new ChangeListener() {
 			
@@ -40,7 +37,6 @@ public class DoubleEditor extends Eventful implements IEditor<Double>
 				updateListeners();
 			}
 		});
-
 	}
 	
 	@Override
@@ -70,18 +66,24 @@ public class DoubleEditor extends Eventful implements IEditor<Double>
 	@Override
 	public void setFromParameter()
 	{
-		control.setValue((Double)param.getValue());
+		control.setValue(param.getValue());
 	}
 
 	@Override
-	public Double getEditorValue()
+	public Integer getEditorValue()
 	{
-		return (Double)control.getValue();
+		return (Integer)control.getValue();
 	}
+	
 
 	@Override
 	public void validateFailed() {
 		setFromParameter();
 	}
 	
+	@Override
+	public Parameter<Integer> getParameter() {
+		return param;
+	}
+		
 }

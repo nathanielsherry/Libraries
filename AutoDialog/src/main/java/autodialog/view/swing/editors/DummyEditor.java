@@ -1,4 +1,4 @@
-package autodialog.view.editors;
+package autodialog.view.swing.editors;
 
 import javax.swing.JComponent;
 import javax.swing.JPanel;
@@ -6,7 +6,7 @@ import javax.swing.JPanel;
 import autodialog.model.Parameter;
 import eventful.Eventful;
 
-public class DummyEditor extends Eventful implements IEditor<Object> {
+public class DummyEditor extends Eventful implements ISwingEditor<Object> {
 
 	private Parameter<Object> param;
 	private JComponent component;
@@ -55,6 +55,11 @@ public class DummyEditor extends Eventful implements IEditor<Object> {
 	@Override
 	public JComponent getComponent() {
 		return component;
+	}
+	
+	@Override
+	public Parameter<Object> getParameter() {
+		return param;
 	}
 
 }

@@ -1,4 +1,4 @@
-package autodialog.view.editors;
+package autodialog.view.swing.editors;
 
 import java.awt.Component;
 import java.awt.event.ActionEvent;
@@ -11,35 +11,30 @@ import javax.swing.JComboBox;
 import javax.swing.JComponent;
 
 import autodialog.model.Parameter;
+import autodialog.model.SelectionParameter;
 import eventful.Eventful;
 
 
-public class ListEditor<T> extends Eventful implements IEditor<T>
+public class ListEditor<T> extends Eventful implements ISwingEditor<T>
 {
 
-	private Parameter<T> param;
-	private List<T> possibleValues;
+	private SelectionParameter<T> param;
 	private JComboBox<T> control;
 	
 
-
-	public ListEditor(T[] possibleValues) {
-		this(new ArrayList<>(Arrays.asList(possibleValues)));
-	}
-	
-	public ListEditor(List<T> possibleValues) {
-		this.possibleValues = possibleValues;
+	public ListEditor() {
 		control = new JComboBox<>();
 	}
 	
 	
 	@Override
-	public void initialize(Parameter<T> param)
+	public void initialize(Parameter<T> p)
 	{
-		this.param = param;
+		this.param = (SelectionParameter<T>) p;
 		
 		
-		for (T t : possibleValues) control.addItem(t);
+		
+		for (T t : param.getPossibleValues()) control.addItem(t);
 		
 		control.setSelectedItem(param.getValue());
 		control.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -95,6 +90,11 @@ public class ListEditor<T> extends Eventful implements IEditor<T>
 	@Override
 	public void validateFailed() {
 		setFromParameter();
+	}
+	
+	@Override
+	public Parameter<T> getParameter() {
+		return param;
 	}
 	
 }

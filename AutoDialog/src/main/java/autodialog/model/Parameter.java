@@ -1,14 +1,14 @@
 package autodialog.model;
 
 
-import java.awt.Component;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Consumer;
 
-import autodialog.view.editors.IEditor;
+import autodialog.model.style.Style;
 
 /**
  * 
@@ -21,37 +21,37 @@ public class Parameter<T> implements Serializable
 {
 	
 	public String			name;
-	private IEditor<T>		editor;
+	private Style<T>		style;
 	
 	private boolean			enabled;
 
 	private T				value;
 	private List<String>	groups;
 	
-
-	public Parameter(String name, IEditor<T> editor, T value)
+	private List<Consumer<Boolean>> enabledListeners = new ArrayList<>();
+		
+	
+	public Parameter(String name, Style<T> style, T value)
 	{
-		this(name, editor, value, new ArrayList<String>());
+		this(name, style, value, new ArrayList<String>());
 	}
 	
-	public Parameter(String name, IEditor<T> editor, T value, String group)
+	public Parameter(String name, Style<T> style, T value, String group)
 	{
-		this(name, editor, value, new ArrayList<>(Collections.singletonList(group)));
+		this(name, style, value, new ArrayList<>(Collections.singletonList(group)));
 	}
 	
-	public Parameter(String name, IEditor<T> editor, T value, String... group){
-		this(name, editor, value, Arrays.asList(group));
+	public Parameter(String name, Style<T> style, T value, String... group){
+		this(name, style, value, Arrays.asList(group));
 	}
 	
-	public Parameter(String name, IEditor<T> editor, T value, List<String> groups)
+	public Parameter(String name, Style<T> style, T value, List<String> groups)
 	{
-		this.editor = editor;
+		this.style = style;
 		this.name = name;
 		this.value = value;
 		this.enabled = true;
 		this.groups = groups;
-		
-		editor.initialize(this);
 	}
 
 	
@@ -66,8 +66,8 @@ public class Parameter<T> implements Serializable
 	}
 
 	
-	public IEditor<T> getEditor() {
-		return editor;
+	public Style<T> getStyle() {
+		return style;
 	}
 
 
@@ -77,12 +77,7 @@ public class Parameter<T> implements Serializable
 
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
-		
-		Component component = getEditor().getComponent();
-		if (component == null) return;
-		
-		component.setEnabled(enabled);
-		
+		notifyEnabledListeners();
 	}
 	
 	public String toString()
@@ -102,5 +97,21 @@ public class Parameter<T> implements Serializable
 	{
 		return new ArrayList<>(groups);
 	}
+	
+	
+	public void addEnabledListener(Consumer<Boolean> listener) {
+		enabledListeners.add(listener);
+	}
+	
+	public void removeEnabledListener(Consumer<Boolean> listener) {
+		enabledListeners.remove(listener);
+	}
+	
+	private void notifyEnabledListeners() {
+		for (Consumer<Boolean> listener : enabledListeners) {
+			listener.accept(enabled);
+		}
+	}
+
 	
 }

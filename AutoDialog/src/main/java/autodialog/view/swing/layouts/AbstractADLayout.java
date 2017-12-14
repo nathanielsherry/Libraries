@@ -1,6 +1,6 @@
-package autodialog.view.layouts;
+package autodialog.view.swing.layouts;
 
-import autodialog.view.AutoPanel;
+import autodialog.view.swing.AutoPanel;
 
 public abstract class AbstractADLayout implements IADLayout{
 

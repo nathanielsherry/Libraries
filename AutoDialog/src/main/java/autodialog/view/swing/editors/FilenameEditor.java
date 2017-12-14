@@ -1,4 +1,4 @@
-package autodialog.view.editors;
+package autodialog.view.swing.editors;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
@@ -17,10 +17,10 @@ import swidget.icons.StockIcon;
 import swidget.widgets.ImageButton;
 import swidget.widgets.ImageButton.Layout;
 
-public class FilenameEditor extends Eventful implements IEditor<String> {
+public class FilenameEditor extends Eventful implements ISwingEditor<String> {
 
 	private Parameter<String> param;
-	private FileSelector control = new FileSelector(this);;
+	private FileSelector control = new FileSelector(this);
 	
 
 	public FilenameEditor() {
@@ -78,6 +78,11 @@ public class FilenameEditor extends Eventful implements IEditor<String> {
 	@Override
 	public JComponent getComponent() {
 		return control;
+	}
+	
+	@Override
+	public Parameter<String> getParameter() {
+		return param;
 	}
 
 }

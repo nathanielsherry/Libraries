@@ -1,13 +1,12 @@
 package autodialog.view.editors;
 
-import javax.swing.JComponent;
-
 import autodialog.model.Parameter;
 import eventful.IEventful;
 
 public interface IEditor<T> extends IEventful
 {
 	
+		
 	public enum LabelStyle {
 		LABEL_ON_TOP,
 		LABEL_ON_SIDE,
@@ -40,10 +39,13 @@ public interface IEditor<T> extends IEventful
 	 */
 	T getEditorValue();
 	
+	
+	Parameter<T> getParameter();
+	
 	/**
 	 * Returns the graphical interface component for this editor.
 	 * @return
 	 */
-	JComponent getComponent();
+	Object getComponent();
 	
 }

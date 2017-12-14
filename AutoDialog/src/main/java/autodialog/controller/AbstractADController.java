@@ -5,23 +5,23 @@ import java.util.Collection;
 import java.util.List;
 
 import autodialog.model.Parameter;
-import autodialog.view.ParamListener;
 import autodialog.view.editors.IEditor;
+import autodialog.view.swing.EditorListener;
 
 public abstract class AbstractADController implements IADController {
 
 
-	private List<Parameter<?>> params;
+	private List<IEditor<?>> editors;
 	
 	/**
 	 * Creates an new controller to manage the provided {@link Parameter}s 
 	 * @param params
 	 */
-	public AbstractADController(Collection<Parameter<?>> params) {
-		this.params = new ArrayList<>(params);
-		for(Parameter<?> param : params)
+	public AbstractADController(Collection<IEditor<?>> editors) {
+		this.editors = new ArrayList<>(editors);
+		for(IEditor<?> editor : editors)
 		{
-			param.getEditor().addListener(new ParamListener<>(param, this));
+			editor.addListener(new EditorListener<>(editor, this));
 		}
 	}
 	
@@ -34,24 +34,24 @@ public abstract class AbstractADController implements IADController {
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
-	public void editorUpdated(Parameter parameter) {
+	public <T> void editorUpdated(IEditor<T> editor) {
 
-		Object oldValue = parameter.getValue();
-		parameter.setValue(parameter.getEditor().getEditorValue());
+		Parameter<T> param = editor.getParameter();
+		T oldValue = param.getValue();
+		param.setValue(editor.getEditorValue());
 		
 		// if this input validates, signal the change, otherwise, reset
 		// the value
-		if (validateParameters()) {
-			
-			parameterUpdated(parameter);
+		if (validate()) {
+			parameterUpdated(param);
 			
 		} else {
 			
 			// reset the parameter
-			parameter.setValue(oldValue);
+			param.setValue(oldValue);
 			
 			//notify the editor that validation failed
-			parameter.getEditor().validateFailed();
+			editor.validateFailed();
 			
 		}
 		
@@ -59,13 +59,13 @@ public abstract class AbstractADController implements IADController {
 
 
 	@Override
-	public List<Parameter<?>> getParameters() {
-		return new ArrayList<>(params);
+	public List<IEditor<?>> getEditors() {
+		return new ArrayList<>(editors);
 	}
 	
 	/**
 	 * This method will be called once an {@link IEditor} for a {@link Parameter} has been changed,
-	 * and the new value has been validated with a call to {@link IADController#validateParameters() validateParameters} 
+	 * and the new value has been validated with a call to {@link IADController#validate() validateParameters} 
 	 * @param param
 	 */
 	public abstract void parameterUpdated(Parameter<?> param);

@@ -1,4 +1,4 @@
-package autodialog.view.editors;
+package autodialog.view.swing.editors;
 
 import java.awt.Component;
 
@@ -11,7 +11,7 @@ import autodialog.model.Parameter;
 import eventful.Eventful;
 
 
-public class BooleanEditor extends Eventful implements IEditor<Boolean>
+public class BooleanEditor extends Eventful implements ISwingEditor<Boolean>
 {
 	
 	private Parameter<Boolean> param;
@@ -79,6 +79,11 @@ public class BooleanEditor extends Eventful implements IEditor<Boolean>
 	@Override
 	public void validateFailed() {
 		setFromParameter();
+	}
+
+	@Override
+	public Parameter<Boolean> getParameter() {
+		return param;
 	}
 	
 }

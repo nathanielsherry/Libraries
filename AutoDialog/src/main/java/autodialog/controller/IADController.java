@@ -3,8 +3,9 @@ package autodialog.controller;
 import java.util.List;
 
 import autodialog.model.Parameter;
-import autodialog.view.AutoDialog;
-import autodialog.view.AutoPanel;
+import autodialog.view.editors.IEditor;
+import autodialog.view.swing.AutoDialog;
+import autodialog.view.swing.AutoPanel;
 
 /**
  * Controller for a set of {@link Parameter}s added to an {@link AutoPanel} or {@link AutoDialog}. This
@@ -18,22 +19,22 @@ import autodialog.view.AutoPanel;
 public interface IADController {
 
 	/**
-	 * Allows validation of the Parameters in this dialog.
-	 * @return true if all Parameters are satisfactory, false otherwise
+	 * Allows validation of the Editors.
+	 * @return true if all Editor values are satisfactory, false otherwise
 	 */
-	boolean validateParameters();
+	boolean validate();
 	
 	/**
-	 * Allows real-time monitoring of the Parameter values. This is useful if you don't want to wait
+	 * Allows real-time monitoring of the Editor values. This is useful if you don't want to wait
 	 * until the dialog is dismissed before applying values.
 	 */
-	void editorUpdated(Parameter<?> parameter);
+	<T> void editorUpdated(IEditor<T> editor);
 	
 	
 	/** 
-	 * Returns a list of {@link Parameter}s to be used in this controller.
+	 * Returns a list of {@link IEditor}s to be used in this controller.
 	 **/
-	List<Parameter<?>> getParameters();
+	List<IEditor<?>> getEditors();
 	
 
 	

@@ -1,4 +1,4 @@
-package autodialog.view.editors;
+package autodialog.view.swing.editors;
 
 
 import javax.swing.JTextArea;
@@ -6,6 +6,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import autodialog.model.Parameter;
+import autodialog.view.editors.IEditor.LabelStyle;
 
 public class TextAreaEditor extends WrappingEditor<String, JTextArea> {
 
@@ -53,6 +54,11 @@ public class TextAreaEditor extends WrappingEditor<String, JTextArea> {
 	@Override
 	public String getEditorValue() {
 		return component.getText();
+	}
+	
+	@Override
+	public Parameter<String> getParameter() {
+		return param;
 	}
 
 

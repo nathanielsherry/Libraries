@@ -1,4 +1,4 @@
-package autodialog.view.editors;
+package autodialog.view.swing.editors;
 
 import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
@@ -8,6 +8,10 @@ import autodialog.model.Parameter;
 
 public class SliderEditor extends WrappingEditor<Integer, JSlider> {
 
+	public SliderEditor() {
+		this(new JSlider());
+	}
+	
 	public SliderEditor(JSlider component) {
 		super(component);
 	}
@@ -39,4 +43,8 @@ public class SliderEditor extends WrappingEditor<Integer, JSlider> {
 		return getComponent().getValue();
 	}
 	
+	@Override
+	public Parameter<Integer> getParameter() {
+		return param;
+	}
 }

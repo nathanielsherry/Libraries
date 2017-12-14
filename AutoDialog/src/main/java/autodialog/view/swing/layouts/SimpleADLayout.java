@@ -1,4 +1,4 @@
-package autodialog.view.layouts;
+package autodialog.view.swing.layouts;
 
 import java.awt.Component;
 import java.awt.Font;
@@ -12,7 +12,9 @@ import javax.swing.JPanel;
 import javax.swing.border.Border;
 
 import autodialog.model.Parameter;
-import autodialog.view.AutoPanel;
+import autodialog.view.swing.AutoPanel;
+import autodialog.view.swing.editors.ISwingEditor;
+import autodialog.view.swing.editors.SwingEditorFactory;
 import autodialog.view.editors.IEditor;
 import autodialog.view.editors.IEditor.LabelStyle;
 import swidget.widgets.Spacing;
@@ -34,7 +36,7 @@ public class SimpleADLayout extends AbstractADLayout {
 	
 
 	@Override
-	public void addParameters(List<Parameter<?>> params)
+	public void addEditors(List<IEditor<?>> editors)
 	{
 		root.setOpaque(false);
 		root.setLayout(layout);
@@ -45,14 +47,11 @@ public class SimpleADLayout extends AbstractADLayout {
 		root.add(Box.createHorizontalGlue(), c);
 		c.insets = Spacing.iSmall();
 		
-		for (Parameter<?> param : params)
+		for (IEditor<?> e : editors)
 		{
+			ISwingEditor<?> editor = (ISwingEditor<?>) e;
 			
-			//fetch the editor from the Parameter
-			IEditor<?> editor = param.getEditor();		
-			
-			
-			JLabel paramLabel = new JLabel(param.name);
+			JLabel paramLabel = new JLabel(editor.getParameter().name);
 			paramLabel.setFont(paramLabel.getFont().deriveFont(Font.PLAIN));
 			paramLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
 			

@@ -1,4 +1,4 @@
-package autodialog.view.layouts;
+package autodialog.view.swing.layouts;
 
 import java.awt.BorderLayout;
 import java.util.ArrayList;
@@ -8,14 +8,15 @@ import javax.swing.JTabbedPane;
 import javax.swing.border.Border;
 
 import autodialog.model.Parameter;
-import autodialog.view.AutoPanel;
+import autodialog.view.editors.IEditor;
+import autodialog.view.swing.AutoPanel;
 import swidget.widgets.Spacing;
 
 public class TabbedADLayout extends AbstractGroupingADLayout {
 
 	private AutoPanel root;
 	private JTabbedPane tabs;
-	private List<Parameter<?>> general = new ArrayList<>();
+	private List<IEditor<?>> general = new ArrayList<>();
 	private ADLayoutFactory factory;
 	private int level;
 	
@@ -23,7 +24,7 @@ public class TabbedADLayout extends AbstractGroupingADLayout {
 		this(new ADLayoutFactory() {
 			
 			@Override
-			public IADLayout getLayout(List<Parameter<?>> params, int level, String group) {
+			public IADLayout getLayout(List<IEditor<?>> editors, int level, String group) {
 				return new SimpleADLayout();
 			}
 		});
@@ -50,9 +51,9 @@ public class TabbedADLayout extends AbstractGroupingADLayout {
 		
 	}
 
-	private AutoPanel subpanel(List<Parameter<?>> params, String title)
+	private AutoPanel subpanel(List<IEditor<?>> editors, String title)
 	{
-		AutoPanel panel = new AutoPanel(params, factory.getLayout(params, level+1, title), level+1);
+		AutoPanel panel = new AutoPanel(editors, factory.getLayout(editors, level+1, title), level+1);
 		panel.setBorder(Spacing.bLarge());
 		return panel;
 	}
@@ -75,13 +76,13 @@ public class TabbedADLayout extends AbstractGroupingADLayout {
 	}
 
 	@Override
-	protected void addParamGroup(List<Parameter<?>> params, String title) {
-		tabs.addTab(title, subpanel(params, title));
+	protected void addEditorGroup(List<IEditor<?>> editors, String title) {
+		tabs.addTab(title, subpanel(editors, title));
 	}
 
 	@Override
-	protected void addSingleParam(Parameter<?> param) {
-		general.add(param);
+	protected void addSingleEditor(IEditor<?> editors) {
+		general.add(editors);
 	}
 
 	@Override

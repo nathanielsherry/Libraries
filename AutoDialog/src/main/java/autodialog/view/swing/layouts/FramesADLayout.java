@@ -1,4 +1,4 @@
-package autodialog.view.layouts;
+package autodialog.view.swing.layouts;
 
 import java.awt.Component;
 import java.awt.Font;
@@ -13,9 +13,11 @@ import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
 import autodialog.model.Parameter;
-import autodialog.view.AutoPanel;
+import autodialog.view.swing.AutoPanel;
 import autodialog.view.editors.IEditor;
 import autodialog.view.editors.IEditor.LabelStyle;
+import autodialog.view.swing.editors.ISwingEditor;
+import autodialog.view.swing.editors.SwingEditorFactory;
 import swidget.widgets.Spacing;
 
 public class FramesADLayout extends AbstractGroupingADLayout {
@@ -32,7 +34,7 @@ public class FramesADLayout extends AbstractGroupingADLayout {
 		this(new ADLayoutFactory() {
 			
 			@Override
-			public IADLayout getLayout(List<Parameter<?>> params, int level, String group) {
+			public IADLayout getLayout(List<IEditor<?>> editors, int level, String group) {
 				return new SimpleADLayout();
 			}
 		});
@@ -86,10 +88,10 @@ public class FramesADLayout extends AbstractGroupingADLayout {
 	
 	
 	@Override
-	protected void addParamGroup(List<Parameter<?>> params, String title)
+	protected void addEditorGroup(List<IEditor<?>> editors, String title)
 	{
 
-		AutoPanel subpanel = new AutoPanel(params, factory.getLayout(params, level+1, title), level+1);
+		AutoPanel subpanel = new AutoPanel(editors, factory.getLayout(editors, level+1, title), level+1);
 		subpanel.setBorder(new TitledBorder(title));
 		
 		needsVerticalGlue &= (!subpanel.expandVertical());
@@ -109,12 +111,11 @@ public class FramesADLayout extends AbstractGroupingADLayout {
 	}
 	
 	@Override
-	protected void addSingleParam(Parameter<?> param)
+	protected void addSingleEditor(IEditor<?> e)
 	{
-		//fetch the editor from the Parameter
-		IEditor<?> editor = param.getEditor();		
+		ISwingEditor<?> editor = (ISwingEditor<?>) e;
 
-		JLabel paramLabel = new JLabel(param.name);
+		JLabel paramLabel = new JLabel(editor.getParameter().name);
 		paramLabel.setFont(paramLabel.getFont().deriveFont(Font.PLAIN));
 		paramLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
 		

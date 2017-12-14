@@ -1,11 +1,11 @@
-package autodialog.view.editors;
+package autodialog.view.swing.editors;
 
 import javax.swing.JComponent;
 
 import eventful.Eventful;
 
 
-public abstract class WrappingEditor<T, S extends JComponent> extends Eventful implements IEditor<T> {
+public abstract class WrappingEditor<T, S extends JComponent> extends Eventful implements ISwingEditor<T> {
 
 	protected S component;
 	private boolean expandVertical = false;
