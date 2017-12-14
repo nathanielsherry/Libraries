@@ -37,7 +37,9 @@ public class ComponentListPanel extends ClearPanel {
 		JScrollPane scroller = new JScrollPane(content);
 		scroller.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		scroller.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-
+		scroller.getVerticalScrollBar().setUnitIncrement(10);
+		scroller.getVerticalScrollBar().setUnitIncrement(50);
+		
 		this.setLayout(new BorderLayout());
 		this.add(scroller, BorderLayout.CENTER);
 		
