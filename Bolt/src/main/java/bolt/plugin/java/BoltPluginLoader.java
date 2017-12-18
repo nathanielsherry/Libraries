@@ -1,4 +1,4 @@
-package bolt.plugin;
+package bolt.plugin.java;
 
 
 import java.io.File;
@@ -6,13 +6,13 @@ import java.lang.reflect.Modifier;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.List;
 import java.util.ServiceConfigurationError;
 import java.util.ServiceLoader;
-import java.util.stream.Collectors;
 
+import bolt.plugin.core.BoltPluginController;
+import bolt.plugin.core.BoltPluginSet;
+import bolt.plugin.core.IBoltPluginSet;
 import commonenvironment.Env;
-import fava.functionable.FList;
 
 
 
@@ -20,7 +20,7 @@ import fava.functionable.FList;
 public class BoltPluginLoader<T extends BoltPlugin>
 {
 
-	private FList<BoltPluginController<T>>	availablePlugins;
+	private BoltPluginSet<? super T>		plugins;
 	private Class<T> 						target;
 	
 	private boolean 						isTargetInterface;
@@ -31,10 +31,10 @@ public class BoltPluginLoader<T extends BoltPlugin>
 	 * @param target
 	 * @throws ClassInheritanceException
 	 */
-	public BoltPluginLoader(final Class<T> target) throws ClassInheritanceException
+	public BoltPluginLoader(BoltPluginSet<? super T> pluginset, final Class<T> target) throws ClassInheritanceException
 	{
 		
-		availablePlugins = new FList<BoltPluginController<T>>();		
+		this.plugins = pluginset;
 		this.target = target;
 		isTargetInterface = Modifier.isInterface(target.getModifiers());
 		
@@ -42,20 +42,6 @@ public class BoltPluginLoader<T extends BoltPlugin>
 			throw new ClassInheritanceException();
 		}
 		
-	}
-	
-	
-	public List<BoltPluginController<T>> getAvailablePlugins()
-	{
-		return availablePlugins.toSink();
-	}
-
-
-	public List<T> getNewInstancesForAllPlugins()
-	{	
-		List<T> list = availablePlugins.stream().map(BoltPluginController::create).filter(e -> e != null).collect(Collectors.toList());
-		list.sort((a, b) -> a.pluginName().compareTo(b.pluginName()));
-		return list;
 	}
 	
 
@@ -76,11 +62,10 @@ public class BoltPluginLoader<T extends BoltPlugin>
 		{
 			if (!test(loadedClass)) { return; } 
 			
-			BoltPluginController<T> plugin = new BoltPluginController<>(target, loadedClass, source);
+			BoltPluginController<T> plugin = new IBoltPluginController<>(target, loadedClass, source);
 			
 			if (plugin.isEnabled()) {
-				availablePlugins.add(plugin);
-				availablePlugins = availablePlugins.unique();
+				plugins.addPlugin(plugin);
 			}
 
 		}

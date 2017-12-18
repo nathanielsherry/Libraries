@@ -1,34 +1,46 @@
-package bolt.plugin;
+package bolt.scripting.plugin;
 
+import java.io.File;
+import java.net.MalformedURLException;
 import java.net.URL;
 
-public class BoltPluginController<T extends BoltPlugin> {
+import bolt.plugin.core.BoltPluginController;
 
-	private Class<T> pluginClass;
+
+public class IBoltScriptPluginController<T extends BoltScriptPlugin> implements BoltPluginController<T> {
+
+	private File scriptFile;
 	private Class<? extends T> implClass;
-	private URL source;
+	private Class<T> pluginClass;
 	private T instance;
 	
-	public BoltPluginController(Class<T> pluginClass, Class<? extends T> implClass, URL source) {
-		this.pluginClass = pluginClass;
+	public IBoltScriptPluginController(File file, Class<? extends T> implClass, Class<T> pluginClass) {
+		this.scriptFile = file;
 		this.implClass = implClass;
-		this.source = source;
+		this.pluginClass = pluginClass;
 		instance = create();
 	}
-	
+
+	@Override
 	public Class<? extends T> getImplementationClass() {
 		return implClass;
 	}
-	
+
+	@Override
 	public Class<T> getPluginClass() {
 		return pluginClass;
 	}
-	
+
+	@Override
 	public T create()
 	{
+		System.out.println("BoltScriptPlugin " + implClass.getName());
+		
 		try
 		{
-			return implClass.newInstance();
+			T inst = implClass.newInstance();
+			inst.setScriptFile(scriptFile);
+			return inst;
 		}
 		catch (InstantiationException e)
 		{
@@ -44,6 +56,8 @@ public class BoltPluginController<T extends BoltPlugin> {
 		}
 	}
 	
+
+	@Override
 	public boolean isEnabled() {
 		return (instance != null && instance.pluginEnabled());
 	}
@@ -51,6 +65,7 @@ public class BoltPluginController<T extends BoltPlugin> {
 	/**
 	 * A short, descriptive name for this plugin. If the plugin cannot be loaded, returns null.
 	 */
+	@Override
 	public String getName() {
 		if (instance == null) return null;
 		return instance.pluginName();
@@ -60,6 +75,7 @@ public class BoltPluginController<T extends BoltPlugin> {
 	 * A longer description of what this plugin is and what it does. If the plugin cannot be loaded, returns null.
 	 * @return
 	 */
+	@Override
 	public String getDescription() {
 		if (instance == null) return null;
 		return instance.pluginDescription();
@@ -68,14 +84,20 @@ public class BoltPluginController<T extends BoltPlugin> {
 	/**
 	 * A version string for this plugin. If the plugin cannot be loaded, returns null.
 	 */
+	@Override
 	public String getVersion() {
 		if (instance == null) return null;
 		return instance.pluginVersion();
 	}
-	
+
+	@Override
 	public URL getSource() {
-		return source;
+		try {
+			return scriptFile.toURI().toURL();
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
-	
 	
 }

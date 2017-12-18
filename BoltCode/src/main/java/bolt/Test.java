@@ -6,8 +6,8 @@ import javax.script.ScriptEngineFactory;
 import javax.script.ScriptEngineManager;
 
 import bolt.compiler.BoltJavaMap;
-import bolt.scripting.BoltMap;
 import bolt.scripting.BoltScripter;
+import bolt.scripting.functions.BoltMap;
 import bolt.scripting.languages.JavascriptLanguage;
 import bolt.scripting.languages.Language;
 import bolt.scripting.languages.PythonLanguage;

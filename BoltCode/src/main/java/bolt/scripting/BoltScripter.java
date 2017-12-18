@@ -25,7 +25,7 @@ public class BoltScripter {
 	
 	private StringWriter writer, errorWriter;
 	
-	private Language language;
+	protected Language language;
 	protected String script;
 	private CompiledScript defaultCompiledScript = null;
 	

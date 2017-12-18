@@ -1,4 +1,4 @@
-package bolt.plugin;
+package bolt.plugin.java;
 
 public class ClassInstantiationException extends Exception
 {

@@ -1,7 +1,9 @@
-package bolt.scripting;
+package bolt.scripting.functions;
 
 import java.util.function.BiFunction;
 
+import bolt.scripting.BoltScriptExecutionException;
+import bolt.scripting.BoltScripter;
 import bolt.scripting.languages.Language;
 
 public class BoltMap2<T1, T2, T3> extends BoltScripter implements BiFunction<T1, T2, T3>{

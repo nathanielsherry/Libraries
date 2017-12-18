@@ -1,4 +1,4 @@
-package bolt.scripting;
+package bolt.scripting.functions;
 
 import java.util.function.Predicate;
 
