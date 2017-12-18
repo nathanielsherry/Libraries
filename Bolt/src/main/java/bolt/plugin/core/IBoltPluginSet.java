@@ -10,12 +10,12 @@ public class IBoltPluginSet<T extends BoltPluginCore> implements BoltPluginSet<T
 	private ArrayList<BoltPluginController<? extends T>> plugins = new ArrayList<>();
 	
 	@Override
-	public List<BoltPluginController<? extends T>> getAvailablePlugins() {
+	public List<BoltPluginController<? extends T>> getAll() {
 		return new ArrayList<>(plugins);
 	}
 
 	@Override
-	public List<T> getNewInstancesForAllPlugins() {
+	public List<T> newInstances() {
 		List<T> insts = plugins.stream().map(p -> p.create()).collect(Collectors.toList());
 		Collections.sort(insts, (f1, f2) -> f1.pluginName().compareTo(f1.pluginName()));
 		return insts;

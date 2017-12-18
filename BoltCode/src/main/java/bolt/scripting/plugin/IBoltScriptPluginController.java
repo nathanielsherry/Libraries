@@ -10,48 +10,46 @@ import bolt.plugin.core.BoltPluginController;
 public class IBoltScriptPluginController<T extends BoltScriptPlugin> implements BoltPluginController<T> {
 
 	private File scriptFile;
-	private Class<? extends T> implClass;
-	private Class<T> pluginClass;
+	private Class<T> runnerClass;
 	private T instance;
 	
-	public IBoltScriptPluginController(File file, Class<? extends T> implClass, Class<T> pluginClass) {
+	public IBoltScriptPluginController(File file, Class<T> runner) {
 		this.scriptFile = file;
-		this.implClass = implClass;
-		this.pluginClass = pluginClass;
+		this.runnerClass = runner;
 		instance = create();
 	}
 
 	@Override
 	public Class<? extends T> getImplementationClass() {
-		return implClass;
+		return runnerClass;
 	}
 
 	@Override
 	public Class<T> getPluginClass() {
-		return pluginClass;
+		return runnerClass;
 	}
 
 	@Override
 	public T create()
 	{
-		System.out.println("BoltScriptPlugin " + implClass.getName());
+		System.out.println("BoltScriptPlugin " + runnerClass.getName());
 		
 		try
 		{
-			T inst = implClass.newInstance();
+			T inst = runnerClass.newInstance();
 			inst.setScriptFile(scriptFile);
 			return inst;
 		}
 		catch (InstantiationException e)
 		{
 			e.printStackTrace();
-			System.out.println(implClass);
+			System.out.println(runnerClass);
 			return null;
 		}
 		catch (IllegalAccessException e)
 		{
 			e.printStackTrace();
-			System.out.println(implClass);
+			System.out.println(runnerClass);
 			return null;
 		}
 	}
