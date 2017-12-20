@@ -4,17 +4,11 @@ import java.awt.BorderLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JComponent;
-import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
-import javax.swing.border.Border;
 
 import autodialog.model.Group;
 import autodialog.model.Parameter;
 import autodialog.model.Value;
-import autodialog.view.editors.Editor;
-import autodialog.view.editors.Editor.LabelStyle;
-import swidget.widgets.Spacing;
 
 public class TabbedSwingLayout extends AbstractSwingLayout {
 

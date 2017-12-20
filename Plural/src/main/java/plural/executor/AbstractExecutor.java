@@ -1,7 +1,7 @@
 package plural.executor;
 
-import plural.executor.map.MapExecutor;
 import eventful.Eventful;
+import plural.executor.map.MapExecutor;
 
 
 public abstract class AbstractExecutor extends Eventful implements PluralExecutor{

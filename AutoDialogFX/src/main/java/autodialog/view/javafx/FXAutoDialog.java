@@ -1,18 +1,11 @@
 package autodialog.view.javafx;
 
-import java.util.List;
-
 import autodialog.model.Group;
-import autodialog.model.Parameter;
-import autodialog.view.javafx.editors.FXEditorFactory;
 import autodialog.view.javafx.layouts.FXLayoutFactory;
-import autodialog.view.javafx.layouts.SimpleFXLayout;
 import javafx.geometry.Insets;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 
 public class FXAutoDialog {

@@ -2,8 +2,6 @@ package autodialog.view.swing.editors;
 
 import javax.swing.JComponent;
 
-import eventful.Eventful;
-
 
 public abstract class WrappingEditor<T, S extends JComponent> extends AbstractSwingEditor<T> {
 

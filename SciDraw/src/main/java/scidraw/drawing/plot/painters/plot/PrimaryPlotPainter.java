@@ -4,7 +4,6 @@ package scidraw.drawing.plot.painters.plot;
 import java.awt.Color;
 
 import scitypes.ReadOnlySpectrum;
-import scitypes.Spectrum;
 
 
 

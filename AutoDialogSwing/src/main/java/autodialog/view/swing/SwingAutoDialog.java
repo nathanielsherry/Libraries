@@ -3,11 +3,8 @@ package autodialog.view.swing;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
-import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
@@ -15,13 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import autodialog.model.Group;
-import autodialog.model.Parameter;
-import autodialog.view.View;
 import autodialog.view.editors.AutoDialogButtons;
-import autodialog.view.editors.Editor;
-import autodialog.view.swing.editors.SwingEditorFactory;
-import autodialog.view.swing.layouts.SimpleSwingLayout;
-import autodialog.view.swing.layouts.SwingLayout;
 import autodialog.view.swing.layouts.SwingLayoutFactory;
 import swidget.icons.IconSize;
 import swidget.icons.StockIcon;

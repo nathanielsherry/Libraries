@@ -1,24 +1,16 @@
 package autodialog.view.javafx.layouts;
 
-import java.util.List;
-
-import javax.swing.JComponent;
-
 import autodialog.model.Group;
 import autodialog.model.Parameter;
 import autodialog.model.Value;
-import autodialog.view.editors.Editor;
 import autodialog.view.editors.Editor.LabelStyle;
 import autodialog.view.javafx.FXView;
-import autodialog.view.javafx.editors.FXEditor;
 import autodialog.view.javafx.editors.FXEditorFactory;
-import autodialog.view.layouts.Layout;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
-import net.sciencestudio.autodialogfx.old.view.View;
 
 public class SimpleFXLayout extends AbstractFXLayout {
 

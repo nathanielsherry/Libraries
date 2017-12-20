@@ -1,27 +1,21 @@
 package autodialog.view.javafx;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
-
 
 import autodialog.model.Group;
 import autodialog.model.Parameter;
 import autodialog.model.SelectionParameter;
-import autodialog.model.style.editors.BooleanStyle;
 import autodialog.model.style.editors.CheckBoxStyle;
 import autodialog.model.style.editors.FileNameStyle;
 import autodialog.model.style.editors.IntegerSliderStyle;
 import autodialog.model.style.editors.IntegerSpinnerStyle;
-import autodialog.model.style.editors.IntegerStyle;
 import autodialog.model.style.editors.ListStyle;
 import autodialog.model.style.editors.RealSliderStyle;
 import autodialog.model.style.editors.SeparatorStyle;
 import autodialog.model.style.editors.TextAreaStyle;
 import autodialog.model.style.layouts.FramedLayoutStyle;
 import autodialog.model.style.layouts.TabbedLayoutStyle;
-import autodialog.view.editors.AutoDialogButtons;
 import autodialog.view.editors.Editor.LabelStyle;
 import eventful.EventfulConfig;
 import javafx.application.Application;

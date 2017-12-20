@@ -3,7 +3,6 @@ package autodialog.view.editors;
 import autodialog.model.Parameter;
 import autodialog.view.View;
 import eventful.EventfulType;
-import eventful.IEventful;
 
 public interface Editor<T> extends View
 {

@@ -3,8 +3,6 @@ package autodialog.view.javafx.editors;
 import autodialog.model.Parameter;
 import javafx.scene.Node;
 import javafx.scene.control.TextArea;
-import net.sciencestudio.autodialogfx.old.model.value.Value;
-import net.sciencestudio.autodialogfx.old.view.ViewProperties.LabelStyle;
 
 public class TextAreaEditor extends AbstractEditor<String> {
 

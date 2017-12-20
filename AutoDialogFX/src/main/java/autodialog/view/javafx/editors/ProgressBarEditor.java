@@ -3,7 +3,6 @@ package autodialog.view.javafx.editors;
 import autodialog.model.Parameter;
 import javafx.scene.Node;
 import javafx.scene.control.ProgressBar;
-import net.sciencestudio.autodialogfx.old.model.value.Value;
 
 public class ProgressBarEditor extends AbstractEditor<Double>{
 

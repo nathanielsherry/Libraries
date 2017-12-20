@@ -1,18 +1,7 @@
 package autodialog.view.javafx.layouts;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import javax.swing.JComponent;
-import javax.swing.JPanel;
-
 import autodialog.model.Group;
-import autodialog.view.editors.Editor;
 import autodialog.view.editors.Editor.LabelStyle;
-import autodialog.view.javafx.editors.FXEditor;
-import autodialog.view.layouts.Layout;
-import javafx.scene.Node;
 
 
 public abstract class AbstractFXLayout implements FXLayout {

@@ -6,7 +6,6 @@ import java.awt.Color;
 import scidraw.drawing.painters.PainterData;
 import scidraw.drawing.plot.painters.SpectrumPainter;
 import scitypes.ReadOnlySpectrum;
-import scitypes.Spectrum;
 
 
 public class AreaPainter extends SpectrumPainter

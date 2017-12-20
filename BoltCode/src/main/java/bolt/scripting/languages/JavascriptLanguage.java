@@ -1,7 +1,5 @@
 package bolt.scripting.languages;
 
-import javax.script.ScriptEngine;
-
 public class JavascriptLanguage extends Language{
 
 	@Override

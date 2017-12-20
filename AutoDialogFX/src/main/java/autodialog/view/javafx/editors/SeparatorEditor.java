@@ -1,10 +1,8 @@
 package autodialog.view.javafx.editors;
 
 import autodialog.model.Parameter;
-import javafx.scene.control.Separator;
 import javafx.scene.Node;
-import javafx.scene.control.ProgressBar;
-import net.sciencestudio.autodialogfx.old.model.value.Value;
+import javafx.scene.control.Separator;
 
 public class SeparatorEditor extends AbstractEditor<Object>{
 

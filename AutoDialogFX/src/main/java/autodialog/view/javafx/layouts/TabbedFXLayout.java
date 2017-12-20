@@ -2,12 +2,10 @@ package autodialog.view.javafx.layouts;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import autodialog.model.Group;
 import autodialog.model.Parameter;
 import autodialog.model.Value;
-import autodialog.view.View;
 import autodialog.view.javafx.FXView;
 import javafx.geometry.Insets;
 import javafx.scene.Node;

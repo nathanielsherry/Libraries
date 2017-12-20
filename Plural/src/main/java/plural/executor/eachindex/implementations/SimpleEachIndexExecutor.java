@@ -1,11 +1,11 @@
 package plural.executor.eachindex.implementations;
 
 
+import java.util.function.Consumer;
+
 import plural.executor.ExecutorState;
 import plural.executor.eachindex.EachIndexExecutor;
 import plural.executor.map.MapExecutor;
-
-import java.util.function.Consumer;
 
 /**
  * 

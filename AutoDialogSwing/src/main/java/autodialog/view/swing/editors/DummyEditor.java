@@ -4,7 +4,6 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 
 import autodialog.model.Parameter;
-import eventful.Eventful;
 
 public class DummyEditor extends AbstractSwingEditor<Object> {
 

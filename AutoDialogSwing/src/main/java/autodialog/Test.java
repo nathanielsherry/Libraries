@@ -1,13 +1,7 @@
 package autodialog;
 
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
-
-import javax.swing.JFileChooser;
-import javax.swing.JSeparator;
-import javax.swing.JSlider;
 
 import autodialog.model.Group;
 import autodialog.model.Parameter;
@@ -23,24 +17,9 @@ import autodialog.model.style.editors.TextAreaStyle;
 import autodialog.model.style.layouts.FramedLayoutStyle;
 import autodialog.model.style.layouts.TabbedLayoutStyle;
 import autodialog.view.editors.AutoDialogButtons;
-import autodialog.view.editors.Editor;
 import autodialog.view.editors.Editor.LabelStyle;
 import autodialog.view.swing.SwingAutoDialog;
-import autodialog.view.swing.SwingAutoDialog;
-import autodialog.view.swing.editors.BooleanEditor;
-import autodialog.view.swing.editors.FloatEditor;
-import autodialog.view.swing.editors.DummyEditor;
-import autodialog.view.swing.editors.FilenameEditor;
-import autodialog.view.swing.editors.IntegerEditor;
-import autodialog.view.swing.editors.ListEditor;
-import autodialog.view.swing.editors.SliderEditor;
-import autodialog.view.swing.editors.TextAreaEditor;
-import autodialog.view.swing.layouts.SwingLayoutFactory;
-import autodialog.view.swing.layouts.FramesSwingLayout;
-import autodialog.view.swing.layouts.SimpleSwingLayout;
-import autodialog.view.swing.layouts.TabbedSwingLayout;
 import swidget.Swidget;
-import swidget.dialogues.fileio.SimpleFileFilter;
 
 public class Test {
 

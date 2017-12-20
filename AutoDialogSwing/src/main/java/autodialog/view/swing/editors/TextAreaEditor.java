@@ -6,7 +6,6 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import autodialog.model.Parameter;
-import autodialog.view.editors.Editor.LabelStyle;
 
 public class TextAreaEditor extends WrappingEditor<String, JTextArea> {
 

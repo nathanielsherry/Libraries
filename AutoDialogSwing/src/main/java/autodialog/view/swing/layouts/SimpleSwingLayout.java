@@ -8,16 +8,13 @@ import java.awt.GridBagLayout;
 import javax.swing.Box;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 
-import autodialog.view.swing.SwingView;
-import autodialog.view.swing.editors.SwingEditor;
-import autodialog.view.swing.editors.SwingEditorFactory;
 import autodialog.model.Group;
 import autodialog.model.Parameter;
 import autodialog.model.Value;
-import autodialog.view.View;
 import autodialog.view.editors.Editor.LabelStyle;
+import autodialog.view.swing.SwingView;
+import autodialog.view.swing.editors.SwingEditorFactory;
 import swidget.widgets.Spacing;
 
 public class SimpleSwingLayout extends AbstractSwingLayout {

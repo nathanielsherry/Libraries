@@ -1,28 +1,14 @@
 package plural.swing;
 
-import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.LayoutManager;
 import java.awt.Window;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
 import javax.swing.JDialog;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JProgressBar;
 import javax.swing.WindowConstants;
 
-import plural.executor.ExecutorSet;
-import plural.executor.ExecutorState;
-import plural.executor.PluralExecutor;
-import swidget.icons.StockIcon;
-import swidget.widgets.ImageButton;
-import swidget.widgets.Spacing;
 import eventful.EventfulListener;
+import plural.executor.ExecutorSet;
 
 public class ExecutorSetView extends JDialog {
 

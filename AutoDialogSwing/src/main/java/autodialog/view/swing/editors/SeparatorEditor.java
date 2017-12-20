@@ -1,11 +1,9 @@
 package autodialog.view.swing.editors;
 
 import javax.swing.JComponent;
-import javax.swing.JPanel;
 import javax.swing.JSeparator;
 
 import autodialog.model.Parameter;
-import eventful.Eventful;
 
 public class SeparatorEditor extends AbstractSwingEditor<Object> {
 

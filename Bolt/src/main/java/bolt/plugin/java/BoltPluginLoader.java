@@ -11,7 +11,6 @@ import java.util.ServiceLoader;
 
 import bolt.plugin.core.BoltPluginController;
 import bolt.plugin.core.BoltPluginSet;
-import bolt.plugin.core.IBoltPluginSet;
 import commonenvironment.Env;
 
 

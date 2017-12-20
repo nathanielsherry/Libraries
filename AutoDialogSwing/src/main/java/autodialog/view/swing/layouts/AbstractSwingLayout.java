@@ -1,14 +1,10 @@
 package autodialog.view.swing.layouts;
 
-import java.util.List;
-
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
 import autodialog.model.Group;
-import autodialog.model.Parameter;
 import autodialog.view.editors.Editor.LabelStyle;
-import eventful.EventfulType;
 
 public abstract class AbstractSwingLayout implements SwingLayout {
 

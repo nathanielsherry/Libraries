@@ -8,7 +8,6 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import autodialog.model.Parameter;
-import eventful.Eventful;
 
 
 public class IntegerEditor extends AbstractSwingEditor<Integer>

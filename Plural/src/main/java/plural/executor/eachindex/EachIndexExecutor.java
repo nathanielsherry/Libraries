@@ -1,11 +1,11 @@
 package plural.executor.eachindex;
 
 
+import java.util.function.Consumer;
+
 import plural.executor.AbstractExecutor;
 import plural.executor.ExecutorState;
 import plural.executor.map.MapExecutor;
-
-import java.util.function.Consumer;
 
 public abstract class EachIndexExecutor extends AbstractExecutor {
 

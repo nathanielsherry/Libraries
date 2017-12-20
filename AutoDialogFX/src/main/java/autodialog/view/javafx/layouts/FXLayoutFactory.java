@@ -1,11 +1,8 @@
 package autodialog.view.javafx.layouts;
 
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
 
 import autodialog.model.Group;
 

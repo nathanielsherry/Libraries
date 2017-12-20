@@ -6,8 +6,6 @@ import java.text.NumberFormat;
 import autodialog.model.Parameter;
 import javafx.scene.Node;
 import jfxtras.labs.scene.control.BigDecimalField;
-import net.sciencestudio.autodialogfx.old.model.value.Value;
-import net.sciencestudio.autodialogfx.old.model.value.bounded.BoundedValue;
 
 public class IntegerEditor extends AbstractEditor<Integer> {
 

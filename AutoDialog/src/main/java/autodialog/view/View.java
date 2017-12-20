@@ -1,9 +1,7 @@
 package autodialog.view;
 
 import autodialog.model.Value;
-import autodialog.view.editors.Editor;
 import autodialog.view.editors.Editor.LabelStyle;
-import eventful.EventfulType;
 
 public interface View {
 
