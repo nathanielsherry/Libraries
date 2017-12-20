@@ -14,7 +14,7 @@ public interface Value<T> {
 	boolean isEnabled();
 	void setEnabled(boolean enabled);
 
-	public EventfulType<T> getValueHook();
-	public EventfulType<Boolean> getEnabledHook();
+	EventfulType<T> getValueHook();
+	EventfulType<Boolean> getEnabledHook();
 	
 }

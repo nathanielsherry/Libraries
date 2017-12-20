@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import autodialog.model.style.Style;
-import autodialog.model.style.editors.SeparatorStyle;
 import autodialog.model.style.layouts.ColumnLayoutStyle;
 import eventful.EventfulType;
 
@@ -98,6 +97,27 @@ public class Group implements Value<List<Value<?>>> {
 				((Group)value).visit(visitor);
 			}
 		}
+	}
+	
+	public List<Object> dumpValues() {
+		List<Object> flat = new ArrayList<>();
+		visit(p -> {
+			//Don't save Group values, they're just a list of the parameters we'll get to next
+			if (p instanceof Parameter<?>) {
+				flat.add(p.getValue());				
+			}
+		});
+		return flat;
+	}
+	
+	public void loadValues(List<Object> values) {
+		final List<Object> copy = new ArrayList<>(values);
+		visit(p -> {
+			//Don't load Group values, they're just a list of the parameters we'll get to next
+			if (p instanceof Parameter<?>) {
+				((Value<Object>)p).setValue(copy.remove(0));			
+			}
+		});
 	}
 	
 }

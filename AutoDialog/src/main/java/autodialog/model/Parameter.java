@@ -105,7 +105,5 @@ public class Parameter<T> implements Serializable, Value<T>
 		return enabledHook;
 	}
 	
-
-	
 	
 }
