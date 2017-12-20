@@ -89,7 +89,7 @@ public abstract class QueuedEventfulTypeListener<T> implements EventfulTypeListe
 	
 	private void deliverMessages(final List<T> messages)
 	{
-		javax.swing.SwingUtilities.invokeLater(new Runnable() {
+		EventfulConfig.runThread.accept(new Runnable() {
 			public void run()	{
 				changes(messages);
 			}

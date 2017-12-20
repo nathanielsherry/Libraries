@@ -19,7 +19,6 @@ import swidget.widgets.ImageButton.Layout;
 
 public class FilenameEditor extends AbstractSwingEditor<String> {
 
-	private Parameter<String> param;
 	private FileSelector control = new FileSelector(this);
 	
 
@@ -65,11 +64,11 @@ public class FilenameEditor extends AbstractSwingEditor<String> {
 	}
 
 	@Override
-	public void setFromParameter() {
-		control.setFilename((String)param.getValue());
+	public void setEditorValue(String value) {
+		control.setFilename(value);
 	}
 
-	@Override
+	
 	public void validateFailed() {
 		setFromParameter();
 	}
@@ -82,11 +81,6 @@ public class FilenameEditor extends AbstractSwingEditor<String> {
 	@Override
 	public JComponent getComponent() {
 		return control;
-	}
-	
-	@Override
-	public Parameter<String> getParameter() {
-		return param;
 	}
 
 }
@@ -121,8 +115,10 @@ class FileSelector extends JPanel
 				
 				//update with selection
 				setFilename(chooser.getSelectedFile().toString());
-				parent.getValueHook().updateListeners(parent.getEditorValue());
-				
+				parent.getEditorValueHook().updateListeners(parent.getEditorValue());
+				if (!parent.param.setValue(parent.getEditorValue())) {
+					parent.validateFailed();
+				}
 			}
 		});
 		
@@ -144,7 +140,12 @@ class FileSelector extends JPanel
 	
 	private void setFilenameField(String filename)
 	{
-		filenameField.setText(new File(filename).getName());
+		
+		String name = "";
+		if (filename != null) {
+			name = new File(filename).getName();
+		}
+		filenameField.setText(name);
 	}
 	
 

@@ -16,11 +16,10 @@ public class SliderEditor extends WrappingEditor<Integer, JSlider> {
 		super(component);
 	}
 
-	private Parameter<Integer> param;
 	
 	@Override
-	public void setFromParameter() {
-		getComponent().setValue(param.getValue());
+	public void setEditorValue(Integer value){
+		getComponent().setValue(value);
 	}
 	
 	@Override
@@ -35,7 +34,10 @@ public class SliderEditor extends WrappingEditor<Integer, JSlider> {
 			
 			@Override
 			public void stateChanged(ChangeEvent e) {
-				getValueHook().updateListeners(getEditorValue());
+				getEditorValueHook().updateListeners(getEditorValue());
+				if (!param.setValue(getEditorValue())) {
+					validateFailed();
+				}
 			}
 		});				
 	}
@@ -45,8 +47,4 @@ public class SliderEditor extends WrappingEditor<Integer, JSlider> {
 		return getComponent().getValue();
 	}
 	
-	@Override
-	public Parameter<Integer> getParameter() {
-		return param;
-	}
 }

@@ -14,7 +14,6 @@ import eventful.Eventful;
 public class IntegerEditor extends AbstractSwingEditor<Integer>
 {
 
-	private Parameter<Integer> param;
 	private JSpinner control;
 	
 	public IntegerEditor() {
@@ -37,7 +36,10 @@ public class IntegerEditor extends AbstractSwingEditor<Integer>
 			
 			@Override
 			public void stateChanged(ChangeEvent e) {
-				getValueHook().updateListeners(getEditorValue());
+				getEditorValueHook().updateListeners(getEditorValue());
+				if (!param.setValue(getEditorValue())) {
+					validateFailed();
+				}
 			}
 		});
 	}
@@ -67,9 +69,9 @@ public class IntegerEditor extends AbstractSwingEditor<Integer>
 	}
 
 	@Override
-	public void setFromParameter()
+	public void setEditorValue(Integer value)
 	{
-		control.setValue(param.getValue());
+		control.setValue(value);
 	}
 
 	@Override
@@ -79,14 +81,8 @@ public class IntegerEditor extends AbstractSwingEditor<Integer>
 	}
 	
 
-	@Override
 	public void validateFailed() {
 		setFromParameter();
 	}
 	
-	@Override
-	public Parameter<Integer> getParameter() {
-		return param;
-	}
-		
 }

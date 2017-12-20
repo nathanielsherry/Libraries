@@ -37,6 +37,11 @@
 			<artifactId>Chanje</artifactId>
 			<version>1.0</version>
 		</dependency>
+		<dependency>
+			<groupId>net.sciencestudio.libs</groupId>
+			<artifactId>AutoDialog</artifactId>
+			<version>1.0</version>
+		</dependency>
 	</dependencies>
 
 	<build>

@@ -8,7 +8,6 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import autodialog.model.Parameter;
-import eventful.Eventful;
 
 
 public class BooleanEditor extends AbstractSwingEditor<Boolean>
@@ -27,7 +26,8 @@ public class BooleanEditor extends AbstractSwingEditor<Boolean>
 		this.param = param;
 		
 		setFromParameter();
-		param.getValueHook().addListener(v -> this.setFromParameter());
+		param.getValueHook().addListener(v -> setFromParameter());
+		param.getEnabledHook().addListener(e -> control.setEnabled(e));
 		
 		control.setAlignmentX(Component.LEFT_ALIGNMENT);
 		control.setOpaque(false);
@@ -36,7 +36,10 @@ public class BooleanEditor extends AbstractSwingEditor<Boolean>
 			
 			@Override
 			public void stateChanged(ChangeEvent e) {
-				getValueHook().updateListeners(getEditorValue());
+				getEditorValueHook().updateListeners(getEditorValue());
+				if (!param.setValue(getEditorValue())) {
+					validateFailed();
+				}
 			}
 		});
 	}
@@ -65,10 +68,11 @@ public class BooleanEditor extends AbstractSwingEditor<Boolean>
 		return LabelStyle.LABEL_ON_SIDE;
 	}
 
+
+	
 	@Override
-	public void setFromParameter()
-	{
-		control.setSelected(param.getValue());
+	public void setEditorValue(Boolean value) {
+		control.setSelected(value);
 	}
 
 	@Override
@@ -78,14 +82,10 @@ public class BooleanEditor extends AbstractSwingEditor<Boolean>
 	}
 	
 
-	@Override
+	
 	public void validateFailed() {
 		setFromParameter();
 	}
 
-	@Override
-	public Parameter<Boolean> getParameter() {
-		return param;
-	}
 	
 }

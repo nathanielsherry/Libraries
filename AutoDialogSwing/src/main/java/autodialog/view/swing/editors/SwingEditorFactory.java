@@ -10,12 +10,10 @@ import java.util.stream.Collectors;
 
 import autodialog.model.Parameter;
 import autodialog.model.style.CoreStyle;
-import autodialog.model.style.Style;
-import autodialog.view.editors.Editor;
 
 public class SwingEditorFactory {
 
-	private static Map<String, Supplier<SwingEditor>> styleProviders = new HashMap<>();
+	private static Map<String, Supplier<SwingEditor<?>>> styleProviders = new HashMap<>();
 	
 	static {
 		registerStyleProvider("file-name", FilenameEditor::new);
@@ -25,15 +23,15 @@ public class SwingEditorFactory {
 	
 	
 	
-	public static void registerStyleProvider(String style, Supplier<SwingEditor> provider) {
+	public static void registerStyleProvider(String style, Supplier<SwingEditor<?>> provider) {
 		styleProviders.put(style, provider);
 	}
 	
-	public static List<Editor<?>> forParameters(Collection<Parameter<?>> paramaters) {
-		return paramaters.stream().map(SwingEditorFactory::forParameter).collect(Collectors.toList());
+	public static List<SwingEditor<?>> forParameters(Collection<Parameter<?>> parameters) {
+		return parameters.stream().map(SwingEditorFactory::forParameter).collect(Collectors.toList());
 	}
 	
-	public static <T> Editor<T> forParameter(Parameter<T> parameter) {
+	public static <T> SwingEditor<T> forParameter(Parameter<T> parameter) {
 
 		SwingEditor<T> editor = null;
 		

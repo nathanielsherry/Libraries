@@ -30,7 +30,7 @@ public class EventfulEnum<T extends Enum<T>> implements IEventfulEnum<T>
 	public void removeListener(final EventfulEnumListener<T> l)
 	{
 		
-		javax.swing.SwingUtilities.invokeLater(new Runnable() {
+		EventfulConfig.runThread.accept(new Runnable() {
 			public void run()	{ 
 			
 				synchronized(EventfulEnum.this){
@@ -46,7 +46,7 @@ public class EventfulEnum<T extends Enum<T>> implements IEventfulEnum<T>
 	 */
 	public void removeAllListeners()
 	{
-		javax.swing.SwingUtilities.invokeLater(new Runnable() {
+		EventfulConfig.runThread.accept(new Runnable() {
 			public void run() { 
 			
 				synchronized(EventfulEnum.this){
@@ -64,7 +64,7 @@ public class EventfulEnum<T extends Enum<T>> implements IEventfulEnum<T>
 
 		if (listeners.size() == 0) return;
 
-		javax.swing.SwingUtilities.invokeLater(new Runnable() {
+		EventfulConfig.runThread.accept(new Runnable() {
 			public void run()	{ 
 			
 				synchronized(EventfulEnum.this) {	

@@ -10,8 +10,7 @@ import autodialog.view.editors.Editor.LabelStyle;
 
 public class TextAreaEditor extends WrappingEditor<String, JTextArea> {
 
-	private Parameter<String> param;
-	
+
 	public TextAreaEditor() {
 		this(new JTextArea());
 		component.setRows(5);
@@ -33,24 +32,33 @@ public class TextAreaEditor extends WrappingEditor<String, JTextArea> {
 			
 			@Override
 			public void removeUpdate(DocumentEvent arg0) {
-				getValueHook().updateListeners(getEditorValue());
+				getEditorValueHook().updateListeners(getEditorValue());
+				if (!param.setValue(getEditorValue())) {
+					validateFailed();
+				}
 			}
 			
 			@Override
 			public void insertUpdate(DocumentEvent arg0) {
-				getValueHook().updateListeners(getEditorValue());
+				getEditorValueHook().updateListeners(getEditorValue());
+				if (!param.setValue(getEditorValue())) {
+					validateFailed();
+				}
 			}
 			
 			@Override
 			public void changedUpdate(DocumentEvent arg0) {
-				getValueHook().updateListeners(getEditorValue());
+				getEditorValueHook().updateListeners(getEditorValue());
+				if (!param.setValue(getEditorValue())) {
+					validateFailed();
+				}
 			}
 		});
 	}
 
 	@Override
-	public void setFromParameter() {
-		component.setText(param.getValue());
+	public void setEditorValue(String value) {
+		component.setText(value);
 	}
 
 	@Override
@@ -58,11 +66,5 @@ public class TextAreaEditor extends WrappingEditor<String, JTextArea> {
 		return component.getText();
 	}
 	
-	@Override
-	public Parameter<String> getParameter() {
-		return param;
-	}
-
-
 
 }

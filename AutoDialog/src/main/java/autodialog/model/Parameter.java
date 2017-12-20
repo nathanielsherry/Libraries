@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 import autodialog.model.style.Style;
 import eventful.EventfulType;
@@ -17,63 +19,72 @@ import eventful.EventfulType;
  * @author Nathaniel Sherry, 2009-2012
  */
 
-public class Parameter<T> implements Serializable
+public class Parameter<T> implements Serializable, Value<T>
 {
 	
-	public String			name;
-	private Style<T>		style;
-	
+	private String			name;
+	private Style<T>		style;	
 	private boolean			enabled;
 
 	private T				value;
-	private List<String>	groups;
+	private Function<Parameter<T>, Boolean> validator;
 	
 	private EventfulType<T>	valueHook = new EventfulType<>();
 	private EventfulType<Boolean> enabledHook = new EventfulType<>();
 		
 	
-	public Parameter(String name, Style<T> style, T value)
-	{
-		this(name, style, value, new ArrayList<String>());
+	public Parameter(String name, Style<T> style, T value) {
+		this(name, style, value, p -> true);
 	}
 	
-	public Parameter(String name, Style<T> style, T value, String group)
-	{
-		this(name, style, value, new ArrayList<>(Collections.singletonList(group)));
-	}
-	
-	public Parameter(String name, Style<T> style, T value, String... group){
-		this(name, style, value, Arrays.asList(group));
-	}
-	
-	public Parameter(String name, Style<T> style, T value, List<String> groups)
+	public Parameter(String name, Style<T> style, T value, Function<Parameter<T>, Boolean> validator)
 	{
 		this.style = style;
 		this.name = name;
 		this.value = value;
 		this.enabled = true;
-		this.groups = groups;
+		this.validator = validator;
 	}
 
 	
-	public void setValue(T value) {
+	@Override
+	public synchronized boolean setValue(T value) {
+		boolean success = true;
+		T oldValue = this.value;
 		this.value = value;
+		if (!validator.apply(this)) {
+			//revert
+			this.value = oldValue;
+			success = false;
+		}
+		//notify value listeners. Even if validation failed, so that the failing editor can revert.
+		getValueHook().updateListeners(value);
+		return success;
 	}
 	
-	public T getValue() {
+	@Override
+	public synchronized T getValue() {
 		return value;
 	}
 
 	
+	@Override
 	public Style<T> getStyle() {
 		return style;
 	}
 
+	
+	@Override
+	public String getName() {
+		return name;
+	}
 
+	@Override
 	public boolean isEnabled() {
 		return enabled;
 	}
 
+	@Override
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 		getEnabledHook().updateListeners(enabled);
@@ -81,20 +92,9 @@ public class Parameter<T> implements Serializable
 	
 	public String toString()
 	{
-		String str =  "Parameter " + name;
+		String str =  "Parameter: " + getName();
 		if (value != null) str += ": " + value.toString();
 		return str;
-	}
-	
-	public String getGroup(int level)
-	{
-		if (groups.size() <= level) return null;
-		return groups.get(level);
-	}
-	
-	public List<String> getGroups()
-	{
-		return new ArrayList<>(groups);
 	}
 
 	public EventfulType<T> getValueHook() {

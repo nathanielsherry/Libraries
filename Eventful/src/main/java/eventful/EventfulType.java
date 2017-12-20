@@ -8,6 +8,7 @@ public class EventfulType<T> implements IEventfulType<T>
 
 	protected final List<EventfulTypeListener<T>>	listeners;
 	
+	
 	public EventfulType() {
 		
 		listeners = new LinkedList<EventfulTypeListener<T>>();
@@ -19,7 +20,7 @@ public class EventfulType<T> implements IEventfulType<T>
 	public synchronized void addListener(final EventfulTypeListener<T> l)
 	{
 		
-		javax.swing.SwingUtilities.invokeLater(new Runnable() {
+		EventfulConfig.runThread.accept(new Runnable() {
 			public void run()	{
 				synchronized(EventfulType.this){
 					listeners.add(l);
@@ -35,7 +36,7 @@ public class EventfulType<T> implements IEventfulType<T>
 	public void removeListener(final EventfulTypeListener<T> l)
 	{
 		
-		javax.swing.SwingUtilities.invokeLater(new Runnable() {
+		EventfulConfig.runThread.accept(new Runnable() {
 			public void run()	{
 				synchronized(EventfulType.this){
 					listeners.remove(l);
@@ -51,7 +52,7 @@ public class EventfulType<T> implements IEventfulType<T>
 	 */
 	public void removeAllListeners()
 	{
-		javax.swing.SwingUtilities.invokeLater(new Runnable() {
+		EventfulConfig.runThread.accept(new Runnable() {
 			public void run()	{
 				synchronized(EventfulType.this){
 					listeners.clear();
@@ -69,7 +70,7 @@ public class EventfulType<T> implements IEventfulType<T>
 
 		if (listeners.size() == 0) return;
 
-		javax.swing.SwingUtilities.invokeLater(new Runnable() {
+		EventfulConfig.runThread.accept(new Runnable() {
 			public void run()	{
 				synchronized(EventfulType.this){
 					for (EventfulTypeListener<T> l : listeners) {

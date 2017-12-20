@@ -89,7 +89,7 @@ public abstract class QueuedEventfulEnumListener<T extends Enum<T>> implements E
 	
 	private void deliverMessages(final List<T> messages)
 	{
-		javax.swing.SwingUtilities.invokeLater(new Runnable() {
+		EventfulConfig.runThread.accept(new Runnable() {
 			public void run()	{
 				changes(messages);
 			}

@@ -15,7 +15,6 @@ import eventful.Eventful;
 public class FloatEditor extends AbstractSwingEditor<Float>
 {
 
-	private Parameter<Float> param;
 	private JSpinner control;
 	
 	public FloatEditor() {
@@ -40,7 +39,10 @@ public class FloatEditor extends AbstractSwingEditor<Float>
 			
 			@Override
 			public void stateChanged(ChangeEvent e) {
-				getValueHook().updateListeners(getEditorValue());
+				getEditorValueHook().updateListeners(getEditorValue());
+				if (!param.setValue(getEditorValue())) {
+					validateFailed();
+				}
 			}
 		});
 
@@ -71,26 +73,20 @@ public class FloatEditor extends AbstractSwingEditor<Float>
 	}
 
 	@Override
-	public void setFromParameter()
+	public void setEditorValue(Float value)
 	{
-		control.setValue((Float)param.getValue());
+		control.setValue(value);
 	}
 
 	@Override
 	public Float getEditorValue()
 	{
-		return (Float)control.getValue();
+		return ((Number)control.getValue()).floatValue();
 	}
 
-	@Override
 	public void validateFailed() {
 		setFromParameter();
 	}
 
-	@Override
-	public Parameter<Float> getParameter() {
-		return param;
-	}
-	
 
 }

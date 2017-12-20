@@ -9,7 +9,6 @@ import eventful.Eventful;
 
 public class SeparatorEditor extends AbstractSwingEditor<Object> {
 
-	private Parameter<Object> param;
 	private JComponent component;
 	
 
@@ -43,10 +42,7 @@ public class SeparatorEditor extends AbstractSwingEditor<Object> {
 	}
 
 	@Override
-	public void setFromParameter() {}
-
-	@Override
-	public void validateFailed() {}
+	public void setEditorValue(Object value) {}
 
 	@Override
 	public Object getEditorValue() {
@@ -58,9 +54,4 @@ public class SeparatorEditor extends AbstractSwingEditor<Object> {
 		return component;
 	}
 	
-	@Override
-	public Parameter<Object> getParameter() {
-		return param;
-	}
-
 }

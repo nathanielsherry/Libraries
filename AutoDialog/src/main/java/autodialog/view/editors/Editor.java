@@ -1,10 +1,11 @@
 package autodialog.view.editors;
 
 import autodialog.model.Parameter;
+import autodialog.view.View;
 import eventful.EventfulType;
 import eventful.IEventful;
 
-public interface Editor<T>
+public interface Editor<T> extends View
 {
 	
 		
@@ -17,22 +18,15 @@ public interface Editor<T>
 
 	void initialize(Parameter<T> param);
 
-	boolean expandVertical();
-	boolean expandHorizontal();
-	LabelStyle getLabelStyle();
+
 	
 	/**
 	 * Restores the graphical interface component to the value of the Parameter it is derived
-	 * from.
+	 * from. Only sets the value if it differes from the current value in the editor. This is
+	 * useful for callback wiring.
 	 */
 	void setFromParameter();
 	
-	/**
-	 * Notification hook to be informed that validation by the {@link Parameter} failed. The
-	 * usual response is to call {@link #setFromParameter()} to restore the graphical 
-	 * component to a valid state.
-	 */
-	void validateFailed();
 	
 	/**
 	 * Returns the current value of the graphical interface component.
@@ -40,19 +34,20 @@ public interface Editor<T>
 	 */
 	T getEditorValue();
 	
-	
-	Parameter<T> getParameter();
-	
 	/**
-	 * Returns the graphical interface component for this editor.
-	 * @return
+	 * Sets the value of the editor
+	 * @param value the value to set
 	 */
-	Object getComponent();
-	
+	void setEditorValue(T value);
 	
 	/**
 	 * Returns a hook which can be used to listen for changes to the editor's value
 	 * @return
 	 */
-	EventfulType<T> getValueHook();
+	<T> EventfulType<T> getEditorValueHook();
+	
+
+	
+	
+	
 }

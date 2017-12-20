@@ -41,7 +41,6 @@ public abstract class WrappingEditor<T, S extends JComponent> extends AbstractSw
 	}
 
 
-	@Override
 	public void validateFailed() {
 		setFromParameter();
 	}

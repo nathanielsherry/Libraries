@@ -18,7 +18,7 @@ import eventful.Eventful;
 public class ListEditor<T> extends AbstractSwingEditor<T>
 {
 
-	private SelectionParameter<T> param;
+	private SelectionParameter<T> selparam;
 	private JComboBox<T> control;
 	
 
@@ -30,11 +30,12 @@ public class ListEditor<T> extends AbstractSwingEditor<T>
 	@Override
 	public void initialize(Parameter<T> p)
 	{
-		this.param = (SelectionParameter<T>) p;
+		this.param = p;
+		this.selparam = (SelectionParameter<T>) p;
 		
 		
 		
-		for (T t : param.getPossibleValues()) control.addItem(t);
+		for (T t : selparam.getPossibleValues()) control.addItem(t);
 		control.setAlignmentX(Component.LEFT_ALIGNMENT);
 		
 		setFromParameter();
@@ -45,7 +46,10 @@ public class ListEditor<T> extends AbstractSwingEditor<T>
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				getValueHook().updateListeners(getEditorValue());
+				getEditorValueHook().updateListeners(getEditorValue());
+				if (!param.setValue(getEditorValue())) {
+					validateFailed();
+				}
 			}
 		});
 	}
@@ -75,9 +79,9 @@ public class ListEditor<T> extends AbstractSwingEditor<T>
 	}
 
 	@Override
-	public void setFromParameter()
+	public void setEditorValue(T value)
 	{
-		control.setSelectedItem(param.getValue());
+		control.setSelectedItem(value);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -88,14 +92,9 @@ public class ListEditor<T> extends AbstractSwingEditor<T>
 	}
 	
 
-	@Override
 	public void validateFailed() {
 		setFromParameter();
 	}
 	
-	@Override
-	public Parameter<T> getParameter() {
-		return param;
-	}
 	
 }

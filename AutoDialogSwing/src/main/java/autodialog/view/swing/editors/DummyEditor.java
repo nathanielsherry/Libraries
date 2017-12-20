@@ -8,7 +8,6 @@ import eventful.Eventful;
 
 public class DummyEditor extends AbstractSwingEditor<Object> {
 
-	private Parameter<Object> param;
 	private JComponent component;
 	
 
@@ -42,10 +41,8 @@ public class DummyEditor extends AbstractSwingEditor<Object> {
 	}
 
 	@Override
-	public void setFromParameter() {}
+	public void setEditorValue(Object value) {}
 
-	@Override
-	public void validateFailed() {}
 
 	@Override
 	public Object getEditorValue() {
@@ -57,9 +54,5 @@ public class DummyEditor extends AbstractSwingEditor<Object> {
 		return component;
 	}
 	
-	@Override
-	public Parameter<Object> getParameter() {
-		return param;
-	}
 
 }

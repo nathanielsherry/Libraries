@@ -16,19 +16,6 @@ public class SelectionParameter<T> extends Parameter<T> {
 		super(name, style, value);
 	}
 	
-	public SelectionParameter(String name, Style<T> style, T value, String group)
-	{
-		super(name, style, value, group);
-	}
-	
-	public SelectionParameter(String name, Style<T> style, T value, String... group){
-		super(name, style, value, group);
-	}
-	
-	public SelectionParameter(String name, Style<T> style, T value, List<String> groups)
-	{
-		super(name, style, value, groups);
-	}
 
 	public List<T> getPossibleValues() {
 		return possibleValues;
