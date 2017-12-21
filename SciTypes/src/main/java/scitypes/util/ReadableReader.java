@@ -1,4 +1,4 @@
-package fava.functionable;
+package scitypes.util;
 
 //Copyright (C) 2005 Google Inc.
 //
