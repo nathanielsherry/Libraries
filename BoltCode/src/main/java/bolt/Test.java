@@ -1,4 +1,8 @@
 package bolt;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.function.Function;
 
 import javax.script.ScriptEngineFactory;
@@ -11,7 +15,6 @@ import bolt.scripting.languages.JavascriptLanguage;
 import bolt.scripting.languages.Language;
 import bolt.scripting.languages.PythonLanguage;
 import bolt.scripting.languages.RubyLanguage;
-import fava.functionable.FList;
 import scitypes.Range;
 
 
@@ -95,9 +98,9 @@ public class Test {
 		System.out.println((System.currentTimeMillis() - startTime) + "ms");	
 	}
 	
-	public static FList<ScriptEngineFactory> getAvailableLanguages()
+	public static List<ScriptEngineFactory> getAvailableLanguages()
 	{
-		FList<ScriptEngineFactory> factories = new FList<ScriptEngineFactory>();
+		Set<ScriptEngineFactory> factories = new HashSet<ScriptEngineFactory>();
 		
         //ScriptEngineManager mgr = new ScriptEngineManager();
         
@@ -119,7 +122,7 @@ public class Test {
         	
         }
         
-        return factories.unique();
+        return new ArrayList<>(factories);
 	}
 	
     public static void listScriptingEngines() {
