@@ -32,8 +32,7 @@ public class IBoltScriptPluginController<T extends BoltScriptPlugin> implements 
 	@Override
 	public T create()
 	{
-		System.out.println("BoltScriptPlugin " + runnerClass.getName());
-		
+
 		try
 		{
 			T inst = runnerClass.newInstance();

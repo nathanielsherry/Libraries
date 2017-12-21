@@ -162,7 +162,6 @@ public class BoltPluginLoader<T extends BoltPlugin>
 			files[0] = file;
 		}
 		
-		
 		for (int i = 0; i < files.length; i++)
 		{
 			try
@@ -182,7 +181,7 @@ public class BoltPluginLoader<T extends BoltPlugin>
 	{
 		URLClassLoader urlLoader = new URLClassLoader(new URL[]{url});
 		ServiceLoader<T> loader = ServiceLoader.load(target, urlLoader);
-
+			
 		try {
 			for (T t : loader)
 			{
