@@ -3,13 +3,13 @@ package scidraw.drawing.map.painters.axis;
 
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.List;
 
-import fava.datatypes.Pair;
-import fava.functionable.FList;
 import scidraw.drawing.map.palettes.AbstractPalette;
 import scidraw.drawing.painters.PainterData;
 import scitypes.Coord;
+import scitypes.Pair;
 import scitypes.SISize;
 import scitypes.SigDigits;
 
@@ -20,7 +20,7 @@ public class SpectrumCoordsAxisPainter extends AbstractKeyCoordAxisPainter
 	private int							spectrumSteps;
 	private List<AbstractPalette>		colourRules;
 	private boolean						negativeValues;
-	private FList<Pair<Float, String>>	markings;
+	private List<Pair<Float, String>>	markings;
 	private int 						decimalPoints;
 
 	
@@ -122,7 +122,7 @@ public class SpectrumCoordsAxisPainter extends AbstractKeyCoordAxisPainter
 			realDimensionsProvided,
 			descriptor);
 
-		this.markings = FList.wrap(markings);
+		this.markings = new ArrayList<>(markings);
 		this.negativeValues = negativeValues;
 
 		this.spectrumSteps = spectrumSteps;
@@ -233,7 +233,7 @@ public class SpectrumCoordsAxisPainter extends AbstractKeyCoordAxisPainter
 
 			}
 
-			markings.each((Pair<Float, String> element) -> {
+			markings.stream().forEach((Pair<Float, String> element) -> {
 				if (element.first > 1.0) element.first = 1.0f;
 				float textWidth = p.context.getTextWidth(element.second);
 				p.context.writeText(element.second, position + ((width - textWidth) * element.first), textBaseline);

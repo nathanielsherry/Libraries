@@ -3,8 +3,6 @@ package scitypes;
 
 import java.util.List;
 
-import fava.datatypes.Pair;
-
 
 
 

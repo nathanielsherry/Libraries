@@ -16,8 +16,8 @@ import java.util.function.Predicate;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
-import fava.datatypes.Pair;
 import fava.functionable.FList;
+import scitypes.Pair;
 
 public class Fn
 {

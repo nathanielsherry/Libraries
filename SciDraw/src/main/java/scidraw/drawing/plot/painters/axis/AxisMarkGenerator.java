@@ -3,8 +3,8 @@ package scidraw.drawing.plot.painters.axis;
 import java.util.ArrayList;
 import java.util.List;
 
-import fava.datatypes.Pair;
 import scidraw.drawing.backends.Surface;
+import scitypes.Pair;
 import scitypes.SigDigits;
 
 

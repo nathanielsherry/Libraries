@@ -3,12 +3,13 @@ package scratch;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.yaml.snakeyaml.Yaml;
 
-import fava.datatypes.Pair;
-import fava.functionable.FList;
+import scitypes.Pair;
+import scitypes.SparsedList;
 
 
 public class YAMLScratchList<V> extends AbstractScratchList<V> {
@@ -62,9 +63,9 @@ public class YAMLScratchList<V> extends AbstractScratchList<V> {
 		}
 		catch (IOException e)
 		{
-			//FList can also behave sparsely
+			//We need to fall back to another sparse list
 			e.printStackTrace();
-			return new FList<T>();
+			return new SparsedList<>(new ArrayList<>());
 		}
 	}
 	

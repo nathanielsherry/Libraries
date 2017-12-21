@@ -15,7 +15,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import fava.Fn;
-import fava.datatypes.Pair;
+import scitypes.Pair;
 
 /**
  * FList is a class which implements the List interface and acts as a pass-through

@@ -3,20 +3,20 @@ package scidraw.drawing.map.painters.axis;
 
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import fava.datatypes.Pair;
-import fava.functionable.FList;
 import scidraw.drawing.painters.PainterData;
 import scitypes.Coord;
+import scitypes.Pair;
 import scitypes.SISize;
 
 
 public class LegendCoordsAxisPainter extends AbstractKeyCoordAxisPainter
 {
 
-	private FList<Pair<Color, String>>	entries;
+	private List<Pair<Color, String>>	entries;
 
 	public LegendCoordsAxisPainter(boolean drawCoords, Coord<Number> topLeftCoord, Coord<Number> topRightCoord,
 			Coord<Number> bottomLeftCoord, Coord<Number> bottomRightCoord, SISize coordinateUnits,
@@ -34,7 +34,7 @@ public class LegendCoordsAxisPainter extends AbstractKeyCoordAxisPainter
 			realDimensionsProvided,
 			descriptor);
 
-		this.entries = FList.wrap(entries);
+		this.entries = new ArrayList<>(entries);
 
 	}
 
@@ -79,7 +79,9 @@ public class LegendCoordsAxisPainter extends AbstractKeyCoordAxisPainter
 		}
 
 		float startX = offsetX + ((width - expectedTextWidth) / 2.0f);
-		entries.foldr(startX, (Pair<Color, String> entry, Float position) -> {
+		
+		float position = startX;
+		for (Pair<Color, String> entry : entries) {
 			p.context.rectangle(position, textBaseline, keyHeight, -keyHeight);
 			p.context.setSource(entry.first);
 			p.context.fillPreserve();
@@ -88,8 +90,20 @@ public class LegendCoordsAxisPainter extends AbstractKeyCoordAxisPainter
 
 			p.context.writeText(entry.second, position + keyHeight * 1.5f, textBaseline);
 
-			return position + p.context.getTextWidth(entry.second) + keyHeight * 2.5f;
-		});
+			position = position + p.context.getTextWidth(entry.second) + keyHeight * 2.5f;
+		}
+		
+//		entries.foldr(startX, (Pair<Color, String> entry, Float position) -> {
+//			p.context.rectangle(position, textBaseline, keyHeight, -keyHeight);
+//			p.context.setSource(entry.first);
+//			p.context.fillPreserve();
+//			p.context.setSource(Color.black);
+//			p.context.stroke();
+//
+//			p.context.writeText(entry.second, position + keyHeight * 1.5f, textBaseline);
+//
+//			return position + p.context.getTextWidth(entry.second) + keyHeight * 2.5f;
+//		});
 
 		float centerWidth = p.context.getTextWidth(descriptor);
 		p.context.writeText(descriptor, offsetX + (width - centerWidth) / 2.0f, textBaseline + textLineHeight*(drawCoords ? 2.0f : 1.25f));

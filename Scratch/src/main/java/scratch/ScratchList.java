@@ -7,10 +7,11 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
-import fava.functionable.FList;
 import scitypes.ISpectrum;
+import scitypes.SparsedList;
 import scitypes.Spectrum;
 
 
@@ -76,9 +77,9 @@ public class ScratchList<T extends Serializable> extends AbstractScratchList<T>
 		}
 		catch (IOException e)
 		{
-			//FList can also behave sparsely
+			//We need to fall back to another sparse list
 			e.printStackTrace();
-			return new FList<T>();
+			return new SparsedList<>(new ArrayList<>());
 		}
 	}
 	

@@ -4,13 +4,14 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.Deflater;
 import java.util.zip.DeflaterOutputStream;
 import java.util.zip.InflaterInputStream;
 
-import fava.functionable.FList;
 import scitypes.ISpectrum;
+import scitypes.SparsedList;
 import scitypes.Spectrum;
 
 public class CompressedScratchList<T extends Serializable> extends ScratchList<T> {
@@ -62,9 +63,9 @@ public class CompressedScratchList<T extends Serializable> extends ScratchList<T
 		}
 		catch (IOException e)
 		{
-			//FList can also behave sparsely
+			//We need to fall back to another sparse list
 			e.printStackTrace();
-			return new FList<T>();
+			return new SparsedList<>(new ArrayList<>());
 		}
 	}
 	

@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
-import fava.datatypes.Pair;
 import scidraw.drawing.Drawing;
 import scidraw.drawing.DrawingRequest;
 import scidraw.drawing.backends.Surface;
@@ -15,6 +14,7 @@ import scidraw.drawing.painters.PainterData;
 import scidraw.drawing.painters.axis.AxisPainter;
 import scitypes.Bounds;
 import scitypes.Coord;
+import scitypes.Pair;
 
 /**
  * 

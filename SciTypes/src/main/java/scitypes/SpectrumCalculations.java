@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import fava.functionable.FList;
 import plural.executor.Plural;
 
 
@@ -118,7 +117,8 @@ public class SpectrumCalculations
 	public static float maxDataset(List<Spectrum> dataset)
 	{
 
-		return FList.wrap(dataset).foldr(max(dataset.get(0)), (list, currentMax) -> Math.max(currentMax, max(list)));
+		return dataset.stream().map(SpectrumCalculations::max).reduce(0f, Math::max);
+		//return FList.wrap(dataset).foldr(max(dataset.get(0)), (list, currentMax) -> Math.max(currentMax, max(list)));
 
 	}
 

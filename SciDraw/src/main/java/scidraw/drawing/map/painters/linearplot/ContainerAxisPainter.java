@@ -1,9 +1,9 @@
 package scidraw.drawing.map.painters.linearplot;
 
-import fava.datatypes.Pair;
 import scidraw.drawing.Drawing;
 import scidraw.drawing.painters.PainterData;
 import scidraw.drawing.painters.axis.AxisPainter;
+import scitypes.Pair;
 
 public class ContainerAxisPainter extends AxisPainter {
 

@@ -4,14 +4,13 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.stream.Collectors;
 
-import fava.functionable.FList;
-import fava.functionable.Functionable;
 import scitypes.Range;
 import scitypes.RangeSet;
 
@@ -29,7 +28,7 @@ import scitypes.RangeSet;
  * @param <T> AbstractScratchList will be a list of values of type T
  */
 
-public abstract class AbstractScratchList<T> extends Functionable<T> implements List<T>{
+public abstract class AbstractScratchList<T> implements List<T>{
 
 
 	
@@ -66,7 +65,7 @@ public abstract class AbstractScratchList<T> extends Functionable<T> implements 
 	
 	private void init() throws FileNotFoundException
 	{
-		elementPositions = new FList<Range>();
+		elementPositions = new ArrayList<Range>();
 		discardedRanges = new RangeSet();
 		raf = new RandomAccessFile(file, "rw");
 	}
@@ -78,7 +77,7 @@ public abstract class AbstractScratchList<T> extends Functionable<T> implements 
 	
 	protected AbstractScratchList(File temp, RandomAccessFile raf, List<Range> positions, RangeSet discarded)
 	{
-		elementPositions = FList.wrap(positions);
+		elementPositions = new ArrayList<>(positions);
 		discardedRanges = discarded;
 		this.file = temp;
 		this.raf = raf;

@@ -1,11 +1,11 @@
 package scidraw.drawing.map.painters.axis;
 
-import fava.datatypes.Pair;
 import scidraw.drawing.backends.Surface;
 import scidraw.drawing.painters.PainterData;
 import scidraw.drawing.painters.axis.AxisPainter;
 import scitypes.Bounds;
 import scitypes.Coord;
+import scitypes.Pair;
 import scitypes.SISize;
 import scitypes.SigDigits;
 

@@ -1,8 +1,7 @@
-package fava.datatypes;
+package scitypes;
 
 import java.io.Serializable;
 
-import fava.functionable.Functionable;
 
 
 /**
@@ -48,8 +47,8 @@ public class Pair<T, S> implements Serializable
 	public String show()
 	{
 		String firstString, secondString;
-		firstString = (first instanceof Functionable<?>) ? ((Functionable<?>)first).show() : first.toString();
-		secondString = (second instanceof Functionable<?>) ? ((Functionable<?>)second).show() : second.toString();
+		firstString = first.toString();
+		secondString = second.toString();
 		return "(" + firstString + "," + secondString + ")";
 	}
 	
