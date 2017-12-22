@@ -4,7 +4,7 @@ import java.net.URL;
 
 import bolt.plugin.core.BoltPluginController;
 
-public class IBoltPluginController<T extends BoltPlugin> implements BoltPluginController<T> {
+public class IBoltPluginController<T extends BoltJavaPlugin> implements BoltPluginController<T> {
 
 	private Class<T> pluginClass;
 	private Class<? extends T> implClass;

@@ -16,7 +16,7 @@ import commonenvironment.Env;
 
 
 
-public class BoltPluginLoader<T extends BoltPlugin>
+public class BoltPluginLoader<T extends BoltJavaPlugin>
 {
 
 	private BoltPluginSet<? super T>		plugins;
@@ -37,7 +37,7 @@ public class BoltPluginLoader<T extends BoltPlugin>
 		this.target = target;
 		isTargetInterface = Modifier.isInterface(target.getModifiers());
 		
-		if (!checkImplementsInterface(target, BoltPlugin.class)) {
+		if (!checkImplementsInterface(target, BoltJavaPlugin.class)) {
 			throw new ClassInheritanceException();
 		}
 		

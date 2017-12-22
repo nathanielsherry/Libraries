@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class IBoltPluginSet<T extends BoltPluginCore> implements BoltPluginSet<T> {
+public class IBoltPluginSet<T extends BoltPlugin> implements BoltPluginSet<T> {
 
 	private ArrayList<BoltPluginController<? extends T>> plugins = new ArrayList<>();
 	

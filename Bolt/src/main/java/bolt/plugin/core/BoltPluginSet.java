@@ -2,7 +2,7 @@ package bolt.plugin.core;
 
 import java.util.List;
 
-public interface BoltPluginSet<T extends BoltPluginCore> {
+public interface BoltPluginSet<T extends BoltPlugin> {
 
 	
 	public List<BoltPluginController<? extends T>> getAll();

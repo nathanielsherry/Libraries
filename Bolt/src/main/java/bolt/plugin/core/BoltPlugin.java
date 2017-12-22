@@ -1,6 +1,6 @@
 package bolt.plugin.core;
 
-public interface BoltPluginCore {
+public interface BoltPlugin {
 
 	/**
 	 * Returns true if this plugin is able to be used, false otherwise

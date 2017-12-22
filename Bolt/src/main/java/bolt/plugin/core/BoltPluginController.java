@@ -2,7 +2,7 @@ package bolt.plugin.core;
 
 import java.net.URL;
 
-public interface BoltPluginController<T extends BoltPluginCore> {
+public interface BoltPluginController<T extends BoltPlugin> {
 
 	Class<? extends T> getImplementationClass();
 

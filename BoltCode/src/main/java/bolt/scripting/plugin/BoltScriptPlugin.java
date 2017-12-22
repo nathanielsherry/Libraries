@@ -2,9 +2,9 @@ package bolt.scripting.plugin;
 
 import java.io.File;
 
-import bolt.plugin.core.BoltPluginCore;
+import bolt.plugin.core.BoltPlugin;
 
-public interface BoltScriptPlugin extends BoltPluginCore {
+public interface BoltScriptPlugin extends BoltPlugin {
 
 	/**
 	 * Returns true if this plugin is able to be used, false otherwise

@@ -2,7 +2,7 @@ package bolt.plugin.java;
 
 import com.sun.webkit.plugin.Plugin;
 
-import bolt.plugin.core.BoltPluginCore;
+import bolt.plugin.core.BoltPlugin;
 
 /**
  * This is the base interface that any plugin system using the Bolt plugin 
@@ -16,7 +16,7 @@ import bolt.plugin.core.BoltPluginCore;
  *
  */
 
-public interface BoltPlugin extends BoltPluginCore {
+public interface BoltJavaPlugin extends BoltPlugin {
 
 
 	
