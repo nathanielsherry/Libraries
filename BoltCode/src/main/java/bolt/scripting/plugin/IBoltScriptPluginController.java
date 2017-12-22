@@ -96,5 +96,14 @@ public class IBoltScriptPluginController<T extends BoltScriptPlugin> implements 
 			return null;
 		}
 	}
+
+	@Override
+	public T getReferenceInstance() {
+		return instance;
+	}
+	
+	public String toString() {
+		return getName();
+	}
 	
 }

@@ -26,6 +26,17 @@ public class IBoltPluginController<T extends BoltJavaPlugin> implements BoltPlug
 		return pluginClass;
 	}
 	
+	/**
+	 * Returns an instance of this plugin which is to be used for reference only. 
+	 * Do not use this instance of the plugin directly.
+	 */
+	@Override
+	public T getReferenceInstance() {
+		return instance;
+	}
+	
+	
+	@Override
 	public T create()
 	{
 		try
@@ -46,6 +57,7 @@ public class IBoltPluginController<T extends BoltJavaPlugin> implements BoltPlug
 		}
 	}
 	
+	@Override
 	public boolean isEnabled() {
 		return (instance != null && instance.pluginEnabled());
 	}
@@ -53,6 +65,7 @@ public class IBoltPluginController<T extends BoltJavaPlugin> implements BoltPlug
 	/**
 	 * A short, descriptive name for this plugin. If the plugin cannot be loaded, returns null.
 	 */
+	@Override
 	public String getName() {
 		if (instance == null) return null;
 		return instance.pluginName();
@@ -62,6 +75,7 @@ public class IBoltPluginController<T extends BoltJavaPlugin> implements BoltPlug
 	 * A longer description of what this plugin is and what it does. If the plugin cannot be loaded, returns null.
 	 * @return
 	 */
+	@Override
 	public String getDescription() {
 		if (instance == null) return null;
 		return instance.pluginDescription();
@@ -70,13 +84,19 @@ public class IBoltPluginController<T extends BoltJavaPlugin> implements BoltPlug
 	/**
 	 * A version string for this plugin. If the plugin cannot be loaded, returns null.
 	 */
+	@Override
 	public String getVersion() {
 		if (instance == null) return null;
 		return instance.pluginVersion();
 	}
 	
+	@Override
 	public URL getSource() {
 		return source;
+	}
+	
+	public String toString() {
+		return getName();
 	}
 	
 	

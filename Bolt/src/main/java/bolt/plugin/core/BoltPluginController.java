@@ -13,6 +13,12 @@ public interface BoltPluginController<T extends BoltPlugin> {
 	boolean isEnabled();
 
 	/**
+	 * Returns an instance of this plugin which is to be used for reference only. 
+	 * Do not use this instance of the plugin directly.
+	 */
+	T getReferenceInstance();
+	
+	/**
 	 * A short, descriptive name for this plugin. If the plugin cannot be loaded, returns null.
 	 */
 	String getName();
