@@ -10,7 +10,7 @@ import swidget.widgets.Spacing;
 
 
 
-public class TitleGradientPanel extends GradientPanel
+public class TitlePaintedPanel extends PaintedPanel
 {
 
 	public enum Side
@@ -18,26 +18,26 @@ public class TitleGradientPanel extends GradientPanel
 		TOP, BOTTOM, LEFT, RIGHT;
 	}
 
-	public TitleGradientPanel(String title, boolean drawBackground, JComponent bottomWidget){
+	public TitlePaintedPanel(String title, boolean drawBackground, JComponent bottomWidget){
 		super(drawBackground);
 		init(title, bottomWidget, Side.BOTTOM);
 	}
 	
-	public TitleGradientPanel(String title, boolean drawBackground, JComponent widget, TitleGradientPanel.Side side){
+	public TitlePaintedPanel(String title, boolean drawBackground, JComponent widget, TitlePaintedPanel.Side side){
 		super(drawBackground);
 		init(title, widget, side);
 	}
 	
-	public TitleGradientPanel(String title, boolean drawBackground){
+	public TitlePaintedPanel(String title, boolean drawBackground){
 		super(drawBackground);
 		init(title, null, null);
 	}
-	public TitleGradientPanel(String title){
+	public TitlePaintedPanel(String title){
 		super(false);
 		init(title, null, null);
 	}
 	
-	private void init(String title, JComponent widget, TitleGradientPanel.Side widgetSide){
+	private void init(String title, JComponent widget, TitlePaintedPanel.Side widgetSide){
 		
 		setLayout(new BorderLayout());
 		
