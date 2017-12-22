@@ -3,7 +3,9 @@ package swidget;
 
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.LookAndFeel;
 import javax.swing.UIManager;
+
 
 import commonenvironment.Env;
 
@@ -35,8 +37,8 @@ public class Swidget
 		
 		
 		//Java 5 doesn't seem to resize windows properly on linux (at least not with compiz)
-		JFrame.setDefaultLookAndFeelDecorated(true);
-		JDialog.setDefaultLookAndFeelDecorated(true);
+		JFrame.setDefaultLookAndFeelDecorated(false);
+		JDialog.setDefaultLookAndFeelDecorated(false);
 		
 		
 		
