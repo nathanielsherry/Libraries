@@ -22,20 +22,6 @@ public class SpectrumCalculations
 	public static final int	MIN_SIZE_FOR_THREADING	= 512;
 
 
-	/**
-	 * returns the maximum value in the list
-	 * 
-	 * @param list
-	 * @return max(list)
-	 */
-	public static float max(ReadOnlySpectrum list)
-	{
-		float max = Float.MIN_VALUE;
-
-		for (int i = 0; i < list.size(); i++) max = Math.max(max, list.get(i));
-		return max;
-	}
-
 
 	public static Spectrum maxlist_inplace(final Spectrum s1, final ReadOnlySpectrum s2)
 	{
@@ -75,20 +61,6 @@ public class SpectrumCalculations
 	 * returns the maximum value in the list
 	 * 
 	 * @param list
-	 * @return min(list)
-	 */
-	public static float min(ReadOnlySpectrum list)
-	{
-		float min = Float.MAX_VALUE;
-		for (int i = 0; i < list.size(); i++) min = Math.min(min, list.get(i));
-		return min;
-	}
-
-
-	/**
-	 * returns the maximum value in the list
-	 * 
-	 * @param list
 	 * @param allowzero
 	 *            should values of exactly 0 be considered in the search for a minimum value?
 	 * @return min(list)
@@ -116,10 +88,7 @@ public class SpectrumCalculations
 	 */
 	public static float maxDataset(List<Spectrum> dataset)
 	{
-
-		return dataset.stream().map(SpectrumCalculations::max).reduce(0f, Math::max);
-		//return FList.wrap(dataset).foldr(max(dataset.get(0)), (list, currentMax) -> Math.max(currentMax, max(list)));
-
+		return dataset.stream().map(Spectrum::max).reduce(0f, Math::max);
 	}
 
 
@@ -131,7 +100,7 @@ public class SpectrumCalculations
 	 */
 	public static Spectrum normalize(Spectrum data)
 	{
-		float max = max(data);
+		float max = data.max();
 		if (max != 0.0)
 		{
 			return divideBy(data, max);
@@ -151,7 +120,7 @@ public class SpectrumCalculations
 	 */
 	public static void normalize_inplace(Spectrum data)
 	{
-		float max = max(data);
+		float max = data.max();
 		if (max != 0.0)
 		{
 			divideBy_inplace(data, max);
@@ -758,22 +727,6 @@ public class SpectrumCalculations
 
 	}
 
-
-	/**
-	 * Sums the values in the given list
-	 * 
-	 * @param list
-	 * @return the sum of the values in the list
-	 */
-	public static float sumValuesInList(ReadOnlySpectrum list)
-	{
-		float acc = 0f;
-		for (Float f : list) {
-			acc += f;
-		}
-		return acc;
-
-	}
 	
 	/**
 	 * Sums the values in the given list

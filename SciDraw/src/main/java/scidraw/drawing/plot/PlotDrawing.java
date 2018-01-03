@@ -425,7 +425,7 @@ public class PlotDrawing extends Drawing
 		
 		float datascale;
 		if (dr.maxYIntensity == -1){
-			datascale = SpectrumCalculations.max(data);
+			datascale = data.max();
 		} else {
 			datascale = dr.maxYIntensity;
 		}

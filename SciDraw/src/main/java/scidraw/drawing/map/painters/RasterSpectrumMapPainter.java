@@ -47,7 +47,7 @@ public class RasterSpectrumMapPainter extends SpectrumMapPainter
 			
 			float maxIntensity;
 			if (p.dr.maxYIntensity <= 0) {
-				maxIntensity = SpectrumCalculations.max(data);
+				maxIntensity = data.max();
 			} else {
 				maxIntensity = p.dr.maxYIntensity;
 			}

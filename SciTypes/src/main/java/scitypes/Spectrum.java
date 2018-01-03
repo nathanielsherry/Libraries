@@ -24,6 +24,7 @@ public interface Spectrum extends ReadOnlySpectrum {
 	 */
 	boolean add(float value);
 
+	
 	/**
 	 * Sets the value of the entry at index i.
 	 * @param i
