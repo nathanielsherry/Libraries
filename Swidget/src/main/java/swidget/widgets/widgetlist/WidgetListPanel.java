@@ -69,7 +69,7 @@ public class WidgetListPanel<T extends Component> extends JPanel {
 
 	private ImageButton createRemoveButton(final T component)
 	{
-		ImageButton remove = new ImageButton(StockIcon.EDIT_DELETE, "Remove", Layout.IMAGE, IconSize.BUTTON);
+		ImageButton remove = new ImageButton(StockIcon.EDIT_REMOVE, "Remove", Layout.IMAGE, IconSize.BUTTON);
 
 		remove.addActionListener(new ActionListener() {
 

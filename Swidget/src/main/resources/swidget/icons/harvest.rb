@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 
-require 'harvestLogic.rb'
+require_relative 'harvestLogic.rb'
 
 folder = ARGV[0]
 name = ARGV[1]
@@ -10,6 +10,6 @@ newname = name if newname == nil
 exit(1) if name == nil || folder == nil
 
 
-path = "/home/nathaniel/Appearance/Icons/elementary"
+path = "/home/nathaniel/.icons/"
 
 harvestIcon path, folder, name, newname

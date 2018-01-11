@@ -232,7 +232,7 @@ public class ImageButton extends JButton
 	{
 		
 	
-		isNimbus = Swidget.isNimbus();
+		isNimbus = Swidget.isStratus();
 		
 		
 		

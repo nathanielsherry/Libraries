@@ -118,7 +118,7 @@ public abstract class ListControls extends ClearPanel
 
 		tooltipCount++;
 		tooltip = (tooltips != null && tooltips.length > tooltipCount) ? tooltips[tooltipCount] : "";
-		remove = new ListControlButton(StockIcon.EDIT_DELETE, "Remove", tooltip) {
+		remove = new ListControlButton(StockIcon.EDIT_REMOVE, "Remove", tooltip) {
 
 			@Override
 			public void setEnableState(ElementCount ec)

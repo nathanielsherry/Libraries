@@ -11,8 +11,11 @@ import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.swing.Icon;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileSystemView;
+import javax.swing.filechooser.FileView;
 
 import org.apache.commons.io.IOUtils;
 
@@ -39,7 +42,8 @@ public class SwidgetIO
 			boolean		allowFolders)
 	{
 
-		JFileChooser chooser = new JFileChooser(startDir);
+		//JFileChooser chooser = new JFileChooser(startDir);
+		JNativeFileChooser chooser = new JNativeFileChooser(startDir);
 		FileFilter defaultFilter = chooser.getFileFilter();
 		chooser.setMultiSelectionEnabled(true);
 		chooser.setDialogTitle(title);
@@ -96,8 +100,9 @@ public class SwidgetIO
 	{
 
 	
-		JFileChooser chooser = new JFileChooser(startDir);
-		chooser.setMultiSelectionEnabled(true);
+		//JFileChooser chooser = new JFileChooser(startDir);
+		JNativeFileChooser chooser = new JNativeFileChooser(startDir);
+		chooser.setMultiSelectionEnabled(false);
 		chooser.setDialogTitle(title);
 		if (allowFolders) chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
 		

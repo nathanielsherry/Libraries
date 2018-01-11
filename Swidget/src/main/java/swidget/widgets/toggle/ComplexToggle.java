@@ -158,7 +158,7 @@ public class ComplexToggle extends JToggleButton
 
 			add(icon, c);
 			
-			if (Swidget.isNimbus()) {
+			if (Swidget.isStratus()) {
 				this.setBorder(Spacing.bMedium());
 				this.setMargin(Spacing.iNone());
 			} else {

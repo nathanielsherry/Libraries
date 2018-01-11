@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 
-require 'harvestLogic.rb'
+require_relative 'harvestLogic.rb'
 
 path = ARGV[0]
 folder = ARGV[1]
