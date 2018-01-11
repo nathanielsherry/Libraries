@@ -3,6 +3,7 @@ package autodialog.view.swing;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -10,6 +11,7 @@ import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.border.EmptyBorder;
 
 import autodialog.model.Group;
 import autodialog.view.editors.AutoDialogButtons;
@@ -54,18 +56,20 @@ public class SwingAutoDialog extends JDialog
 		
 		Container c = this.getContentPane();
 		c.setLayout(new BorderLayout());
-		
+
 			
 		JScrollPane scroller = new JScrollPane(SwingLayoutFactory.forGroup(group).getComponent());
 		scroller.setBorder(Spacing.bNone());
 		scroller.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		scroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 		
+		scroller.setBorder(Spacing.bMedium());
 		c.add(scroller, BorderLayout.CENTER);
 
 
 		c.add(createButtonBox(), BorderLayout.SOUTH);
-
+		
+				
 		pack();
 		setLocationRelativeTo(parent);
 		setTitle(group.getName());
