@@ -42,8 +42,7 @@ public class SwidgetIO
 			boolean		allowFolders)
 	{
 
-		//JFileChooser chooser = new JFileChooser(startDir);
-		JNativeFileChooser chooser = new JNativeFileChooser(startDir);
+		JFileChooser chooser = new JFileChooser(startDir);
 		FileFilter defaultFilter = chooser.getFileFilter();
 		chooser.setMultiSelectionEnabled(true);
 		chooser.setDialogTitle(title);
@@ -100,8 +99,7 @@ public class SwidgetIO
 	{
 
 	
-		//JFileChooser chooser = new JFileChooser(startDir);
-		JNativeFileChooser chooser = new JNativeFileChooser(startDir);
+		JFileChooser chooser = new JFileChooser(startDir);
 		chooser.setMultiSelectionEnabled(false);
 		chooser.setDialogTitle(title);
 		if (allowFolders) chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);

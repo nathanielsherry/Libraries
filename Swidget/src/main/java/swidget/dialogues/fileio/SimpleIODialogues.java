@@ -16,8 +16,7 @@ class SimpleIODialogues
 	public static String chooseFileSave(Component parent, String title, File startingFolder, String fileExtention, String extDescription)
 	{
 
-		//JFileChooser chooser = new JFileChooser(startingFolder);
-		JNativeFileChooser chooser = new JNativeFileChooser(startingFolder);
+		JFileChooser chooser = new JFileChooser(startingFolder);
 		chooser.setMultiSelectionEnabled(false);
 		
 
@@ -45,8 +44,7 @@ class SimpleIODialogues
 	public static String chooseFileOpen(Window parent, String title, File startingFolder, String fileExtention,
 			String fileDescription)
 	{
-		//JFileChooser chooser = new JFileChooser(startingFolder);
-		JNativeFileChooser chooser = new JNativeFileChooser(startingFolder);
+		JFileChooser chooser = new JFileChooser(startingFolder);
 		chooser.setMultiSelectionEnabled(false);
 
 

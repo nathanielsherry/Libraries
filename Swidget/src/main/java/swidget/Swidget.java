@@ -21,7 +21,6 @@ import javax.swing.plaf.InsetsUIResource;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 
 import commonenvironment.Env;
-import swidget.dialogues.fileio.JNativeFileChooser;
 import swidget.icons.IconSize;
 import swidget.icons.StockIcon;
 import swidget.stratus.StratusLookAndFeel;
@@ -38,11 +37,6 @@ public class Swidget
 		initialize(false);
 	}
 	
-
-	private static void uiset(String key, Object value) {
-		UIManager.put(key, value);
-	}
-	
 	
 	public static void initialize(boolean forceNativeLAF)
 	{
@@ -50,9 +44,6 @@ public class Swidget
 		System.setProperty("swing.aatext", "true");
 		
 		
-		//Initialize native JavaFX File Selection Dialogs
-		new JNativeFileChooser();
-
 		try {
 			if (!Env.isMac() && !Env.isWindows() && !forceNativeLAF) {
 
@@ -65,8 +56,8 @@ public class Swidget
 		}
 		
 		//Java 5 doesn't seem to resize windows properly on linux (at least not with compiz)
-		JFrame.setDefaultLookAndFeelDecorated(false);
-		JDialog.setDefaultLookAndFeelDecorated(false);
+		JFrame.setDefaultLookAndFeelDecorated(true);
+		JDialog.setDefaultLookAndFeelDecorated(true);
 		
 		
 		

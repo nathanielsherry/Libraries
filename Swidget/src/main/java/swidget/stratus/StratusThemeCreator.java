@@ -24,7 +24,6 @@ import javax.tools.SimpleJavaFileObject;
 import javax.tools.ToolProvider;
 import javax.tools.JavaCompiler.CompilationTask;
 
-import swidget.Swidget;
 
 //import com.sun.java.swing.Painter;
 
@@ -36,7 +35,6 @@ public class StratusThemeCreator
 
 	public static void main(String[] args) {
 
-		Swidget.initialize();
 
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
