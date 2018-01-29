@@ -13,7 +13,7 @@ public class ToolbarImageButton extends ImageButton {
 	public static final Layout significantLayout = Layout.IMAGE_ON_SIDE;
 	public static final IconSize defaultSize = IconSize.TOOLBAR_SMALL;
 	public static final Insets defaultInsets = Spacing.iMedium();
-	public static final Border defaultBorder = Spacing.bLarge();
+	public static final Border defaultBorder = Spacing.bMedium();
 	
 	public ToolbarImageButton(String filename, String text)
 	{

@@ -36,6 +36,7 @@ public class ListEditor<T> extends AbstractSwingEditor<T>
 		
 		setFromParameter();
 		param.getValueHook().addListener(v -> this.setFromParameter());
+		param.getEnabledHook().addListener(e -> control.setEnabled(e));
 		
 		
 		control.addActionListener(new ActionListener() {

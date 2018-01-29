@@ -26,6 +26,7 @@ public class IntegerEditor extends AbstractSwingEditor<Integer>
 		
 		setFromParameter();
 		param.getValueHook().addListener(v -> this.setFromParameter());
+		param.getEnabledHook().addListener(e -> control.setEnabled(e));
 		
 		control.getEditor().setPreferredSize(new Dimension(70, control.getEditor().getPreferredSize().height));
 		control.setValue(param.getValue());

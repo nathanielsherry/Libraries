@@ -1,4 +1,4 @@
-package swidget.stratus.painters;
+package swidget.stratus.painters.checkbutton;
 
 import java.awt.BasicStroke;
 import java.awt.Graphics2D;

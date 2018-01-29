@@ -35,6 +35,7 @@ public class FilenameEditor extends AbstractSwingEditor<String> {
 		
 		setFromParameter();
 		param.getValueHook().addListener(v -> this.setFromParameter());
+		param.getEnabledHook().addListener(e -> control.setEnabled(e));
 		
 	}
 	

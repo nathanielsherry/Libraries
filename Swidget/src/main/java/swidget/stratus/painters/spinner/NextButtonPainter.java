@@ -51,7 +51,7 @@ public class NextButtonPainter extends ButtonPainter {
     	lpad += borderWidth;
     	bpad += borderWidth;
     	Shape fillArea = new RoundRectangle2D.Float(lpad, pad+bevelTop, width-pad-lpad, height+radius, radius, radius);
-    	g.setPaint(new LinearGradientPaint(0, pad, 0, height-pad, points, new Color[] {c1, c2}));
+    	g.setPaint(new LinearGradientPaint(0, pad, 0, height-pad, points, colours));
     	g.fill(fillArea);
 
 	}

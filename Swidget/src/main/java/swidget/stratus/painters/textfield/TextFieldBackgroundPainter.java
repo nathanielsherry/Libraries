@@ -44,7 +44,7 @@ public class TextFieldBackgroundPainter extends StatefulPainter {
     	float pad = margin;
     	   
   
-    	//Bevel under button
+    	//Bevel under area
     	g.setPaint(Color.WHITE);
     	Shape bevel = new RoundRectangle2D.Float(pad, pad+1, width-pad*2, height-pad*2+1, radius, radius);     
     	g.fill(bevel);

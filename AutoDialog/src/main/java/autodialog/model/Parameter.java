@@ -99,6 +99,11 @@ public class Parameter<T> implements Serializable, Value<T>
 	public EventfulType<Boolean> getEnabledHook() {
 		return enabledHook;
 	}
+
+	public Function<Parameter<T>, Boolean> getValidator() {
+		return validator;
+	}
+	
 	
 	
 }

@@ -42,6 +42,7 @@ public class Swidget
 	{
 
 		System.setProperty("swing.aatext", "true");
+		//System.setProperty("awt.useSystemAAFontSettings", "gasp");
 		
 		
 		try {
@@ -50,7 +51,8 @@ public class Swidget
 				UIManager.setLookAndFeel(new StratusLookAndFeel());
 
 			} else {
-				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+				//UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+				UIManager.setLookAndFeel(new StratusLookAndFeel());
 			}
 		} catch (Exception e) {
 		}

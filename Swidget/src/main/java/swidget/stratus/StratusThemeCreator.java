@@ -17,6 +17,7 @@ import java.beans.*;
 import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.plaf.ColorUIResource;
+import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 import javax.swing.table.*;
 import javax.swing.GroupLayout.Alignment;
 import javax.tools.JavaCompiler;
@@ -39,6 +40,7 @@ public class StratusThemeCreator
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				setStratusLookAndFeel();
+				
 				// loadRandom();
 				JFrame frame = new JFrame(StratusThemeCreator.class.getSimpleName());
 				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -55,6 +57,15 @@ public class StratusThemeCreator
 	private static void setStratusLookAndFeel() {
 		try {
 			UIManager.setLookAndFeel(new StratusLookAndFeel());
+		} catch (UnsupportedLookAndFeelException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	private static void setNimbusLookAndFeel() {
+		try {
+			UIManager.setLookAndFeel(new NimbusLookAndFeel());
 		} catch (UnsupportedLookAndFeelException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

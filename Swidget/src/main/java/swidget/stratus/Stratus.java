@@ -50,5 +50,19 @@ public class Stratus {
     	hsb[2] -= amount;
     	return new Color(Color.HSBtoRGB(hsb[0], hsb[1], hsb[2]));
     }
+    
+    public static Color saturate(Color src, float amount) {
+    	float[] hsb = new float[3];
+    	Color.RGBtoHSB(src.getRed(), src.getGreen(), src.getBlue(), hsb);
+    	hsb[1] += amount;
+    	return new Color(Color.HSBtoRGB(hsb[0], hsb[1], hsb[2]));
+    }
+    
+    public static Color desaturate(Color src, float amount) {
+    	float[] hsb = new float[3];
+    	Color.RGBtoHSB(src.getRed(), src.getGreen(), src.getBlue(), hsb);
+    	hsb[1] -= amount;
+    	return new Color(Color.HSBtoRGB(hsb[0], hsb[1], hsb[2]));
+    }
 	
 }

@@ -20,6 +20,7 @@ import swidget.stratus.Stratus.ButtonState;
 public class ButtonPainter extends StatefulPainter {
 
 	protected Color c1, c2;
+	protected Color[] colours;
     protected Color borderColor;
     
     protected float[] points = new float[] {0f, 1.0f};
@@ -27,14 +28,18 @@ public class ButtonPainter extends StatefulPainter {
     protected float borderWidth = 1;
     
     protected int margin = 1;
-
+    
     
 
     
     public ButtonPainter(ButtonState... buttonStates) {
+    	this(1, buttonStates);
+    }
+    
+    public ButtonPainter(int margin, ButtonState... buttonStates) {
     	super(buttonStates);
     	setColours();
-
+    	this.margin = margin;
     }
     
     private void setColours() {
@@ -48,6 +53,7 @@ public class ButtonPainter extends StatefulPainter {
     	//ENABLED is default
     	this.c1 = Stratus.lighten(base, 0.06f);
     	this.c2 = Stratus.darken(base, 0.06f);
+    	Color c0 = Stratus.lighten(base, 0.12f);
     	this.borderColor = Stratus.border;
     	
     	if (isPressed() || isSelected()) {
@@ -70,6 +76,9 @@ public class ButtonPainter extends StatefulPainter {
         	}
     		
     	}
+    	
+		this.colours = new Color[] {c1, c2};
+		this.points = new float[] {0, 1f};
     }
     
 
@@ -105,7 +114,7 @@ public class ButtonPainter extends StatefulPainter {
     	//Main fill
     	pad = margin + borderWidth;
     	Shape fillArea = new RoundRectangle2D.Float(pad, pad+bevelTop, width-pad*2, height-pad*2-bevelTop, radius, radius);
-    	g.setPaint(new LinearGradientPaint(0, pad, 0, height-pad, points, new Color[] {c1, c2}));
+    	g.setPaint(new LinearGradientPaint(0, pad, 0, height-pad, points, colours));
     	g.fill(fillArea);
     	
     	//Focus dash if focused but not pressed

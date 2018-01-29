@@ -7,7 +7,7 @@ import javax.swing.event.ChangeListener;
 import autodialog.model.Parameter;
 
 public class SliderEditor extends WrappingEditor<Integer, JSlider> {
-
+	
 	public SliderEditor() {
 		this(new JSlider());
 	}
@@ -29,6 +29,7 @@ public class SliderEditor extends WrappingEditor<Integer, JSlider> {
 
 		setFromParameter();
 		param.getValueHook().addListener(v -> this.setFromParameter());
+		param.getEnabledHook().addListener(e -> component.setEnabled(e));
 		
 		getComponent().addChangeListener(new ChangeListener() {
 			
