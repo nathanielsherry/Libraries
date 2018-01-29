@@ -19,7 +19,7 @@ public class Stratus {
 	public static Color highlight = new Color(0x498ed8);
 	public static Color control = new Color(0xe9e9e9);
 	public static Color controlText = new Color(0x303030);
-	public static Color border = new Color(0xB1B1B1);
+	public static Color border = new Color(0xBABABA);
 	
 	public static Color scrollthumb = border;
 	

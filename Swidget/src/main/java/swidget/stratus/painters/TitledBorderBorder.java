@@ -28,7 +28,7 @@ public class TitledBorderBorder extends AbstractBorder {
 		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		g.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
 		
-		g.setColor(Stratus.border);
+		g.setColor(Stratus.lighten(Stratus.border));
 		g.setStroke(new BasicStroke(1));
 		g.draw(border);
 	}

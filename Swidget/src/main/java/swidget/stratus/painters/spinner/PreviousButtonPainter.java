@@ -49,7 +49,7 @@ public class PreviousButtonPainter extends ButtonPainter {
     	bpad += borderWidth;
     	tpad += borderWidth;
     	Shape fillArea = new RoundRectangle2D.Float(lpad, tpad-radius, width-pad-lpad, height-pad-bpad+radius, radius, radius);
-    	g.setPaint(new LinearGradientPaint(0, pad, 0, height-pad, points, colours));
+    	g.setPaint(new LinearGradientPaint(0, -(height-(pad+1)), 0, height-bpad, points, colours));
     	g.fill(fillArea);
 
 
@@ -57,7 +57,7 @@ public class PreviousButtonPainter extends ButtonPainter {
     	//Restore border at top after mail fill was overextended
     	//Border
     	g.setPaint(borderColor);
-    	g.drawLine(0, 0, width, 0);
+    	//g.drawLine(0, 0, (int)(width-pad), 0);
     	
 	}
 	

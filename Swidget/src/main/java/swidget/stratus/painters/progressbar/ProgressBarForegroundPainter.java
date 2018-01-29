@@ -22,7 +22,7 @@ public class ProgressBarForegroundPainter implements Painter<JComponent> {
 		FULL
 	}
 
-	protected Color c1, c2, c3, c4;
+	protected Color c1, c2, c3, c4, c5;
 	private boolean enabled=true;
 	private Mode mode;
 	
@@ -30,10 +30,11 @@ public class ProgressBarForegroundPainter implements Painter<JComponent> {
 		this.enabled = enabled;
 		this.mode = mode;
 		
-		c1 = Stratus.saturate(Stratus.lighten(Stratus.highlight, 0.1f), 0.05f);
+		c1 = Stratus.saturate(Stratus.lighten(Stratus.highlight, 0.2f), 0.05f);
 		c2 = Stratus.saturate(Stratus.highlight, 0.05f);
 		c3 = Stratus.saturate(Stratus.darken(Stratus.highlight, 0.2f), 0.05f);
-		c4 = Stratus.saturate(Stratus.lighten(Stratus.highlight, 0.2f), 0.05f);
+		c4 = Stratus.desaturate(Stratus.lighten(Stratus.highlight, 0.05f), 0.04f);
+		c5 = Stratus.desaturate(Stratus.lighten(Stratus.highlight, 0.2f), 0.2f);
 	}
 	
 	
@@ -43,7 +44,7 @@ public class ProgressBarForegroundPainter implements Painter<JComponent> {
 		int pad = 2;
 		float radius = Stratus.borderRadius;
 		
-		g.setPaint(new LinearGradientPaint(0, 0, 0, height, new float[] {0, 0.15f, 0.75f, 1}, new Color[] {c4, c2, c3, c4}));
+		g.setPaint(new LinearGradientPaint(0, 0, 0, height, new float[] {0, 0.15f, 0.6f, 0.9f, 1}, new Color[] {c1, c2, c3, c4, c5}));
     	Shape border = new RoundRectangle2D.Float(pad, pad, width-pad*2, height-pad*2, radius, radius);
     	g.fill(border);
 

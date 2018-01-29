@@ -2,29 +2,77 @@ package swidget.stratus;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.GradientPaint;
 import java.awt.Graphics2D;
+import java.awt.GraphicsEnvironment;
 import java.awt.Insets;
 import java.awt.LinearGradientPaint;
 import java.awt.Paint;
 import java.awt.geom.Rectangle2D;
+import java.io.File;
+import java.io.IOException;
 
 import javax.swing.JComponent;
 import javax.swing.Painter;
 import javax.swing.UIDefaults;
+import javax.swing.UIManager;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+import javax.swing.plaf.ComponentUI;
+import javax.swing.plaf.InsetsUIResource;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
+import javax.swing.plaf.synth.SynthButtonUI;
+import javax.swing.plaf.synth.SynthCheckBoxMenuItemUI;
+import javax.swing.plaf.synth.SynthCheckBoxUI;
+import javax.swing.plaf.synth.SynthColorChooserUI;
+import javax.swing.plaf.synth.SynthComboBoxUI;
+import javax.swing.plaf.synth.SynthDesktopIconUI;
+import javax.swing.plaf.synth.SynthDesktopPaneUI;
+import javax.swing.plaf.synth.SynthEditorPaneUI;
+import javax.swing.plaf.synth.SynthFormattedTextFieldUI;
+import javax.swing.plaf.synth.SynthInternalFrameUI;
+import javax.swing.plaf.synth.SynthLabelUI;
+import javax.swing.plaf.synth.SynthListUI;
+import javax.swing.plaf.synth.SynthMenuBarUI;
+import javax.swing.plaf.synth.SynthMenuItemUI;
+import javax.swing.plaf.synth.SynthMenuUI;
+import javax.swing.plaf.synth.SynthOptionPaneUI;
+import javax.swing.plaf.synth.SynthPanelUI;
+import javax.swing.plaf.synth.SynthPasswordFieldUI;
+import javax.swing.plaf.synth.SynthPopupMenuUI;
+import javax.swing.plaf.synth.SynthProgressBarUI;
+import javax.swing.plaf.synth.SynthRadioButtonMenuItemUI;
+import javax.swing.plaf.synth.SynthRadioButtonUI;
+import javax.swing.plaf.synth.SynthRootPaneUI;
+import javax.swing.plaf.synth.SynthScrollBarUI;
+import javax.swing.plaf.synth.SynthScrollPaneUI;
+import javax.swing.plaf.synth.SynthSeparatorUI;
+import javax.swing.plaf.synth.SynthSliderUI;
+import javax.swing.plaf.synth.SynthSpinnerUI;
+import javax.swing.plaf.synth.SynthSplitPaneUI;
+import javax.swing.plaf.synth.SynthTabbedPaneUI;
+import javax.swing.plaf.synth.SynthTableHeaderUI;
+import javax.swing.plaf.synth.SynthTableUI;
+import javax.swing.plaf.synth.SynthTextAreaUI;
+import javax.swing.plaf.synth.SynthTextFieldUI;
+import javax.swing.plaf.synth.SynthTextPaneUI;
+import javax.swing.plaf.synth.SynthToggleButtonUI;
+import javax.swing.plaf.synth.SynthToolBarUI;
+import javax.swing.plaf.synth.SynthToolTipUI;
+import javax.swing.plaf.synth.SynthTreeUI;
+import javax.swing.plaf.synth.SynthViewportUI;
 
-
+import sun.swing.plaf.synth.SynthFileChooserUI;
 import swidget.icons.IconSize;
 import swidget.icons.StockIcon;
 import swidget.stratus.Stratus.ButtonState;
+import swidget.stratus.components.StratusComboBoxUI;
+import swidget.stratus.painters.ComboBoxArrowPainter;
 import swidget.stratus.painters.BorderPainter;
 import swidget.stratus.painters.ButtonPainter;
 import swidget.stratus.painters.CompositePainter;
-import swidget.stratus.painters.FadePainter;
 import swidget.stratus.painters.FillPainter;
 import swidget.stratus.painters.RadioButtonPainter;
 import swidget.stratus.painters.TableHeaderPainter;
@@ -41,10 +89,14 @@ import swidget.stratus.painters.slider.SliderThumbPainter;
 import swidget.stratus.painters.slider.SliderTrackPainter;
 import swidget.stratus.painters.spinner.NextButtonPainter;
 import swidget.stratus.painters.spinner.PreviousButtonPainter;
+import swidget.stratus.painters.spinner.SpinnerArrowPainter;
 import swidget.stratus.painters.tabs.TabPainter;
 import swidget.stratus.painters.tabs.TabbedAreaPainter;
 import swidget.stratus.painters.textfield.TextFieldBackgroundPainter;
 import swidget.stratus.painters.textfield.TextFieldBorderPainter;
+import swidget.stratus.painters.toolbar.ToolbarBackgroundPainter;
+import swidget.stratus.painters.toolbar.ToolbarBorderPainter;
+import swidget.stratus.painters.toolbar.ToolbarBorderPainter.Side;
 
 public class StratusLookAndFeel extends NimbusLookAndFeel {
 
@@ -71,6 +123,8 @@ public class StratusLookAndFeel extends NimbusLookAndFeel {
 		ret.put("menu", new Color(0xFFFFFF));
 		ret.put("control", Stratus.control);
 
+		
+		//MENUS
 		ret.put("MenuBar[Enabled].backgroundPainter", new FillPainter(Stratus.control));
 		ret.put("MenuBar[Enabled].borderPainter", new FillPainter(Stratus.control));
 		ret.put("MenuBar:Menu[Selected].backgroundPainter", new FillPainter(Stratus.highlight));
@@ -83,8 +137,16 @@ public class StratusLookAndFeel extends NimbusLookAndFeel {
 		ret.put("RadioButtonMenuItem.contentMargins", new Insets(4, 12, 4, 13));
 
 		ret.put("Menu.contentMargins", new Insets(4, 12, 4, 5));
+		ret.put("PopupMenu[Enabled].backgroundPainter", new CompositePainter(new FillPainter(Color.white), new BorderPainter(Stratus.border, 1, 0)));
 					
-		ret.put("ToolBar.backgroundPainter", new FadePainter(Stratus.control));
+		
+		//TOOLBAR
+		ret.put("ToolBar.backgroundPainter", new ToolbarBackgroundPainter());
+		ret.put("ToolBar[North].borderPainter", new ToolbarBorderPainter(Side.NORTH));
+		ret.put("ToolBar[South].borderPainter", new ToolbarBorderPainter(Side.SOUTH));
+		ret.put("ToolBar[East].borderPainter", new ToolbarBorderPainter(Side.EAST));
+		ret.put("ToolBar[West].borderPainter", new ToolbarBorderPainter(Side.WEST));
+		
 		
 		
 		
@@ -213,10 +275,16 @@ public class StratusLookAndFeel extends NimbusLookAndFeel {
 		ret.put("ComboBox:\"ComboBox.arrowButton\"[Editable+Selected].backgroundPainter", new ButtonPainter(ButtonState.ENABLED));
 		ret.put("ComboBox:\"ComboBox.arrowButton\"[Editable+Selected].backgroundPainter", new ButtonPainter(ButtonState.ENABLED));
 		
-		//TODO: arrow painters
-//		Object arrow = ret.get("ComboBox:\"ComboBox.arrowButton\"[Enabled].foregroundPainter");
-//		ret.put("ComboBox:\"ComboBox.arrowButton\"[Selected].backgroundPainter", arrow);
-//		ret.put("ComboBox:\"ComboBox.arrowButton\"[Pressed].backgroundPainter", arrow);
+		//combobox arrow painters
+		ret.put("ComboBox:\"ComboBox.arrowButton\"[Enabled].foregroundPainter", new ComboBoxArrowPainter(Stratus.controlText));
+		ret.put("ComboBox:\"ComboBox.arrowButton\"[Selected].foregroundPainter", new ComboBoxArrowPainter(Stratus.controlText));
+		ret.put("ComboBox:\"ComboBox.arrowButton\"[Pressed].foregroundPainter", new ComboBoxArrowPainter(Stratus.controlText));
+		ret.put("ComboBox:\"ComboBox.arrowButton\"[MouseOver].foregroundPainter", new ComboBoxArrowPainter(Stratus.controlText));
+		ret.put("ComboBox:\"ComboBox.arrowButton\"[Disabled].foregroundPainter", new ComboBoxArrowPainter(Stratus.border));
+		
+		ret.put("ComboBoxUI", StratusComboBoxUI.class.getName());
+		
+		
 		
 		
 		//CHECKBOX
@@ -273,17 +341,30 @@ public class StratusLookAndFeel extends NimbusLookAndFeel {
 		ret.put("Spinner:\"Spinner.previousButton\"[MouseOver].backgroundPainter", new PreviousButtonPainter(ButtonState.MOUSEOVER));
 		ret.put("Spinner:\"Spinner.previousButton\"[Pressed].backgroundPainter", new PreviousButtonPainter(ButtonState.PRESSED));
 		
-		ret.put("Spinner:\"Spinner.nextButton\"[Pressed].foregroundPainter", ret.get("Spinner:\"Spinner.nextButton\"[Enabled].foregroundPainter"));
-		ret.put("Spinner:\"Spinner.nextButton\"[Focused+Pressed].foregroundPainter", ret.get("Spinner:\"Spinner.nextButton\"[Enabled].foregroundPainter"));
+		ret.put("Spinner:\"Spinner.nextButton\"[Disabled].foregroundPainter", new SpinnerArrowPainter(Stratus.border, true));
+		ret.put("Spinner:\"Spinner.nextButton\"[Enabled].foregroundPainter", new SpinnerArrowPainter(Stratus.controlText, true));
+		ret.put("Spinner:\"Spinner.nextButton\"[Focused+MouseOver].foregroundPainter", new SpinnerArrowPainter(Stratus.controlText, true));
+		ret.put("Spinner:\"Spinner.nextButton\"[Focused+Pressed].foregroundPainter", new SpinnerArrowPainter(Stratus.controlText, true));
+		ret.put("Spinner:\"Spinner.nextButton\"[Focused].foregroundPainter", new SpinnerArrowPainter(Stratus.controlText, true));
+		ret.put("Spinner:\"Spinner.nextButton\"[MouseOver].foregroundPainter", new SpinnerArrowPainter(Stratus.controlText, true));
+		ret.put("Spinner:\"Spinner.nextButton\"[Pressed].foregroundPainter", new SpinnerArrowPainter(Stratus.controlText, true));
+		ret.put("Spinner:\"Spinner.previousButton\"[Disabled].foregroundPainter", new SpinnerArrowPainter(Stratus.border, false));
+		ret.put("Spinner:\"Spinner.previousButton\"[Enabled].foregroundPainter", new SpinnerArrowPainter(Stratus.controlText, false));
+		ret.put("Spinner:\"Spinner.previousButton\"[Focused+MouseOver].foregroundPainter", new SpinnerArrowPainter(Stratus.controlText, false));
+		ret.put("Spinner:\"Spinner.previousButton\"[Focused+Pressed].foregroundPainter", new SpinnerArrowPainter(Stratus.controlText, false));
+		ret.put("Spinner:\"Spinner.previousButton\"[Focused].foregroundPainter", new SpinnerArrowPainter(Stratus.controlText, false));
+		ret.put("Spinner:\"Spinner.previousButton\"[MouseOver].foregroundPainter", new SpinnerArrowPainter(Stratus.controlText, false));
+		ret.put("Spinner:\"Spinner.previousButton\"[Pressed].foregroundPainter", new SpinnerArrowPainter(Stratus.controlText, false));
 		
-		ret.put("Spinner:\"Spinner.previousButton\"[Pressed].foregroundPainter", ret.get("Spinner:\"Spinner.previousButton\"[Enabled].foregroundPainter"));
-		ret.put("Spinner:\"Spinner.previousButton\"[Focused+Pressed].foregroundPainter", ret.get("Spinner:\"Spinner.previousButton\"[Enabled].foregroundPainter"));
+
 		
 		ret.put("Spinner:Panel:\"Spinner.formattedTextField\"[Disabled].backgroundPainter", new TextFieldBackgroundPainter(ButtonState.DISABLED));
 		ret.put("Spinner:Panel:\"Spinner.formattedTextField\"[Enabled].backgroundPainter", new TextFieldBackgroundPainter(ButtonState.ENABLED));
 		ret.put("Spinner:Panel:\"Spinner.formattedTextField\"[Focused+Selected].backgroundPainter", new TextFieldBackgroundPainter(ButtonState.FOCUSED, ButtonState.SELECTED));
 		ret.put("Spinner:Panel:\"Spinner.formattedTextField\"[Focused].backgroundPainter", new TextFieldBackgroundPainter(ButtonState.FOCUSED));
 		ret.put("Spinner:Panel:\"Spinner.formattedTextField\"[Selected].backgroundPainter", new TextFieldBackgroundPainter(ButtonState.SELECTED));
+		
+		
 		
 		
 
@@ -405,6 +486,9 @@ public class StratusLookAndFeel extends NimbusLookAndFeel {
 		ret.put("TableHeader.font", ((Font)ret.get("TableHeader.font")).deriveFont(Font.BOLD));
 		
 		
+
+		
+		
 		
 		// ICONS
 		ret.put("Tree.closedIcon", StockIcon.PLACE_FOLDER.toImageIcon(IconSize.BUTTON));
@@ -426,14 +510,26 @@ public class StratusLookAndFeel extends NimbusLookAndFeel {
 		ret.put("OptionPane.warningIcon", StockIcon.BADGE_WARNING.toImageIcon(IconSize.ICON));
 
 		
-		//Fonts
+//		//Fonts
 //		for (Object key : ret.keySet()) {
 //			Object value = ret.get(key);
 //			if (value instanceof javax.swing.plaf.FontUIResource) {
-//				ret.put(key, new javax.swing.plaf.FontUIResource("Ubuntu",Font.PLAIN,13));
+//				
+//				try {
+//					GraphicsEnvironment ge = 
+//					         GraphicsEnvironment.getLocalGraphicsEnvironment();
+//					Font f = Font.createFont(Font.TRUETYPE_FONT, new File("/home/nathaniel/Desktop/RobotoTTF/Roboto-Medium.ttf"));
+//					ge.registerFont(f);
+//					
+//					ret.put(key, new Font("Roboto", Font.PLAIN, 14));
+//				} catch (FontFormatException | IOException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//				//ret.put(key, new javax.swing.plaf.FontUIResource("Ubuntu",Font.PLAIN,13));
 //			}
 //		}
-//		
+		
 		
 //		ret.put("List.disabled", Stratus.highlight);
 //		ret.put("List.opaque", false);
@@ -461,6 +557,155 @@ public class StratusLookAndFeel extends NimbusLookAndFeel {
 	
 	
 
+    /**
+     * Creates the Synth look and feel <code>ComponentUI</code> for
+     * the passed in <code>JComponent</code>.
+     *
+     * @param c JComponent to create the <code>ComponentUI</code> for
+     * @return ComponentUI to use for <code>c</code>
+     */
+    public static ComponentUI createUI(JComponent c) {
+        String key = c.getUIClassID().intern();
+
+		if (key == "ComboBoxUI") {
+			return StratusComboBoxUI.createUI(c);
+		} else {
+			NimbusLookAndFeel.createUI(c);
+		}
+        
+//        if (key == "ButtonUI") {
+//            return SynthButtonUI.createUI(c);
+//        }
+//        else if (key == "CheckBoxUI") {
+//            return SynthCheckBoxUI.createUI(c);
+//        }
+//        else if (key == "CheckBoxMenuItemUI") {
+//            return SynthCheckBoxMenuItemUI.createUI(c);
+//        }
+//        else if (key == "ColorChooserUI") {
+//            return SynthColorChooserUI.createUI(c);
+//        }
+//        else if (key == "ComboBoxUI") {
+//            return SynthComboBoxUI.createUI(c);
+//        }
+//        else if (key == "DesktopPaneUI") {
+//            return SynthDesktopPaneUI.createUI(c);
+//        }
+//        else if (key == "DesktopIconUI") {
+//            return SynthDesktopIconUI.createUI(c);
+//        }
+//        else if (key == "EditorPaneUI") {
+//            return SynthEditorPaneUI.createUI(c);
+//        }
+//        else if (key == "FileChooserUI") {
+//            return SynthFileChooserUI.createUI(c);
+//        }
+//        else if (key == "FormattedTextFieldUI") {
+//            return SynthFormattedTextFieldUI.createUI(c);
+//        }
+//        else if (key == "InternalFrameUI") {
+//            return SynthInternalFrameUI.createUI(c);
+//        }
+//        else if (key == "LabelUI") {
+//            return SynthLabelUI.createUI(c);
+//        }
+//        else if (key == "ListUI") {
+//            return SynthListUI.createUI(c);
+//        }
+//        else if (key == "MenuBarUI") {
+//            return SynthMenuBarUI.createUI(c);
+//        }
+//        else if (key == "MenuUI") {
+//            return SynthMenuUI.createUI(c);
+//        }
+//        else if (key == "MenuItemUI") {
+//            return SynthMenuItemUI.createUI(c);
+//        }
+//        else if (key == "OptionPaneUI") {
+//            return SynthOptionPaneUI.createUI(c);
+//        }
+//        else if (key == "PanelUI") {
+//            return SynthPanelUI.createUI(c);
+//        }
+//        else if (key == "PasswordFieldUI") {
+//            return SynthPasswordFieldUI.createUI(c);
+//        }
+//        else if (key == "PopupMenuSeparatorUI") {
+//            return SynthSeparatorUI.createUI(c);
+//        }
+//        else if (key == "PopupMenuUI") {
+//            return SynthPopupMenuUI.createUI(c);
+//        }
+//        else if (key == "ProgressBarUI") {
+//            return SynthProgressBarUI.createUI(c);
+//        }
+//        else if (key == "RadioButtonUI") {
+//            return SynthRadioButtonUI.createUI(c);
+//        }
+//        else if (key == "RadioButtonMenuItemUI") {
+//            return SynthRadioButtonMenuItemUI.createUI(c);
+//        }
+//        else if (key == "RootPaneUI") {
+//            return SynthRootPaneUI.createUI(c);
+//        }
+//        else if (key == "ScrollBarUI") {
+//            return SynthScrollBarUI.createUI(c);
+//        }
+//        else if (key == "ScrollPaneUI") {
+//            return SynthScrollPaneUI.createUI(c);
+//        }
+//        else if (key == "SeparatorUI") {
+//            return SynthSeparatorUI.createUI(c);
+//        }
+//        else if (key == "SliderUI") {
+//            return SynthSliderUI.createUI(c);
+//        }
+//        else if (key == "SpinnerUI") {
+//            return SynthSpinnerUI.createUI(c);
+//        }
+//        else if (key == "SplitPaneUI") {
+//            return SynthSplitPaneUI.createUI(c);
+//        }
+//        else if (key == "TabbedPaneUI") {
+//            return SynthTabbedPaneUI.createUI(c);
+//        }
+//        else if (key == "TableUI") {
+//            return SynthTableUI.createUI(c);
+//        }
+//        else if (key == "TableHeaderUI") {
+//            return SynthTableHeaderUI.createUI(c);
+//        }
+//        else if (key == "TextAreaUI") {
+//            return SynthTextAreaUI.createUI(c);
+//        }
+//        else if (key == "TextFieldUI") {
+//            return SynthTextFieldUI.createUI(c);
+//        }
+//        else if (key == "TextPaneUI") {
+//            return SynthTextPaneUI.createUI(c);
+//        }
+//        else if (key == "ToggleButtonUI") {
+//            return SynthToggleButtonUI.createUI(c);
+//        }
+//        else if (key == "ToolBarSeparatorUI") {
+//            return SynthSeparatorUI.createUI(c);
+//        }
+//        else if (key == "ToolBarUI") {
+//            return SynthToolBarUI.createUI(c);
+//        }
+//        else if (key == "ToolTipUI") {
+//            return SynthToolTipUI.createUI(c);
+//        }
+//        else if (key == "TreeUI") {
+//            return SynthTreeUI.createUI(c);
+//        }
+//        else if (key == "ViewportUI") {
+//            return SynthViewportUI.createUI(c);
+//        }
+		return null;
+    }
+
+	
 	
 }
 

@@ -11,19 +11,24 @@ import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JPopupMenu;
+import javax.swing.JToolTip;
 import javax.swing.LookAndFeel;
 import javax.swing.Painter;
 import javax.swing.SwingUtilities;
+import javax.swing.ToolTipManager;
 import javax.swing.UIDefaults;
 import javax.swing.UIManager;
 import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.InsetsUIResource;
+import javax.swing.plaf.ToolTipUI;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 
 import commonenvironment.Env;
 import swidget.icons.IconSize;
 import swidget.icons.StockIcon;
 import swidget.stratus.StratusLookAndFeel;
+import swidget.stratus.components.StratusComboBoxUI;
 
 
 
@@ -51,8 +56,8 @@ public class Swidget
 				UIManager.setLookAndFeel(new StratusLookAndFeel());
 
 			} else {
-				//UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-				UIManager.setLookAndFeel(new StratusLookAndFeel());
+				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+				//UIManager.setLookAndFeel(new StratusLookAndFeel());
 			}
 		} catch (Exception e) {
 		}
@@ -61,6 +66,10 @@ public class Swidget
 		JFrame.setDefaultLookAndFeelDecorated(true);
 		JDialog.setDefaultLookAndFeelDecorated(true);
 		
+		//Force all menus to be heavyweight components to get that nice OS-composited drop shadow.
+		JPopupMenu.setDefaultLightWeightPopupEnabled(false);
+		
+		ToolTipManager.sharedInstance().setLightWeightPopupEnabled(false);
 		
 		
 	}

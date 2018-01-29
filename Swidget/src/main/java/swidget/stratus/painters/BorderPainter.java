@@ -10,12 +10,18 @@ import java.awt.geom.RoundRectangle2D;
 import javax.swing.JComponent;
 import javax.swing.Painter;
 
+import swidget.stratus.Stratus;
+
 
 public class BorderPainter implements Painter<JComponent> {
 
 	protected Color colour, bevel;
 	protected float size;
 	protected float radius;
+	
+	public BorderPainter(Color colour) {
+		this(colour, 1, Stratus.borderRadius);
+	}
 	
 	public BorderPainter(Color colour, float size, float radius) {
 		this.colour = colour;
@@ -26,16 +32,14 @@ public class BorderPainter implements Painter<JComponent> {
 	@Override
 	public void paint(Graphics2D g, JComponent object, int width, int height) {
 		
-		Shape border = new RoundRectangle2D.Float(0, 0, width, height, radius, radius);
-		Shape clip = new RoundRectangle2D.Float(size, size, width-size*2, height-size*2, radius, radius);
+		Shape border = new RoundRectangle2D.Float(0, 0, width-1, height-1, radius, radius);
 		
 		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		g.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
 		
 		g.setPaint(colour);
 		g.setStroke(new BasicStroke(size));
-		g.fill(border);
-		g.clip(clip);
+		g.draw(border);
 		
 	}
 
