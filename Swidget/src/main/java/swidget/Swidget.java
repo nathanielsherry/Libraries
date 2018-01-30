@@ -48,14 +48,13 @@ public class Swidget
 	public static void initialize(boolean forceNativeLAF)
 	{
 
-		System.setProperty("swing.aatext", "true");
-		
-		
 		
 		try {
 			if (!Env.isMac() && !Env.isWindows() && !forceNativeLAF) {
 				
+				//StratusLookAndFeel.DISABLE_FONT_HINTING = false;
 				UIManager.setLookAndFeel(new StratusLookAndFeel());
+				//UIManager.setLookAndFeel(new NimbusLookAndFeel());
 
 			} else {
 				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -64,9 +63,8 @@ public class Swidget
 		} catch (Exception e) {
 		}
 		
-		//Java 5 doesn't seem to resize windows properly on linux (at least not with compiz)
-		JFrame.setDefaultLookAndFeelDecorated(true);
-		JDialog.setDefaultLookAndFeelDecorated(true);
+		//JFrame.setDefaultLookAndFeelDecorated(false);
+		//JDialog.setDefaultLookAndFeelDecorated(false);
 		
 
 		

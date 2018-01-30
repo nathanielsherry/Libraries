@@ -63,7 +63,16 @@ public class StratusLookAndFeel extends NimbusLookAndFeel {
 			JPopupMenu.setDefaultLightWeightPopupEnabled(false);
 			ToolTipManager.sharedInstance().setLightWeightPopupEnabled(false);
 		}
+		
 		System.setProperty("swing.aatext", "true");
+		
+		if (DISABLE_FONT_HINTING) {
+			//Force the system to use the font's built-in hinting.
+			//We later load a modified font with NO hinting information.
+			//This seems to need to be set very early (before AWT starts 
+			//up?) on oracle jvms.
+			System.setProperty("awt.useSystemAAFontSettings", "gasp");
+		}
 	}
 	
 	@Override
