@@ -63,6 +63,7 @@ public class StratusLookAndFeel extends NimbusLookAndFeel {
 			JPopupMenu.setDefaultLightWeightPopupEnabled(false);
 			ToolTipManager.sharedInstance().setLightWeightPopupEnabled(false);
 		}
+		System.setProperty("swing.aatext", "true");
 	}
 	
 	@Override
