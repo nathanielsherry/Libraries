@@ -26,6 +26,7 @@ import swidget.stratus.painters.ComboBoxArrowPainter;
 import swidget.stratus.painters.CompositePainter;
 import swidget.stratus.painters.FillPainter;
 import swidget.stratus.painters.RadioButtonPainter;
+import swidget.stratus.painters.SplitPaneDividerPainter;
 import swidget.stratus.painters.TableHeaderPainter;
 import swidget.stratus.painters.TitledBorderBorder;
 import swidget.stratus.painters.checkbutton.CheckButtonPainter;
@@ -389,7 +390,7 @@ public class StratusLookAndFeel extends NimbusLookAndFeel {
 			ret.put("TabbedPane:TabbedPaneTabArea[Enabled+Pressed].backgroundPainter", new TabbedAreaPainter(true));
 			ret.put("TabbedPane:TabbedPaneTabArea[Enabled].backgroundPainter", new TabbedAreaPainter(true));
 			ret.put("TabbedPane:TabbedPaneTabArea.contentMargins", new Insets(0, 8, 0, 8));
-			ret.put("TabbedPane:TabbedPaneTab.contentMargins", new Insets(8, 8, 8, 8));
+			ret.put("TabbedPane:TabbedPaneTab.contentMargins", new Insets(8, 12, 8, 12));
 			
 			ret.put("TabbedPane:TabbedPaneTab[Disabled+Selected].backgroundPainter", new TabPainter(ButtonState.DISABLED, ButtonState.SELECTED));
 			ret.put("TabbedPane:TabbedPaneTab[Disabled].backgroundPainter", new TabPainter(ButtonState.DISABLED));
@@ -460,7 +461,14 @@ public class StratusLookAndFeel extends NimbusLookAndFeel {
 			ret.put("TableHeader.foreground", Stratus.border);
 			ret.put("TableHeader.disabledText", Stratus.border);
 			ret.put("TableHeader.font", ((Font)ret.get("TableHeader.font")).deriveFont(Font.BOLD));
-		
+			
+			
+			//SPLITPANE
+			ret.put("SplitPane:SplitPaneDivider[Enabled].backgroundPainter", new SplitPaneDividerPainter());
+			ret.put("SplitPane:SplitPaneDivider[Focused].backgroundPainter", new SplitPaneDividerPainter());
+			ret.put("SplitPane.size", 8);
+			ret.put("SplitPane.dividerSize", 8);
+			
 		}
 
 		
@@ -512,7 +520,7 @@ public class StratusLookAndFeel extends NimbusLookAndFeel {
 						
 						Font oldFont = (Font) ret.get(key);
 						
-						ret.put(key, new Font("DejaVu Sans Unhinted", oldFont.getStyle(), oldFont.getSize()));
+						ret.put(key, new Font("DejaVu Sans Unhinted", oldFont.getStyle(), oldFont.getSize()+1));
 					} catch (FontFormatException | IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();

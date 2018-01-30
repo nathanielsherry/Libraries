@@ -9,11 +9,17 @@ mkdir ./48/
 ./harvest.rb elementary-xfce/actions dialog-apply choose-ok
 ./harvest.rb elementary/actions process-stop choose-cancel
 
+
+
+
 #mime types
 ./harvest.rb elementary/mimes application-pdf mime-pdf
 ./harvest.rb elementary/mimes x-office-drawing mime-svg
 ./harvest.rb elementary/mimes text-x-generic mime-text
 ./harvest.rb elementary/mimes image mime-raster
+
+#actions
+./harvest.rb elementary/actions view-refresh action-refresh
 
 #undo/redo
 ./harvest.rb elementary/actions edit-undo
@@ -109,3 +115,4 @@ mkdir ./48/
 #sort
 ./harvestOther.rb /usr/share/icons/gnome actions view-sort-ascending edit-sort-asc
 ./harvestOther.rb /usr/share/icons/gnome actions view-sort-descending edit-sort-des
+

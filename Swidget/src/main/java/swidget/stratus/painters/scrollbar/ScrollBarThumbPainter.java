@@ -17,7 +17,7 @@ public class ScrollBarThumbPainter implements Painter<JComponent> {
 	private Color c; 
 	
 	public ScrollBarThumbPainter(ButtonState state) {
-		c = Stratus.scrollthumb;
+		c = Stratus.darken(Stratus.border, 0.1f);
 		if (state == ButtonState.MOUSEOVER) {
 			c = Stratus.darken(c, 0.1f);
 		}

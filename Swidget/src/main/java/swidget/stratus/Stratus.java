@@ -21,8 +21,7 @@ public class Stratus {
 	public static Color controlText = new Color(0x303030);
 	public static Color border = new Color(0xBABABA);
 	
-	public static Color scrollthumb = border;
-	
+
 	
 	public static float borderRadius = 5;
 	

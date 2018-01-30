@@ -57,8 +57,8 @@ public class Swidget
 				//UIManager.setLookAndFeel(new NimbusLookAndFeel());
 
 			} else {
-				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-				//UIManager.setLookAndFeel(new StratusLookAndFeel());
+				//UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+				UIManager.setLookAndFeel(new StratusLookAndFeel());
 			}
 		} catch (Exception e) {
 		}
