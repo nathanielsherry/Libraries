@@ -18,6 +18,7 @@ import javax.swing.plaf.basic.ComboPopup;
 import javax.swing.plaf.synth.SynthComboBoxUI;
 
 import swidget.stratus.Stratus;
+import swidget.stratus.StratusLookAndFeel;
 
 
 
@@ -27,7 +28,7 @@ public class StratusComboBoxUI extends SynthComboBoxUI {
     protected ComboPopup createPopup() {
     	BasicComboPopup p = (BasicComboPopup) super.createPopup();
     	p.setBorder(new LineBorder(Stratus.border, 1));
-    	p.setLightWeightPopupEnabled(false);
+    	p.setLightWeightPopupEnabled(!StratusLookAndFeel.HEAvYWEIGHT_POPUPS);
         return p;
     }
     

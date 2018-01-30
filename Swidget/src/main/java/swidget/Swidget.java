@@ -4,7 +4,9 @@ package swidget;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Insets;
+import java.awt.Toolkit;
 import java.nio.file.FileSystemLoopException;
+import java.util.Map;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -47,12 +49,12 @@ public class Swidget
 	{
 
 		System.setProperty("swing.aatext", "true");
-		//System.setProperty("awt.useSystemAAFontSettings", "gasp");
+		
 		
 		
 		try {
 			if (!Env.isMac() && !Env.isWindows() && !forceNativeLAF) {
-
+				
 				UIManager.setLookAndFeel(new StratusLookAndFeel());
 
 			} else {
@@ -66,10 +68,7 @@ public class Swidget
 		JFrame.setDefaultLookAndFeelDecorated(true);
 		JDialog.setDefaultLookAndFeelDecorated(true);
 		
-		//Force all menus to be heavyweight components to get that nice OS-composited drop shadow.
-		JPopupMenu.setDefaultLightWeightPopupEnabled(false);
-		
-		ToolTipManager.sharedInstance().setLightWeightPopupEnabled(false);
+
 		
 		
 	}
