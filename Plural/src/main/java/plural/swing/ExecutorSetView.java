@@ -1,99 +1,113 @@
 package plural.swing;
 
-import java.awt.Window;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.LayoutManager;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import javax.swing.JDialog;
-import javax.swing.WindowConstants;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 
-import eventful.EventfulListener;
 import plural.executor.ExecutorSet;
+import plural.executor.ExecutorState;
+import plural.executor.PluralExecutor;
+import swidget.icons.StockIcon;
+import swidget.widgets.ImageButton;
+import swidget.widgets.Spacing;
 
-public class ExecutorSetView extends JDialog {
+public class ExecutorSetView extends JPanel
+{
 
 	ExecutorSet<?> executors;
-	ExecutorSetViewPanel panel;
+	private JProgressBar progress;
 	
-	public ExecutorSetView(Window owner, ExecutorSet<?> _tasks){
+	public ExecutorSetView(ExecutorSet<?> _tasks){
 		
-		super(owner, "Working...", ModalityType.DOCUMENT_MODAL);
 		this.executors = _tasks;
-		init(owner);
+		init();
 	}
 	
-	public ExecutorSetView(JDialog owner, ExecutorSet<?> _tasks){
 		
-		super(owner, "Working...", true);
-		this.executors = _tasks;
-		init(owner);
-	}
-		
-	private void init(Window owner)
+	private void init()
 	{
-	
-		setResizable(false);
 		
-		this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+        LayoutManager layout = new GridBagLayout();
+        GridBagConstraints c = new GridBagConstraints();
+        setLayout(layout);
 		
-		
-		
-		panel = new ExecutorSetViewPanel(executors);
-		getContentPane().add(panel);
+        c.gridx = 0;
+        c.gridy = 0;
+        c.weightx = 1.0;
+        c.weighty = 0.0;
+        c.anchor = GridBagConstraints.FIRST_LINE_START;
+        
+        JLabel title = new JLabel(executors.getDescription());
+        title.setFont(title.getFont().deriveFont(Font.BOLD).deriveFont(title.getFont().getSize() + 2f));
+        title.setBorder(Spacing.bMedium());
+        add(title, c);
+        
 
-		
-		executors.addListener(new EventfulListener() {
-		
-			public void change() {
+		ExecutorView view;
+		for (PluralExecutor pl : executors){
 			
-				javax.swing.SwingUtilities.invokeLater(new Runnable() {
-					
-					public void run()
-					{
-						if (executors.isAborted()){
-							executors.finished();
-							setVisible(false);
-							dispose();
-						}
-						else if (executors.getCompleted()){
-							executors.finished();
-							setVisible(false);
-							dispose();
-						} else {
-							updateProgressBar();
-						}
-					}
-				});
+			c.gridy += 1;
+			
+			view = new ExecutorView(pl);
+			add(view, c);
+			
+		}
+
+        
+		c.gridy += 1;
+		c.weighty = 1.0;
+		c.weightx = 1.0;
+		
+		progress = new JProgressBar();
+		progress.setMaximum(100);
+		progress.setMinimum(0);
+		progress.setValue(0);
+		JPanel progressPanel = new JPanel();
+		progressPanel.add(progress);
+		progressPanel.setBorder(Spacing.bLarge());
+		add(progressPanel, c);
+        
+		c.weighty = 0.0;
+		c.weightx = 0.0;
+		c.gridy += 1;
+		c.anchor = GridBagConstraints.LAST_LINE_END;
+		ImageButton cancel = new ImageButton(StockIcon.CHOOSE_CANCEL, "Cancel", true);
+		cancel.addActionListener(new ActionListener() {
+		
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				executors.requestAbortWorking();
+			}
+		});
+		add(cancel, c);
+		
+		
+		setBorder(Spacing.bHuge());     
+        
+		
+		executors.addListener(() -> {
+			javax.swing.SwingUtilities.invokeLater(() -> {
+
+				if (executors.isAborted()){
+					executors.finished();
+				}
+				else if (executors.getCompleted()){
+					executors.finished();
+				} else {
+					updateProgressBar();
+				}
 				
-
-			}
+			});
 		});
 		
-		pack();
-		setLocationRelativeTo(owner);
 		
-		addWindowListener(new WindowListener() {
-			
-			public void windowOpened(WindowEvent e)
-			{
-				executors.startWorking();
-			}
-		
-			public void windowIconified(WindowEvent e){}
-		
-			public void windowDeiconified(WindowEvent e){}
-		
-			public void windowDeactivated(WindowEvent e){}
-		
-			public void windowClosing(WindowEvent e){}
-			
-			public void windowClosed(WindowEvent e){}
-
-			public void windowActivated(WindowEvent e){}
-		});
-		setVisible(true);
-        
-        
 	}
 	
 	
@@ -104,12 +118,19 @@ public class ExecutorSetView extends JDialog {
 	}
 	
 	protected void updateProgressBar(){
-		panel.updateProgressBar();
+				
+		for (PluralExecutor e : executors){
+			if (e.getState() == ExecutorState.WORKING){
+				progress.setValue((int)(e.getProgress() * 100));
+				progress.setIndeterminate(false);
+				break;
+			} else if (e.getState() == ExecutorState.STALLED){
+				progress.setIndeterminate(true);
+			}
+		}
+		
 	}
 	
-	public static void main(String[] args)
-	{
-		
-	}
-		
+
+	
 }

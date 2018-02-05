@@ -32,6 +32,7 @@
 package swidget.widgets.tabbedinterface;
 
 import java.awt.BasicStroke;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -47,19 +48,20 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.plaf.basic.BasicButtonUI;
 
+import swidget.widgets.listcontrols.SelectionListControls;
+
 /**
  * Component to be used as tabComponent;
  * Contains a JLabel to show the text and 
  * a JButton to close the tab it belongs to 
  */
-class ButtonTabComponent extends JPanel {
+class TabbedInterfaceTitle extends JPanel {
     
 	private final TabbedInterface<?> owner;
 	private JLabel label;
 	
-    public ButtonTabComponent(final TabbedInterface<?> owner) {
-        //unset default FlowLayout' gaps
-        super(new FlowLayout(FlowLayout.LEFT, 0, 0));
+    public TabbedInterfaceTitle(final TabbedInterface<?> owner, int minWidth) {
+        super(new BorderLayout());
         if (owner == null) {
             throw new NullPointerException("Owner is null");
         }
@@ -68,15 +70,21 @@ class ButtonTabComponent extends JPanel {
          
         //make JLabel read titles from JTabbedPane
         label = new JLabel();
+        label.setHorizontalAlignment(JLabel.CENTER);
 
-        add(label);
+        add(label, BorderLayout.CENTER);
         //add more space between the label and the button
         label.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 5));
         //tab button
         JButton button = new TabButton();
-        add(button);
+        add(button, BorderLayout.EAST);
         //add more space to the top of the component
         setBorder(BorderFactory.createEmptyBorder(2, 0, 0, 0));
+        
+
+        setMinimumSize(new Dimension(minWidth, (int)getMinimumSize().getHeight()));
+        setPreferredSize(new Dimension(minWidth, (int)getPreferredSize().getHeight()));
+        
     }
     
     protected void setTitle(String title)
@@ -122,7 +130,7 @@ class ButtonTabComponent extends JPanel {
  
         public void actionPerformed(ActionEvent e) {
         	
-            int i = owner.getJTabbedPane().indexOfTabComponent(ButtonTabComponent.this);
+            int i = owner.getJTabbedPane().indexOfTabComponent(TabbedInterfaceTitle.this);
             owner.closeTab(i);
         }
  

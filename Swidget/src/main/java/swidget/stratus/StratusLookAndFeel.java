@@ -390,8 +390,8 @@ public class StratusLookAndFeel extends NimbusLookAndFeel {
 			ret.put("TabbedPane:TabbedPaneTabArea[Enabled+Pressed].backgroundPainter", new TabbedAreaPainter(true));
 			ret.put("TabbedPane:TabbedPaneTabArea[Enabled].backgroundPainter", new TabbedAreaPainter(true));
 			ret.put("TabbedPane:TabbedPaneTabArea.contentMargins", new Insets(0, 8, 0, 8));
-			ret.put("TabbedPane:TabbedPaneTab.contentMargins", new Insets(8, 12, 8, 12));
 			
+			ret.put("TabbedPane:TabbedPaneTab.contentMargins", new Insets(8, 12, 8, 12));
 			ret.put("TabbedPane:TabbedPaneTab[Disabled+Selected].backgroundPainter", new TabPainter(ButtonState.DISABLED, ButtonState.SELECTED));
 			ret.put("TabbedPane:TabbedPaneTab[Disabled].backgroundPainter", new TabPainter(ButtonState.DISABLED));
 			ret.put("TabbedPane:TabbedPaneTab[Enabled+MouseOver].backgroundPainter", new TabPainter(ButtonState.MOUSEOVER));
@@ -407,6 +407,9 @@ public class StratusLookAndFeel extends NimbusLookAndFeel {
 			ret.put("TabbedPane:TabbedPaneTab[Focused+Pressed+Selected].textForeground", Stratus.controlText);
 			ret.put("TabbedPane:TabbedPaneTab[Pressed+Selected].textForeground", Stratus.controlText);
 			ret.put("TabbedPane:TabbedPaneTab[Disabled].textForeground", Stratus.border);
+			
+			ret.put("TabbedPane.extendTabsToBase", false);
+			
 			
 			
 			//SLIDERS - don't use pressed state, it looks funny with a track behind it, instead keep the mouseover look when pressed

@@ -59,9 +59,10 @@ public abstract class Drawing
 	
 	public static float getPenWidth(float baseSize, DrawingRequest dr)
 	{
-		float width;
-		width = baseSize;
-		return width;
+		//float width;
+		//width = baseSize;
+		//return width;
+		return 1f;
 	}
 
 

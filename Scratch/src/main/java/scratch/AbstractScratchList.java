@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.stream.Collectors;
 
+import scitypes.LongRange;
+import scitypes.LongRangeSet;
 import scitypes.Range;
 import scitypes.RangeSet;
 
@@ -33,8 +35,8 @@ public abstract class AbstractScratchList<T> implements List<T>{
 
 	
 	//stores the locations of all entries as offset/length pairs
-	private List<Range> elementPositions;
-	private RangeSet discardedRanges;
+	private List<LongRange> elementPositions;
+	private LongRangeSet discardedRanges;
 	
 
 	private File file;
@@ -65,8 +67,8 @@ public abstract class AbstractScratchList<T> implements List<T>{
 	
 	private void init() throws FileNotFoundException
 	{
-		elementPositions = new ArrayList<Range>();
-		discardedRanges = new RangeSet();
+		elementPositions = new ArrayList<LongRange>();
+		discardedRanges = new LongRangeSet();
 		raf = new RandomAccessFile(file, "rw");
 	}
 	
@@ -75,7 +77,7 @@ public abstract class AbstractScratchList<T> implements List<T>{
 		
 	}
 	
-	protected AbstractScratchList(File temp, RandomAccessFile raf, List<Range> positions, RangeSet discarded)
+	protected AbstractScratchList(File temp, RandomAccessFile raf, List<LongRange> positions, LongRangeSet discarded)
 	{
 		elementPositions = new ArrayList<>(positions);
 		discardedRanges = discarded;
@@ -110,12 +112,12 @@ public abstract class AbstractScratchList<T> implements List<T>{
 			byte[] encoded = encodeObject(element);
 			final int encodedLength = encoded.length;
 			
-			List<Range> bigRanges = discardedRanges.getRanges().stream().filter(r -> r.size() >= encodedLength).collect(Collectors.toList());			
+			List<LongRange> bigRanges = discardedRanges.getRanges().stream().filter(r -> r.size() >= encodedLength).collect(Collectors.toList());			
 			
 						
 			bigRanges.sort((o1, o2) -> {
-				Integer s1 = o1.size();
-				Integer s2 = o2.size();
+				Long s1 = o1.size();
+				Long s2 = o2.size();
 				return s2.compareTo(s1);
 			});
 			
@@ -135,7 +137,7 @@ public abstract class AbstractScratchList<T> implements List<T>{
 					elementPositions.add(null);
 				}
 			}
-			Range elementPosition = new Range((int)writePosition, (int)writePosition+encoded.length-1);
+			LongRange elementPosition = new LongRange((long)writePosition, (long)writePosition+encoded.length-1);
 			elementPositions.set(index, elementPosition);
 			discardedRanges.removeRange(elementPosition);
 			
@@ -214,11 +216,12 @@ public abstract class AbstractScratchList<T> implements List<T>{
 	public synchronized T get(int index)
 	{
 		if (index >= elementPositions.size()) return null;
-		Range position = elementPositions.get(index);
+		LongRange position = elementPositions.get(index);
 		if (position == null) return null;
 		
 		long offset = position.getStart();
-		int length = position.getStop() - position.getStart() + 1;
+		//The positions may be >MAXINT, but the length really shouldn't be
+		int length = (int)(position.getStop() - position.getStart() + 1);
 		
 		byte[] data = new byte[length];
 		try
@@ -441,7 +444,7 @@ public abstract class AbstractScratchList<T> implements List<T>{
 		if (elementPositions.size() > index)
 		{
 			//record the old range which is not being used anymore
-			Range oldRange = elementPositions.get(index);
+			LongRange oldRange = elementPositions.get(index);
 			discardedRanges.addRange(oldRange);
 		}
 		
@@ -507,7 +510,7 @@ public abstract class AbstractScratchList<T> implements List<T>{
 	
 	public long filesize()
 	{
-		return elementPositions.stream().map(range -> range.size()).reduce(0, (a, b) -> a + b);
+		return elementPositions.stream().map(range -> range.size()).reduce(0l, (a, b) -> a + b);
 		//return elementPositions.foldr(0, (r, i) -> i + r.size()).longValue();
 	}
 	

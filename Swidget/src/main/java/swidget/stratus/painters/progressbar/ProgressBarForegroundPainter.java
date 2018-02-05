@@ -59,9 +59,14 @@ public class ProgressBarForegroundPainter implements Painter<JComponent> {
     	Shape oldClip = g.getClip();
     	g.clip(border);
     	
-    	g.setColor(new Color(1, 1, 1, 0.05f));
+    	g.setColor(new Color(0, 0, 0, 0.08f));
     	int increment=20;
-    	for (int i = 0; i < width+increment*2; i+=increment*2) {
+    	for (int i = 0; i < width+increment*2; i+=increment) {
+    		if ((i/increment)%2 == 0) {
+    			g.setColor(new Color(0, 0, 0, 0.04f));		
+    		} else {
+    			g.setColor(new Color(1, 1, 1, 0.04f));
+    		}
     		GeneralPath bar = new GeneralPath();
     		bar.moveTo(i, 0);
     		bar.lineTo(i-height, height);

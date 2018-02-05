@@ -4,6 +4,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
+import java.awt.Window;
 
 import javax.swing.JComponent;
 import javax.swing.Painter;
@@ -14,24 +15,26 @@ import swidget.stratus.painters.StatefulPainter;
 
 public class TabPainter extends StatefulPainter{
 
-	Color fill;
-	Color bottom;
+	Color fillNL, bottomNL;
+	Color fillTL, bottomTL;
+	
 	Stroke bottomStroke = new BasicStroke(3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER);
 	
 	public TabPainter(ButtonState... buttonState) {
 		super(buttonState);
 		
 		if (isSelected()) {
-			fill = Stratus.darken(Stratus.control, 0.02f);
+			fillNL = Stratus.darken(Stratus.control, 0.02f);
+			bottomNL = Stratus.highlight;
+			fillTL = Stratus.control;
+			bottomTL = Stratus.highlight;
 		} else {
-			fill = Stratus.darken(Stratus.control, 0.08f);
+			fillNL = Stratus.darken(Stratus.control, 0.08f);
+			bottomNL = Stratus.darken(Stratus.border, 0.1f);
+			fillTL = Stratus.darken(Stratus.control, 0.04f);;
+			bottomTL = Stratus.border;
 		}
 
-		if (isSelected()) {
-			bottom = Stratus.highlight;
-		} else {
-			bottom = Stratus.darken(Stratus.border, 0.1f);
-		}
 		
 	}
 
@@ -39,6 +42,16 @@ public class TabPainter extends StatefulPainter{
 	@Override
 	public void paint(Graphics2D g, JComponent object, int width, int height) {
 		
+		
+		Color fill, bottom;
+		boolean isTopLevel = (object.getParent().getParent().getParent().getParent() instanceof Window);
+		if (isTopLevel) {
+			fill = fillTL;
+			bottom = bottomTL;
+		} else {
+			fill = fillNL;
+			bottom = bottomNL;
+		}
 		
 		if (isFocused() || isSelected() || isMouseOver()) {
 		
