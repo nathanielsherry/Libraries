@@ -3,6 +3,8 @@ package swidget.widgets.tabbedinterface;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 import javax.swing.Icon;
 import javax.swing.JComponent;
@@ -19,18 +21,20 @@ import swidget.widgets.ClearPanel;
 public abstract class TabbedInterface<T extends Component> extends JTabbedPane
 {
 
-	private String defaultTitle;
+	private Function<T, String> titleFunction;
 	private boolean working = false;
-	private int minTabWidth = 0;
+	private int tabWidth = 150;
 	
-	public TabbedInterface(String defaultTitle) {
-		this(defaultTitle, 0);
+	private T lastSelectedTab = null;
+	
+	public TabbedInterface(Function<T, String> titleFunction) {
+		this(titleFunction, 150);
 	}
 	
-	public TabbedInterface(String defaultTitle, int minTabWidth)
+	public TabbedInterface(Function<T, String> titleFunction, int tabWidth)
 	{
-		this.defaultTitle = defaultTitle;
-		this.minTabWidth = minTabWidth;
+		this.titleFunction = titleFunction;
+		this.tabWidth = tabWidth;
 		//tabs = new JTabbedPane(JTabbedPane.TOP, JTabbedPane.SCROLL_TAB_LAYOUT);
 		//this.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
 		
@@ -60,7 +64,6 @@ public abstract class TabbedInterface<T extends Component> extends JTabbedPane
 				if (this.getTabCount() == 1)
 				{
 					newTab();
-					//tabs.setSelectedIndex(0);
 				}
 				
 				//does the new-tab tab the focused tab?
@@ -70,6 +73,7 @@ public abstract class TabbedInterface<T extends Component> extends JTabbedPane
 				}
 				
 				
+				lastSelectedTab = getActiveTab();
 				titleChanged(getActiveTabTitle().getTitle());
 				working = false;
 			}
@@ -94,10 +98,10 @@ public abstract class TabbedInterface<T extends Component> extends JTabbedPane
 	{
 		int count = this.getTabCount() - 1;
 		
-		TabbedInterfaceTitle titleComponent = new TabbedInterfaceTitle(this, minTabWidth);
+		TabbedInterfaceTitle titleComponent = new TabbedInterfaceTitle(this, tabWidth);
 		this.insertTab("", null, component, "", count);
 		this.setTabComponentAt(count, titleComponent);
-		setTabTitle(component, defaultTitle);
+		setTabTitle(component, titleFunction.apply(component));
 	}
 	
 	public T newTab()
@@ -131,7 +135,12 @@ public abstract class TabbedInterface<T extends Component> extends JTabbedPane
 	@SuppressWarnings("unchecked")
 	public T getActiveTab()
 	{
-		return (T) this.getSelectedComponent();
+		//if the new-tab tab is focused now, return the last tab to have focus
+		if (this.getSelectedIndex() == this.getTabCount()-1) {
+			return lastSelectedTab;
+		} else {
+			return (T) this.getSelectedComponent();
+		}
 	}
 	
 	private TabbedInterfaceTitle getActiveTabTitle() {
@@ -142,6 +151,7 @@ public abstract class TabbedInterface<T extends Component> extends JTabbedPane
 	{
 		this.setSelectedComponent(component);
 		component.requestFocus();
+		lastSelectedTab = component;
 		titleChanged(getActiveTabTitle().getTitle());
 	}
 	
@@ -158,7 +168,7 @@ public abstract class TabbedInterface<T extends Component> extends JTabbedPane
 		if (i < 0) return;
 		TabbedInterfaceTitle titleComponent = (TabbedInterfaceTitle) this.getTabComponentAt(i);
 		titleComponent.setTitle(title);
-		this.setToolTipTextAt(this.indexOfComponent(component), title);
+		this.setToolTipTextAt(i, title);
 		if (i == this.getSelectedIndex()) {
 			titleChanged(title);
 		}
