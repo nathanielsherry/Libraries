@@ -120,10 +120,10 @@ public class ButtonPainter extends StatefulPainter {
     	//Focus dash if focused but not pressed
     	pad += 1;
     	if (isFocused() && !isPressed()) {
-        	g.setPaint(new Color(0, 0, 0, 0.2f));
+        	g.setPaint(new Color(0, 0, 0, 0.15f));
         	Shape focus = new RoundRectangle2D.Float(pad, pad, width-pad*2-1, height-pad*2-1, radius, radius);
         	Stroke old = g.getStroke();
-        	g.setStroke(new BasicStroke(1, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 0, new float[] {1, 3}, 0f));
+        	g.setStroke(new BasicStroke(1, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 0, new float[] {2, 2}, 0f));
         	g.draw(focus);
         	g.setStroke(old);
     	}
