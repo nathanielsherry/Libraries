@@ -55,15 +55,24 @@ import swidget.widgets.listcontrols.SelectionListControls;
  * Contains a JLabel to show the text and 
  * a JButton to close the tab it belongs to 
  */
-class TabbedInterfaceTitle extends JPanel {
+public class TabbedInterfaceTitle extends JPanel {
     
 	private final TabbedInterface<?> owner;
 	private JLabel label;
 	
-    public TabbedInterfaceTitle(final TabbedInterface<?> owner, int minWidth) {
+	public TabbedInterfaceTitle(String title, int width) {
+		this(null, width, false);
+		setTitle(title);
+	}
+	
+	public TabbedInterfaceTitle(final TabbedInterface<?> owner, int width) {
+		this(owner, width, true);
+	}
+	
+    public TabbedInterfaceTitle(final TabbedInterface<?> owner, int width, boolean closeButton) {
         super(new BorderLayout());
-        if (owner == null) {
-            throw new NullPointerException("Owner is null");
+        if (owner == null && closeButton == true) {
+            throw new NullPointerException("Owner cannot be null if close buttons are to be used");
         }
         this.owner = owner;
         setOpaque(false);
@@ -73,17 +82,17 @@ class TabbedInterfaceTitle extends JPanel {
         label.setHorizontalAlignment(JLabel.CENTER);
 
         add(label, BorderLayout.CENTER);
-        //add more space between the label and the button
-        label.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 5));
-        //tab button
-        JButton button = new TabButton();
-        add(button, BorderLayout.EAST);
-        //add more space to the top of the component
-        setBorder(BorderFactory.createEmptyBorder(2, 0, 0, 0));
         
-
-        setMinimumSize(new Dimension(minWidth, (int)getMinimumSize().getHeight()));
-        setPreferredSize(new Dimension(minWidth, (int)getPreferredSize().getHeight()));
+        if (closeButton) {
+	        //add more space between the label and the button
+	        label.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 5));
+	        //tab button
+	        JButton button = new TabButton();
+	        add(button, BorderLayout.EAST);
+        }
+        
+        setMinimumSize(new Dimension(width, (int)getMinimumSize().getHeight()));
+        setPreferredSize(new Dimension(width, (int)getPreferredSize().getHeight()));
         
     }
     

@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.border.EmptyBorder;
 
 
 public class ComponentListPanel extends ClearPanel {
@@ -39,6 +40,8 @@ public class ComponentListPanel extends ClearPanel {
 		scroller.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 		scroller.getVerticalScrollBar().setUnitIncrement(10);
 		scroller.getVerticalScrollBar().setUnitIncrement(50);
+		scroller.setBorder(new EmptyBorder(0, 0, 0, 0));
+		
 		
 		this.setLayout(new BorderLayout());
 		this.add(scroller, BorderLayout.CENTER);
