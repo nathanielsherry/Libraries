@@ -22,9 +22,9 @@ public class OriginalDataPainter extends LinePainter
 	private static Color getColour(boolean isMonochrome)
 	{
 		if (! isMonochrome) {
-			return new Color(0.643f, 0.0f, 0.0f, 0.35f);
+			return new Color(0x60D32F2F, true);
 		} else {
-			return new Color(0.0f, 0.0f, 0.0f, 0.5f);
+			return new Color(0x7f000000, true);
 		}
 	}
 		

@@ -25,9 +25,9 @@ public class AreaPainter extends SpectrumPainter
 	public AreaPainter(ReadOnlySpectrum data)
 	{
 		super(data);
-		topColour = new Color(0.5f, 0.5f, 0.5f);
-		bottomColour = new Color(0.35f, 0.35f, 0.35f);
-		strokeColour = new Color(0.1f, 0.1f, 0.1f);
+		topColour = new Color(0x7f7f7f);
+		bottomColour = new Color(0x606060);
+		strokeColour = new Color(0x202020);
 	}
 
 	@Override
