@@ -14,6 +14,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -36,15 +37,28 @@ public class AboutDialogue extends JDialog
 {
 	
 	Window owner;
-	
 
-	public AboutDialogue(Window owner, final String name, String description, String website, String copyright, final String licence, final String credits, String logo, String version, String longVersion, String releaseDescription, String date)
+	public static class Contents {
+		public String name;
+		public String description;
+		public String website;
+		public String copyright;
+		public String licence;
+		public String credits;
+		public ImageIcon logo;
+		public String version;
+		public String longVersion;
+		public String releaseDescription;
+		public String date;
+	}
+
+	public AboutDialogue(Window owner, Contents contents)
 	{
-		super(owner, "About " + name, ModalityType.DOCUMENT_MODAL);
-		init(owner, name, description, website, copyright, licence, credits, logo, version, longVersion, releaseDescription, date);
+		super(owner, "About " + contents.name, ModalityType.DOCUMENT_MODAL);
+		init(owner, contents);
 	}
 		
-	private void init(Window owner, final String name, String description, final String website, String copyright, final String licence, final String credits, String logo, String version, String longVersion, String releaseDescription, String date)
+	private void init(Window owner, Contents contents)
 	{
 		this.owner = owner;
 		
@@ -59,6 +73,7 @@ public class AboutDialogue extends JDialog
 		JPanel infopanel = new JPanel(new GridBagLayout());
 		//infopanel.setBorder(new EmptyBorder(0, 50, Spacing.large, 50));		
 		infopanel.setBorder(Spacing.bLarge());
+		infopanel.setBackground(Color.WHITE);
 		
 		GridBagConstraints gc = new GridBagConstraints();
 		
@@ -70,7 +85,7 @@ public class AboutDialogue extends JDialog
 		gc.weighty = 1.0;
 		gc.gridheight = 3;
 		
-		JLabel iconLabel = new JLabel(IconFactory.getImageIcon( logo ));
+		JLabel iconLabel = new JLabel(contents.logo);
 		//iconLabel.setOpaque(true);
 		//iconLabel.setBackground(Color.black);
 		infopanel.add(iconLabel, gc);
@@ -88,8 +103,8 @@ public class AboutDialogue extends JDialog
 		title.setFont(title.getFont().deriveFont(Font.PLAIN));
 		title.setText(
 			"<html><div style='text-align: center; width: 250px;'>" +
-				"<b><big><big>" + name + " " + version + "</big></big></b>" +
-				(("".equals(releaseDescription)) ? "" : "<br><b><font size=\"+1\" color=\"#c00000\">" + releaseDescription + "</font></b>") +  
+				"<b><big><big>" + contents.name + " " + contents.version + "</big></big></b>" +
+				(("".equals(contents.releaseDescription)) ? "" : "<br><b><font size=\"+1\" color=\"#c00000\">" + contents.releaseDescription + "</font></b>") +  
 			"</div></html>");
 		
 		gc.anchor = GridBagConstraints.NORTH;
@@ -102,16 +117,16 @@ public class AboutDialogue extends JDialog
 			"<html><div style='text-align: center; width: 250px;'>" +
 				"<br>" +
 				"<br>" +
-				description + 
+				contents.description + 
 				"<br>" +
 				"<font size=\"-2\">" +
-					"<font color=\"#777777\">Version " + longVersion +
+					"<font color=\"#777777\">Version " + contents.longVersion +
 					"<br>" + 
-					"Build Date: " + date + 
+					"Build Date: " + contents.date + 
 					"</font>" +
 					"<br>" +
 					"<br>" +
-					"Copyright &copy; " + copyright +
+					"Copyright &copy; " + contents.copyright +
 				"</font>" +
 				"<br>" +
 				"<br>" +
@@ -122,8 +137,8 @@ public class AboutDialogue extends JDialog
 		infopanel.add(text, gc);
 		
 		
-		if (website != null) {
-			JLabel weblabel = new JLabel("<html><center><u>" + website + "</u></center></html>");
+		if (contents.website != null) {
+			JLabel weblabel = new JLabel("<html><center><u>" + contents.website + "</u></center></html>");
 			weblabel.addMouseListener(new MouseListener() {
 				
 				public void mouseReleased(MouseEvent e){}
@@ -135,7 +150,7 @@ public class AboutDialogue extends JDialog
 				public void mouseEntered(MouseEvent e){}
 				
 				public void mouseClicked(MouseEvent e){
-					Apps.browser(website);
+					Apps.browser(contents.website);
 				}
 			});
 			weblabel.setForeground(Color.blue);
@@ -153,7 +168,7 @@ public class AboutDialogue extends JDialog
 		
 			public void actionPerformed(ActionEvent arg0)
 			{
-				JOptionPane.showMessageDialog(AboutDialogue.this, credits, "Credits", JOptionPane.INFORMATION_MESSAGE, StockIcon.MISC_ABOUT.toImageIcon(IconSize.ICON));
+				JOptionPane.showMessageDialog(AboutDialogue.this, contents.credits, "Credits", JOptionPane.INFORMATION_MESSAGE, StockIcon.MISC_ABOUT.toImageIcon(IconSize.ICON));
 			}
 		});
 		bbox.addLeft(btnCredit);
@@ -164,7 +179,7 @@ public class AboutDialogue extends JDialog
 		
 			public void actionPerformed(ActionEvent arg0)
 			{
-				JOptionPane.showMessageDialog(AboutDialogue.this, textForJOptionPane(licence), name + " Licence", JOptionPane.INFORMATION_MESSAGE, StockIcon.MIME_TEXT.toImageIcon(IconSize.ICON));
+				JOptionPane.showMessageDialog(AboutDialogue.this, textForJOptionPane(contents.licence), contents.name + " Licence", JOptionPane.INFORMATION_MESSAGE, StockIcon.MIME_TEXT.toImageIcon(IconSize.ICON));
 			}
 		});
 		bbox.addLeft(btnLicence);	
