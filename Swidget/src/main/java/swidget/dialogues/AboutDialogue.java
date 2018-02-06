@@ -57,33 +57,52 @@ public class AboutDialogue extends JDialog
 		c.add(panel);
 		
 		JPanel infopanel = new JPanel(new GridBagLayout());
-		infopanel.setBorder(new EmptyBorder(0, 50, Spacing.large, 50));		
+		//infopanel.setBorder(new EmptyBorder(0, 50, Spacing.large, 50));		
+		infopanel.setBorder(Spacing.bLarge());
 		
 		GridBagConstraints gc = new GridBagConstraints();
 		
 		gc.gridx = 0;
 		gc.gridy = 0;
 		gc.anchor = GridBagConstraints.CENTER;
-		gc.fill = GridBagConstraints.VERTICAL;
-		gc.weightx = 1.0;
+		gc.fill = GridBagConstraints.BOTH;
+		gc.weightx = 0.0;
 		gc.weighty = 1.0;
+		gc.gridheight = 3;
 		
-		infopanel.add(new JLabel(IconFactory.getImageIcon( logo )), gc);
+		JLabel iconLabel = new JLabel(IconFactory.getImageIcon( logo ));
+		//iconLabel.setOpaque(true);
+		//iconLabel.setBackground(Color.black);
+		infopanel.add(iconLabel, gc);
 
 		
-		gc.gridy += 1;
-		gc.weighty = 0.0;
+		//gc.gridy += 1;
+		gc.gridy = 0;
+		gc.gridx++;
+		gc.gridheight = 1;
+		
+		gc.weighty = 1.0;
 		gc.weightx = 1.0;
+		
+		JLabel title = new JLabel();
+		title.setFont(title.getFont().deriveFont(Font.PLAIN));
+		title.setText(
+			"<html><div style='text-align: center; width: 250px;'>" +
+				"<b><big><big>" + name + " " + version + "</big></big></b>" +
+				(("".equals(releaseDescription)) ? "" : "<br><b><font size=\"+1\" color=\"#c00000\">" + releaseDescription + "</font></b>") +  
+			"</div></html>");
+		
+		gc.anchor = GridBagConstraints.NORTH;
+		infopanel.add(title, gc);
+
 		
 		JLabel text = new JLabel();
 		text.setFont(text.getFont().deriveFont(Font.PLAIN));
 		text.setText(
-			"<html><center>" +
-				"<b><big><big>" + name + " " + version + "</big></big></b>" +
-				(("".equals(releaseDescription)) ? "" : "<br><b><font size=\"+1\" color=\"#c00000\">" + releaseDescription + "</font></b>") +  
+			"<html><div style='text-align: center; width: 250px;'>" +
 				"<br>" +
 				"<br>" +
-				description +
+				description + 
 				"<br>" +
 				"<font size=\"-2\">" +
 					"<font color=\"#777777\">Version " + longVersion +
@@ -96,13 +115,15 @@ public class AboutDialogue extends JDialog
 				"</font>" +
 				"<br>" +
 				"<br>" +
-			"</center></html>");
+			"</div></html>");
 		
+		gc.gridy++;
+		gc.anchor = GridBagConstraints.CENTER;
 		infopanel.add(text, gc);
 		
 		
 		if (website != null) {
-			JLabel weblabel = new JLabel("<html><u>" + website + "</u></html>");
+			JLabel weblabel = new JLabel("<html><center><u>" + website + "</u></center></html>");
 			weblabel.addMouseListener(new MouseListener() {
 				
 				public void mouseReleased(MouseEvent e){}
@@ -118,7 +139,10 @@ public class AboutDialogue extends JDialog
 				}
 			});
 			weblabel.setForeground(Color.blue);
-			gc.gridy += 1;
+			weblabel.setBackground(Color.black);
+			gc.gridy++;
+			gc.fill = GridBagConstraints.NONE;
+			gc.anchor = GridBagConstraints.SOUTH;
 			infopanel.add(weblabel, gc);
 		}
 		
