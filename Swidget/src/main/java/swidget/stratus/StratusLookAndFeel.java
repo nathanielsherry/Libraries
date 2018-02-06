@@ -100,6 +100,39 @@ public class StratusLookAndFeel extends NimbusLookAndFeel {
 		ret.put("control", Stratus.control);
 
 		
+//		//Fonts
+		if (DISABLE_FONT_HINTING) {
+			for (Object key : ret.keySet()) {
+				Object value = ret.get(key);
+				if (value instanceof javax.swing.plaf.FontUIResource || value instanceof Font) {
+					
+					try {
+						GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+						Font f;
+						f = Font.createFont(Font.TRUETYPE_FONT, StratusLookAndFeel.class.getResourceAsStream("DejaVuSansUnhinted.ttf"));
+						ge.registerFont(f);
+						
+						f = Font.createFont(Font.TRUETYPE_FONT, StratusLookAndFeel.class.getResourceAsStream("DejaVuSansBoldUnhinted.ttf"));
+						ge.registerFont(f);
+						
+						f = Font.createFont(Font.TRUETYPE_FONT, StratusLookAndFeel.class.getResourceAsStream("DejaVuSansObliqueUnhinted.ttf"));
+						ge.registerFont(f);
+						
+						f = Font.createFont(Font.TRUETYPE_FONT, StratusLookAndFeel.class.getResourceAsStream("DejaVuSansBoldObliqueUnhinted.ttf"));
+						ge.registerFont(f);
+						
+						Font oldFont = (Font) ret.get(key);
+						
+						int fontSize = oldFont.getSize();
+						ret.put(key, new Font("DejaVu Sans Unhinted", oldFont.getStyle(), fontSize+1));
+					} catch (FontFormatException | IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+		
 		if (REPLACE_PAINTERS) {
 			
 			//MENUS
@@ -477,9 +510,12 @@ public class StratusLookAndFeel extends NimbusLookAndFeel {
 			ret.put("TableHeader:\"TableHeader.renderer\"[MouseOver].backgroundPainter", new TableHeaderPainter());
 			ret.put("TableHeader:\"TableHeader.renderer\"[Pressed].backgroundPainter", new TableHeaderPainter());
 			
-			ret.put("TableHeader.foreground", Stratus.border);
+			ret.put("TableHeader.foreground", Stratus.darken(Stratus.border, 0.25f));
+			ret.put("TableHeader.textForeground", Stratus.darken(Stratus.border, 0.25f));
 			ret.put("TableHeader.disabledText", Stratus.border);
+			ret.put("TableHeader:\"TableHeader.renderer\".contentMargins", new Insets(3, 5, 3, 5));
 			ret.put("TableHeader.font", ((Font)ret.get("TableHeader.font")).deriveFont(Font.BOLD));
+			
 			
 			
 			//SPLITPANE
@@ -516,37 +552,7 @@ public class StratusLookAndFeel extends NimbusLookAndFeel {
 		
 		
 		
-//		//Fonts
-		if (DISABLE_FONT_HINTING) {
-			for (Object key : ret.keySet()) {
-				Object value = ret.get(key);
-				if (value instanceof javax.swing.plaf.FontUIResource) {
-					
-					try {
-						GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-						Font f;
-						f = Font.createFont(Font.TRUETYPE_FONT, StratusLookAndFeel.class.getResourceAsStream("DejaVuSansUnhinted.ttf"));
-						ge.registerFont(f);
-						
-						f = Font.createFont(Font.TRUETYPE_FONT, StratusLookAndFeel.class.getResourceAsStream("DejaVuSansBoldUnhinted.ttf"));
-						ge.registerFont(f);
-						
-						f = Font.createFont(Font.TRUETYPE_FONT, StratusLookAndFeel.class.getResourceAsStream("DejaVuSansObliqueUnhinted.ttf"));
-						ge.registerFont(f);
-						
-						f = Font.createFont(Font.TRUETYPE_FONT, StratusLookAndFeel.class.getResourceAsStream("DejaVuSansBoldObliqueUnhinted.ttf"));
-						ge.registerFont(f);
-						
-						Font oldFont = (Font) ret.get(key);
-						
-						ret.put(key, new Font("DejaVu Sans Unhinted", oldFont.getStyle(), oldFont.getSize()+1));
-					} catch (FontFormatException | IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-			}
-		}
+
 		
 		
 		return ret;

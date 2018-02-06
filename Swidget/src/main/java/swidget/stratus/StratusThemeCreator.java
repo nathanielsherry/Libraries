@@ -139,6 +139,7 @@ public class StratusThemeCreator
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				setStratusLookAndFeel();
+				//setNimbusLookAndFeel();
 				
 				// loadRandom();
 				JFrame frame = new JFrame(StratusThemeCreator.class.getSimpleName());
