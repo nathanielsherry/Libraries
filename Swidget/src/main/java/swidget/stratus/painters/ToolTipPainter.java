@@ -1,6 +1,5 @@
 package swidget.stratus.painters;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -14,7 +13,7 @@ import swidget.stratus.Stratus;
 
 public class ToolTipPainter implements Painter<JComponent> {
 
-	private float radius = Stratus.borderRadius*2;
+	private float radius = Stratus.borderRadius*1.5f;
 	
 	@Override
 	public void paint(Graphics2D g, JComponent object, int width, int height) {

@@ -29,6 +29,7 @@ import swidget.stratus.painters.RadioButtonPainter;
 import swidget.stratus.painters.SplitPaneDividerPainter;
 import swidget.stratus.painters.TableHeaderPainter;
 import swidget.stratus.painters.TitledBorderBorder;
+import swidget.stratus.painters.ToolTipPainter;
 import swidget.stratus.painters.checkbutton.CheckButtonPainter;
 import swidget.stratus.painters.checkbutton.CheckPainter;
 import swidget.stratus.painters.progressbar.ProgressBarBackgroundPainter;
@@ -374,13 +375,28 @@ public class StratusLookAndFeel extends NimbusLookAndFeel {
 			ret.put("FormattedTextField[Selected].backgroundPainter", new TextFieldBackgroundPainter(ButtonState.ENABLED, ButtonState.SELECTED));
 			
 			
+			//TEXT AREA
+			ret.put("TextArea[Enabled+NotInScrollPane].borderPainter", new TextFieldBorderPainter(ButtonState.ENABLED));
+			ret.put("TextArea[Focused+NotInScrollPane].borderPainter", new TextFieldBorderPainter(ButtonState.ENABLED, ButtonState.SELECTED));
+			
+			ret.put("TextArea[Enabled+NotInScrollPane].backgroundPainter", new TextFieldBackgroundPainter(ButtonState.ENABLED));
+			ret.put("TextArea[Focused+NotInScrollPane].backgroundPainter", new TextFieldBackgroundPainter(ButtonState.ENABLED, ButtonState.SELECTED));
+			
+			
+			//EDITOR PANE
+//			ret.put("EditorPane[Selected].backgroundPainter", new TextFieldBackgroundPainter(ButtonState.ENABLED, ButtonState.SELECTED));
+//			ret.put("EditorPane[Enabled].backgroundPainter", new TextFieldBackgroundPainter(ButtonState.ENABLED));
+//			ret.put("EditorPane[Disabled].backgroundPainter", new TextFieldBackgroundPainter(ButtonState.DISABLED));
 			
 			//TITLEDBORDER
 			ret.put("TitledBorder.border", new CompoundBorder(new EmptyBorder(2, 4, 4, 4), new CompoundBorder(new TitledBorderBorder(), new EmptyBorder(6, 6, 6, 6))));
 			
 			//TOOLTIP
-	//		ret.put("ToolTip[Enabled].backgroundPainter", new ToolTipPainter());
-	//		ret.put("ToolTip.foreground", Color.white);
+			ret.put("ToolTip[Enabled].backgroundPainter", new ToolTipPainter());
+			ret.put("ToolTip[Disabled].backgroundPainter", new ToolTipPainter());
+			ret.put("ToolTip.textForeground", Color.white);
+			ret.put("ToolTip.contentMargins", new Insets(8, 8, 8, 8));
+			
 			
 			
 			

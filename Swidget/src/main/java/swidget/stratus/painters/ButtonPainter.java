@@ -92,7 +92,7 @@ public class ButtonPainter extends StatefulPainter {
     	float bevelTop = 0;
     	
     	//Bevel under button
-    	g.setPaint(Color.WHITE);
+    	g.setPaint(new Color(1f, 1f, 1f, 0.5f));
     	Shape bevel = new RoundRectangle2D.Float(pad, pad+1, width-pad*2, height-pad*2, radius, radius);     
     	g.fill(bevel);
     	
