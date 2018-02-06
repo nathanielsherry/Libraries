@@ -13,12 +13,12 @@ import swidget.stratus.Stratus;
 
 public class ToolTipPainter implements Painter<JComponent> {
 
-	private float radius = Stratus.borderRadius*1.5f;
 	
 	@Override
 	public void paint(Graphics2D g, JComponent object, int width, int height) {
 		
-		Shape area = new RoundRectangle2D.Float(0, 0, width, height, radius, radius);
+		//Can't do radius, because sometimes tooltips are heavyweight object and therefore opaque
+		Shape area = new RoundRectangle2D.Float(0, 0, width, height, 0, 0);
 		
 		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		g.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
