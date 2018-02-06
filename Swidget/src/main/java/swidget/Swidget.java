@@ -27,6 +27,7 @@ import javax.swing.plaf.ToolTipUI;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 
 import commonenvironment.Env;
+import swidget.dialogues.SplashScreen;
 import swidget.icons.IconSize;
 import swidget.icons.StockIcon;
 import swidget.stratus.StratusLookAndFeel;
@@ -37,37 +38,38 @@ import swidget.stratus.components.StratusComboBoxUI;
 public class Swidget
 {
 
-	
+	private static SplashScreen splashWindow;
 	
 	public static void initialize()
 	{
-		initialize(false);
+		initialize(null, () -> {});
 	}
 	
 	
-	public static void initialize(boolean forceNativeLAF)
+	public static void initialize(ImageIcon splash, Runnable startupTasks)
 	{
-
+		//Needed to work around https://bugs.openjdk.java.net/browse/JDK-8130400
+		System.setProperty("sun.java2d.xrender", "false");
+		System.setProperty("sun.java2d.pmoffscreen", "false");
 		
-		try {
-			if (!Env.isMac() && !Env.isWindows() && !forceNativeLAF) {
+		//Create the look-and-feel first, so that it can init things before AWT starts up w/ splash
+		StratusLookAndFeel laf = new StratusLookAndFeel();
+		
+		
+		if (splash != null) {
+			SwingUtilities.invokeLater(() -> {
+				splashWindow = new SplashScreen(splash);
+				splashWindow.repaint();
 				
-				//StratusLookAndFeel.DISABLE_FONT_HINTING = false;
-				UIManager.setLookAndFeel(new StratusLookAndFeel());
-				//UIManager.setLookAndFeel(new NimbusLookAndFeel());
-
-			} else {
-				//UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-				UIManager.setLookAndFeel(new StratusLookAndFeel());
-			}
-		} catch (Exception e) {
+				SwingUtilities.invokeLater(() -> {
+					try {
+						UIManager.setLookAndFeel(laf);
+					} catch (Exception e) {}
+					startupTasks.run();
+					splashWindow.setVisible(false);
+				});
+			});
 		}
-		
-		//JFrame.setDefaultLookAndFeelDecorated(false);
-		//JDialog.setDefaultLookAndFeelDecorated(false);
-		
-
-		
 		
 	}
 	
