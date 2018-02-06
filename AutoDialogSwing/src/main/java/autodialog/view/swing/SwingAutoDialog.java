@@ -4,6 +4,7 @@ package autodialog.view.swing;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Insets;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -40,7 +41,17 @@ public class SwingAutoDialog extends JDialog
 	
 	
 	private ImageButton info;
+
 	
+	public SwingAutoDialog(Window owner, Group group) {
+		this(owner, group, AutoDialogButtons.OK_CANCEL);
+	}
+
+	public SwingAutoDialog(Window owner, Group group, AutoDialogButtons buttons) {
+		super(owner);
+		this.buttons = buttons;
+		this.group = group;
+	}
 
 	public SwingAutoDialog(Group group) {
 		this(group, AutoDialogButtons.OK_CANCEL);

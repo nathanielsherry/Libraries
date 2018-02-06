@@ -29,7 +29,7 @@ public class SliderEditor extends WrappingEditor<Integer, JSlider> {
 
 		setFromParameter();
 		param.getValueHook().addListener(v -> this.setFromParameter());
-		param.getEnabledHook().addListener(e -> component.setEnabled(e));
+		param.getEnabledHook().addListener(e -> setEnabled(e));
 		
 		getComponent().addChangeListener(new ChangeListener() {
 			
@@ -48,4 +48,9 @@ public class SliderEditor extends WrappingEditor<Integer, JSlider> {
 		return getComponent().getValue();
 	}
 	
+	
+	@Override
+	protected void setEnabled(boolean enabled) {
+		component.setEnabled(enabled);
+	}
 }

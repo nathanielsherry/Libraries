@@ -35,7 +35,7 @@ public class FilenameEditor extends AbstractSwingEditor<String> {
 		
 		setFromParameter();
 		param.getValueHook().addListener(v -> this.setFromParameter());
-		param.getEnabledHook().addListener(e -> control.setEnabled(e));
+		param.getEnabledHook().addListener(e -> setEnabled(e));
 		
 	}
 	
@@ -83,6 +83,10 @@ public class FilenameEditor extends AbstractSwingEditor<String> {
 		return control;
 	}
 
+	@Override
+	protected void setEnabled(boolean enabled) {
+		control.setEnabled(enabled);
+	}
 }
 
 

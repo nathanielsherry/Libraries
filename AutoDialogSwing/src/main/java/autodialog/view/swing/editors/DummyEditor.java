@@ -52,6 +52,12 @@ public class DummyEditor extends AbstractSwingEditor<Object> {
 	public JComponent getComponent() {
 		return component;
 	}
+
+	@Override
+	protected void setEnabled(boolean enabled) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 
 }

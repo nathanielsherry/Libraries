@@ -27,7 +27,7 @@ public class BooleanEditor extends AbstractSwingEditor<Boolean>
 		
 		setFromParameter();
 		param.getValueHook().addListener(v -> setFromParameter());
-		param.getEnabledHook().addListener(e -> control.setEnabled(e));
+		param.getEnabledHook().addListener(e -> setEnabled(e));
 		
 		control.setAlignmentX(Component.LEFT_ALIGNMENT);
 		control.setOpaque(false);
@@ -85,6 +85,11 @@ public class BooleanEditor extends AbstractSwingEditor<Boolean>
 	
 	public void validateFailed() {
 		setFromParameter();
+	}
+
+	@Override
+	protected void setEnabled(boolean enabled) {
+		control.setEnabled(enabled);
 	}
 
 	

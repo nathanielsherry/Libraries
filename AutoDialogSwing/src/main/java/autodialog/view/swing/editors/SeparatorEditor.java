@@ -52,4 +52,7 @@ public class SeparatorEditor extends AbstractSwingEditor<Object> {
 		return component;
 	}
 	
+	@Override
+	protected void setEnabled(boolean enabled) {}
+	
 }

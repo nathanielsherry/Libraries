@@ -36,7 +36,7 @@ public class ListEditor<T> extends AbstractSwingEditor<T>
 		
 		setFromParameter();
 		param.getValueHook().addListener(v -> this.setFromParameter());
-		param.getEnabledHook().addListener(e -> control.setEnabled(e));
+		param.getEnabledHook().addListener(e -> setEnabled(e));
 		
 		
 		control.addActionListener(new ActionListener() {
@@ -93,5 +93,10 @@ public class ListEditor<T> extends AbstractSwingEditor<T>
 		setFromParameter();
 	}
 	
+	
+	@Override
+	protected void setEnabled(boolean enabled) {
+		control.setEnabled(enabled);
+	}
 	
 }

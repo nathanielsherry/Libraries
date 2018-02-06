@@ -27,7 +27,7 @@ public class FloatEditor extends AbstractSwingEditor<Float>
 		
 		setFromParameter();
 		param.getValueHook().addListener(v -> this.setFromParameter());
-		param.getEnabledHook().addListener(e -> control.setEnabled(e));
+		param.getEnabledHook().addListener(e -> setEnabled(e));
 		
 		
 		control.setModel(new SpinnerNumberModel((Float)param.getValue(), null, null, 0.1d));
@@ -88,5 +88,9 @@ public class FloatEditor extends AbstractSwingEditor<Float>
 		setFromParameter();
 	}
 
+	@Override
+	protected void setEnabled(boolean enabled) {
+		control.setEnabled(enabled);
+	}
 
 }

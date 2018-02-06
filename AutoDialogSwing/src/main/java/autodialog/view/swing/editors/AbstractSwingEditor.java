@@ -37,7 +37,11 @@ public abstract class AbstractSwingEditor<T> implements SwingEditor<T> {
 		if (! equiv) {
 			setEditorValue(param.getValue());
 		}
+		
+		setEnabled(param.isEnabled());
+		
 	}
 	
+	protected abstract void setEnabled(boolean enabled);
 	
 }

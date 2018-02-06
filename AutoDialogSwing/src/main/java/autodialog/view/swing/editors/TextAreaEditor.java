@@ -26,7 +26,7 @@ public class TextAreaEditor extends WrappingEditor<String, JTextArea> {
 
 		setFromParameter();
 		param.getValueHook().addListener(v -> this.setFromParameter());
-		param.getEnabledHook().addListener(e -> component.setEnabled(e));
+		param.getEnabledHook().addListener(e -> setEnabled(e));
 		
 		component.getDocument().addDocumentListener(new DocumentListener() {
 			
@@ -64,6 +64,11 @@ public class TextAreaEditor extends WrappingEditor<String, JTextArea> {
 	@Override
 	public String getEditorValue() {
 		return component.getText();
+	}
+	
+	@Override
+	protected void setEnabled(boolean enabled) {
+		component.setEnabled(enabled);
 	}
 	
 
