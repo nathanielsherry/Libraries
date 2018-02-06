@@ -9,16 +9,16 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="24"
-   height="24"
-   viewBox="0 0 24 24"
+   width="16"
+   height="16"
+   viewBox="0 0 16 16"
    id="svg4157"
    version="1.1"
    inkscape:version="0.91 r13725"
-   sodipodi:docname="action-menu.svg"
-   inkscape:export-filename="/home/nathaniel/Projects/SS/Git/Libraries/Swidget/src/main/resources/swidget/icons/48/action-menu.png"
-   inkscape:export-xdpi="180"
-   inkscape:export-ydpi="180">
+   sodipodi:docname="action-menu-16.svg"
+   inkscape:export-filename="/home/nathaniel/Projects/SS/Git/Libraries/Swidget/src/main/resources/swidget/icons/16/action-menu.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
   <defs
      id="defs4159" />
   <sodipodi:namedview
@@ -29,17 +29,17 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="31.678384"
-     inkscape:cx="13.808304"
-     inkscape:cy="11.800472"
+     inkscape:cx="15.954878"
+     inkscape:cy="11.651208"
      inkscape:document-units="px"
      inkscape:current-layer="g4715"
      showgrid="false"
      units="px"
      inkscape:window-width="1920"
      inkscape:window-height="1016"
-     inkscape:window-x="0"
-     inkscape:window-y="27"
-     inkscape:window-maximized="1" />
+     inkscape:window-x="347"
+     inkscape:window-y="538"
+     inkscape:window-maximized="0" />
   <metadata
      id="metadata4162">
     <rdf:RDF>
@@ -48,7 +48,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -56,39 +56,39 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(0,-1028.3622)">
+     transform="translate(0,-1036.3622)">
     <g
        id="g4715"
-       transform="matrix(1.6000638,0,0,1.5999658,-20.629228,-628.93647)"
+       transform="translate(-12.392454,1.0282309)"
        style="fill:#303030;fill-opacity:1">
       <rect
-         y="1037.7089"
-         x="14.767678"
-         width="11.249552"
+         y="1038.3339"
+         x="15.392653"
+         width="9.9996014"
          style="color:#bebebe;display:inline;overflow:visible;visibility:visible;fill:#303030;fill-opacity:1;stroke:none;stroke-width:1;marker:none"
          inkscape:label="a"
          id="rect7356"
-         height="2.5000534"
+         height="2.0002136"
          rx="1"
          ry="1" />
       <rect
-         y="1042.0839"
-         x="14.767678"
-         width="11.249552"
+         y="1042.3339"
+         x="15.392653"
+         width="9.9996014"
          style="color:#bebebe;display:inline;overflow:visible;visibility:visible;fill:#303030;fill-opacity:1;stroke:none;stroke-width:1;marker:none"
          inkscape:label="a"
          id="rect7358"
-         height="2.5000534"
+         height="2.0002136"
          rx="1"
          ry="1" />
       <rect
-         y="1046.459"
-         x="14.767679"
-         width="11.249551"
+         y="1046.3339"
+         x="15.392653"
+         width="9.9996014"
          style="color:#bebebe;display:inline;overflow:visible;visibility:visible;fill:#303030;fill-opacity:1;stroke:none;stroke-width:1;marker:none"
          inkscape:label="a"
          id="rect7360"
-         height="2.5000534"
+         height="2.0002136"
          rx="1"
          ry="1" />
     </g>
