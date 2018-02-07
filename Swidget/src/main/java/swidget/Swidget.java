@@ -28,6 +28,7 @@ import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 
 import commonenvironment.Env;
 import swidget.dialogues.SplashScreen;
+import swidget.icons.IconFactory;
 import swidget.icons.IconSize;
 import swidget.icons.StockIcon;
 import swidget.stratus.StratusLookAndFeel;
@@ -46,9 +47,12 @@ public class Swidget
 	}
 	
 	
-	public static void initialize(ImageIcon splash, Runnable startupTasks)
+	public static void initialize(String splashPath, Runnable startupTasks)
 	{
+		
 		//Needed to work around https://bugs.openjdk.java.net/browse/JDK-8130400
+		//NEED TO SET THESE RIGHT AT THE START BEFORE ANY AWT/SWING STUFF HAPPENS.
+		//THAT INCLUDES CREATING ANY ImageIcon DATA FOR SPLASH SCREEN
 		System.setProperty("sun.java2d.xrender", "false");
 		System.setProperty("sun.java2d.pmoffscreen", "false");
 		
@@ -56,9 +60,10 @@ public class Swidget
 		StratusLookAndFeel laf = new StratusLookAndFeel();
 		
 		
-		if (splash != null) {
+		
+		if (splashPath != null) {
 			SwingUtilities.invokeLater(() -> {
-				splashWindow = new SplashScreen(splash);
+				splashWindow = new SplashScreen(IconFactory.getImageIcon(splashPath));
 				splashWindow.repaint();
 				
 				SwingUtilities.invokeLater(() -> {
@@ -69,10 +74,17 @@ public class Swidget
 					splashWindow.setVisible(false);
 				});
 			});
+		} else {
+			SwingUtilities.invokeLater(() -> {
+				try {
+					UIManager.setLookAndFeel(laf);
+				} catch (Exception e) {}
+				startupTasks.run();
+			});
 		}
 		
 	}
-	
+
 	public static boolean isStratus()
 	{
 		
