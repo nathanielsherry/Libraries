@@ -5,10 +5,17 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
+import scidraw.drawing.DrawingRequest;
+import scidraw.drawing.ViewTransform;
 import scidraw.drawing.map.MapDrawing;
 import scidraw.drawing.map.palettes.AbstractPalette;
 import scidraw.drawing.painters.Painter;
 import scidraw.drawing.painters.PainterData;
+import scidraw.drawing.plot.PlotDrawing;
+import scitypes.ISpectrum;
+import scitypes.ReadOnlySpectrum;
+import scitypes.Spectrum;
+import scitypes.SpectrumCalculations;
 
 /**
  * 
@@ -46,11 +53,16 @@ public abstract class MapPainter extends Painter
 		return 1;
 	}
 	
-	public Color getColourFromRules(double intensity, double maximum)
+	public Color getColourFromRules(double intensity, double maximum, ViewTransform transform)
 	{
 
 		Color c;
-				
+		
+		if (transform == ViewTransform.LOG) {
+			//intensity will already have been log'd, we just have to log the max
+			maximum = Math.log1p(maximum);
+		}
+		
 		for (AbstractPalette r : colourRules) {
 			c = r.getFillColour(intensity, maximum);
 			if (c != null) return c;
@@ -95,6 +107,13 @@ public abstract class MapPainter extends Painter
 	}
 	
 	public abstract void drawMap(PainterData p, float cellSize, float rawCellSize);
+	
+	protected Spectrum transformDataForMap(DrawingRequest dr, ReadOnlySpectrum data)
+	{
+		Spectrum transformedData = new ISpectrum(data);
+		if (dr.viewTransform == ViewTransform.LOG) transformedData = SpectrumCalculations.logList(transformedData);
+		return transformedData;
+	}
 	
 	public abstract boolean isBufferingPainter();
 	public abstract void clearBuffer();

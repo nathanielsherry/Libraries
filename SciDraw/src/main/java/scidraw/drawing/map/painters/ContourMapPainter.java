@@ -52,7 +52,9 @@ public class ContourMapPainter extends SpectrumMapPainter
 		//Spectrum flipData = SpectrumCalculations.gridYReverse(data, grid);
 
 		
-		traceLayers(p, grid, data, cellSize, false);
+		Spectrum mapData = transformDataForMap(p.dr, data);
+		
+		traceLayers(p, grid, mapData, cellSize, false);
 		
 		
 	}
@@ -129,7 +131,7 @@ public class ContourMapPainter extends SpectrumMapPainter
 		for (int i = 0; i < cache.size(); i++)
 		{
 					
-			Color colour = getColourFromRules(i, cache.size());
+			Color colour = getColourFromRules(i, cache.size(), p.dr.viewTransform);
 			
 			p.context.addShape(cache.get(i));
 			

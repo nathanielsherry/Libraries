@@ -43,7 +43,7 @@ public class RasterSpectrumMapPainter extends SpectrumMapPainter
 		
 		p.context.save();
 	
-			Spectrum modData = data;
+			Spectrum modData = transformDataForMap(p.dr, data);
 			
 			float maxIntensity;
 			if (p.dr.maxYIntensity <= 0) {
@@ -79,7 +79,7 @@ public class RasterSpectrumMapPainter extends SpectrumMapPainter
 			float intensity = data.get(ordinal);
 			
 			if (maximumIndex > ordinal) {
-				b.setPixelValue(ordinal, getColourFromRules(intensity, maxIntensity));
+				b.setPixelValue(ordinal, getColourFromRules(intensity, maxIntensity, p.dr.viewTransform));
 			}
 		};
 
@@ -105,7 +105,7 @@ public class RasterSpectrumMapPainter extends SpectrumMapPainter
 				index = y * p.dr.dataWidth + x;
 				intensity = data.get(index);
 
-				c = getColourFromRules(intensity, maxIntensity);
+				c = getColourFromRules(intensity, maxIntensity, p.dr.viewTransform);
 
 				p.context.rectangle(x * cellSize, y * cellSize, cellSize + 1, cellSize + 1);
 

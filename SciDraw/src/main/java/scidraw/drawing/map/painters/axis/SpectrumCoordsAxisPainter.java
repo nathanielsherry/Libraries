@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
+import scidraw.drawing.ViewTransform;
 import scidraw.drawing.map.palettes.AbstractPalette;
 import scidraw.drawing.painters.PainterData;
 import scitypes.Coord;
@@ -156,7 +157,7 @@ public class SpectrumCoordsAxisPainter extends AbstractKeyCoordAxisPainter
 		{
 
 			p.context.rectangle(spectrumPosition, offsetY, increment + 1.0f, keyHeight);
-			p.context.setSource(getColourFromRules(((float)i/(float)steps)*p.dr.maxYIntensity, p.dr.maxYIntensity));
+			p.context.setSource(getColourFromRules(((float)i/(float)steps)*p.dr.maxYIntensity, p.dr.maxYIntensity, p.dr.viewTransform));
 			p.context.fill();
 			spectrumPosition += increment;
 
@@ -250,11 +251,16 @@ public class SpectrumCoordsAxisPainter extends AbstractKeyCoordAxisPainter
 	}
 
 
-	public Color getColourFromRules(float intensity, float maximum)
+	public Color getColourFromRules(float intensity, float maximum, ViewTransform transform)
 	{
 
 		Color c;
 
+		if (transform == ViewTransform.LOG) {
+			intensity = (float)Math.log1p(intensity);
+			maximum = (float)Math.log1p(maximum);
+		}
+		
 		for (AbstractPalette r : colourRules)
 		{
 			c = r.getFillColour(intensity, maximum);
