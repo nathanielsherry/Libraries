@@ -22,12 +22,23 @@ public class SpectrumCalculations
 	public static final int	MIN_SIZE_FOR_THREADING	= 512;
 
 
+	public static Spectrum maxLists(ReadOnlySpectrum l1, ReadOnlySpectrum l2)
+	{
 
-	public static Spectrum maxlist_inplace(final Spectrum s1, final ReadOnlySpectrum s2)
+		Spectrum result = new ISpectrum(l1.size());
+		int maxInd = Math.min(l1.size(), l2.size());
+		for (int i = 0; i < maxInd; i++)
+		{
+			result.set(i, Math.max(l1.get(i), l2.get(i)));
+		}
+
+		return result;
+	}
+
+	
+	public static Spectrum maxLists_inplace(final Spectrum s1, final ReadOnlySpectrum s2)
 	{
 		int size = Math.min(s1.size(), s2.size());
-
-		
 		for (int i = 0; i < size; i++)
 		{
 			s1.set(i, Math.max(s1.get(i), s2.get(i)));
@@ -366,7 +377,7 @@ public class SpectrumCalculations
 	 * @param l2
 	 * @return a list which is the sum of the two lists given
 	 */
-	public static Spectrum addLists(Spectrum l1, Spectrum l2)
+	public static Spectrum addLists(ReadOnlySpectrum l1, ReadOnlySpectrum l2)
 	{
 
 		Spectrum result = new ISpectrum(l1.size());
