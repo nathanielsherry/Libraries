@@ -13,24 +13,11 @@ import java.util.stream.Collectors;
 
 import scitypes.LongRange;
 import scitypes.LongRangeSet;
-import scitypes.Range;
-import scitypes.RangeSet;
+import scratch.encoders.SerializingEncoder;
 
 
-/**
- * AbstractScratchList is an implementation of the List interface which writes 
- * out values to a temporary file, rather than store elements in memory. 
- * This means that get operations are idempotent when there are no 
- * intervening set operations, even if the accessed elements are 
- * modified externally. AbstractScratchList does not define the manner in which
- * values are (de)serialized, leaving that detail up to specific 
- * implementations.
- * @author Nathaniel Sherry
- *
- * @param <T> AbstractScratchList will be a list of values of type T
- */
 
-public abstract class AbstractScratchList<T> implements List<T>{
+public class ScratchDiskList<T> implements IScratchList<T> {
 
 
 	
@@ -42,29 +29,29 @@ public abstract class AbstractScratchList<T> implements List<T>{
 	private File file;
 	private RandomAccessFile raf;
 	
+	private ScratchEncoder<T> encoder;
+	
+	
+	
+	public ScratchDiskList() throws IOException
+	{
+		this(new SerializingEncoder());
+	}
 	
 	/**
 	 * Create a new AbstractScratchList
 	 * @param name the name prefix to give the temporary file
 	 * @throws IOException
 	 */
-	public AbstractScratchList(String name) throws IOException
+	public ScratchDiskList(ScratchEncoder<T> encoder) throws IOException
 	{
-		
-		
-		file = File.createTempFile(name + " - Scratch List [temp - ", "]");
+		this.encoder = encoder;
+		file = File.createTempFile("Scratch List [temp - ", "]");
 		file.deleteOnExit();
-		
-		init();
-				
+		init();	
 	}
 	
-	public AbstractScratchList(File file) throws IOException
-	{
-		this.file = file;
-		
-	}
-	
+
 	private void init() throws FileNotFoundException
 	{
 		elementPositions = new ArrayList<LongRange>();
@@ -72,12 +59,9 @@ public abstract class AbstractScratchList<T> implements List<T>{
 		raf = new RandomAccessFile(file, "rw");
 	}
 	
-	protected AbstractScratchList()
-	{
-		
-	}
+
 	
-	protected AbstractScratchList(File temp, RandomAccessFile raf, List<LongRange> positions, LongRangeSet discarded)
+	protected ScratchDiskList(File temp, RandomAccessFile raf, List<LongRange> positions, LongRangeSet discarded)
 	{
 		elementPositions = new ArrayList<>(positions);
 		discardedRanges = discarded;
@@ -85,7 +69,19 @@ public abstract class AbstractScratchList<T> implements List<T>{
 		this.raf = raf;
 	}
 	
-	protected final void makeSublist(AbstractScratchList<T> target, int startIndex, int endIndex)
+	
+	
+	public ScratchEncoder<T> getEncoder() {
+		return encoder;
+	}
+
+
+	public void setEncoder(ScratchEncoder<T> encoder) {
+		this.encoder = encoder;
+	}
+
+
+	protected final void makeSublist(ScratchDiskList<T> target, int startIndex, int endIndex)
 	{
 		target.elementPositions = elementPositions.subList(startIndex, endIndex);
 		target.discardedRanges = discardedRanges;
@@ -94,10 +90,14 @@ public abstract class AbstractScratchList<T> implements List<T>{
 	}
 	
 	
-	protected abstract byte[] encodeObject(T element) throws IOException;
+	protected byte[] encodeObject(T element) throws IOException {
+		return this.encoder.encode(element);
+	}
 	
 	
-	protected abstract T decodeObject(byte[] byteArray) throws IOException;
+	protected T decodeObject(byte[] byteArray) throws IOException {
+		return this.encoder.decode(byteArray);
+	}
 
 
 	private void addEntry(int index, T element)
@@ -268,12 +268,12 @@ public abstract class AbstractScratchList<T> implements List<T>{
 
 			public T next()
 			{
-				return AbstractScratchList.this.get(index++);
+				return ScratchDiskList.this.get(index++);
 			}
 
 			public void remove()
 			{
-				AbstractScratchList.this.remove(index);
+				ScratchDiskList.this.remove(index);
 			}};
 	}
 
@@ -302,7 +302,7 @@ public abstract class AbstractScratchList<T> implements List<T>{
 			
 			public void add(T t)
 			{
-				AbstractScratchList.this.add(lastReturned, t);
+				ScratchDiskList.this.add(lastReturned, t);
 			}
 
 			public boolean hasNext()
@@ -318,7 +318,7 @@ public abstract class AbstractScratchList<T> implements List<T>{
 			public T next()
 			{
 				lastReturned = inext;
-				return AbstractScratchList.this.get(inext++);
+				return ScratchDiskList.this.get(inext++);
 			}
 
 			public int nextIndex()
@@ -329,7 +329,7 @@ public abstract class AbstractScratchList<T> implements List<T>{
 			public T previous()
 			{
 				lastReturned = inext-1;
-				return AbstractScratchList.this.get(--inext);
+				return ScratchDiskList.this.get(--inext);
 			}
 
 			public int previousIndex()
@@ -339,13 +339,13 @@ public abstract class AbstractScratchList<T> implements List<T>{
 
 			public void remove()
 			{
-				AbstractScratchList.this.remove(lastReturned);
+				ScratchDiskList.this.remove(lastReturned);
 				inext--;
 			}
 
 			public void set(T t)
 			{
-				AbstractScratchList.this.set(lastReturned, t);
+				ScratchDiskList.this.set(lastReturned, t);
 			}};
 	}
 
@@ -460,7 +460,13 @@ public abstract class AbstractScratchList<T> implements List<T>{
 		return elementPositions.size();
 	}
 
-	public abstract List<T> subList(int fromIndex, int toIndex);
+	
+	@Override
+	public List<T> subList(int fromIndex, int toIndex) {
+		throw new ScratchException(new RuntimeException("Cannot Create SubList of File Backed List"));
+	}
+	
+
 
 	public Object[] toArray()
 	{

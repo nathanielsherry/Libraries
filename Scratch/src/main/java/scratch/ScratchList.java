@@ -1,142 +1,268 @@
 package scratch;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
-import scitypes.ISpectrum;
-import scitypes.SparsedList;
-import scitypes.Spectrum;
+public final class ScratchList<T extends Serializable> implements IScratchList<T> {
 
-
-/**
- * ScratchList is an implementation of the List interface which writes 
- * out values to a temporary file, rather than store elements in memory. 
- * This means that get operations are idempotent when there are no 
- * intervening set operations, even if the accessed elements are 
- * modified externally.
- * @author Nathaniel Sherry, 2010
- *
- */
-
-public class ScratchList<T extends Serializable> extends AbstractScratchList<T>
-{
-
-
-	public static void main(String args[])
-	{
-		Spectrum s1 = new ISpectrum(10, 1);
-		Spectrum s2 = new ISpectrum(5, 2);
-		Spectrum s3 = new ISpectrum(20, 3);
-		Spectrum s4 = new ISpectrum(20, 4);
-		Spectrum s5 = new ISpectrum(9, 5);
-		
-		try {
-			
-			ScratchList<Spectrum> list = new ScratchList<Spectrum>("test");
-			
-			list.add(s1);
-			list.add(s5);
-			list.add(s2);
-			
-			list.set(0, s3);
-			list.set(2, s4);
-			
-			list.add(s5);
-			list.add(s4);
-			
-			list.remove(s3);
-			//list.add(s3);
-			
-			System.out.println(list.get(0).toString());
-			System.out.println(list.get(2).toString());
-			System.out.println(list.get(3).toString());
-			
-			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
+	protected List<byte[]> data;
+	protected ScratchEncoder<T> encoder;
+	
+	
+	
+	public ScratchEncoder<T> getEncoder() {
+		return encoder;
+	}
+	public void setEncoder(ScratchEncoder<T> encoder) {
+		this.encoder = encoder;
 	}
 	
-	
-	
-	
-	public static <T extends Serializable> List<T> create(String name)
-	{
-		try
-		{
-			return new ScratchList<T>(name);
-		}
-		catch (IOException e)
-		{
-			//We need to fall back to another sparse list
-			e.printStackTrace();
-			return new SparsedList<>(new ArrayList<>());
-		}
+	protected byte[] encode(T data) throws ScratchException {
+		return encoder.encode(data);
+	}
+	protected T decode(byte[] data) throws ScratchException {
+		return encoder.decode(data);
 	}
 	
-	
-	
-	/**
-	 * Create a new ScratchList
-	 * @param name the name prefix to give the temporary file
-	 * @throws IOException
-	 */
-	public ScratchList(String name) throws IOException
-	{
-		super(name);
+	public ScratchList() {
+		data = new ArrayList<>();
 	}
 	
-	public ScratchList(File file) throws IOException
-	{
-		super(file);
+	//use your own backing -- also sublist constructor
+	public ScratchList(List<byte[]> data) {
+		this.data = data;
 	}
 
-	
-	protected ScratchList()
-	{
-	}
-	
-	
 	@Override
-	protected byte[] encodeObject(T element) throws IOException
-	{
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		ObjectOutputStream oos;
-		oos = new ObjectOutputStream(baos);
-		oos.writeObject(element);
-		return baos.toByteArray();
-	}
-	
-	@SuppressWarnings("unchecked")
-	@Override
-	protected T decodeObject(byte[] byteArray) throws IOException
-	{
-		ByteArrayInputStream bais = new ByteArrayInputStream(byteArray);
-		ObjectInputStream ois = new ObjectInputStream(bais);
-		try {
-			return (T)ois.readObject();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-			return null;
-		}
+	public int size() {
+		return data.size();
 	}
 
+	@Override
+	public boolean isEmpty() {
+		return data.isEmpty();
+	}
+
+	@Override
+	public boolean contains(Object o) {
+		return data.contains(encode((T) o));
+	}
+
+	@Override
+	public Iterator<T> iterator() {
+		return new Iterator<T>() {
+
+			Iterator<byte[]> delegate = data.iterator();
+			
+			@Override
+			public boolean hasNext() {
+				return delegate.hasNext();
+			}
+
+			@Override
+			public T next() {
+				return decode(delegate.next());
+			}
+		};
+	}
+
+	@Override
+	public Object[] toArray() {
+		Object[] arr = data.toArray();
+		for (int i = 0; i < arr.length; i++) {
+			arr[i] = get(i);
+		}
+		return arr;
+	}
+
+	@Override
+	public <T> T[] toArray(T[] a) {
+		T[] arr = data.toArray(a);
+		for (int i = 0; i < arr.length; i++) {
+			arr[i] = (T) get(i);
+		}
+		return arr;
+	}
+
+	@Override
+	public boolean add(T e) {
+		return data.add(encode(e));
+	}
+
+	@Override
+	public boolean remove(Object o) {
+		return data.remove(encode((T) o));
+	}
+
+	@Override
+	public boolean containsAll(Collection<?> c) {
+		for (Object o : c) {
+			if (!contains(o)) { return false; }
+		}
+		return true;
+	}
+
+	@Override
+	public boolean addAll(Collection<? extends T> c) {
+		boolean flag = false;
+		for (T o : c) {
+			flag |= add(o);
+		}
+		return flag;
+	}
+
+	@Override
+	public boolean addAll(int index, Collection<? extends T> c) {
+		for (T o : c) {
+			add(index, o);
+		}
+		return true;
+	}
+
+	@Override
+	public boolean removeAll(Collection<?> c) {
+		boolean flag = false;
+		for (Object o : c) {
+			flag |= remove(o);
+		}
+		return flag;
+	}
+
+	@Override
+	public boolean retainAll(Collection<?> c) {
+		if (c == null) return false;
+		
+		ListIterator<T> li = listIterator();
+		
+		boolean modified = false;
+		while(li.hasNext())
+		{
+			if ( ! c.contains(li.next()) )
+			{
+				li.remove();
+				modified = true;
+			}
+		}
+		
+		return modified;
+	}
+
+	@Override
+	public void clear() {
+		data.clear();
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (o instanceof ScratchList) {
+			return data.equals(((ScratchList) o).data);
+		}
+		return false;
+	}
+
+	@Override
+	public int hashCode() {
+		return data.hashCode();
+	}
+
+	@Override
+	public T get(int index) {
+		return decode(data.get(index));
+	}
+
+	@Override
+	public T set(int index, T element) {
+		data.set(index, encode(element));
+		return element;
+	}
+
+	@Override
+	public void add(int index, T element) {
+		data.add(index, encode(element));
+	}
+
+	@Override
+	public T remove(int index) {
+		return decode(data.remove(index));
+	}
+
+	@Override
+	public int indexOf(Object o) {
+		return data.indexOf(o);
+	}
+
+	@Override
+	public int lastIndexOf(Object o) {
+		return data.lastIndexOf(o);
+	}
+
+	@Override
+	public ListIterator<T> listIterator() {
+		return listIterator(0);
+	}
+
+	@Override
+	public ListIterator<T> listIterator(int index) {
+		return new ListIterator<T>() {
+
+			ListIterator<byte[]> delegate = data.listIterator(index);
+			
+			@Override
+			public boolean hasNext() {
+				return delegate.hasNext();
+			}
+
+			@Override
+			public T next() {
+				return decode(delegate.next());
+			}
+
+			@Override
+			public boolean hasPrevious() {
+				return delegate.hasPrevious();
+			}
+
+			@Override
+			public T previous() {
+				return decode(delegate.previous());
+			}
+
+			@Override
+			public int nextIndex() {
+				return delegate.nextIndex();
+			}
+
+			@Override
+			public int previousIndex() {
+				return delegate.previousIndex();
+			}
+
+			@Override
+			public void remove() {
+				delegate.remove();
+			}
+
+			@Override
+			public void set(T e) {
+				delegate.set(encode(e));
+			}
+
+			@Override
+			public void add(T e) {
+				delegate.add(encode(e));
+			}
+		};
+	}
 	@Override
 	public List<T> subList(int fromIndex, int toIndex) {
-		ScratchList<T> sublist = new ScratchList<T>();
-		makeSublist(sublist, fromIndex, toIndex);
-		return sublist;
+		return new ScratchList<>(data.subList(fromIndex, toIndex));
 	}
-
 	
-
 }
