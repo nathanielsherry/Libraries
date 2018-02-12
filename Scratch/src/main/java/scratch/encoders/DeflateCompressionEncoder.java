@@ -12,9 +12,9 @@ import scratch.ScratchException;
 
 public class DeflateCompressionEncoder implements ScratchEncoder<byte[]>{
 
-	int level = 6;
+	int level = 2;
 	public DeflateCompressionEncoder() {
-		this(6);
+		this(2);
 	}
 	public DeflateCompressionEncoder(int level) {
 		this.level = level;
