@@ -43,11 +43,11 @@ public class Swidget
 	
 	public static void initialize()
 	{
-		initialize(null, () -> {});
+		initialize(null, null, () -> {});
 	}
 	
 	
-	public static void initialize(String splashPath, Runnable startupTasks)
+	public static void initialize(String splashBackground, String splashIcon, Runnable startupTasks)
 	{
 		
 		//Needed to work around https://bugs.openjdk.java.net/browse/JDK-8130400
@@ -61,9 +61,9 @@ public class Swidget
 		
 		
 		
-		if (splashPath != null) {
+		if (splashBackground != null && splashIcon != null) {
 			SwingUtilities.invokeLater(() -> {
-				splashWindow = new SplashScreen(IconFactory.getImageIcon(splashPath));
+				splashWindow = new SplashScreen(IconFactory.getImageIcon(splashBackground), IconFactory.getImage(splashIcon));
 				splashWindow.repaint();
 				
 				SwingUtilities.invokeLater(() -> {
