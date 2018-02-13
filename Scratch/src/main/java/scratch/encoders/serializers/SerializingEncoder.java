@@ -1,4 +1,4 @@
-package scratch.encoders;
+package scratch.encoders.serializers;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

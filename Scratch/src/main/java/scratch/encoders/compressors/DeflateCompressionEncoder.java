@@ -1,4 +1,4 @@
-package scratch.encoders;
+package scratch.encoders.compressors;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

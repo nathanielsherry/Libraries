@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 import scitypes.LongRange;
 import scitypes.LongRangeSet;
-import scratch.encoders.SerializingEncoder;
+import scratch.encoders.serializers.SerializingEncoder;
 
 
 
