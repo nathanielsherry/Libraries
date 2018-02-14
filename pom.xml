@@ -10,9 +10,6 @@
   <url>http://maven.apache.org</url>
   
   <modules>
-    <module>AutoDialog</module>
-    <module>AutoDialogSwing</module>
-    <module>AutoDialogFX</module>
     <module>Bolt</module>
     <module>BoltCode</module>
     <module>Chanje</module>
