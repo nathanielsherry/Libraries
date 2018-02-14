@@ -124,7 +124,7 @@ public class StratusLookAndFeel extends NimbusLookAndFeel {
 						Font oldFont = (Font) ret.get(key);
 						
 						int fontSize = oldFont.getSize();
-						ret.put(key, new Font("DejaVu Sans Unhinted", oldFont.getStyle(), fontSize+1));
+						ret.put(key, new Font("DejaVu Sans Unhinted", oldFont.getStyle(), fontSize));
 					} catch (FontFormatException | IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();

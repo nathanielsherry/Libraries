@@ -138,6 +138,8 @@ public class TabbedInterfacePanel extends JLayeredPane {
 
 		//modalLayer.setVisible(true);
 		
+		this.repaint();
+		
 	}
 	
 	public void clearModal() {
