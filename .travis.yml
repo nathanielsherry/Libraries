@@ -4,6 +4,11 @@ cache:
     - /home/travis/.m2/repository/org/apache
     - /home/travis/.m2/repository/com/google
     - /home/travis/.m2/repository/org/jfxtras
+    - /home/travis/.m2/repository/junit
+    - /home/travis/.m2/repository/commons-logging
+    - /home/travis/.m2/repository/commons-cli
+    - /home/travis/.m2/repository/commons-lang
+    - /home/travis/.m2/repository/commons-parent
 
 
 language: java
