@@ -77,39 +77,6 @@ public class IOOperations
 		return parts.get(parts.size() - 1);
 	}
 	
-
-
-	/**
-	 * Reads a file from inside the current jar file
-	 * @param s the name of the file to read
-	 * @return the contents of the file
-	 */
-    public static String readTextFromJar(String s)
-	{
-		InputStream is = null;
-		BufferedReader br = null;
-		String text = "";
-
-		try {
-			is = IOOperations.class.getResourceAsStream(s);
-			br = new BufferedReader(new InputStreamReader(is));
-		} catch (Exception e) {
-			return "";
-		}
-
-		@SuppressWarnings("resource")
-		Scanner sc = new Scanner(br).useDelimiter("\\Z");
-		text = sc.next();
-		sc.close();
-
-
-		return text;
-	}
-    
-    public static URL getURLFromJar(String s)
-    {
-    	return IOOperations.class.getResource(s);
-    }
     
 	
 }

@@ -11,7 +11,6 @@ import java.util.ServiceLoader;
 
 import bolt.plugin.core.BoltPluginController;
 import bolt.plugin.core.BoltPluginSet;
-import commonenvironment.Env;
 
 
 
@@ -48,7 +47,7 @@ public class BoltPluginLoader<T extends BoltJavaPlugin>
 	{
 		URL url = null;
 		try {
-			url = Env.getJarForClass(loadedClass).toURI().toURL();
+			url = BoltJar.getJarForClass(loadedClass).toURI().toURL();
 		} catch (MalformedURLException | NullPointerException e) {
 		}
 		registerPlugin(loadedClass, url);
@@ -195,9 +194,9 @@ public class BoltPluginLoader<T extends BoltJavaPlugin>
 	public void register()
 	{
 		
-		if (Env.isClassInJar(target))
+		if (BoltJar.isClassInJar(target))
 		{
-			register(Env.getJarForClass(target).getParentFile());
+			register(BoltJar.getJarForClass(target).getParentFile());
 		}
 		else
 		{

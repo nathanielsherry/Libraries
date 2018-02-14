@@ -18,24 +18,7 @@ public class Env
 		OTHER
 	}
 	
-	public static boolean isClassInJar(Class<?> classInJar)
-	{
-		Env env = new Env();
-		String className = classInJar.getName().replace('.', '/');
-		String classJar = env.getClass().getResource("/" + className + ".class").toString();
-		return classJar.startsWith("jar:");
-	}
-	
 
-	public static File getJarForClass(Class<?> classInJar)
-	{
-		if (!isClassInJar(classInJar)) return null;
-		try {
-			return new File(classInJar.getProtectionDomain().getCodeSource().getLocation().toURI());
-		} catch (URISyntaxException e) {
-			return null;
-		}
-	}
 	
 
 

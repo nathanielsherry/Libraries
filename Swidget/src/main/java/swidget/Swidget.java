@@ -26,7 +26,6 @@ import javax.swing.plaf.InsetsUIResource;
 import javax.swing.plaf.ToolTipUI;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 
-import commonenvironment.Env;
 import swidget.dialogues.SplashScreen;
 import swidget.icons.IconFactory;
 import swidget.icons.IconSize;
