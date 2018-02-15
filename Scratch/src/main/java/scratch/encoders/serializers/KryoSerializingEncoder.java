@@ -1,10 +1,9 @@
 package scratch.encoders.serializers;
 
+import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-
-import org.apache.commons.io.output.ByteArrayOutputStream;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.Serializer;

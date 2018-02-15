@@ -1,4 +1,4 @@
-package scratch;
+package scratch.list;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -9,6 +9,9 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+
+import scratch.ScratchEncoder;
+import scratch.ScratchException;
 
 public final class ScratchList<T extends Serializable> implements IScratchList<T> {
 

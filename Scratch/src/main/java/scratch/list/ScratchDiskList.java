@@ -1,4 +1,4 @@
-package scratch;
+package scratch.list;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -13,6 +13,8 @@ import java.util.stream.Collectors;
 
 import scitypes.LongRange;
 import scitypes.LongRangeSet;
+import scratch.ScratchEncoder;
+import scratch.ScratchException;
 import scratch.encoders.serializers.SerializingEncoder;
 
 

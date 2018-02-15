@@ -4,8 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-
-import org.apache.commons.io.IOUtils;
+import java.nio.file.Files;
 
 import scratch.ScratchEncoder;
 import scratch.ScratchException;
@@ -37,7 +36,7 @@ public class FileBacked<T> implements ByteStorage<T>{
 	@Override
 	public byte[] getBytes() {
 		try {
-			return IOUtils.toByteArray(new FileInputStream(backing));
+			return Files.readAllBytes(backing.toPath());
 		} catch (IOException e) {
 			throw new ScratchException(e);
 		}

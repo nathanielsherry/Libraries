@@ -1,6 +1,8 @@
-package scratch;
+package scratch.list;
 
 import java.util.List;
+
+import scratch.ScratchEncoder;
 
 public interface IScratchList<T> extends List<T>{
 
