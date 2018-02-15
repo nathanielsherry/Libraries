@@ -10,8 +10,6 @@
   <url>http://maven.apache.org</url>
   
   <modules>
-    <module>Bolt</module>
-    <module>BoltCode</module>
     <module>Chanje</module>
     <module>CommonEnvironment</module>
     <module>Eventful</module>
