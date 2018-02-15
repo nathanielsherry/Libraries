@@ -4,8 +4,8 @@ package scidraw.drawing.map.painters;
 import java.awt.Color;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.stream.IntStream;
 
-import plural.executor.eachindex.implementations.PluralEachIndexExecutor;
 import scidraw.drawing.backends.Buffer;
 import scidraw.drawing.map.palettes.SingleColourPalette;
 import scidraw.drawing.painters.PainterData;
@@ -65,17 +65,14 @@ public class RasterColorMapPainter extends MapPainter
 		final Buffer b = p.context.getImageBuffer(p.dr.dataWidth, p.dr.dataHeight);
 
 		final Color transparent = new Color(0, 0 ,0, 0);
-		final Consumer<Integer> drawPixel = ordinal -> {			
+		
+		IntStream.range(0, data.size()).parallel().forEach(ordinal -> {		
 			if (maximumIndex > ordinal) {
 				Color c = data.get(ordinal);
 				if (c == null) c = transparent;
 				b.setPixelValue(ordinal, c);
 			}
-		};
-
-
-		new PluralEachIndexExecutor(data.size(), drawPixel).executeBlocking();
-		
+		});
 
 		p.context.compose(b, 0, 0, cellSize);
 		

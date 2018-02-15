@@ -4,8 +4,8 @@ package scidraw.drawing.map.painters;
 import java.awt.Color;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.stream.IntStream;
 
-import plural.executor.eachindex.implementations.PluralEachIndexExecutor;
 import scidraw.drawing.backends.Buffer;
 import scidraw.drawing.map.palettes.AbstractPalette;
 import scidraw.drawing.painters.PainterData;
@@ -75,15 +75,14 @@ public class RasterSpectrumMapPainter extends SpectrumMapPainter
 
 		final Buffer b = p.context.getImageBuffer(p.dr.dataWidth, p.dr.dataHeight);
 
-		final Consumer<Integer> drawPixel = (Integer ordinal) -> {				
+		IntStream.range(0, data.size()).parallel().forEach(ordinal -> {				
 			float intensity = data.get(ordinal);
 			
 			if (maximumIndex > ordinal) {
 				b.setPixelValue(ordinal, getColourFromRules(intensity, maxIntensity, p.dr.viewTransform));
 			}
-		};
-
-		new PluralEachIndexExecutor(data.size(), drawPixel).executeBlocking();
+		});
+		
 		
 		return b;
 	}

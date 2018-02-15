@@ -38,7 +38,7 @@
 		</dependency>
 		<dependency>
 			<groupId>net.sciencestudio.libs</groupId>
-			<artifactId>Plural</artifactId>
+			<artifactId>Swidget</artifactId>
 			<version>1.0</version>
 		</dependency>
 	</dependencies>
