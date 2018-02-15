@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import plural.executor.Plural;
-
 
 /**
  * This class contains methods used to transform Spectrum (eg log), or to find a specific piece of information about the
@@ -183,26 +181,6 @@ public class SpectrumCalculations
 	}
 
 
-	/**
-	 * A threaded version of {@link SpectrumCalculations#multiplyBy(List, float)}
-	 * 
-	 * @param data
-	 * @param value
-	 * @return a copy of data multiplied value
-	 */
-	public static Spectrum multiplyBy_threaded(final Spectrum data, final float value)
-	{
-
-		if (data.size() < MIN_SIZE_FOR_THREADING) return multiplyBy(data, value);
-
-		final Spectrum result = new ISpectrum(data.size());
-
-		Plural.eachIndex(data.size(), (Integer ordinal) -> {
-			result.set(ordinal, data.get(ordinal) * value);
-		});
-
-		return result;
-	}
 
 
 	/**
@@ -244,28 +222,6 @@ public class SpectrumCalculations
 			data.set(i, newvalue);
 		}
 
-	}
-
-
-	/**
-	 * A threaded version of {@link #divideBy(List, float)}
-	 * 
-	 * @param data
-	 * @param value
-	 * @return a copy of data divided by value
-	 */
-	public static Spectrum divideBy_threaded(final Spectrum data, final float value)
-	{
-
-		if (data.size() < MIN_SIZE_FOR_THREADING) return divideBy(data, value);
-
-		final Spectrum result = new ISpectrum(data.size());
-
-		Plural.eachIndex(data.size(), (Integer ordinal) -> {
-			result.set(ordinal, data.get(ordinal) / value);
-		});
-
-		return result;
 	}
 
 
@@ -344,33 +300,6 @@ public class SpectrumCalculations
 
 
 	/**
-	 * A threaded version of {@link #subtractFromList(List, float, float)}
-	 * 
-	 * @param data
-	 * @param value
-	 * @param minimum
-	 * @return a copy of data, with value subtracted from each element
-	 */
-	public static Spectrum subtractFromList_threaded(final Spectrum data, final float value,
-			final float minimum)
-	{
-
-		if (data.size() < MIN_SIZE_FOR_THREADING) return subtractFromList(data, value, minimum);
-
-		final Spectrum result = new ISpectrum(data.size());
-
-		Plural.eachIndex(data.size(), (Integer ordinal) -> {
-			float newvalue = data.get(ordinal) - value;
-			if (!Float.isNaN(minimum) && newvalue < minimum) newvalue = minimum;
-			result.set(ordinal, newvalue);
-		});
-
-		return result;
-
-	}
-
-
-	/**
 	 * adds the elements of the two lists together
 	 * 
 	 * @param l1
@@ -411,34 +340,6 @@ public class SpectrumCalculations
 			l1.set(i, value);
 		}
 		
-	}
-
-
-	/**
-	 * A threaded version of {@link #addLists(List, List)}
-	 * 
-	 * @param l1
-	 * @param l2
-	 * @return a list which is the sum of the two lists given
-	 */
-	public static Spectrum addLists_threaded(final Spectrum l1, final Spectrum l2)
-	{
-
-		if (l1 == null && l2 == null) return null;
-		if (l2 == null) return l1;
-		if (l1 == null) return l2;
-		if (l1.size() != l2.size()) return null;
-
-		if (l1.size() < MIN_SIZE_FOR_THREADING) return addLists(l1, l2);
-
-		final Spectrum result = new ISpectrum(l1.size());
-
-		Plural.eachIndex(l1.size(), (Integer ordinal) -> {
-			result.set(ordinal, l1.get(ordinal) + l2.get(ordinal));
-		});
-
-		return result;
-
 	}
 
 
@@ -515,35 +416,7 @@ public class SpectrumCalculations
 	}
 
 
-	/**
-	 * A threaded version of {@link #subtractLists(List, List, float)}
-	 * 
-	 * @param l1
-	 * @param l2
-	 * @param minimum
-	 * @return a list which is the result of l1 - l2
-	 */
-	public static Spectrum subtractLists_threaded(final Spectrum l1, final Spectrum l2, final float minimum)
-	{
 
-		if (l1 == null && l2 == null) return null;
-		if (l2 == null) return l1;
-		if (l1 == null) return l2;
-		if (l1.size() != l2.size()) return null;
-
-		if (l1.size() < MIN_SIZE_FOR_THREADING) return subtractLists(l1, l2, minimum);
-
-		final Spectrum result = new ISpectrum(l1.size());
-
-		Plural.eachIndex(l1.size(), (Integer ordinal) -> {
-			float newValue = l1.get(ordinal) - l2.get(ordinal);
-			if (!Float.isNaN(minimum) && newValue < minimum) newValue = minimum;
-			result.set(ordinal, newValue);
-		});
-
-		return result;
-
-	}
 
 
 	/**
@@ -567,32 +440,6 @@ public class SpectrumCalculations
 	}
 
 
-	/**
-	 * A threaded version of {@link #multiplyBy(List, float)}
-	 * 
-	 * @param l1
-	 * @param l2
-	 * @return a list which is the result of l1*l2
-	 */
-	public static Spectrum multiplyLists_threaded(final Spectrum l1, final Spectrum l2)
-	{
-
-		if (l1 == null && l2 == null) return null;
-		if (l2 == null) return l1;
-		if (l1 == null) return l2;
-		if (l1.size() != l2.size()) return null;
-
-		if (l1.size() < MIN_SIZE_FOR_THREADING) return multiplyLists(l1, l2);
-
-		final Spectrum result = new ISpectrum(l1.size());
-
-		Plural.eachIndex(l1.size(), (Integer ordinal) -> {
-			result.set(ordinal, l1.get(ordinal) * l2.get(ordinal));
-		});
-
-		return result;
-
-	}
 
 
 	/**
@@ -714,29 +561,6 @@ public class SpectrumCalculations
 	}
 
 
-	/**
-	 * A threaded version of {@link #logList(List)}
-	 * 
-	 * @param data
-	 * @return a copy of list, with the values logged
-	 */
-	public static Spectrum logList_threaded(final Spectrum data)
-	{
-
-		if (data.size() < MIN_SIZE_FOR_THREADING) return logList(data);
-
-		final Spectrum result = new ISpectrum(data.size(), 0.0f);
-
-		Plural.eachIndex(data.size(), (Integer ordinal) -> {
-			float logValue = (float)Math.log(data.get(ordinal) + 1.0);
-			logValue = logValue < 0 ? 0 : logValue;
-			logValue = Float.isNaN(logValue) ? 0 : logValue;
-			result.set(ordinal, logValue);
-		});
-
-		return result;
-
-	}
 
 	
 	/**

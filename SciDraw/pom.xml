@@ -23,11 +23,6 @@
 		</dependency>
 		<dependency>
 			<groupId>net.sciencestudio.libs</groupId>
-			<artifactId>Swidget</artifactId>
-			<version>1.0</version>
-		</dependency>
-		<dependency>
-			<groupId>net.sciencestudio.libs</groupId>
 			<artifactId>SciTypes</artifactId>
 			<version>1.0</version>
 		</dependency>
@@ -40,6 +35,11 @@
 			<groupId>org.apache.xmlgraphics</groupId>
 			<artifactId>fop</artifactId>
 			<version>2.2</version>
+		</dependency>
+		<dependency>
+			<groupId>net.sciencestudio.libs</groupId>
+			<artifactId>Plural</artifactId>
+			<version>1.0</version>
 		</dependency>
 	</dependencies>
 
