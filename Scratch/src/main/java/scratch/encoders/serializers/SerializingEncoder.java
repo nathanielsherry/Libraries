@@ -10,7 +10,6 @@ import java.util.List;
 
 import scratch.ScratchEncoder;
 import scratch.ScratchException;
-import scratch.list.ScratchList;
 
 public class SerializingEncoder<T extends Serializable> implements ScratchEncoder<T> {
 

@@ -19,10 +19,8 @@ import scratch.encoders.serializers.SerializingEncoder;
 
 
 
-public class ScratchDiskList<T> implements IScratchList<T> {
+class ScratchDiskList<T> implements ScratchList<T> {
 
-
-	
 	//stores the locations of all entries as offset/length pairs
 	private List<LongRange> elementPositions;
 	private LongRangeSet discardedRanges;
@@ -154,10 +152,9 @@ public class ScratchDiskList<T> implements IScratchList<T> {
 	
 	
 	
-	public synchronized boolean add(T e)
+	public synchronized void add(T e)
 	{
 		addEntry(elementPositions.size(), e);
-		return true;
 		
 	}
 	
@@ -166,23 +163,21 @@ public class ScratchDiskList<T> implements IScratchList<T> {
 		addEntry(index, element);
 	}
 
-	public boolean addAll(Collection<? extends T> c)
+	public void addAll(Collection<? extends T> c)
 	{
 		for (T t : c)
 		{
 			add(t);
 		}
-		return true;
 	}
 
-	public boolean addAll(int index, Collection<? extends T> c)
+	public void addAll(int index, Collection<? extends T> c)
 	{
 		for (T t : c)
 		{
 			add(index, t);
 			index++;
 		}
-		return true;
 	}
 
 	public void clear()
@@ -206,15 +201,8 @@ public class ScratchDiskList<T> implements IScratchList<T> {
 		return false;
 	}
 
-	public boolean containsAll(Collection<?> c)
-	{
-		for (Object o : c)
-		{
-			if (!contains(o)) return false;
-		}
-		return true;
-	}
 
+	@Override
 	public synchronized T get(int index)
 	{
 		if (index >= elementPositions.size()) return null;
@@ -239,23 +227,7 @@ public class ScratchDiskList<T> implements IScratchList<T> {
 		}
 		
 	}
-
-	public int indexOf(Object o)
-	{
-		int index = 0;
-		for (T t : this)
-		{
-			if (t == null && o == null) return index;
-			if (t != null && t.equals(o)) return index;
-			index++;
-		}
-		return -1;
-	}
-
-	public boolean isEmpty()
-	{
-		return elementPositions.isEmpty();
-	}
+	
 
 	public Iterator<T> iterator()
 	{
@@ -279,79 +251,9 @@ public class ScratchDiskList<T> implements IScratchList<T> {
 			}};
 	}
 
-	public int lastIndexOf(Object o)
-	{
-		T t;
-		for (int i = size(); i >= 0; i--)
-		{
-			t = get(i);
-			if (t.equals(o)) return i;
-		}
-		return -1;
-	}
-
-	public ListIterator<T> listIterator()
-	{
-		return listIterator(0);
-	}
-
-	public ListIterator<T> listIterator(final int startIndex)
-	{
-		return new ListIterator<T>() {
-
-			int inext = startIndex;
-			int lastReturned = startIndex;
-			
-			public void add(T t)
-			{
-				ScratchDiskList.this.add(lastReturned, t);
-			}
-
-			public boolean hasNext()
-			{
-				return inext < elementPositions.size();
-			}
-
-			public boolean hasPrevious()
-			{
-				return inext > 0;
-			}
-
-			public T next()
-			{
-				lastReturned = inext;
-				return ScratchDiskList.this.get(inext++);
-			}
-
-			public int nextIndex()
-			{
-				return inext;
-			}
-
-			public T previous()
-			{
-				lastReturned = inext-1;
-				return ScratchDiskList.this.get(--inext);
-			}
-
-			public int previousIndex()
-			{
-				return inext-1;
-			}
-
-			public void remove()
-			{
-				ScratchDiskList.this.remove(lastReturned);
-				inext--;
-			}
-
-			public void set(T t)
-			{
-				ScratchDiskList.this.set(lastReturned, t);
-			}};
-	}
-
-	public boolean remove(Object o)
+	
+	@Override
+	public boolean remove(T o)
 	{
 		T t;
 		for (int i = 0; i < elementPositions.size(); i++)
@@ -365,83 +267,19 @@ public class ScratchDiskList<T> implements IScratchList<T> {
 		}
 		
 		return false;
+		
 	}
 
-	public T remove(int index)
+	@Override
+	public void remove(int index)
 	{
-		T t = get(index);
 		discardedRanges.addRange(  elementPositions.remove(index)  );
-		return t;
 	}
 
-	public boolean removeAll(Collection<?> c)
-	{
-		
-		if (c == null) return false;
-		
-		T t;
-		
-		for (int i = 0; i < elementPositions.size(); i++)
-		{
-			//deserialize each element in our list only once
-			t = get(i);
-			
-			if (c.contains(t))
-			{
-				//decrement the counter to make up for the fact that
-				//we have removed the current element, and we don't
-				//want to skip over an element
-				remove(i--);
-			}
-			
-		}
-		
-		return true;
-		
-		/*
-		 * This is a bad way to do it -- it means that we will have
-		 * to deserialize each element in the list m times where m
-		 * is the size of the collection except for the last m items 
-		 * in the worst case. 
-		for (Object t : c)
-		{
-			remove(t);
-		}
-		return true;
-		*/
-	}
 
-	public boolean retainAll(Collection<?> c)
+	@Override
+	public synchronized void set(int index, T element)
 	{
-		if (c == null) return false;
-		
-		ListIterator<T> li = listIterator();
-		
-		boolean modified = false;
-		while(li.hasNext())
-		{
-			if ( ! c.contains(li.next()) )
-			{
-				li.remove();
-				modified = true;
-			}
-		}
-		
-		return modified;
-		
-	}
-
-	public synchronized T set(int index, T element)
-	{
-
-		T old = null;
-		
-		try{
-			old = get(index);
-		} catch (Exception e)
-		{
-			//nothing
-		}
 		
 		if (elementPositions.size() > index)
 		{
@@ -450,57 +288,16 @@ public class ScratchDiskList<T> implements IScratchList<T> {
 			discardedRanges.addRange(oldRange);
 		}
 		
-		addEntry(index, element);
-		
-		return old;
-			
-		
+		addEntry(index, element);		
 	}
 
+	@Override
 	public int size()
 	{
 		return elementPositions.size();
 	}
 
-	
-	@Override
-	public List<T> subList(int fromIndex, int toIndex) {
-		throw new ScratchException(new RuntimeException("Cannot Create SubList of File Backed List"));
-	}
-	
 
-
-	public Object[] toArray()
-	{
-		Object[] t = new Object[size()];
-		for (int i = 0; i < size(); i++)
-		{
-			t[i] = get(i);
-		}
-		return t;
-		
-	}
-
-	@SuppressWarnings("unchecked")
-	public <S> S[] toArray(S[] a)
-	{
-		S[] s;
-		
-		if (a.length >= size())
-		{
-			s = a;
-		} else {
-			s = (S[])(new Object[size()]);
-		}
-
-		for (int i = 0; i < size(); i++)
-		{
-			s[i] = (S) get(i);
-		}
-		
-		
-		return s;
-	}
 	
 	@Override
 	protected void finalize()
@@ -519,7 +316,6 @@ public class ScratchDiskList<T> implements IScratchList<T> {
 	public long filesize()
 	{
 		return elementPositions.stream().map(range -> range.size()).reduce(0l, (a, b) -> a + b);
-		//return elementPositions.foldr(0, (r, i) -> i + r.size()).longValue();
 	}
 	
 }
