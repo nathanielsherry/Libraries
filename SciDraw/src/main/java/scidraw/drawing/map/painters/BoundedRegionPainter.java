@@ -6,7 +6,11 @@ import scidraw.drawing.map.palettes.SingleColourPalette;
 import scidraw.drawing.painters.PainterData;
 import scitypes.Coord;
 
-
+/**
+ * Draws a box around a region in the map
+ * @author NAS
+ *
+ */
 public class BoundedRegionPainter extends MapPainter
 {
 
@@ -46,7 +50,7 @@ public class BoundedRegionPainter extends MapPainter
 
 
 		
-		p.context.setLineWidth(rawCellSize/4);
+		p.context.setLineWidth(Math.max(1, rawCellSize/4));
 		
 		p.context.rectangle(startX * rawCellSize, startY * rawCellSize, (endX - startX) * rawCellSize, (endY - startY) * rawCellSize);
 		

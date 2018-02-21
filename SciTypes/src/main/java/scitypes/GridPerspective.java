@@ -68,8 +68,7 @@ public class GridPerspective<T> implements Cloneable
 		int index = y * width + x;
 
 		if (index >= list.size()) return fallback;
-		if (x < 0 || y < 0) return fallback;
-		if (x >= this.width || y >= this.height) return fallback;
+		if (!boundsCheck(x, y)) return fallback;
 
 		T value = list.get(index);
 		if (value == null) return fallback;
@@ -82,8 +81,7 @@ public class GridPerspective<T> implements Cloneable
 		int index = y * width + x;
 
 		if (index >= spec.size()) return 0.0f;
-		if (x < 0 || y < 0) return 0.0f;
-		if (x >= this.width || y >= this.height) return 0.0f;
+		if (!boundsCheck(x, y)) return 0f;
 
 		float value = spec.get(index);
 
@@ -105,8 +103,7 @@ public class GridPerspective<T> implements Cloneable
 		int index = getIndexFromXY(x, y);
 
 		if (index >= list.size()) return;
-		if (x < 0 || y < 0) return;
-		if (x >= this.width || y >= this.height) return;
+		if (!boundsCheck(x, y)) return;
 
 		list.set(index, value);
 	}
@@ -116,8 +113,7 @@ public class GridPerspective<T> implements Cloneable
 		int index = getIndexFromXY(x, y);
 
 		if (index >= list.size()) return;
-		if (x < 0 || y < 0) return;
-		if (x >= this.width || y >= this.height) return;
+		if (!boundsCheck(x, y)) return;
 
 		list.set(index, value);
 	}
@@ -132,8 +128,7 @@ public class GridPerspective<T> implements Cloneable
 	
 	public int getIndexFromXY(int x, int y)
 	{
-		if (x < 0 || x >= width) return -1;
-		if (y < 0 || y >= height) return -1;
+		if (!boundsCheck(x, y)) return -1;
 		return y * width + x;
 	}
 	
@@ -145,6 +140,58 @@ public class GridPerspective<T> implements Cloneable
 		
 		return g;
 		
+	}
+	
+	public boolean boundsCheck(int x, int y) {
+		if (x < 0) return false;
+		if (y < 0) return false;
+		if (x >= this.width)  return false;
+		if (y >= this.height) return false;
+		return true;
+	}
+	
+	public int north(int index) {
+		
+		Pair<Integer, Integer> coord = getXYFromIndex(index);
+		int x = coord.first - 1;
+		int y = coord.second;
+		
+		if (!boundsCheck(x, y)) return -1;
+		return getIndexFromXY(x, y);
+				
+	}
+	
+	public int south(int index) {
+		
+		Pair<Integer, Integer> coord = getXYFromIndex(index);
+		int x = coord.first + 1;
+		int y = coord.second;
+		
+		if (!boundsCheck(x, y)) return -1;
+		return getIndexFromXY(x, y);
+				
+	}
+	
+	public int east(int index) {
+		
+		Pair<Integer, Integer> coord = getXYFromIndex(index);
+		int x = coord.first;
+		int y = coord.second+1;
+		
+		if (!boundsCheck(x, y)) return -1;
+		return getIndexFromXY(x, y);
+				
+	}
+	
+	public int west(int index) {
+		
+		Pair<Integer, Integer> coord = getXYFromIndex(index);
+		int x = coord.first;
+		int y = coord.second-1;
+		
+		if (!boundsCheck(x, y)) return -1;
+		return getIndexFromXY(x, y);
+				
 	}
 	
 }
