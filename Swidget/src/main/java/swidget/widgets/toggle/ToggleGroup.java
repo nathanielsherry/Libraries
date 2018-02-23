@@ -3,24 +3,23 @@ package swidget.widgets.toggle;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JToggleButton;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 
 
 
-public class ComplexToggleGroup
+public class ToggleGroup
 {
 
-	protected List<ComplexToggle> buttons;
+	protected List<JToggleButton> buttons;
 	
-	public ComplexToggleGroup(){
-		
-		buttons = new ArrayList<ComplexToggle>();
-		
+	public ToggleGroup(){
+		buttons = new ArrayList<JToggleButton>();
 	}
 	
-	public void setToggled(ComplexToggle c){
+	public void setToggled(JToggleButton c){
 		c.getModel().setSelected(true);
 	}
 	public void setToggled(int buttonNo){
@@ -30,32 +29,32 @@ public class ComplexToggleGroup
 	
 	public int getToggledIndex(){
 		int toggle = 0;
-		for (ComplexToggle c : buttons){
+		for (JToggleButton c : buttons){
 			if ( c.getModel().isSelected() ) return toggle;
 			toggle++;
 		}
 		return -1;
 	}
 	
-	public void registerButton(ComplexToggle b){
+	public void registerButton(JToggleButton b){
 		buttons.add(b);
 		
 		b.addChangeListener(new ChangeListener() {
 		
 			public void stateChanged(ChangeEvent e)
 			{
-				ComplexToggle c = (ComplexToggle)e.getSource();
+				JToggleButton c = (JToggleButton)e.getSource();
 				
 				
 				ensureSingleSelection:
 				if (c.getModel().isSelected()){
 					
-					for (ComplexToggle c2 : buttons){ if (c2 != c) c2.getModel().setSelected(false); }
+					for (JToggleButton c2 : buttons){ if (c2 != c) c2.getModel().setSelected(false); }
 					
 				} 
 				else {
 					
-					for (ComplexToggle c2 : buttons){ 
+					for (JToggleButton c2 : buttons){ 
 						if (c2 != c && c2.getModel().isSelected()) {
 							break ensureSingleSelection;
 						}

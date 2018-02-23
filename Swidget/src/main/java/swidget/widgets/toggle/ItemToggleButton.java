@@ -29,7 +29,7 @@ import swidget.widgets.TextWrapping;
 
 
 
-public class ComplexToggle extends JToggleButton
+public class ItemToggleButton extends JToggleButton
 {
 
 
@@ -40,62 +40,35 @@ public class ComplexToggle extends JToggleButton
 		
 	private static final int	defaultWidth = TextWrapping.DEFAULT_WIDTH;
 
-	public ComplexToggle(String imageName, String title, String description)
+	public ItemToggleButton(String imageName, String title, String description)
 	{
 		super();
 		init(imageName, title, description, defaultWidth);
 	}
 
-	public ComplexToggle(String imageName, String title, String description, ComplexToggleGroup group)
+	
+	public ItemToggleButton(String imageName, String title, String description, int width)
 	{
 		super();
-		group.registerButton(this);
-		init(imageName, title, description, defaultWidth);
-	}
-	
-	
-	public ComplexToggle(String imageName, String title, String description, int width)
-	{
-		super();
-		init(imageName, title, description, width);
-	}
-	
-	public ComplexToggle(String imageName, String title, String description, int width, ComplexToggleGroup group)
-	{
-		super();
-		group.registerButton(this);
 		init(imageName, title, description, width);
 	}
 	
 	
 	
 	
-	public ComplexToggle(StockIcon stock, String title, String description)
+	public ItemToggleButton(StockIcon stock, String title, String description)
 	{
 		super();
 		init(stock.toIconName(), title, description, defaultWidth);
 	}
 	
-	public ComplexToggle(StockIcon stock, String title, String description, int width)
+	public ItemToggleButton(StockIcon stock, String title, String description, int width)
 	{
 		super();
 		init(stock.toIconName(), title, description, width);
 	}
 
-	public ComplexToggle(StockIcon stock, String title, String description, ComplexToggleGroup group)
-	{
-		super();
-		group.registerButton(this);
-		init(stock.toIconName(), title, description, defaultWidth);
-	}
 	
-	public ComplexToggle(StockIcon stock, String title, String description, int width, ComplexToggleGroup group)
-	{
-		super();
-		group.registerButton(this);
-		init(stock.toIconName(), title, description, width);
-	}
-
 
 	private void init(String imageName, String title, String description, int width)
 	{
@@ -219,7 +192,7 @@ public class ComplexToggle extends JToggleButton
 			public void stateChanged(ChangeEvent e)
 			{
 				setBorder();
-				ComplexToggle.this.icon.setEnabled(ComplexToggle.this.isEnabled());
+				ItemToggleButton.this.icon.setEnabled(ItemToggleButton.this.isEnabled());
 			}
 		});
 		

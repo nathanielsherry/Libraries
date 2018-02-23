@@ -110,7 +110,7 @@ mkdir ./48/
 ./harvest.rb elementary/apps preferences-desktop misc-preferences
 ./harvest.rb elementary/actions document-properties misc-properties
 ./harvest.rb elementary/apps application-default-icon misc-executable
-
+./harvest.rb elementary/status locked misc-locked
 
 #sort
 ./harvestOther.rb /usr/share/icons/gnome actions view-sort-ascending edit-sort-asc

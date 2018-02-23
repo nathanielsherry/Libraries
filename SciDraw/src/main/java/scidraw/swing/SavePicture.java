@@ -24,8 +24,9 @@ import swidget.widgets.ButtonBox;
 import swidget.widgets.ClearPanel;
 import swidget.widgets.ImageButton;
 import swidget.widgets.Spacing;
-import swidget.widgets.toggle.ComplexToggle;
-import swidget.widgets.toggle.ComplexToggleGroup;
+import swidget.widgets.toggle.ItemToggleButton;
+import swidget.widgets.toggle.ToggleGroup;
+import swidget.widgets.toggle.ItemToggleButton;
 
 
 public class SavePicture extends JDialog
@@ -33,7 +34,7 @@ public class SavePicture extends JDialog
 
 	private GraphicsPanel			controller;
 	private File					startingFolder;
-	private ComplexToggleGroup		group;
+	private ToggleGroup				group;
 	private JPanel					controlsPanel;
 	
 	public SavePicture(Window owner, GraphicsPanel controller, File startingFolder)
@@ -119,20 +120,22 @@ public class SavePicture extends JDialog
 		GridBagConstraints c = new GridBagConstraints();
 		
 		
-		group = new ComplexToggleGroup();
+		group = new ToggleGroup();
 
-		ComplexToggle png, svg, pdf;
+		ItemToggleButton png, svg, pdf;
 
-		png = new ComplexToggle(StockIcon.MIME_RASTER, "Pixel Image (PNG)",
-				"Pixel based images are a grid of coloured dots. They have a fixed size and level of detail.", group);
+		png = new ItemToggleButton(StockIcon.MIME_RASTER, "Pixel Image (PNG)",
+				"Pixel based images are a grid of coloured dots. They have a fixed size and level of detail.");
 		
-		svg = new ComplexToggle(StockIcon.MIME_SVG, "Vector Image (SVG)",
-				"Vector images use points, lines, and curves to define an image. They can be scaled to any size.",
-				group);
+		svg = new ItemToggleButton(StockIcon.MIME_SVG, "Vector Image (SVG)",
+				"Vector images use points, lines, and curves to define an image. They can be scaled to any size.");
 
-		pdf = new ComplexToggle(StockIcon.MIME_PDF, "PDF File", "PDF files are a more print-oriented vector image format.",
-				group);
+		pdf = new ItemToggleButton(StockIcon.MIME_PDF, "PDF File", "PDF files are a more print-oriented vector image format.");
 
+		group.registerButton(png);
+		group.registerButton(svg);
+		group.registerButton(pdf);
+		
 
 		
 		c.gridx = 0;
