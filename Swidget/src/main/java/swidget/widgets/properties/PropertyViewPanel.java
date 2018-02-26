@@ -34,6 +34,16 @@ public class PropertyViewPanel extends JPanel
 		this(properties, caption, 225, true, false);
 	}
 	
+	public PropertyViewPanel(Map<String, String> properties, boolean showBadge)
+	{
+		this(properties, null, true);
+	}
+
+	public PropertyViewPanel(Map<String, String> properties, String caption, boolean showBadge)
+	{
+		this(properties, caption, 225, showBadge, false);
+	}
+	
 	public PropertyViewPanel(Map<String, String> properties, String caption, int minLabelWidth, boolean showBadge, boolean centered)
 	{
 		setLayout(new GridBagLayout());
