@@ -10,7 +10,7 @@ import javax.swing.JOptionPane;
 
 
 
-class SimpleIODialogues
+public class SimpleIODialogues
 {
 	
 	public static String chooseFileSave(Component parent, String title, File startingFolder, String fileExtention, String extDescription)
