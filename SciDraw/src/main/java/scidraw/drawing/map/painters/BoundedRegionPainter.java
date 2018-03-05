@@ -55,10 +55,8 @@ public class BoundedRegionPainter extends MapPainter
 		p.context.rectangle(startX * rawCellSize, startY * rawCellSize, (endX - startX) * rawCellSize, (endY - startY) * rawCellSize);
 		
 		p.context.setSource(c.getRed(), c.getGreen(), c.getBlue(), 96);
-		p.context.fillPreserve();
-		
-		p.context.setSource(c.getRed(), c.getGreen(), c.getBlue());
-		p.context.stroke();
+		p.context.fill();
+
 		
 	}
 
