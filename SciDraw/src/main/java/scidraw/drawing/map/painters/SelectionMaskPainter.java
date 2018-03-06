@@ -30,6 +30,7 @@ public class SelectionMaskPainter extends RasterColorMapPainter {
 			colors.add(t);
 		}
 		for (Integer i : points) {
+			if (i >= sizeX*sizeY) continue;
 			colors.set(i, c);
 		}
 
