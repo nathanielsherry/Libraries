@@ -44,6 +44,9 @@ public class ProgressBarForegroundPainter implements Painter<JComponent> {
 		int pad = 2;
 		float radius = Stratus.borderRadius;
 		
+		//LinearGradientPaint cannot handle the start and end point being the same
+		if (height == 0) height = 1;
+		
 		g.setPaint(new LinearGradientPaint(0, 0, 0, height, new float[] {0, 0.15f, 0.6f, 0.9f, 1}, new Color[] {c1, c2, c3, c4, c5}));
     	Shape border = new RoundRectangle2D.Float(pad, pad, width-pad*2, height-pad*2, radius, radius);
     	g.fill(border);
