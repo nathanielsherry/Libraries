@@ -14,11 +14,15 @@ import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 import javax.swing.JFrame;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 
 import eventful.Eventful;
 import plural.streams.swing.StreamExecutorPanel;
 import plural.streams.swing.StreamExecutorView;
 import swidget.Swidget;
+import swidget.stratus.StratusLookAndFeel;
 
 public class StreamExecutor<T> extends Eventful implements Predicate<Object>{
 
@@ -194,87 +198,92 @@ public class StreamExecutor<T> extends Eventful implements Predicate<Object>{
 
 	public static void main(String[] args) throws InterruptedException {
 		
-		int size = 10000;
-		
-		List<Integer> ints = new ArrayList<>();
-		for (int i = 0; i < size; i++) {
-			ints.add(i);
-		}
-		System.out.println("Starting...");
-		
-		
-		StreamExecutor<List<Integer>> e1 = new StreamExecutor<>();
-		e1.setSize(size);
-		
-		e1.addListener(() -> {
-			if (e1.getState() == State.RUNNING) {
-				System.out.println("E1 Processed: " + e1.getCount());
-			}
+		Swidget.initialize(() -> {
+			int size = 10000;
 			
-			if (e1.getState() == State.COMPLETED) {
-				System.out.println("E1 Done!");
+			List<Integer> ints = new ArrayList<>();
+			for (int i = 0; i < size; i++) {
+				ints.add(i);
 			}
-		});
-		
-		e1.setTask(() -> {
-			return e1.observe(ints.stream()).map(v -> {
-				float f = v;
-				for (int i = 0; i < 100000; i++) {
-					f = (int)Math.pow(f, 1.0001);
-				}
-				return (int)f;
-			}).collect(Collectors.toList());
-		});
-		
-
-		
-		
-		StreamExecutor<List<Integer>> e2 = new StreamExecutor<>();
-		e2.setSize(size);
-		
-		e2.addListener(() -> {
-			if (e2.getState() == State.RUNNING) {
-				System.out.println("E2 Processed: " + e2.getCount());
-			}
+			System.out.println("Starting...");
 			
-			if (e2.getState() == State.COMPLETED) {
-				System.out.println("E2 Done!");
-			}
-		});
-		
-		e2.setTask(() -> {
-			return e2.observe(e1.getResult().get().stream()).map(v -> {
-				float f = v;
-				for (int i = 0; i < 100000; i++) {
-					f = (int)Math.pow(f, 1.0001);
+			
+			StreamExecutor<List<Integer>> e1 = new StreamExecutor<>();
+			e1.setSize(size);
+			
+			e1.addListener(() -> {
+				if (e1.getState() == State.RUNNING) {
+					System.out.println("E1 Processed: " + e1.getCount());
 				}
-				return (int)f;
-			}).collect(Collectors.toList());
+				
+				if (e1.getState() == State.COMPLETED) {
+					System.out.println("E1 Done!");
+				}
+			});
+			
+			e1.setTask(() -> {
+				return e1.observe(ints.stream()).map(v -> {
+					float f = v;
+					for (int i = 0; i < 100000; i++) {
+						f = (int)Math.pow(f, 1.0001);
+					}
+					return (int)f;
+				}).collect(Collectors.toList());
+			});
+			
+	
+			
+			
+			StreamExecutor<List<Integer>> e2 = new StreamExecutor<>();
+			e2.setSize(size);
+			
+			e2.addListener(() -> {
+				if (e2.getState() == State.RUNNING) {
+					System.out.println("E2 Processed: " + e2.getCount());
+				}
+				
+				if (e2.getState() == State.COMPLETED) {
+					System.out.println("E2 Done!");
+				}
+			});
+			
+			e2.setTask(() -> {
+				return e2.observe(e1.getResult().get().stream()).map(v -> {
+					float f = v;
+					for (int i = 0; i < 100000; i++) {
+						f = (int)Math.pow(f, 1.0001);
+					}
+					return (int)f;
+				}).collect(Collectors.toList());
+			});
+			
+			e1.then(e2);
+			
+			
+			StreamExecutorView v1 = new StreamExecutorView(e1, "First Task");
+			StreamExecutorView v2 = new StreamExecutorView(e2, "Second Task");
+			
+			JFrame frame = new JFrame();
+			StreamExecutorPanel panel = new StreamExecutorPanel("Two Tasks", v1, v2);
+			frame.getContentPane().setLayout(new BorderLayout());
+			frame.getContentPane().add(panel, BorderLayout.CENTER);
+	
+			e2.addListener(() -> {
+				if (e2.getState() != State.RUNNING) {
+					frame.setVisible(false);
+				}
+			});
+			
+		
+			frame.pack();
+			frame.setVisible(true);
+			
+			e1.start();
 		});
-		
-		e1.then(e2);
-		
-		
-		StreamExecutorView v1 = new StreamExecutorView(e1, "First Task");
-		StreamExecutorView v2 = new StreamExecutorView(e2, "Second Task");
-		
-		JFrame frame = new JFrame();
-		StreamExecutorPanel panel = new StreamExecutorPanel("Two Tasks", v1, v2);
-		frame.getContentPane().setLayout(new BorderLayout());
-		frame.getContentPane().add(panel, BorderLayout.CENTER);
 
-		e2.addListener(() -> {
-			if (e2.getState() != State.RUNNING) {
-				frame.setVisible(false);
-			}
-		});
-		
-		
-		frame.pack();
-		frame.setVisible(true);
 		
 
-		e1.start();
+		
 		
 		Thread.currentThread().sleep(5000);
 		

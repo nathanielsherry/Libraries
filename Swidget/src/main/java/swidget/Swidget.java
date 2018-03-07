@@ -40,9 +40,9 @@ public class Swidget
 
 	private static SplashScreen splashWindow;
 	
-	public static void initialize()
+	public static void initialize(Runnable startupTasks)
 	{
-		initialize(null, null, () -> {});
+		initialize(null, null, startupTasks);
 	}
 	
 	

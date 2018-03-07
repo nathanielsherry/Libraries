@@ -39,9 +39,7 @@ public class WidgetListPanel<T extends Component> extends JPanel {
 	}
 	
 	private void setupUI() {
-
-		Swidget.initialize();
-		
+	
 		c = new GridBagConstraints();
 		setLayout(new GridBagLayout());
 		
