@@ -5,13 +5,22 @@ import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.swing.JComponent;
 import javax.swing.JViewport;
+import javax.swing.SwingUtilities;
 
 public class DraggingScrollPaneListener implements MouseMotionListener, MouseListener
 {
 
+	public enum Buttons {
+		LEFT,
+		RIGHT,
+		MIDDLE
+	}
+	
 	private Point			p0;
 	private boolean			dragging;
 
@@ -19,22 +28,34 @@ public class DraggingScrollPaneListener implements MouseMotionListener, MouseLis
 	private Point			scrollPosition;
 	private JComponent		canvas;
 
+	private List<Buttons>	buttons;
+	
+	
 	Cursor oldCursor;
 	
 	public boolean dragX = true, dragY = true;
 
+	public DraggingScrollPaneListener(JViewport viewport, JComponent canvas, Buttons... buttons) {
+		this(viewport, canvas, Arrays.asList(buttons));
+	}
+	
 	/**
 	 * All you need to do is call this constructor.
-	 * @param viewport
-	 * @param canvas
+	 * @param viewport the viewport the component is in
+	 * @param canvas the component to drag-scroll
+	 * @param buttons The mouse buttons to respond to
 	 */
-	public DraggingScrollPaneListener(JViewport viewport, JComponent canvas) {
+	public DraggingScrollPaneListener(JViewport viewport, JComponent canvas, List<Buttons> buttons) {
+		
+		this.buttons = buttons;
+
 		viewPort = viewport;
 		scrollPosition = viewPort.getViewPosition();
 		this.canvas = canvas;
 		
 		canvas.addMouseMotionListener(this);
 		canvas.addMouseListener(this);
+		
 	}
 	
 	private Point getPoint(MouseEvent e)
@@ -129,7 +150,7 @@ public class DraggingScrollPaneListener implements MouseMotionListener, MouseLis
 
 	public void mousePressed(MouseEvent e)
 	{
-		if (e.getButton() != MouseEvent.BUTTON1) return;
+		if (!buttonsMatch(e)) return;
 		if (dragging) return;
 		
 		p0 = getPoint(e);
@@ -143,7 +164,7 @@ public class DraggingScrollPaneListener implements MouseMotionListener, MouseLis
 	public void mouseReleased(MouseEvent e)
 	{
 		
-		if (e.getButton() != MouseEvent.BUTTON1) return;
+		if (!buttonsMatch(e)) return;
 		
 		update(e);
 		dragging = false;
@@ -151,4 +172,11 @@ public class DraggingScrollPaneListener implements MouseMotionListener, MouseLis
 		canvas.setCursor(oldCursor);
 	}
 
+	private boolean buttonsMatch(MouseEvent e) {
+		if (SwingUtilities.isLeftMouseButton(e) && buttons.contains(Buttons.LEFT)) return true;
+		if (SwingUtilities.isMiddleMouseButton(e) && buttons.contains(Buttons.MIDDLE)) return true;
+		if (SwingUtilities.isRightMouseButton(e) && buttons.contains(Buttons.RIGHT)) return true;
+		return false;
+	}
+	
 }
