@@ -19,11 +19,13 @@ import java.util.Scanner;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.logging.Level;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
+import scitypes.log.SciLog;
 import sun.nio.ch.ChannelInputStream;
 
 
@@ -415,7 +417,7 @@ class LinesReader implements CustomReader
 					try {
 						close();
 					} catch (IOException e) {
-						e.printStackTrace();
+						SciLog.get().log(Level.WARNING, "Failed to close the file", e);
 					}
 					return false;
 				}
@@ -428,16 +430,17 @@ class LinesReader implements CustomReader
 						try {
 							close();
 						} catch (IOException e) {
-							e.printStackTrace();
+							SciLog.get().log(Level.WARNING, "Failed to close the file", e);
 						}
 						return false;
 					}
 				} catch (IOException e) {
+					//not really an error
 					done = true;
 					try {
 						close();
 					} catch (IOException e2) {
-						e.printStackTrace();
+						SciLog.get().log(Level.WARNING, "Failed to close the file", e2);
 					}
 					return false;
 				}
@@ -530,7 +533,7 @@ class WordsReader implements CustomReader
 						try {
 							close();
 						} catch (IOException e) {
-							e.printStackTrace();
+							SciLog.get().log(Level.WARNING, "Failed to close the file", e);
 						}
 						return false;
 					}

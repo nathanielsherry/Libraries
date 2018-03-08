@@ -14,10 +14,12 @@ import java.awt.font.TextLayout;
 import java.awt.geom.GeneralPath;
 import java.awt.image.BufferedImage;
 import java.util.Stack;
+import java.util.logging.Level;
 
 import scidraw.drawing.backends.Buffer;
 import scidraw.drawing.backends.Surface;
 import scidraw.drawing.backends.graphics2d.composite.BlendComposite;
+import scitypes.log.SciLog;
 
 /**
  * @author Nathaniel Sherry, 2009
@@ -274,7 +276,7 @@ abstract class AbstractGraphicsSurface implements Surface
 			TextLayout layout = new TextLayout(text, graphics.getFont(), graphics.getFontRenderContext());
 			return (float) (layout.getBounds().getWidth() + layout.getBounds().getX());
 		} catch (Throwable e) {
-			e.printStackTrace();
+			SciLog.get().log(Level.SEVERE, "Failed to determine text width", e);
 		}
 
 		return 0.0f;

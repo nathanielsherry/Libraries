@@ -3,6 +3,7 @@ package scidraw.drawing.plot;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 import scidraw.drawing.Drawing;
 import scidraw.drawing.DrawingRequest;
@@ -19,6 +20,7 @@ import scitypes.Pair;
 import scitypes.ReadOnlySpectrum;
 import scitypes.Spectrum;
 import scitypes.SpectrumCalculations;
+import scitypes.log.SciLog;
 
 /**
  * 
@@ -183,8 +185,7 @@ public class PlotDrawing extends Drawing
 					try {
 						painter.draw(new PainterData(context, dr, plotSize, dataHeights));
 					} catch (Exception e) {
-						e.printStackTrace();
-						System.out.println("Painter " + painter.getSourceName() + " Failed");
+						SciLog.get().log(Level.SEVERE, "Failed to draw painter " + painter.getSourceName(), e);
 					}
 				}
 	

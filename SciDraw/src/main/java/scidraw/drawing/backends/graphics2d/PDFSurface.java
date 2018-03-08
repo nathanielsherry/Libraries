@@ -5,12 +5,15 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.util.logging.Level;
 
 import org.apache.batik.svggen.SVGGraphics2D;
 import org.apache.batik.transcoder.TranscoderException;
 import org.apache.batik.transcoder.TranscoderInput;
 import org.apache.batik.transcoder.TranscoderOutput;
 import org.apache.fop.svg.PDFTranscoder;
+
+import scitypes.log.SciLog;
 
 
 class PDFSurface extends SVGSurface
@@ -43,8 +46,7 @@ class PDFSurface extends SVGSurface
 		try {
 			t.transcode(input, output);
 		} catch (TranscoderException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			SciLog.get().log(Level.SEVERE, "Failed to write to PDF surface", e);
 		}
 		
 	}

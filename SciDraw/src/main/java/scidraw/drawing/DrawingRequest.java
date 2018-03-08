@@ -2,6 +2,9 @@ package scidraw.drawing;
 
 
 import java.io.Serializable;
+import java.util.logging.Level;
+
+import scitypes.log.SciLog;
 
 
 /**
@@ -84,8 +87,7 @@ public class DrawingRequest implements Serializable, Cloneable
 		try {
 			return (DrawingRequest) super.clone();
 		} catch (CloneNotSupportedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			SciLog.get().log(Level.SEVERE, "Failed to clone Drawing Request", e);
 			return null;
 		}
 	}

@@ -14,10 +14,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.logging.Level;
 
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 
+import scitypes.log.SciLog;
 import swidget.dialogues.fileio.SwidgetIO;
 import swidget.icons.StockIcon;
 import swidget.widgets.ButtonBox;
@@ -199,8 +201,7 @@ public class SavePicture extends JDialog
 		}
 		catch (IOException e)
 		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			SciLog.get().log(Level.SEVERE, "Failed to save PNG", e);
 		}
 
 	}
@@ -242,8 +243,7 @@ public class SavePicture extends JDialog
 		}
 		catch (IOException e)
 		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			SciLog.get().log(Level.SEVERE, "Failed to save SVG", e);
 		}
 
 
@@ -283,8 +283,7 @@ public class SavePicture extends JDialog
 		}
 		catch (IOException e)
 		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			SciLog.get().log(Level.SEVERE, "Failed to save PDF", e);
 		}
 
 	}
