@@ -5,10 +5,13 @@ import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.List;
+import java.util.logging.Level;
 
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
+
+import swidget.Swidget;
 
 
 public class ComponentListPanel extends ClearPanel {
@@ -30,7 +33,7 @@ public class ComponentListPanel extends ClearPanel {
 				content.add(component, gbc);
 				gbc.gridy++;
 			} catch (Exception ex) {
-				ex.printStackTrace();
+				Swidget.logger().log(Level.SEVERE, "Failed to construct ComponentListPanel", ex);
 			}
 		}
 		

@@ -7,6 +7,7 @@ import java.awt.Insets;
 import java.awt.Toolkit;
 import java.nio.file.FileSystemLoopException;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -102,6 +103,12 @@ public class Swidget
 	public static void main(String[] args)
 	{
 		
+	}
+	
+	public static Logger logger() {
+		StackTraceElement[] stElements = Thread.currentThread().getStackTrace();
+		Logger logger = Logger.getLogger( stElements[0].getClassName() );
+		return logger;
 	}
 	
 	

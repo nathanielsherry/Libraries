@@ -6,6 +6,7 @@ import java.awt.FontFormatException;
 import java.awt.GraphicsEnvironment;
 import java.awt.Insets;
 import java.io.IOException;
+import java.util.logging.Level;
 
 import javax.swing.JComponent;
 import javax.swing.JPopupMenu;
@@ -16,6 +17,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.ComponentUI;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 
+import swidget.Swidget;
 import swidget.icons.IconSize;
 import swidget.icons.StockIcon;
 import swidget.stratus.Stratus.ButtonState;
@@ -126,8 +128,7 @@ public class StratusLookAndFeel extends NimbusLookAndFeel {
 						int fontSize = oldFont.getSize();
 						ret.put(key, new Font("DejaVu Sans Unhinted", oldFont.getStyle(), fontSize));
 					} catch (FontFormatException | IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						Swidget.logger().log(Level.WARNING, "Failed to configure font for " + value, e);
 					}
 				}
 			}
