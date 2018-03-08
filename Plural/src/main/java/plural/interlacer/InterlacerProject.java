@@ -5,6 +5,9 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import java.util.logging.Level;
+
+import plural.Plural;
 
 /**
  * The InterlacerProject class manages the information for all of the jobs for a specific project.
@@ -72,7 +75,7 @@ public abstract class InterlacerProject<T>
 		try {
 			return doJobs(jobs);
 		} catch (Exception e) {
-			e.printStackTrace();
+			Plural.logger().log(Level.SEVERE, "Jobs " + jobs + " failed", e);
 			return false;
 		}
 	}
@@ -90,7 +93,7 @@ public abstract class InterlacerProject<T>
 		try {
 			return doJob(job);
 		} catch (Exception e) {
-			e.printStackTrace();
+			Plural.logger().log(Level.SEVERE, "Job " + job + " failed", e);
 			return false;
 		}
 		

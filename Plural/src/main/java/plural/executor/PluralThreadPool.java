@@ -6,6 +6,9 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.logging.Level;
+
+import plural.Plural;
 
 
 
@@ -27,9 +30,9 @@ class PluralThreadPool
 			try {
 				f.get();
 			} catch (InterruptedException e) {
-				e.printStackTrace();
+				Plural.logger().log(Level.WARNING, "Wait for Future result interrupted", e);
 			} catch (ExecutionException e) {
-				e.printStackTrace();
+				Plural.logger().log(Level.WARNING, "Future returned an exception", e);
 			}
 		}
 		

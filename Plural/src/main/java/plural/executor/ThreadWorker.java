@@ -5,7 +5,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.Semaphore;
+import java.util.logging.Level;
 
+import plural.Plural;
 import plural.executor.map.MapExecutor;
 
 
@@ -70,8 +72,7 @@ class ThreadWorker extends Thread
 				locks.get(t).release();
 
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				Plural.logger().log(Level.WARNING, "Thread worker interrupted", e);
 			}
 
 		}

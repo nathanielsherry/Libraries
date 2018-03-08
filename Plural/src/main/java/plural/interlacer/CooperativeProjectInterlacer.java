@@ -8,6 +8,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
+
+import plural.Plural;
 
 
 
@@ -579,7 +582,7 @@ public class CooperativeProjectInterlacer<T>
 				
 			} catch (Exception e) {
 				
-				e.printStackTrace();
+				Plural.logger().log(Level.SEVERE, "Interlacer error", e);
 								
 			}
 			
