@@ -27,44 +27,21 @@ public class Eventful implements IEventful
 	}
 
 
-	/**
-	 * @see eventful.IEventful#addListener(eventful.EventfulListener)
-	 */
 	public synchronized void addListener(EventfulListener l)
 	{
 		listeners.add(l);
 	}
 
 
-	/**
-	 * @see eventful.IEventful#removeListener(eventful.EventfulListener)
-	 */
-	public void removeListener(final EventfulListener l)
+
+	public synchronized void removeListener(final EventfulListener l)
 	{
-		
-		EventfulConfig.runThread.accept(new Runnable() {
-			public void run()	{ 
-				
-				synchronized(Eventful.this) {
-					listeners.remove(l);
-			}}
-		});
-		
-		
+		listeners.remove(l);
 	}
-	
-	/**
-	 * @see eventful.IEventful#removeAllListeners()
-	 */
-	public void removeAllListeners()
+
+	public synchronized void removeAllListeners()
 	{
-		EventfulConfig.runThread.accept(new Runnable() {
-			public void run() { 
-			
-				synchronized(Eventful.this) { 
-					listeners.clear();
-			}}
-		});
+		listeners.clear();
 	}
 
 	

@@ -14,57 +14,27 @@ public class EventfulType<T> implements IEventfulType<T>
 		listeners = new LinkedList<EventfulTypeListener<T>>();
 		
 	}
-	/**
-	 * @see eventful.IEventfulType#addListener(eventful.EventfulTypeListener)
-	 */
+
 	public synchronized void addListener(final EventfulTypeListener<T> l)
 	{
-		
-		EventfulConfig.runThread.accept(new Runnable() {
-			public void run()	{
-				synchronized(EventfulType.this){
-					listeners.add(l);
-				}
-			}
-		});
+		listeners.add(l);
 	}
 
 
-	/**
-	 * @see eventful.IEventfulType#removeListener(eventful.EventfulTypeListener)
-	 */
-	public void removeListener(final EventfulTypeListener<T> l)
+
+	public synchronized void removeListener(final EventfulTypeListener<T> l)
 	{
-		
-		EventfulConfig.runThread.accept(new Runnable() {
-			public void run()	{
-				synchronized(EventfulType.this){
-					listeners.remove(l);
-				}
-			}
-		});
-		
-		
+		listeners.remove(l);
 	}
 	
-	/**
-	 * @see eventful.IEventfulType#removeAllListeners()
-	 */
-	public void removeAllListeners()
+
+	public synchronized void removeAllListeners()
 	{
-		EventfulConfig.runThread.accept(new Runnable() {
-			public void run()	{
-				synchronized(EventfulType.this){
-					listeners.clear();
-				}
-			}
-		});
+		listeners.clear();
 	}
 
 
-	/**
-	 * @see eventful.IEventfulType#updateListeners(T)
-	 */
+
 	public void updateListeners(final T message)
 	{
 
