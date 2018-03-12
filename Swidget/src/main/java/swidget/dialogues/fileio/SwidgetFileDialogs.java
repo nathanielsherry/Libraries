@@ -50,7 +50,7 @@ public class SwidgetFileDialogs
 		
 		//First all an All Formats filter
 		if (extensions.size() > 1) {
-			SimpleFileExtension all = new SimpleFileExtension("All Formats");
+			SimpleFileExtension all = new SimpleFileExtension("All Supported Formats");
 			for (SimpleFileExtension extension : extensions) {
 				all.exts.addAll(extension.getExtensions());
 			}
@@ -60,8 +60,9 @@ public class SwidgetFileDialogs
 		for (SimpleFileExtension extension : extensions) {
 			chooser.addChoosableFileFilter(extension.getFilter());
 		}
-		//Then set All Formats as the selected option
-		chooser.setFileFilter(chooser.getChoosableFileFilters()[0]);
+		//Then set All Formats (or the only format) option as default.
+		//There will be an "All Files" option at [0]
+		chooser.setFileFilter(chooser.getChoosableFileFilters()[1]);
 		
 		return chooser;
 	}
