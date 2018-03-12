@@ -75,76 +75,30 @@ public class SimpleFileFilter extends FileFilter
 	private boolean							useExtensionsInDescription	= true;
 
 
-	/**
-	 * Creates a file filter. If no filters are added, then all files are accepted.
-	 * 
-	 * @see #addExtension
-	 */
-	public SimpleFileFilter()
+
+	private SimpleFileFilter()
 	{
 		this.filters = new Hashtable<String, FileFilter>();
 	}
 
 
-	/**
-	 * Creates a file filter that accepts files with the given extension. Example: new
-	 * ExampleFileFilter("jpg");
-	 * 
-	 * @see #addExtension
-	 */
-	public SimpleFileFilter(String extension)
-	{
-		this(extension, null);
-	}
 
 
 	/**
-	 * Creates a file filter that accepts the given file type. Example: new ExampleFileFilter("jpg",
-	 * "JPEG Image Images");
+	 * Creates a file filter that accepts the given file type. 
 	 * 
 	 * Note that the "." before the extension is not needed. If provided, it will be ignored.
-	 * 
-	 * @see #addExtension
 	 */
-	public SimpleFileFilter(String extension, String description)
+	public SimpleFileFilter(SimpleFileExtension extension)
 	{
 		this();
-		if (extension != null) addExtension(extension);
-		if (description != null) setDescription(description);
-	}
-
-
-	/**
-	 * Creates a file filter from the given string array. Example: new ExampleFileFilter(String {"gif",
-	 * "jpg"});
-	 * 
-	 * Note that the "." before the extension is not needed adn will be ignored.
-	 * 
-	 * @see #addExtension
-	 */
-	public SimpleFileFilter(String[] filters)
-	{
-		this(filters, null);
-	}
-
-
-	/**
-	 * Creates a file filter from the given string array and description. Example: new
-	 * ExampleFileFilter(String {"gif", "jpg"}, "Gif and JPG Images");
-	 * 
-	 * Note that the "." before the extension is not needed and will be ignored.
-	 * 
-	 * @see #addExtension
-	 */
-	public SimpleFileFilter(String[] filters, String description)
-	{
-		this();
-		for (int i = 0; i < filters.length; i++) {
-			// add filters one by one
-			addExtension(filters[i]);
+		
+		setDescription(extension.getName());
+		for (String e : extension.getExtensions()) {
+			addExtension(e);
 		}
-		if (description != null) setDescription(description);
 	}
+
 
 
 	/**

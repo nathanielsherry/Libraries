@@ -20,7 +20,8 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 
 import scitypes.log.SciLog;
-import swidget.dialogues.fileio.SwidgetIO;
+import swidget.dialogues.fileio.SimpleFileExtension;
+import swidget.dialogues.fileio.SwidgetFileDialogs;
 import swidget.icons.StockIcon;
 import swidget.widgets.ButtonBox;
 import swidget.widgets.ClearPanel;
@@ -175,26 +176,20 @@ public class SavePicture extends JDialog
 			controlsPanel.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 			
 
-			File tempfile = tempfile();
+			SimpleFileExtension png = new SimpleFileExtension("Portable Network Graphic", "png");
+			File result = SwidgetFileDialogs.saveFile(this, "Save Picture As...", startingFolder, png);
+			if (result == null) {
+				setVisible(false);
+				return;
+			}
 			
-			OutputStream os = new FileOutputStream(tempfile);				
+			OutputStream os = new FileOutputStream(result);				
 			controller.writePNG(os);
 			os.close();
-			
-			InputStream is = new FileInputStream(tempfile);
-			File result = SwidgetIO.saveFile(this, "Save Picture As...", "png", "Portable Network Graphic", startingFolder, is);
-			is.close();
-			
-			tempfile.delete();
-			
 
+			startingFolder = result.getParentFile();
+			setVisible(false);
 			
-
-			if (result != null) 
-			{
-				startingFolder = result;
-				setVisible(false);
-			}
 			setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 			setEnabled(true);
 			
@@ -217,26 +212,20 @@ public class SavePicture extends JDialog
 			controlsPanel.setEnabled(false);
 			controlsPanel.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 			
-
-			File tempfile = tempfile();
-			
-			OutputStream os = new FileOutputStream(tempfile);				
+			SimpleFileExtension svg = new SimpleFileExtension("Scalable Vector Graphic", "svg");
+			File result = SwidgetFileDialogs.saveFile(this, "Save Picture As...", startingFolder, svg);
+			if (result == null) {
+				setVisible(false);
+				return;
+			}
+						
+			OutputStream os = new FileOutputStream(result);				
 			controller.writeSVG(os);
 			os.close();
-			
-			InputStream is = new FileInputStream(tempfile);
-			File result = SwidgetIO.saveFile(this, "Save Picture As...", "svg", "Scalable Vector Graphic", startingFolder, is);
-			is.close();
-			
-			tempfile.delete();
-			
-			
 
-			if (result != null) 
-			{
-				startingFolder = result;
-				setVisible(false);
-			}
+			startingFolder = result.getParentFile();
+			setVisible(false);
+			
 			setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 			setEnabled(true);
 			
@@ -260,23 +249,20 @@ public class SavePicture extends JDialog
 			controlsPanel.setEnabled(false);
 			controlsPanel.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 			
-			File tempfile = tempfile();
+			SimpleFileExtension pdf = new SimpleFileExtension("Portable Document Format", "pdf");
+			File result = SwidgetFileDialogs.saveFile(this, "Save Picture As...", startingFolder, pdf);
+			if (result == null) {
+				setVisible(false);
+				return;
+			}
 			
-			OutputStream os = new FileOutputStream(tempfile);				
+			OutputStream os = new FileOutputStream(result);				
 			controller.writePDF(os);
 			os.close();
-			
-			InputStream is = new FileInputStream(tempfile);
-			File result = SwidgetIO.saveFile(this, "Save Picture As...", "pdf", "Portable Document Format", startingFolder, is);
-			is.close();
-			
-			tempfile.delete();
 
-			if (result != null) 
-			{
-				startingFolder = result;
-				setVisible(false);
-			}
+			startingFolder = result.getParentFile();
+			setVisible(false);
+			
 			setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 			setEnabled(true);
 			
