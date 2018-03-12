@@ -73,7 +73,7 @@ public class PluralFoldExecutor<T1> extends FoldExecutor<T1>
 	 */
 	protected int getDesiredBlockSize()
 	{
-		return (int)Math.ceil(super.getDataSize() / ((double)threadCount));
+		return Math.max((int)Math.ceil(super.getDataSize() / ((double)threadCount * 100)), 1);
 	}
 
 

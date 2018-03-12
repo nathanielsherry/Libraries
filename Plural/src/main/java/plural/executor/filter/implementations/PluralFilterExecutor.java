@@ -57,7 +57,7 @@ public class PluralFilterExecutor<T1> extends FilterExecutor<T1>
 	 */
 	protected int getDesiredBlockSize()
 	{
-		return (int)Math.ceil(super.getDataSize() / ((double)threadCount));
+		return Math.max((int)Math.ceil(super.getDataSize() / ((double)threadCount * 100)), 1);
 	}
 
 

@@ -47,7 +47,7 @@ public class PluralEachIndexExecutor extends EachIndexExecutor
 	 */
 	public int getDesiredBlockSize()
 	{
-		return Math.max(super.getDataSize() / (threadCount * 50), 1);
+		return Math.max(super.getDataSize() / (threadCount * 100), 1);
 	}
 
 

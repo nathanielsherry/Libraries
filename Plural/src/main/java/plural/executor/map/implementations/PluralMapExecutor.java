@@ -74,7 +74,7 @@ public class PluralMapExecutor<T1, T2> extends MapExecutor<T1, T2>
 	 */
 	protected int getDesiredBlockSize()
 	{
-		return (int)Math.ceil(super.getDataSize() / ((double)threadCount * 50));
+		return Math.max((int)Math.ceil(super.getDataSize() / ((double)threadCount * 100)), 1);
 	}
 
 
