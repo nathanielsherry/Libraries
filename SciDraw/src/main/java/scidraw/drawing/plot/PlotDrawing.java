@@ -214,7 +214,7 @@ public class PlotDrawing extends Drawing
 					try{
 						axisPainter.draw(new PainterData(context, dr, plotSize, dataHeights));
 					} catch (Exception e) {
-						System.out.println("Axis Painter " + axisPainter.getSourceName() + " Failed");
+						SciLog.get().log(Level.WARNING, "Axis Painter " + axisPainter.getSourceName() + " Failed", e);
 					}
 					
 					
