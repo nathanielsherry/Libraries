@@ -3,6 +3,7 @@ package scidraw.swing;
 
 import java.awt.BorderLayout;
 import java.awt.Cursor;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Window;
@@ -16,16 +17,25 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.logging.Level;
 
+import javax.swing.Box;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 
+import scidraw.drawing.backends.Surface;
 import scitypes.log.SciLog;
+import scitypes.util.Mutable;
+import swidget.Swidget;
 import swidget.dialogues.fileio.SimpleFileExtension;
 import swidget.dialogues.fileio.SwidgetFileDialogs;
 import swidget.icons.StockIcon;
 import swidget.widgets.ButtonBox;
 import swidget.widgets.ClearPanel;
 import swidget.widgets.ImageButton;
+import swidget.widgets.SettingsPanel;
+import swidget.widgets.SettingsPanel.LabelPosition;
 import swidget.widgets.Spacing;
 import swidget.widgets.toggle.ItemToggleButton;
 import swidget.widgets.toggle.ToggleGroup;
@@ -40,6 +50,9 @@ public class SavePicture extends JDialog
 	private ToggleGroup				group;
 	private JPanel					controlsPanel;
 	
+	private JSpinner spnWidth, spnHeight;
+	
+	
 	public SavePicture(Window owner, GraphicsPanel controller, File startingFolder)
 	{
 
@@ -49,7 +62,6 @@ public class SavePicture extends JDialog
 		this.startingFolder = startingFolder;
 
 		init(owner);
-
 	}
 	
 	
@@ -114,13 +126,72 @@ public class SavePicture extends JDialog
 
 	}
 
+	public JPanel createDimensionsPane() {
+		
+		JPanel panel = new JPanel();
+		panel.setLayout(new GridBagLayout());
+		GridBagConstraints c = new GridBagConstraints();
+		
+		spnWidth = new JSpinner(new SpinnerNumberModel((int)Math.ceil(controller.getUsedWidth()), 100, 10000, 1));
+		spnHeight = new JSpinner(new SpinnerNumberModel((int)Math.ceil(controller.getUsedHeight()), 100, 10000, 1));
+		
+		c.weightx = 0.0;
+		c.fill = GridBagConstraints.NONE;
+		c.gridx = 0;
+		
+		
+		c.fill = GridBagConstraints.BOTH;
+		c.weightx = 1.0;
+		panel.add(Box.createHorizontalGlue(), c);
+		c.gridx++;
+		c.fill = GridBagConstraints.NONE;
+		c.weightx = 0.0;
+		
+		panel.add(new JLabel("Width"), c);
+		c.gridx++;
+		panel.add(spnWidth, c);
+		c.gridx++;
+		
+		
+		c.fill = GridBagConstraints.BOTH;
+		c.weightx = 1.0;
+		panel.add(Box.createHorizontalGlue(), c);
+		c.gridx++;
+		c.fill = GridBagConstraints.NONE;
+		c.weightx = 0.0;
+		
+		
+		panel.add(new JLabel("Height"), c);
+		c.gridx++;
+		panel.add(spnHeight, c);
+		c.gridx++;
+		
+		c.fill = GridBagConstraints.BOTH;
+		c.weightx = 1.0;
+		panel.add(Box.createHorizontalGlue(), c);
+		c.gridx++;
+		c.fill = GridBagConstraints.NONE;
+		c.weightx = 0.0;
+		
+		panel.setBorder(Spacing.bHuge());
+		
+		return panel;
+		
+	}
 
 	public JPanel createOptionsPane()
 	{
 
 		JPanel panel = new ClearPanel();		
 		panel.setLayout(new GridBagLayout());
+		
 		GridBagConstraints c = new GridBagConstraints();
+		c.gridx = 0;
+		c.gridy = 0;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.anchor = GridBagConstraints.PAGE_START;
+		c.weighty = 0;
+		c.weightx = 0;
 		
 		
 		group = new ToggleGroup();
@@ -142,20 +213,31 @@ public class SavePicture extends JDialog
 
 		
 		c.gridx = 0;
-		c.gridy = 0;
-		c.fill = GridBagConstraints.HORIZONTAL;
 		c.anchor = GridBagConstraints.PAGE_START;
 		c.weighty = 0;
 		c.weightx = 0;
-		panel.add(png, c);
 		
+		
+		
+		
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		panel.add(createDimensionsPane(), c);
+		c.fill = GridBagConstraints.HORIZONTAL;	
 		c.gridy++;
-		panel.add(svg, c);
-		
-		c.gridy++;
-		panel.add(pdf, c);
-		
 
+		
+		panel.add(png, c);
+		c.gridy++;
+		
+		panel.add(svg, c);
+		c.gridy++;
+		
+		panel.add(pdf, c);
+		c.gridy++;
+
+
+		
 		group.setToggled(0);
 
 		panel.setBorder(Spacing.bHuge());
@@ -183,8 +265,10 @@ public class SavePicture extends JDialog
 				return;
 			}
 			
-			OutputStream os = new FileOutputStream(result);				
-			controller.writePNG(os);
+			OutputStream os = new FileOutputStream(result);
+			int width = ((Number)spnWidth.getValue()).intValue();
+			int height = ((Number)spnHeight.getValue()).intValue();
+			controller.writePNG(os, new Dimension(width, height));
 			os.close();
 
 			startingFolder = result.getParentFile();
@@ -220,7 +304,9 @@ public class SavePicture extends JDialog
 			}
 						
 			OutputStream os = new FileOutputStream(result);				
-			controller.writeSVG(os);
+			int width = ((Number)spnWidth.getValue()).intValue();
+			int height = ((Number)spnHeight.getValue()).intValue();
+			controller.writeSVG(os, new Dimension(width, height));
 			os.close();
 
 			startingFolder = result.getParentFile();
@@ -257,7 +343,9 @@ public class SavePicture extends JDialog
 			}
 			
 			OutputStream os = new FileOutputStream(result);				
-			controller.writePDF(os);
+			int width = ((Number)spnWidth.getValue()).intValue();
+			int height = ((Number)spnHeight.getValue()).intValue();
+			controller.writePDF(os, new Dimension(width, height));
 			os.close();
 
 			startingFolder = result.getParentFile();
@@ -288,5 +376,54 @@ public class SavePicture extends JDialog
 		return tempfile;
 	}
 	
+	
+	public static void main(String[] args) throws InterruptedException {
+		
+
+		
+
+		
+		GraphicsPanel g = new GraphicsPanel() {
+			
+			@Override
+			public float getUsedWidth(float zoom) {
+				// TODO Auto-generated method stub
+				return 1000;
+			}
+			
+			@Override
+			public float getUsedWidth() {
+				// TODO Auto-generated method stub
+				return 2000;
+			}
+			
+			@Override
+			public float getUsedHeight(float zoom) {
+				// TODO Auto-generated method stub
+				return 500;
+			}
+			
+			@Override
+			public float getUsedHeight() {
+				// TODO Auto-generated method stub
+				return 1000;
+			}
+			
+			@Override
+			protected void drawGraphics(Surface backend, boolean vector, Dimension size) {
+				// TODO Auto-generated method stub
+				
+			}
+		};
+		
+		Swidget.initializeAndWait();
+		
+		SavePicture s = new SavePicture(null, g, null);
+		
+		
+		
+		
+		
+	}
 
 }
