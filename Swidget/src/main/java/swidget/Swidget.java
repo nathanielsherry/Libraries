@@ -7,6 +7,7 @@ import java.awt.Insets;
 import java.awt.Toolkit;
 import java.nio.file.FileSystemLoopException;
 import java.util.Map;
+import java.util.concurrent.Semaphore;
 import java.util.logging.Logger;
 
 import javax.swing.Icon;
@@ -40,6 +41,19 @@ public class Swidget
 {
 
 	private static SplashScreen splashWindow;
+	
+	private static Semaphore initWaiter = new Semaphore(1);
+	public static void initializeAndWait() {
+		try {
+			initWaiter.acquire();
+			initialize(() -> {
+				initWaiter.release();
+			});
+			initWaiter.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	public static void initialize(Runnable startupTasks)
 	{
