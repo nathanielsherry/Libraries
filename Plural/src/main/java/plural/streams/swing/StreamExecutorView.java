@@ -16,7 +16,7 @@ public class StreamExecutorView extends JPanel {
 	
 	private StreamExecutor<?> exec;
 	
-	public StreamExecutorView(StreamExecutor<?> exec, String title) {
+	public StreamExecutorView(StreamExecutor<?> exec) {
 		super();
 		
 		this.exec = exec;
@@ -30,7 +30,7 @@ public class StreamExecutorView extends JPanel {
 		icon.setPreferredSize(d);
 		this.add(icon, BorderLayout.WEST);
 		
-		JLabel text = new JLabel(title);
+		JLabel text = new JLabel(exec.getName());
 		this.add(text, BorderLayout.CENTER);
 		
 		exec.addListener(() -> {

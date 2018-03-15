@@ -42,12 +42,14 @@ public class StreamExecutor<T> extends Eventful implements Predicate<Object>{
 	Optional<T> result = Optional.empty();
 	
 	private State state = State.RUNNING;
+	private String name;
 	
-	public StreamExecutor() {
-		this(100);
+	public StreamExecutor(String name) {
+		this(name, 100);
 	}
 	
-	public StreamExecutor(int notificationInterval) {
+	public StreamExecutor(String name, int notificationInterval) {
+		this.name = name;
 		this.interval = notificationInterval;
 	}
 	
@@ -66,6 +68,11 @@ public class StreamExecutor<T> extends Eventful implements Predicate<Object>{
 	}
 	
 	
+	
+	public String getName() {
+		return name;
+	}
+
 	public void abort() {
 		if (state == State.RUNNING) {
 			state = State.ABORTED;
@@ -114,7 +121,7 @@ public class StreamExecutor<T> extends Eventful implements Predicate<Object>{
 	}
 
 	
-	public StreamExecutor<?> then(StreamExecutor<?> next) {
+	public <T> StreamExecutor<T> then(StreamExecutor<T> next) {
 		setNext(next);
 		return next;
 	}
@@ -154,7 +161,7 @@ public class StreamExecutor<T> extends Eventful implements Predicate<Object>{
 	 * @param task The task to perform over the iterable's stream
 	 */
 	public <S> void setTask(Iterable<S> source, Function<Stream<S>, T> task) {
-
+		
 		//If size hasn't already been manually set, figure it out now
 		if (size == -1) {
 			if (source instanceof Collection<?>) {
@@ -168,7 +175,35 @@ public class StreamExecutor<T> extends Eventful implements Predicate<Object>{
 			}
 		}
 		
+		setTask(() -> source, task);
+	}
+	
+	/**
+	 * Sets the execution task to the given {@link Function}. The stream to be used
+	 * by this function will be supplied as the function's argument, constructed from 
+	 * the {@link Iterable} source. 
+	 * @param source A function to lazily provide the {@link Iterable} to stream over
+	 * @param task The task to perform over the iterable's stream
+	 */
+	public <S> void setTask(Supplier<? extends Iterable<S>> sourceProvider, Function<Stream<S>, T> task) {
+
 		thread = new Thread(() -> {
+			
+			Iterable<S> source = sourceProvider.get();
+			
+			//If size hasn't already been manually set, figure it out now
+			if (size == -1) {
+				if (source instanceof Collection<?>) {
+					setSize(((Collection<?>) source).size());
+				} else {
+					int count = 0;
+					for (S s : source) {
+						count++;
+					}
+					setSize(count);
+				}
+			}
+			
 			setResult(
 				task.apply(
 					observe(
@@ -208,7 +243,7 @@ public class StreamExecutor<T> extends Eventful implements Predicate<Object>{
 			System.out.println("Starting...");
 			
 			
-			StreamExecutor<List<Integer>> e1 = new StreamExecutor<>();
+			StreamExecutor<List<Integer>> e1 = new StreamExecutor<>("s1");
 			e1.setSize(size);
 			
 			e1.addListener(() -> {
@@ -234,7 +269,7 @@ public class StreamExecutor<T> extends Eventful implements Predicate<Object>{
 	
 			
 			
-			StreamExecutor<List<Integer>> e2 = new StreamExecutor<>();
+			StreamExecutor<List<Integer>> e2 = new StreamExecutor<>("s2");
 			e2.setSize(size);
 			
 			e2.addListener(() -> {
@@ -260,8 +295,8 @@ public class StreamExecutor<T> extends Eventful implements Predicate<Object>{
 			e1.then(e2);
 			
 			
-			StreamExecutorView v1 = new StreamExecutorView(e1, "First Task");
-			StreamExecutorView v2 = new StreamExecutorView(e2, "Second Task");
+			StreamExecutorView v1 = new StreamExecutorView(e1);
+			StreamExecutorView v2 = new StreamExecutorView(e2);
 			
 			JFrame frame = new JFrame();
 			StreamExecutorPanel panel = new StreamExecutorPanel("Two Tasks", v1, v2);
