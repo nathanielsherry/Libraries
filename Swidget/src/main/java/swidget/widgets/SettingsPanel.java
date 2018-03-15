@@ -1,10 +1,12 @@
 package swidget.widgets;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
+import javax.swing.Box;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -29,27 +31,27 @@ public class SettingsPanel extends JPanel {
 		
 	}
 	
-	public void addSetting(JComponent component) {
+	public void addSetting(Component component) {
 		addSetting(component, "", LabelPosition.NONE, false, false);
 	}
 	
 	
 	
-	public void addSetting(JComponent component, String label, LabelPosition labelPosition) {
+	public void addSetting(Component component, String label, LabelPosition labelPosition) {
 		addSetting(component, makeLabel(label), labelPosition);
 	}
 	
-	public void addSetting(JComponent component, JLabel label, LabelPosition labelPosition) {
+	public void addSetting(Component component, JLabel label, LabelPosition labelPosition) {
 		addSetting(component, label, labelPosition, false, false);
 	}
 	
 	
 	
-	public void addSetting(JComponent component, String label, LabelPosition labelPosition, boolean vFill, boolean hFill) {
+	public void addSetting(Component component, String label, LabelPosition labelPosition, boolean vFill, boolean hFill) {
 		addSetting(component, makeLabel(label), labelPosition, vFill, hFill);
 	}
 	
-	public void addSetting(JComponent component, JLabel label, LabelPosition labelPosition, boolean vFill, boolean hFill) {
+	public void addSetting(Component component, JLabel label, LabelPosition labelPosition, boolean vFill, boolean hFill) {
 		
 		
 		
@@ -97,6 +99,8 @@ public class SettingsPanel extends JPanel {
 		}
 		
 	}
+	
+	
 	
 	private JLabel makeLabel(String text) {
 		JLabel label = new JLabel(text);
