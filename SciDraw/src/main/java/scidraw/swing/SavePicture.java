@@ -33,7 +33,6 @@ import scitypes.log.SciLog;
 import scitypes.util.Mutable;
 import swidget.Swidget;
 import swidget.dialogues.fileio.SimpleFileExtension;
-import swidget.dialogues.fileio.SwidgetFileDialogs;
 import swidget.dialogues.fileio.SwidgetFilePanels;
 import swidget.icons.StockIcon;
 import swidget.widgets.ButtonBox;
