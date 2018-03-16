@@ -30,6 +30,10 @@ import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 import javax.swing.plaf.LayerUI;
 
+import org.jdesktop.swingx.border.DropShadowBorder;
+
+import javafx.embed.swing.SwingFXUtils;
+
 public class TabbedInterfacePanel extends JLayeredPane {
 
 	private Stack<Component> modalComponents = new Stack<>();
@@ -161,8 +165,10 @@ public class TabbedInterfacePanel extends JLayeredPane {
 	private void setModalComponent(Component panel) {
 		
 		JPanel wrap = new JPanel(new BorderLayout());
+		wrap.setOpaque(false);
 		wrap.add(panel, BorderLayout.CENTER);
-		wrap.setBorder(new LineBorder(Color.BLACK, 1));
+		DropShadowBorder border = new DropShadowBorder(Color.BLACK, 10, 0.4f, 20, true, true, true, true);
+		wrap.setBorder(border);
 		
 		modalLayer.removeAll();
 		modalLayer.setLayout(new GridBagLayout());
