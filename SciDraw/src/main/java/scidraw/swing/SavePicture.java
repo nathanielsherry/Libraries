@@ -2,11 +2,13 @@ package scidraw.swing;
 
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Window;
+import java.awt.Dialog.ModalityType;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -15,6 +17,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Optional;
+import java.util.function.Consumer;
 import java.util.logging.Level;
 
 import javax.swing.Box;
@@ -30,6 +34,7 @@ import scitypes.util.Mutable;
 import swidget.Swidget;
 import swidget.dialogues.fileio.SimpleFileExtension;
 import swidget.dialogues.fileio.SwidgetFileDialogs;
+import swidget.dialogues.fileio.SwidgetFilePanels;
 import swidget.icons.StockIcon;
 import swidget.widgets.ButtonBox;
 import swidget.widgets.ClearPanel;
@@ -37,53 +42,76 @@ import swidget.widgets.ImageButton;
 import swidget.widgets.SettingsPanel;
 import swidget.widgets.SettingsPanel.LabelPosition;
 import swidget.widgets.Spacing;
+import swidget.widgets.tabbedinterface.TabbedInterfacePanel;
 import swidget.widgets.toggle.ItemToggleButton;
 import swidget.widgets.toggle.ToggleGroup;
 import swidget.widgets.toggle.ItemToggleButton;
 
 
-public class SavePicture extends JDialog
+public class SavePicture extends JPanel
 {
 
 	private GraphicsPanel			controller;
 	private File					startingFolder;
 	private ToggleGroup				group;
-	private JPanel					controlsPanel;
+	private Component				owner;
+	private JDialog					dialog;
+	Consumer<Optional<File>> 		onComplete;
 	
 	private JSpinner spnWidth, spnHeight;
 	
 	
-	public SavePicture(Window owner, GraphicsPanel controller, File startingFolder)
+	public SavePicture(Component owner, GraphicsPanel controller, File startingFolder, Consumer<Optional<File>> onComplete)
 	{
-
-		super(owner, "Save as Image");
-
+		this.onComplete = onComplete;
+		this.owner = owner;
 		this.controller = controller;
 		this.startingFolder = startingFolder;
 
-		init(owner);
+		setLayout(new BorderLayout());
+		add(createOptionsPane(), BorderLayout.CENTER);
+		add(createControlPanel(), BorderLayout.SOUTH);
+		
+	}
+
+	public void show() {
+		if (owner instanceof TabbedInterfacePanel) {
+			((TabbedInterfacePanel) owner).pushModalComponent(this);
+		} else {
+			showDialog();
+		}
 	}
 	
+	public void hide() {
+		if (owner instanceof TabbedInterfacePanel) {
+			((TabbedInterfacePanel) owner).popModalComponent();
+		} else {
+			if (dialog != null) {
+				dialog.setVisible(false);
+				dialog = null;
+			}
+		}
+	}
 	
-	private void init(Window owner)
-	{
-
-		controlsPanel = new ClearPanel();
-
-		controlsPanel.setLayout(new BorderLayout());
-		controlsPanel.add(createOptionsPane(), BorderLayout.CENTER);
-		controlsPanel.add(createControlPanel(), BorderLayout.SOUTH);
+	private void showDialog() {
 		
-		add(controlsPanel);
+		if (owner instanceof Window) {
+			dialog = new JDialog((Window)owner);
+		} else {
+			dialog = new JDialog();
+		}
 
+		dialog.setTitle("Save as Image");
+		dialog.getContentPane().setLayout(new BorderLayout());
+		dialog.getContentPane().add(this, BorderLayout.CENTER);
 		
-
-		pack();
-		setResizable(false);
-		setLocationRelativeTo(owner);
-		setModal(true);
+		dialog.pack();
+		dialog.setResizable(false);
+		dialog.setLocationRelativeTo(owner);
+		dialog.setModal(true);
 		setVisible(true);
 	}
+
 
 
 	public JPanel createControlPanel()
@@ -95,28 +123,19 @@ public class SavePicture extends JDialog
 		ImageButton ok = new ImageButton(StockIcon.DOCUMENT_SAVE, "Save", true);
 		ImageButton cancel = new ImageButton(StockIcon.CHOOSE_CANCEL, "Cancel", true);
 
-		ok.addActionListener(new ActionListener() {
-
-			public void actionPerformed(ActionEvent e)
-			{
-
-				int selection = group.getToggledIndex();
-				Cursor oldCursor = getCursor();
-				setCursor(new Cursor(Cursor.WAIT_CURSOR));
-				if (selection == 0) savePNG();
-				if (selection == 1) saveSVG();
-				if (selection == 2) savePDF();
-				setCursor(oldCursor);
-
-			}
+		ok.addActionListener(e -> {
+			int selection = group.getToggledIndex();
+			Cursor oldCursor = getCursor();
+			setCursor(new Cursor(Cursor.WAIT_CURSOR));
+			if (selection == 0) savePNG();
+			if (selection == 1) saveSVG();
+			if (selection == 2) savePDF();
+			setCursor(oldCursor);
 		});
 
-		cancel.addActionListener(new ActionListener() {
-
-			public void actionPerformed(ActionEvent e)
-			{
-				setVisible(false);
-			}
+		cancel.addActionListener(e -> {
+			onComplete.accept(Optional.empty());
+			hide();
 		});
 
 		buttonBox.addRight(cancel);
@@ -251,37 +270,40 @@ public class SavePicture extends JDialog
 	private void savePNG()
 	{
 
-		try
-		{
+
 			
-			controlsPanel.setEnabled(false);
-			controlsPanel.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+			setEnabled(false);
+			setCursor(new Cursor(Cursor.WAIT_CURSOR));
 			
 
 			SimpleFileExtension png = new SimpleFileExtension("Portable Network Graphic", "png");
-			File result = SwidgetFileDialogs.saveFile(this, "Save Picture As...", startingFolder, png);
-			if (result == null) {
-				setVisible(false);
-				return;
-			}
-			
-			OutputStream os = new FileOutputStream(result);
-			int width = ((Number)spnWidth.getValue()).intValue();
-			int height = ((Number)spnHeight.getValue()).intValue();
-			controller.writePNG(os, new Dimension(width, height));
-			os.close();
+			SwidgetFilePanels.saveFile(owner, "Save Picture As...", startingFolder, png, result -> {
+				if (!result.isPresent()) {
+					return;
+				}
+				try
+				{
+					OutputStream os = new FileOutputStream(result.get());
+					int width = ((Number)spnWidth.getValue()).intValue();
+					int height = ((Number)spnHeight.getValue()).intValue();
+					controller.writePNG(os, new Dimension(width, height));
+					os.close();
+	
+					startingFolder = result.get().getParentFile();
+					hide();
+					
+					setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+					setEnabled(true);
+					
+					onComplete.accept(result);
+					
+				}
+				catch (IOException e)
+				{
+					SciLog.get().log(Level.SEVERE, "Failed to save PNG", e);
+				}
+			});
 
-			startingFolder = result.getParentFile();
-			setVisible(false);
-			
-			setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-			setEnabled(true);
-			
-		}
-		catch (IOException e)
-		{
-			SciLog.get().log(Level.SEVERE, "Failed to save PNG", e);
-		}
 
 	}
 
@@ -289,39 +311,37 @@ public class SavePicture extends JDialog
 	private void saveSVG()
 	{
 
-
-		try
-		{
 			
-			controlsPanel.setEnabled(false);
-			controlsPanel.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+			setEnabled(false);
+			setCursor(new Cursor(Cursor.WAIT_CURSOR));
 			
 			SimpleFileExtension svg = new SimpleFileExtension("Scalable Vector Graphic", "svg");
-			File result = SwidgetFileDialogs.saveFile(this, "Save Picture As...", startingFolder, svg);
-			if (result == null) {
-				setVisible(false);
-				return;
-			}
+			SwidgetFilePanels.saveFile(owner, "Save Picture As...", startingFolder, svg, result -> {
+				if (!result.isPresent()) {
+					return;
+				}
+				try
+				{
+					OutputStream os = new FileOutputStream(result.get());				
+					int width = ((Number)spnWidth.getValue()).intValue();
+					int height = ((Number)spnHeight.getValue()).intValue();
+					controller.writeSVG(os, new Dimension(width, height));
+					os.close();
+
+					startingFolder = result.get().getParentFile();
+					hide();
+					
+					setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+					setEnabled(true);
+					onComplete.accept(result);
+				}
+				catch (IOException e)
+				{
+					SciLog.get().log(Level.SEVERE, "Failed to save SVG", e);
+				}
+
+			});
 						
-			OutputStream os = new FileOutputStream(result);				
-			int width = ((Number)spnWidth.getValue()).intValue();
-			int height = ((Number)spnHeight.getValue()).intValue();
-			controller.writeSVG(os, new Dimension(width, height));
-			os.close();
-
-			startingFolder = result.getParentFile();
-			setVisible(false);
-			
-			setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-			setEnabled(true);
-			
-		}
-		catch (IOException e)
-		{
-			SciLog.get().log(Level.SEVERE, "Failed to save SVG", e);
-		}
-
-
 
 	}
 
@@ -329,36 +349,34 @@ public class SavePicture extends JDialog
 	private void savePDF()
 	{
 
-		try
-		{
-			
-			controlsPanel.setEnabled(false);
-			controlsPanel.setCursor(new Cursor(Cursor.WAIT_CURSOR));
-			
-			SimpleFileExtension pdf = new SimpleFileExtension("Portable Document Format", "pdf");
-			File result = SwidgetFileDialogs.saveFile(this, "Save Picture As...", startingFolder, pdf);
-			if (result == null) {
-				setVisible(false);
+		setEnabled(false);
+		setCursor(new Cursor(Cursor.WAIT_CURSOR));
+		
+		SimpleFileExtension pdf = new SimpleFileExtension("Portable Document Format", "pdf");
+		SwidgetFilePanels.saveFile(owner, "Save Picture As...", startingFolder, pdf, result -> {
+			if (!result.isPresent() ) {
 				return;
 			}
-			
-			OutputStream os = new FileOutputStream(result);				
-			int width = ((Number)spnWidth.getValue()).intValue();
-			int height = ((Number)spnHeight.getValue()).intValue();
-			controller.writePDF(os, new Dimension(width, height));
-			os.close();
+			try {
+				OutputStream os = new FileOutputStream(result.get());				
+				int width = ((Number)spnWidth.getValue()).intValue();
+				int height = ((Number)spnHeight.getValue()).intValue();
+				controller.writePDF(os, new Dimension(width, height));
+				os.close();
 
-			startingFolder = result.getParentFile();
-			setVisible(false);
-			
-			setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-			setEnabled(true);
-			
-		}
-		catch (IOException e)
-		{
-			SciLog.get().log(Level.SEVERE, "Failed to save PDF", e);
-		}
+				startingFolder = result.get().getParentFile();
+				hide();
+				
+				setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+				setEnabled(true);
+				onComplete.accept(result);
+				
+			}
+			catch (IOException e)
+			{
+				SciLog.get().log(Level.SEVERE, "Failed to save PDF", e);
+			}
+		});
 
 	}
 
@@ -418,7 +436,7 @@ public class SavePicture extends JDialog
 		
 		Swidget.initializeAndWait();
 		
-		SavePicture s = new SavePicture(null, g, null);
+		SavePicture s = new SavePicture(null, g, null, file -> {});
 		
 		
 		
