@@ -35,6 +35,7 @@ public class StreamExecutor<T> extends Eventful implements Predicate<Object>{
 	
 	private Thread thread;
 	private StreamExecutor<?> next;
+	private boolean parallel = true;
 	
 	private int count = 0;
 	private int size = -1;
@@ -53,6 +54,17 @@ public class StreamExecutor<T> extends Eventful implements Predicate<Object>{
 		this.interval = notificationInterval;
 	}
 	
+	
+	
+	
+	public boolean isParallel() {
+		return parallel;
+	}
+
+	public void setParallel(boolean parallel) {
+		this.parallel = parallel;
+	}
+
 	@Override
 	public boolean test(Object t) {
 		count++;
@@ -64,7 +76,11 @@ public class StreamExecutor<T> extends Eventful implements Predicate<Object>{
 	
 
 	public <S> Stream<S> observe(Stream<S> stream) {
-		return stream.parallel().filter(this);
+		if (parallel) {
+			return stream.parallel().filter(this);
+		} else {
+			return stream.filter(this);
+		}
 	}
 	
 	
