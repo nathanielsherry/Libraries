@@ -11,6 +11,7 @@ import java.awt.Window;
 import java.awt.Dialog.ModalityType;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -21,11 +22,14 @@ import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.logging.Level;
 
+import javax.swing.AbstractAction;
 import javax.swing.Box;
+import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
+import javax.swing.KeyStroke;
 import javax.swing.SpinnerNumberModel;
 
 import scidraw.drawing.backends.Surface;
@@ -71,11 +75,23 @@ public class SavePicture extends JPanel
 		add(createOptionsPane(), BorderLayout.CENTER);
 		add(createControlPanel(), BorderLayout.SOUTH);
 		
+		KeyStroke key = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0);
+		this.getInputMap(JComponent.WHEN_FOCUSED).put(key, key.toString());
+		this.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(key, key.toString());
+		this.getActionMap().put(key.toString(), new AbstractAction() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				hide();
+			}
+		});
+		
 	}
 
 	public void show() {
 		if (owner instanceof TabbedInterfacePanel) {
 			((TabbedInterfacePanel) owner).pushModalComponent(this);
+			this.requestFocus();
 		} else {
 			showDialog();
 		}
