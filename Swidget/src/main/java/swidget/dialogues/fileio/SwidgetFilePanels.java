@@ -2,6 +2,8 @@ package swidget.dialogues.fileio;
 
 import java.awt.Component;
 import java.awt.Window;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,8 +12,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
 
+import javax.swing.AbstractAction;
+import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.KeyStroke;
 
 import swidget.widgets.tabbedinterface.TabbedInterfacePanel;
 
@@ -20,7 +25,23 @@ public class SwidgetFilePanels {
 	private static void showChooser(Component parent, JFileChooser chooser, Runnable onAccept, Runnable onCancel) {
 		if (parent instanceof TabbedInterfacePanel) {
 			TabbedInterfacePanel tabPanel = (TabbedInterfacePanel) parent;
+			
+			
+			KeyStroke key = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0);
+			chooser.getInputMap(JComponent.WHEN_FOCUSED).put(key, key.toString());
+			chooser.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(key, key.toString());
+			chooser.getActionMap().put(key.toString(), new AbstractAction() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					tabPanel.popModalComponent();
+					onCancel.run();
+				}
+			});
+			
+			
 			tabPanel.pushModalComponent(chooser);
+			chooser.requestFocus();
 			chooser.addActionListener(e -> {
 				 if (e.getActionCommand().equals(JFileChooser.APPROVE_SELECTION)) {
 					 tabPanel.popModalComponent();
