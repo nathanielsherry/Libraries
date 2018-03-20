@@ -13,6 +13,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.LayoutManager2;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -27,6 +29,8 @@ import javax.swing.JComponent;
 import javax.swing.JLayer;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.plaf.LayerUI;
 
@@ -38,8 +42,12 @@ public class TabbedInterfacePanel extends JLayeredPane {
 
 	private Stack<Component> modalComponents = new Stack<>();
 	private JPanel modalLayer = new JPanel();
+	private JScrollPane modalScroller;
 	private JPanel contentLayer = new JPanel();
+	
 	boolean modalShown = false;
+	
+	
 	
 	public TabbedInterfacePanel() {
 		setLayout(new TabbedInterfaceLayerLayout());
@@ -74,6 +82,13 @@ public class TabbedInterfacePanel extends JLayeredPane {
 			
 		});
 				
+		
+		addComponentListener(new ComponentAdapter() {
+			public void componentResized(ComponentEvent e) {
+				updateModalContentDimensions();
+			}
+		});
+		
 		add(layer, new StackConstraints(JLayeredPane.DEFAULT_LAYER, "content"));
 		
 		
@@ -166,7 +181,14 @@ public class TabbedInterfacePanel extends JLayeredPane {
 		
 		JPanel wrap = new JPanel(new BorderLayout());
 		wrap.setOpaque(false);
-		wrap.add(panel, BorderLayout.CENTER);
+		modalScroller = new JScrollPane();
+		modalScroller.setViewportView(panel);
+		modalScroller.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		modalScroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+		modalScroller.setBorder(new EmptyBorder(0, 0, 0, 0));
+
+		
+		wrap.add(modalScroller, BorderLayout.CENTER);
 		DropShadowBorder border = new DropShadowBorder(Color.BLACK, 10, 0.4f, 20, true, true, true, true);
 		wrap.setBorder(border);
 		
@@ -182,9 +204,29 @@ public class TabbedInterfacePanel extends JLayeredPane {
 		c.gridy = 1;
 		
 		modalLayer.add(wrap, c);
+		
+		updateModalContentDimensions();
+		
 		this.repaint();
 	}
 	
+	private void updateModalContentDimensions() {
+		if (modalScroller == null) { 
+			return; 
+		}
+		Component modal = modalScroller.getViewport().getView();
+		if (modal == null) {
+			return;
+		}
+		Dimension size = getSize();
+		int newWidth = (int)Math.max(50, Math.min(size.getWidth()-40, modal.getPreferredSize().getWidth()));
+		int newHeight = (int)Math.max(50, Math.min(size.getHeight()-40, modal.getPreferredSize().getHeight()));
+		
+		modalScroller.getViewport().setPreferredSize(new Dimension(newWidth, newHeight));
+		modalScroller.revalidate();
+		
+		//modal.setPreferredSize(new Dimension(newWidth, newHeight));
+	}
 
 
 	
