@@ -225,7 +225,6 @@ public class TabbedInterfacePanel extends JLayeredPane {
 		modalScroller.getViewport().setPreferredSize(new Dimension(newWidth, newHeight));
 		modalScroller.revalidate();
 		
-		//modal.setPreferredSize(new Dimension(newWidth, newHeight));
 	}
 
 

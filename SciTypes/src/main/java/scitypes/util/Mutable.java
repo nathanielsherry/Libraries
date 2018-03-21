@@ -16,6 +16,12 @@ public class Mutable<T> {
 		this.value = value;
 	}
 	
+	public synchronized T testAndSet(T value) {
+		T old = get();
+		set(value);
+		return old;
+	}
+	
 	
 	
 }
