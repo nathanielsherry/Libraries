@@ -131,7 +131,7 @@ public class ItemToggleButton extends JToggleButton
 
 			add(icon, c);
 			
-			if (Swidget.isStratus()) {
+			if (Swidget.isNumbusDerivedLaF()) {
 				this.setBorder(Spacing.bMedium());
 				this.setMargin(Spacing.iNone());
 			} else {

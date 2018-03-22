@@ -245,7 +245,7 @@ public class ImageToggleButton extends JToggleButton
 	{
 		
 	
-		isNimbus = Swidget.isStratus();
+		isNimbus = Swidget.isNumbusDerivedLaF();
 		
 		
 		

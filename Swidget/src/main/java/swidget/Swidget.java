@@ -32,8 +32,6 @@ import swidget.dialogues.SplashScreen;
 import swidget.icons.IconFactory;
 import swidget.icons.IconSize;
 import swidget.icons.StockIcon;
-import swidget.stratus.StratusLookAndFeel;
-import swidget.stratus.components.StratusComboBoxUI;
 
 
 
@@ -70,41 +68,31 @@ public class Swidget
 		System.setProperty("sun.java2d.xrender", "false");
 		System.setProperty("sun.java2d.pmoffscreen", "false");
 		
-		//Create the look-and-feel first, so that it can init things before AWT starts up w/ splash
-		StratusLookAndFeel laf = new StratusLookAndFeel();
-		
-		
-		
+				
 		if (splashBackground != null && splashIcon != null) {
 			SwingUtilities.invokeLater(() -> {
 				splashWindow = new SplashScreen(IconFactory.getImageIcon(splashBackground), IconFactory.getImage(splashIcon));
 				splashWindow.repaint();
 				
 				SwingUtilities.invokeLater(() -> {
-					try {
-						UIManager.setLookAndFeel(laf);
-					} catch (Exception e) {}
 					startupTasks.run();
 					splashWindow.setVisible(false);
 				});
 			});
 		} else {
 			SwingUtilities.invokeLater(() -> {
-				try {
-					UIManager.setLookAndFeel(laf);
-				} catch (Exception e) {}
 				startupTasks.run();
 			});
 		}
 		
 	}
 
-	public static boolean isStratus()
+	public static boolean isNumbusDerivedLaF()
 	{
 		
 		try
 		{
-			return UIManager.getLookAndFeel().getClass() == StratusLookAndFeel.class;
+			return NimbusLookAndFeel.class.isAssignableFrom(UIManager.getLookAndFeel().getClass());
 		}
 		catch (Exception e)
 		{

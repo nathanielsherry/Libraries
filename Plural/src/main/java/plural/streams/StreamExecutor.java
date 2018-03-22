@@ -22,7 +22,6 @@ import eventful.Eventful;
 import plural.streams.swing.StreamExecutorPanel;
 import plural.streams.swing.StreamExecutorView;
 import swidget.Swidget;
-import swidget.stratus.StratusLookAndFeel;
 
 public class StreamExecutor<T> extends Eventful implements Predicate<Object>{
 
