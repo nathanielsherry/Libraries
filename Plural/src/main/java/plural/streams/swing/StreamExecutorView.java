@@ -7,6 +7,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import plural.streams.StreamExecutor;
+import plural.streams.StreamExecutor.Event;
 import swidget.icons.IconSize;
 import swidget.icons.StockIcon;
 import swidget.widgets.Spacing;
@@ -33,11 +34,11 @@ public class StreamExecutorView extends JPanel {
 		JLabel text = new JLabel(exec.getName());
 		this.add(text, BorderLayout.CENTER);
 		
-		exec.addListener(() -> {
-			if (exec.getState() == StreamExecutor.State.COMPLETED) {
+		exec.addListener(event -> {
+			if (event == Event.COMPLETED) {
 				icon.setIcon(StockIcon.CHOOSE_OK.toImageIcon(IconSize.BUTTON));
 			}
-			if (exec.getState() == StreamExecutor.State.RUNNING && exec.getCount() > 0) {
+			if (event == Event.PROGRESS && exec.getCount() > 0) {
 				icon.setIcon(StockIcon.GO_NEXT.toImageIcon(IconSize.BUTTON));
 			}
 		});

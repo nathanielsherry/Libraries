@@ -19,16 +19,25 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 
 import eventful.Eventful;
+import eventful.EventfulEnum;
+import eventful.EventfulType;
 import plural.streams.swing.StreamExecutorPanel;
 import plural.streams.swing.StreamExecutorView;
 import swidget.Swidget;
 
-public class StreamExecutor<T> extends Eventful implements Predicate<Object>{
+public class StreamExecutor<T> extends EventfulEnum<StreamExecutor.Event> implements Predicate<Object>{
 
 	public enum State {
 		RUNNING,
 		ABORTED,
 		COMPLETED,
+	}
+	
+	//Events are like state transitions, rather than states themselves
+	public enum Event {
+		PROGRESS,
+		ABORTED,
+		COMPLETED
 	}
 	
 	
@@ -68,7 +77,7 @@ public class StreamExecutor<T> extends Eventful implements Predicate<Object>{
 	public synchronized boolean test(Object t) {
 		count++;
 		if (count % interval == 0) {
-			updateListeners();
+			updateListeners(Event.PROGRESS);
 		}
 		return state == State.RUNNING;
 	}
@@ -91,7 +100,7 @@ public class StreamExecutor<T> extends Eventful implements Predicate<Object>{
 	public void abort() {
 		if (state == State.RUNNING) {
 			state = State.ABORTED;
-			updateListeners();
+			updateListeners(Event.ABORTED);
 			removeAllListeners();
 		}
 		
@@ -101,7 +110,7 @@ public class StreamExecutor<T> extends Eventful implements Predicate<Object>{
 		
 		if (state == State.RUNNING) {
 			state = State.COMPLETED;
-			updateListeners();
+			updateListeners(Event.COMPLETED);
 			removeAllListeners();
 		}
 	}
@@ -261,12 +270,12 @@ public class StreamExecutor<T> extends Eventful implements Predicate<Object>{
 			StreamExecutor<List<Integer>> e1 = new StreamExecutor<>("s1");
 			e1.setSize(size);
 			
-			e1.addListener(() -> {
-				if (e1.getState() == State.RUNNING) {
+			e1.addListener((event) -> {
+				if (event == Event.PROGRESS) {
 					System.out.println("E1 Processed: " + e1.getCount());
 				}
 				
-				if (e1.getState() == State.COMPLETED) {
+				if (event == Event.COMPLETED) {
 					System.out.println("E1 Done!");
 				}
 			});
@@ -287,12 +296,12 @@ public class StreamExecutor<T> extends Eventful implements Predicate<Object>{
 			StreamExecutor<List<Integer>> e2 = new StreamExecutor<>("s2");
 			e2.setSize(size);
 			
-			e2.addListener(() -> {
-				if (e2.getState() == State.RUNNING) {
+			e2.addListener((event) -> {
+				if (event == Event.PROGRESS) {
 					System.out.println("E2 Processed: " + e2.getCount());
 				}
 				
-				if (e2.getState() == State.COMPLETED) {
+				if (event == Event.COMPLETED) {
 					System.out.println("E2 Done!");
 				}
 			});
@@ -318,8 +327,8 @@ public class StreamExecutor<T> extends Eventful implements Predicate<Object>{
 			frame.getContentPane().setLayout(new BorderLayout());
 			frame.getContentPane().add(panel, BorderLayout.CENTER);
 	
-			e2.addListener(() -> {
-				if (e2.getState() != State.RUNNING) {
+			e2.addListener((event) -> {
+				if (event != Event.PROGRESS) {
 					frame.setVisible(false);
 				}
 			});

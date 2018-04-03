@@ -81,7 +81,7 @@ public class StreamExecutorPanel extends JPanel {
 		setBorder(Spacing.bHuge());
 
 		for (StreamExecutorView v : observerViews) {
-			v.getExecutor().addListener(() -> {
+			v.getExecutor().addListener(event -> {
 				StreamExecutor<?> exec = v.getExecutor();
 				if (exec.getSize() <= 0) {
 					progress.setIndeterminate(true);
