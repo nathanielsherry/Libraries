@@ -250,8 +250,20 @@ public class StreamExecutor<T> extends EventfulEnum<StreamExecutor.Event> implem
 		setTask(Arrays.asList(source), task);
 	}
 	
+	/**
+	 * Starts this task in a worker thread and returns asynchronously
+	 */
 	public void start() {
 		thread.start();
+	}
+	
+	/**
+	 * Runs this task in the current thread, blocks until finished, and returns the result directly
+	 * @return
+	 */
+	public Optional<T> run() {
+		thread.run();
+		return result;
 	}
 	
 
