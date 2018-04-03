@@ -401,7 +401,7 @@ public class SpectrumCalculations
 	 * @param l2
 	 * @param minimum
 	 */
-	public static void subtractLists_inplace(Spectrum l1, Spectrum l2, final float minimum)
+	public static void subtractLists_inplace(Spectrum l1, ReadOnlySpectrum l2, final float minimum)
 	{
 
 		int maxInd = Math.min(l1.size(), l2.size());
