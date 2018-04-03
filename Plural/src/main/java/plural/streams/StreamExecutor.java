@@ -65,7 +65,7 @@ public class StreamExecutor<T> extends Eventful implements Predicate<Object>{
 	}
 
 	@Override
-	public boolean test(Object t) {
+	public synchronized boolean test(Object t) {
 		count++;
 		if (count % interval == 0) {
 			updateListeners();
