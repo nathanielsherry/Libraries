@@ -9,7 +9,6 @@ public enum StockIcon {
 	
 	ACTION_REFRESH,
 	MENU_MAIN,
-	MENU_VIEW,
 	MENU_SETTINGS,
 	
 	BADGE_INFO,
