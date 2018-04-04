@@ -1,15 +1,18 @@
 package swidget.widgets;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 
 import javax.swing.Box;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 
 public class SettingsPanel extends JPanel {
 
@@ -21,13 +24,20 @@ public class SettingsPanel extends JPanel {
 	}
 	
 	private GridBagConstraints c = new GridBagConstraints();
+	private Insets insets = new Insets(0, 0, 0, 0);
 	
 	public SettingsPanel() {
+		this(new Insets(0, 0, 0, 0));
+	}
+	
+	public SettingsPanel(Insets insets) {
 		setLayout(new GridBagLayout());
 		
 		c.insets = Spacing.iTiny();
 		c.ipadx = 0;
 		c.ipady = 0;
+		
+		this.insets = insets;
 		
 	}
 	
@@ -36,6 +46,10 @@ public class SettingsPanel extends JPanel {
 	}
 	
 	
+
+	public void addSetting(Component component, String label) {
+		addSetting(component, label, LabelPosition.BESIDE);
+	}
 	
 	public void addSetting(Component component, String label, LabelPosition labelPosition) {
 		addSetting(component, makeLabel(label), labelPosition);
@@ -67,14 +81,14 @@ public class SettingsPanel extends JPanel {
 		if (labelPosition == LabelPosition.BESIDE)
 		{
 			c.weightx = 1;
-			add(label, c);
+			add(wrap(label), c);
 			
 			c.weightx = hFill ? 1f : 0f;
 			c.gridx++;
 			c.fill = GridBagConstraints.NONE;
 			c.anchor = GridBagConstraints.LINE_END;
 			
-			add(component, c);
+			add(wrap(component), c);
 			
 		}
 		else if (labelPosition == LabelPosition.ABOVE)
@@ -82,25 +96,31 @@ public class SettingsPanel extends JPanel {
 			c.gridwidth = 2;
 			
 			c.weighty = 0f;
-			add(label, c);
+			add(wrap(label), c);
 
 			c.gridy++;
 			
 			c.weighty = vFill ? 1f : 0f;
-			add(component, c);
+			add(wrap(component), c);
 			
 			c.gridwidth = 1;
 		}
 		else if(labelPosition == LabelPosition.NONE)
 		{
 			c.gridwidth = 2;				
-			add(component, c);
+			add(wrap(component), c);
 			c.gridwidth = 1;
 		}
 		
 	}
 	
-	
+	private JPanel wrap(Component c) {
+		JPanel wrapper = new JPanel(new BorderLayout());
+		wrapper.setOpaque(false);
+		wrapper.add(c, BorderLayout.CENTER);
+		wrapper.setBorder(new EmptyBorder(this.insets));
+		return wrapper;
+	}
 	
 	private JLabel makeLabel(String text) {
 		JLabel label = new JLabel(text);
