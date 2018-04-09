@@ -209,11 +209,6 @@ public abstract class PlotPainter extends Painter{
 	}
 	
 	
-	public float getChannelAtEnergy(DrawingRequest dr, float energy)
-	{
-		return energy / dr.unitSize;
-	}
-
 	public float getXForChannel(PainterData p, float channel)
 	{
 		float widthPerChannel = p.plotSize.x / p.dr.dataWidth;
