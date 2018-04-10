@@ -17,9 +17,12 @@ public class AxisMarkGenerator
 	
 		float valueRange = valueRangeEnd - valueRangeStart;
 		List<Pair<Float, Integer>> ticks = new ArrayList<Pair<Float, Integer>>();
+
+		//bouhnds/sanity check
+		if (maxTicks <= 0) return ticks;
+		if (axisHeight <= 0) return ticks;
 		
 		// Calculate the increment size;
-		if (maxTicks == 0) return ticks;
 		int increment = getIncrement(valueRange, maxTicks, incrementSigDigits);
 				
 		//calculate the starting value;
