@@ -451,7 +451,7 @@ public class SavePicture extends JPanel
 		
 		Swidget.initializeAndWait();
 		
-		SavePicture s = new SavePicture(null, g, null, file -> {});
+		new SavePicture(null, g, null, file -> {});
 		
 		
 		

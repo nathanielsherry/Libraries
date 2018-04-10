@@ -438,7 +438,7 @@ public class ImageButton extends JButton
 			while ( metrics.getStringBounds(line, g).getWidth() < width )
 			{
 				if (chars.size() == 0) break;
-				if (line != "") line += " ";
+				if (line.equals("")) line += " ";
 				line = line + chars.get(0);
 				chars = chars.subList(1, chars.size());
 			}

@@ -312,7 +312,7 @@ public class CooperativeProjectInterlacer<T>
 	 * @param projectName the name of the project
 	 * @return the priority of the project, or -1 if the project does not exist
 	 */
-	public int getProjectPriority(String projectName)
+	public synchronized int getProjectPriority(String projectName)
 	{
 		InterlacerEntry<T> entry = entries.get(projectName);
 		if (entry == null) return -1;
