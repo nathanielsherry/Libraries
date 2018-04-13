@@ -157,6 +157,7 @@ public class PlotDrawing extends Drawing
 		
 		if (context == null) return;
 		
+		
 		dataHeights = new ISpectrum(dr.dataWidth, 0.0f);
 
 		context.setLineWidth(getPenWidth(getBaseUnitSize(dr), dr));
@@ -166,7 +167,8 @@ public class PlotDrawing extends Drawing
 			Coord<Bounds<Float>> axisBounds = getPlotOffsetFromBottomLeft();
 			Bounds<Float> availableX = axisBounds.x, availableY = axisBounds.y;
 			plotSize = new Coord<Float>(availableX.end - availableX.start, availableY.end - availableY.start); 
-		
+			if (plotSize.x <= 0 | plotSize.y <= 0) return;
+			
 			// transform to get out past the x axis
 			// we can't scale to make the region fit in the imageHeight/Width values
 			// since the fonts get all squishy
