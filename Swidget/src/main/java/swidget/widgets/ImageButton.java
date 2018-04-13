@@ -384,7 +384,6 @@ public class ImageButton extends JButton
 		//setMargin(new Insets(-1, -1, -1, -1));
 
 		//setBorder(new CompoundBorder(getBorder(), new javax.swing.plaf.basic.BasicBorders.MarginBorder()));
-				
 		if (tooltip != null) this.setToolTipText(tooltip);
 
 		
@@ -428,19 +427,18 @@ public class ImageButton extends JButton
 		String line = "";
 		Graphics g = c.getGraphics();
 		
-		List<String> chars = new ArrayList<String>(Arrays.asList(text.split(" ")));
+		List<String> words = new ArrayList<String>(Arrays.asList(text.split(" ")));
 		
 		
 		lines.clear();
-		while (chars.size() > 0)
+		while (words.size() > 0)
 		{
 		
 			while ( metrics.getStringBounds(line, g).getWidth() < width )
 			{
-				if (chars.size() == 0) break;
-				if (line.equals("")) line += " ";
-				line = line + chars.get(0);
-				chars = chars.subList(1, chars.size());
+				if (words.size() == 0) break;
+				if (!line.equals("")) line += " ";
+				line = line + words.remove(0);
 			}
 			
 			lines.add(line);
