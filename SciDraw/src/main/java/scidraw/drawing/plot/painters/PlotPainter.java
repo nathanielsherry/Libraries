@@ -133,60 +133,6 @@ public abstract class PlotPainter extends Painter{
 	}
 	
 	
-
-	
-	protected Coord<Bounds<Float>> getTextLabelDimensions(PainterData p, String title, float energy)
-	{
-		DrawingRequest dr = p.dr;
-
-		float textWidth = p.context.getTextWidth(title);
-
-		float channelSize = p.plotSize.x / dr.dataWidth;
-		float centreChannel = (energy / dr.unitSize);
-
-		float titleStart = centreChannel * channelSize;
-		titleStart -= (textWidth / 2.0);
-
-
-		float titleHeight = p.context.getFontHeight();
-		float penWidth = getPenWidth(getBaseUnitSize(dr), dr);
-		float totalHeight = (titleHeight + penWidth * 2);
-		
-		float farLeft = titleStart - penWidth * 2;
-		float width = textWidth + penWidth * 4;
-		float farRight = farLeft + width;
-
-		float leftChannel = (float)Math.max(0, Math.floor(farLeft / channelSize));
-		float rightChannel = (float)Math.min(p.dr.dataWidth-1, Math.ceil(farRight / channelSize));
-		
-		
-		
-		return new Coord<Bounds<Float>>(new Bounds<Float>(leftChannel, rightChannel), new Bounds<Float>(penWidth, totalHeight));
-		
-	}
-	
-	/**
-	 * Draws a text label on the plot
-	 * @param p the {@link PainterData} structure containing objects and information needed to draw to the plot.
-	 * @param title the title of the label
-	 * @param energy the energy value at which to centre the label
-	 */
-	protected void drawTextLabel(PainterData p, String title, float energy, float xStart, float yStart)
-	{
-		drawTextLabel(p, title, energy, xStart, yStart, true);
-	}
-	protected void drawTextLabel(PainterData p, String title, float energy, float xStart, float yStart, boolean resetColour)
-	{
-		if (xStart > p.plotSize.x) return;
-
-		if (title != null) {
-
-			if (resetColour) p.context.setSource(0.0f, 0.0f, 0.0f);
-			p.context.writeText(title, xStart, p.plotSize.y - yStart);
-		}
-
-	}
-	
 	
 	protected Spectrum transformDataForPlot(DrawingRequest dr, ReadOnlySpectrum data)
 	{
