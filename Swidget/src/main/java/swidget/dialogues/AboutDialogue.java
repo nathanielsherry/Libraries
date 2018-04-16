@@ -13,6 +13,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
@@ -31,6 +33,7 @@ import swidget.icons.StockIcon;
 import swidget.widgets.ButtonBox;
 import swidget.widgets.ImageButton;
 import swidget.widgets.Spacing;
+import swidget.widgets.properties.PropertyViewPanel;
 
 
 public class AboutDialogue extends JDialog
@@ -168,7 +171,17 @@ public class AboutDialogue extends JDialog
 		
 			public void actionPerformed(ActionEvent arg0)
 			{
-				JOptionPane.showMessageDialog(AboutDialogue.this, contents.credits, "Credits", JOptionPane.INFORMATION_MESSAGE, StockIcon.MISC_ABOUT.toImageIcon(IconSize.ICON));
+				Map<String, String> credits = new LinkedHashMap<>();
+				for (String credit : contents.credits.split("\n")) {
+					if (credit.trim().length() == 0) {
+						continue;
+					}
+					String[] creditParts = credit.split(": ");
+					credits.put(creditParts[0], creditParts[1]);
+				}
+				PropertyViewPanel creditsPanel = new PropertyViewPanel(credits);
+				new PropertyDialogue("Credits", AboutDialogue.this, creditsPanel);
+				
 			}
 		});
 		bbox.addLeft(btnCredit);
