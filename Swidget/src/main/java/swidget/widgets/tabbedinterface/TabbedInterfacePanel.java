@@ -23,6 +23,7 @@ import java.awt.image.BufferedImage;
 import java.awt.image.BufferedImageOp;
 import java.awt.image.ConvolveOp;
 import java.awt.image.Kernel;
+import java.awt.peer.LightweightPeer;
 import java.util.Stack;
 
 import javax.swing.JComponent;
@@ -30,6 +31,7 @@ import javax.swing.JLayer;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.plaf.LayerUI;
@@ -43,10 +45,11 @@ public class TabbedInterfacePanel extends JLayeredPane {
 	private Stack<Component> modalComponents = new Stack<>();
 	private JPanel modalLayer = new JPanel();
 	private JScrollPane modalScroller;
-	private JPanel contentLayer = new JPanel();
+	
+	private JPanel contentLayerPanel = new JPanel();
+	private final JLayer<JPanel> contentLayer;
 	
 	boolean modalShown = false;
-	
 	
 	
 	public TabbedInterfacePanel() {
@@ -72,16 +75,17 @@ public class TabbedInterfacePanel extends JLayeredPane {
 		});
 
 		
-		final JLayer<JPanel> layer = new JLayer<JPanel>(contentLayer, new BlurLayerUI<JPanel>(this) {
+		BlurLayerUI<JPanel> blurUI = new BlurLayerUI<JPanel>(this) {
 			@Override
 			public void eventDispatched(AWTEvent e, JLayer<? extends JPanel> l) {
 				((InputEvent) e).consume();
 			}
-			
+		};
+		contentLayer = new JLayer<JPanel>(contentLayerPanel, blurUI);
 
-			
-		});
-				
+
+		
+		
 		
 		addComponentListener(new ComponentAdapter() {
 			public void componentResized(ComponentEvent e) {
@@ -89,7 +93,7 @@ public class TabbedInterfacePanel extends JLayeredPane {
 			}
 		});
 		
-		add(layer, new StackConstraints(JLayeredPane.DEFAULT_LAYER, "content"));
+		add(contentLayer, new StackConstraints(JLayeredPane.DEFAULT_LAYER, "content"));
 		
 		
 	}
@@ -122,26 +126,32 @@ public class TabbedInterfacePanel extends JLayeredPane {
 		comp.repaint();
 	}
 	
-	//Shows the modal layer
+	//Shows the modal contentLayer
 	private void showModal() {
 		modalShown = true;
+		modalLayer.setVisible(true);
 		modalLayer.setOpaque(false);
 		modalLayer.setBackground(new Color(0, 0, 0, 0f));
-
-		contentLayer.setEnabled(false);
+		
+		contentLayerPanel.setEnabled(false);
 		add(modalLayer, new StackConstraints(JLayeredPane.MODAL_LAYER, "modal"));
 		modalLayer.requestFocus();	
+		this.revalidate();
 		this.repaint();
 	}
 	
-	//Hides the modal layer
+	
+	//Hides the modal contentLayer
 	private void hideModal() {
 		modalComponents.clear();
 		modalShown = false;
+		modalLayer.setVisible(false);
 		this.remove(modalLayer);
-		contentLayer.setEnabled(true);
-		contentLayer.requestFocus();
+		contentLayerPanel.setEnabled(true);
+		contentLayer.paint(contentLayer.getGraphics());
+		contentLayerPanel.requestFocus();
 	}
+
 	
 	/**
 	 * Adds a modal component to the top of the modal stack. This allows more 
@@ -231,7 +241,7 @@ public class TabbedInterfacePanel extends JLayeredPane {
 	
 	
 	public JPanel getContentLayer() {
-		return contentLayer;
+		return contentLayerPanel;
 	}
 	
 	
