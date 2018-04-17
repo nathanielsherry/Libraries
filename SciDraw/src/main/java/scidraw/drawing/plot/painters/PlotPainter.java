@@ -117,7 +117,7 @@ public abstract class PlotPainter extends Painter{
 				
 			} else if (traceType == TraceType.CONNECTED){
 				
-				context.lineTo(pointMiddle, height);
+				context.lineTo(pointStart, height);
 				
 			}
 
@@ -153,14 +153,7 @@ public abstract class PlotPainter extends Painter{
 
 		return value;
 	}
-	
-	
-	public float getXForChannel(PainterData p, float channel)
-	{
-		float widthPerChannel = p.plotSize.x / p.dr.dataWidth;
-		return channel * widthPerChannel;
-	}
-	
+
 	@Override
 	protected float getBaseUnitSize(DrawingRequest dr)
 	{
