@@ -16,6 +16,7 @@ import java.awt.event.MouseListener;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -71,7 +72,7 @@ public class AboutDialogue extends JDialog
 		c.setLayout(new BorderLayout());
 
 		JPanel panel = new JPanel(new BorderLayout());
-		c.add(panel);
+		c.add(panel, BorderLayout.CENTER);
 		
 		JPanel infopanel = new JPanel(new GridBagLayout());
 		//infopanel.setBorder(new EmptyBorder(0, 50, Spacing.large, 50));		
@@ -105,19 +106,19 @@ public class AboutDialogue extends JDialog
 		JLabel title = new JLabel();
 		title.setFont(title.getFont().deriveFont(Font.PLAIN));
 		title.setText(
-			"<html><div style='text-align: center; width: 250px;'>" +
-				"<b><big><big>" + contents.name + " " + contents.version + "</big></big></b>" +
-				(("".equals(contents.releaseDescription)) ? "" : "<br><b><font size=\"+1\" color=\"#c00000\">" + contents.releaseDescription + "</font></b>") +  
+			"<html><div style='text-align: left; width: 250px;'>" +
+				"<big><big>" + contents.name + " " + contents.version + "</big></big>" +
+				(("".equals(contents.releaseDescription)) ? "" : "<br><font color=\"#c00000\">" + contents.releaseDescription + "</font>") +  
 			"</div></html>");
 		
-		gc.anchor = GridBagConstraints.NORTH;
+		gc.anchor = GridBagConstraints.NORTHWEST;
 		infopanel.add(title, gc);
 
-		
+	
 		JLabel text = new JLabel();
 		text.setFont(text.getFont().deriveFont(Font.PLAIN));
 		text.setText(
-			"<html><div style='text-align: center; width: 250px;'>" +
+			"<html><div style='text-align: left; width: 250px;'>" +
 				"<br>" +
 				"<br>" +
 				contents.description + 
@@ -136,12 +137,12 @@ public class AboutDialogue extends JDialog
 			"</div></html>");
 		
 		gc.gridy++;
-		gc.anchor = GridBagConstraints.CENTER;
+		gc.anchor = GridBagConstraints.NORTHWEST;
 		infopanel.add(text, gc);
 		
 		
 		if (contents.website != null) {
-			JLabel weblabel = new JLabel("<html><center><u>" + contents.website + "</u></center></html>");
+			JLabel weblabel = new JLabel("<html><u>" + contents.website + "</u></html>");
 			weblabel.addMouseListener(new MouseListener() {
 				
 				public void mouseReleased(MouseEvent e){}
@@ -160,7 +161,7 @@ public class AboutDialogue extends JDialog
 			weblabel.setBackground(Color.black);
 			gc.gridy++;
 			gc.fill = GridBagConstraints.NONE;
-			gc.anchor = GridBagConstraints.SOUTH;
+			gc.anchor = GridBagConstraints.SOUTHWEST;
 			infopanel.add(weblabel, gc);
 		}
 		
