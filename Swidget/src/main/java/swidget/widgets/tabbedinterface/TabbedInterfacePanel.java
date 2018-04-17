@@ -7,12 +7,14 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.LayoutManager2;
+import java.awt.Window;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.InputEvent;
@@ -148,8 +150,24 @@ public class TabbedInterfacePanel extends JLayeredPane {
 		modalLayer.setVisible(false);
 		this.remove(modalLayer);
 		contentLayerPanel.setEnabled(true);
-		contentLayer.paint(contentLayer.getGraphics());
+		updateIfMinimized();
 		contentLayerPanel.requestFocus();
+	}
+	
+	/**
+	 * This exists to work around a bug where nothing seems to be able to trigger 
+	 * a paint when the window is minimized, to the point where even after 
+	 * unminimizing it still won't redraw, only redrawing child components on 
+	 * mouseover
+	 */
+	private void updateIfMinimized() {
+		Component croot = SwingUtilities.getRoot(this);
+		if (croot instanceof Frame) {
+			int state = ((Frame) croot).getState();
+			if (state == Frame.ICONIFIED) {
+				this.update(this.getGraphics());
+			}
+		}
 	}
 
 	
