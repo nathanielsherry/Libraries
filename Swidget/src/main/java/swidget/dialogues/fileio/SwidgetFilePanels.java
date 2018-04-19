@@ -18,6 +18,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 
+import swidget.widgets.tabbedinterface.TabbedInterfaceDialog;
 import swidget.widgets.tabbedinterface.TabbedInterfacePanel;
 
 public class SwidgetFilePanels {
@@ -83,11 +84,14 @@ public class SwidgetFilePanels {
 			}
 			File file = new File(filename);
 			
-			if (warnFileExists(parent, file)) {
-				callback.accept(Optional.of(file));
-			} else {
-				callback.accept(Optional.empty());
-			}
+			warnFileExists(parent, file, proceed -> {
+				if (proceed) {
+					callback.accept(Optional.of(file));
+				} else {
+					callback.accept(Optional.empty());
+				}	
+			});
+			
 		};
 		
 		Runnable onCancel = () -> {
@@ -182,21 +186,36 @@ public class SwidgetFilePanels {
 	
 	
 	
-	static boolean warnFileExists(Component parent, File filename)
+	static void warnFileExists(Component parent, File filename, Consumer<Boolean> onResult)
 	{
 		
-		if (filename.exists()) {
-			
-			int response = JOptionPane.showConfirmDialog(parent,
-					"The file you have selected already exists, are you sure you want to replace it?",
-					"File Already Exists", JOptionPane.YES_NO_OPTION
-					);
-	
-			if (response == JOptionPane.YES_OPTION) return true;
-			return false;
-		}
-		return true;
+		String body = "The file you have selected already exists, are you sure you want to replace it?";
+		String title = "File Already Exists";
 		
+		if (filename.exists()) {
+			if (parent instanceof TabbedInterfacePanel) {
+				
+				new TabbedInterfaceDialog(
+						title, 
+						body, 
+						JOptionPane.QUESTION_MESSAGE,
+						JOptionPane.YES_NO_OPTION, 
+						v -> onResult.accept(v == (Integer)JOptionPane.YES_OPTION)
+					).showIn((TabbedInterfacePanel) parent);
+				
+			} else {
+				
+				int response = JOptionPane.showConfirmDialog(parent,
+						"The file you have selected already exists, are you sure you want to replace it?",
+						"File Already Exists", JOptionPane.YES_NO_OPTION
+					);
+				onResult.accept(response == JOptionPane.YES_OPTION);
+				
+			}
+
+		} else {
+			onResult.accept(true);
+		}
 
 	}
 
