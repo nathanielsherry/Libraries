@@ -21,6 +21,7 @@ public class DropdownImageButton extends EventfulEnumPanel<DropdownImageButton.A
 {
 	
 	private JButton button, dropdown;
+	private JPopupMenu menu;
 	
 	public enum Actions
 	{
@@ -62,7 +63,7 @@ public class DropdownImageButton extends EventfulEnumPanel<DropdownImageButton.A
 	
 	private void init(String filename, String text, String tooltip, IconSize size, Layout layout, final JPopupMenu menu)
 	{
-		
+		this.menu = menu;
 		eventful = new EventfulEnum<Actions>(); 
 		
 		this.setFocusable(true);
@@ -146,20 +147,18 @@ public class DropdownImageButton extends EventfulEnumPanel<DropdownImageButton.A
 			Spacing.iNone(),
 			Spacing.bMedium());
 
-		dropdown.addActionListener(new ActionListener() {
-			
-			public void actionPerformed(ActionEvent e)
-			{
-				menu.show(DropdownImageButton.this, button.getLocation().x, button.getLocation().y + button.getHeight());
-				updateListeners(Actions.MENU);
-			}
-		});
+		dropdown.addActionListener(e -> showMenu());
 		
 		
 		if (menu != null) add(dropdown, BorderLayout.EAST);
 		
 		setBorder(Spacing.bNone());
 		
+	}
+	
+	public void showMenu() {
+		menu.show(DropdownImageButton.this, button.getLocation().x, button.getLocation().y + button.getHeight());
+		updateListeners(Actions.MENU);
 	}
 	
 	

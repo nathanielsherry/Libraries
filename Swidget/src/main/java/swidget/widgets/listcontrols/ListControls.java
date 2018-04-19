@@ -34,20 +34,20 @@ public abstract class ListControls extends ClearPanel
 
 	public ListControls(JPopupMenu addMenu)
 	{
-		this(null, addMenu);
+		this(null, addMenu, false);
 	}
 	
 	public ListControls(String[] tooltips)
 	{
-		this(tooltips, null);
+		this(tooltips, null, false);
 	}
 	
 	public ListControls()
 	{
-		this(null, null);
+		this(null, null, false);
 	}
 
-	public ListControls(String[] tooltips, JPopupMenu addMenu)
+	public ListControls(String[] tooltips, JPopupMenu addMenu, boolean addButtonShowsPopup)
 	{
 		
 		buttons = new ArrayList<Component>();
@@ -101,7 +101,11 @@ public abstract class ListControls extends ClearPanel
 					switch (message)
 					{
 						case MAIN:
-							add();
+							if (!addButtonShowsPopup) {
+								add();
+							} else {
+								addButton.showMenu();
+							}
 							break;
 						case MENU:
 							//handled internally
@@ -250,38 +254,7 @@ public abstract class ListControls extends ClearPanel
 
 	public void setElementCount(ElementCount ec)
 	{
-/*
-		if (ec == ElementCount.NONE)
-		{
 
-			add.setEnabled(true);
-			remove.setEnabled(false);
-			clear.setEnabled(false);
-			up.setEnabled(false);
-			down.setEnabled(false);
-
-		}
-		else if (ec == ElementCount.ONE)
-		{
-
-			add.setEnabled(true);
-			remove.setEnabled(true);
-			clear.setEnabled(true);
-			up.setEnabled(false);
-			down.setEnabled(false);
-
-		}
-		else
-		{
-
-			add.setEnabled(true);
-			remove.setEnabled(true);
-			clear.setEnabled(true);
-			up.setEnabled(true);
-			down.setEnabled(true);
-
-		}
-*/
 		for (Component button : buttons)
 		{
 			if (button instanceof ListControlWidget) ((ListControlWidget)button).setEnableState(ec);
@@ -313,5 +286,10 @@ public abstract class ListControls extends ClearPanel
 		buttons.add(index, button);
 		layoutButtons();
 	}
+	
+	public List<Component> getButtons() {
+		return new ArrayList<>(buttons);
+	}
 
+	
 }
