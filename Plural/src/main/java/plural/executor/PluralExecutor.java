@@ -43,6 +43,11 @@ public interface PluralExecutor extends IEventful{
 	 * Indicate that a work unit has been completed.
 	 */
 	void workUnitCompleted();
+	
+	/**
+	 * Gets the total number of work units completed so far
+	 */
+	int getWorkUnitsCompleted();
 
 	/**
 	 * Indicate that several work units have been completed

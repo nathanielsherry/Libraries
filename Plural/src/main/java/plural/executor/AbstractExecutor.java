@@ -132,6 +132,10 @@ public abstract class AbstractExecutor extends Eventful implements PluralExecuto
 		updateListeners();
 	}
 
+	@Override
+	public int getWorkUnitsCompleted() {
+		return this.workUnitsCompleted;
+	}
 
 	/* (non-Javadoc)
 	 * @see plural.executor.PluralExecutor#getProgress()

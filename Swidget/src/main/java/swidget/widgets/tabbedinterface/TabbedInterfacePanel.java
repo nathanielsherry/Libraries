@@ -40,7 +40,6 @@ import javax.swing.plaf.LayerUI;
 
 import org.jdesktop.swingx.border.DropShadowBorder;
 
-import javafx.embed.swing.SwingFXUtils;
 
 public class TabbedInterfacePanel extends JLayeredPane {
 
