@@ -174,6 +174,13 @@ public class Range extends Sequence<Integer> implements Serializable
 		return (int)Math.ceil(size() / (float)step);
 	}
 
+	//TODO: this could be faster
+	public boolean contains(int value) {
+		for (int i : this) {
+			if (i == value) { return true; }
+		}
+		return false;
+	}
 	
 	/**
 	 * Determines if this Range occupies the same area as another Range. Overlapped ranges do not need to share any points, 

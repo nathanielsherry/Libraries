@@ -155,6 +155,14 @@ public class RangeSet implements Serializable, Iterable<Integer>
 		
 	}
 	
+	//TODO: this could be faster
+	public boolean contains(int value) {
+		for (int i : this) {
+			if (i == value) { return true; }
+		}
+		return false;
+	}
+	
 	/**
 	 * Determines if this RangeSet is touching the given {@link Range}. For a definition of touching, see {@link Range#isTouching(Range)}
 	 * @param other the Range to compare
