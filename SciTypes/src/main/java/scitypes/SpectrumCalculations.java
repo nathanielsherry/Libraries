@@ -531,7 +531,7 @@ public class SpectrumCalculations
 	 * @param list
 	 * @return a copy of list, with the values logged
 	 */
-	public static Spectrum logList(Spectrum list)
+	public static Spectrum logList(ReadOnlySpectrum list)
 	{
 
 		Spectrum result = new ISpectrum(list.size());
@@ -546,7 +546,7 @@ public class SpectrumCalculations
 	 * 
 	 * @param list
 	 */
-	public static void logList_target(Spectrum source, Spectrum target)
+	public static void logList_target(ReadOnlySpectrum source, Spectrum target)
 	{
 
 		float logValue;
