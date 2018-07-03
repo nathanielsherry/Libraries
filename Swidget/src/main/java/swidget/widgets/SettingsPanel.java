@@ -83,9 +83,13 @@ public class SettingsPanel extends JPanel {
 			c.weightx = 1;
 			add(wrap(label), c);
 			
+			if (hFill && vFill) { c.fill = GridBagConstraints.BOTH;}
+			else if (vFill) {c.fill = GridBagConstraints.VERTICAL;}
+			else if (hFill) { c.fill = GridBagConstraints.HORIZONTAL;}
+			else { c.fill = GridBagConstraints.NONE; }
+
 			c.weightx = hFill ? 1f : 0f;
 			c.gridx++;
-			c.fill = GridBagConstraints.NONE;
 			c.anchor = GridBagConstraints.LINE_END;
 			
 			add(wrap(component), c);
