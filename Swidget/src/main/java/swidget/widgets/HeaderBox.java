@@ -60,13 +60,13 @@ public class HeaderBox extends PaintedPanel {
 		if (right != null) inner.add(right);
 		
 		setBackgroundPaint(new LinearGradientPaint(0, 0, 0, this.getPreferredSize().height, new float[] {0, 1f}, new Color[] {
-			new Color(0x77ffffff, true),
+			new Color(0x88ffffff, true),
 			new Color(0x00ffffff, true)
 		}));
 		
 		Border b = Spacing.bMedium();
-		b = new CompoundBorder(new MatteBorder(0, 0, 1, 0, new Color(0x22000000, true)), b);
-		b = new CompoundBorder(new MatteBorder(0, 0, 1, 0, new Color(0x66000000, true)), b);
+		b = new CompoundBorder(new MatteBorder(0, 0, 1, 0, new Color(0x20000000, true)), b);
+		b = new CompoundBorder(new MatteBorder(0, 0, 1, 0, new Color(0x60000000, true)), b);
 		setBorder(b);
 		
 	}
