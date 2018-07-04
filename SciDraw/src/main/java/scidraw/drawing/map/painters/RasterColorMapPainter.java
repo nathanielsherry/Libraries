@@ -3,7 +3,6 @@ package scidraw.drawing.map.painters;
 
 import java.awt.Color;
 import java.util.List;
-import java.util.function.Consumer;
 import java.util.stream.IntStream;
 
 import scidraw.drawing.backends.Buffer;

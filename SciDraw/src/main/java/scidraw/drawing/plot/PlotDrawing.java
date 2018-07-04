@@ -19,7 +19,6 @@ import scitypes.ISpectrum;
 import scitypes.Pair;
 import scitypes.ReadOnlySpectrum;
 import scitypes.Spectrum;
-import scitypes.SpectrumCalculations;
 import scitypes.log.SciLog;
 
 /**

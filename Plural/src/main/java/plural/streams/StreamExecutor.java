@@ -14,13 +14,8 @@ import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 import javax.swing.JFrame;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 
-import eventful.Eventful;
 import eventful.EventfulEnum;
-import eventful.EventfulType;
 import plural.streams.swing.StreamExecutorPanel;
 import plural.streams.swing.StreamExecutorView;
 import swidget.Swidget;

@@ -1,17 +1,10 @@
 package swidget.widgets.tabbedinterface;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Component;
 import java.util.function.Function;
-import java.util.function.Supplier;
 
 import javax.swing.Icon;
-import javax.swing.JComponent;
-import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import swidget.icons.IconSize;
 import swidget.icons.StockIcon;

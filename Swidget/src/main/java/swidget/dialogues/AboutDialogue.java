@@ -16,7 +16,6 @@ import java.awt.event.MouseListener;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -28,7 +27,6 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
 
 import commonenvironment.Apps;
-import swidget.icons.IconFactory;
 import swidget.icons.IconSize;
 import swidget.icons.StockIcon;
 import swidget.widgets.ButtonBox;

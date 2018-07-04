@@ -11,7 +11,6 @@ import scidraw.drawing.map.MapDrawing;
 import scidraw.drawing.map.palettes.AbstractPalette;
 import scidraw.drawing.painters.Painter;
 import scidraw.drawing.painters.PainterData;
-import scidraw.drawing.plot.PlotDrawing;
 import scitypes.ISpectrum;
 import scitypes.ReadOnlySpectrum;
 import scitypes.Spectrum;

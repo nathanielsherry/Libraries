@@ -8,15 +8,11 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Window;
-import java.awt.Dialog.ModalityType;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Optional;
 import java.util.function.Consumer;
@@ -34,7 +30,6 @@ import javax.swing.SpinnerNumberModel;
 
 import scidraw.drawing.backends.Surface;
 import scitypes.log.SciLog;
-import scitypes.util.Mutable;
 import swidget.Swidget;
 import swidget.dialogues.fileio.SimpleFileExtension;
 import swidget.dialogues.fileio.SwidgetFilePanels;
@@ -42,13 +37,10 @@ import swidget.icons.StockIcon;
 import swidget.widgets.ButtonBox;
 import swidget.widgets.ClearPanel;
 import swidget.widgets.ImageButton;
-import swidget.widgets.SettingsPanel;
-import swidget.widgets.SettingsPanel.LabelPosition;
 import swidget.widgets.Spacing;
 import swidget.widgets.tabbedinterface.TabbedInterfacePanel;
 import swidget.widgets.toggle.ItemToggleButton;
 import swidget.widgets.toggle.ToggleGroup;
-import swidget.widgets.toggle.ItemToggleButton;
 
 
 public class SavePicture extends JPanel

@@ -7,7 +7,6 @@ import java.awt.event.WindowListener;
 import javax.swing.JDialog;
 import javax.swing.WindowConstants;
 
-import eventful.EventfulListener;
 import plural.executor.ExecutorSet;
 
 public class ExecutorSetViewDialog extends JDialog {

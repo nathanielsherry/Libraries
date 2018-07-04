@@ -12,7 +12,6 @@ import java.util.Map;
 
 import javax.swing.JPanel;
 
-import swidget.Swidget;
 import swidget.icons.IconSize;
 import swidget.icons.StockIcon;
 import swidget.widgets.ClearPanel;

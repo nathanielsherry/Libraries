@@ -7,7 +7,6 @@ import scidraw.drawing.backends.Surface;
 import scidraw.drawing.painters.Painter;
 import scidraw.drawing.painters.PainterData;
 import scidraw.drawing.plot.PlotDrawing;
-import scitypes.Bounds;
 import scitypes.Coord;
 import scitypes.ISpectrum;
 import scitypes.ReadOnlySpectrum;

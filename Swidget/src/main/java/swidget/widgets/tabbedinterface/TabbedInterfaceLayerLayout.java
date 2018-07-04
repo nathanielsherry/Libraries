@@ -1,5 +1,18 @@
 package swidget.widgets.tabbedinterface;
 
+import java.awt.CardLayout;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.Insets;
+import java.awt.LayoutManager2;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.ObjectStreamField;
+import java.io.Serializable;
+import java.util.Enumeration;
+
 /*
  * Copyright 1995-2006 Sun Microsystems, Inc.  All Rights Reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
@@ -29,18 +42,6 @@ package swidget.widgets.tabbedinterface;
 
 import java.util.Hashtable;
 import java.util.Vector;
-import java.util.Enumeration;
-
-import java.io.Serializable;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.ObjectStreamField;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.Insets;
-import java.awt.LayoutManager2;
-import java.io.IOException;
 
 /**
  * A <code>CardLayout</code> object is a layout manager for a container. It

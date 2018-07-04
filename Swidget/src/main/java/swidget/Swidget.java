@@ -1,37 +1,15 @@
 package swidget;
 
 
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.Insets;
-import java.awt.Toolkit;
-import java.nio.file.FileSystemLoopException;
-import java.util.Map;
 import java.util.concurrent.Semaphore;
 import java.util.logging.Logger;
 
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JComponent;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JPopupMenu;
-import javax.swing.JToolTip;
-import javax.swing.LookAndFeel;
-import javax.swing.Painter;
 import javax.swing.SwingUtilities;
-import javax.swing.ToolTipManager;
-import javax.swing.UIDefaults;
 import javax.swing.UIManager;
-import javax.swing.plaf.ColorUIResource;
-import javax.swing.plaf.InsetsUIResource;
-import javax.swing.plaf.ToolTipUI;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 
 import swidget.dialogues.SplashScreen;
 import swidget.icons.IconFactory;
-import swidget.icons.IconSize;
-import swidget.icons.StockIcon;
 
 
 

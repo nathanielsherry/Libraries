@@ -1,18 +1,8 @@
 package scidraw.drawing.map.painters;
 
 import java.awt.Color;
-import java.awt.Rectangle;
-import java.awt.Shape;
-import java.awt.geom.Area;
-import java.awt.geom.GeneralPath;
-import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
-
-import scidraw.drawing.map.palettes.SingleColourPalette;
-import scidraw.drawing.painters.PainterData;
-import scitypes.GridPerspective;
-import scitypes.Pair;
 
 public class SelectionMaskPainter extends RasterColorMapPainter {
 
