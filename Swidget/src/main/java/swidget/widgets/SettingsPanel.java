@@ -48,11 +48,15 @@ public class SettingsPanel extends JPanel {
 		addSetting(component, label, LabelPosition.BESIDE);
 	}
 	
+	public void addSetting(Component component, Component label) {
+		addSetting(component, label, LabelPosition.BESIDE);
+	}
+	
 	public void addSetting(Component component, String label, LabelPosition labelPosition) {
 		addSetting(component, makeLabel(label), labelPosition);
 	}
 	
-	public void addSetting(Component component, JLabel label, LabelPosition labelPosition) {
+	public void addSetting(Component component, Component label, LabelPosition labelPosition) {
 		addSetting(component, label, labelPosition, false, false);
 	}
 	
@@ -62,7 +66,7 @@ public class SettingsPanel extends JPanel {
 		addSetting(component, makeLabel(label), labelPosition, vFill, hFill);
 	}
 	
-	public void addSetting(Component component, JLabel label, LabelPosition labelPosition, boolean vFill, boolean hFill) {
+	public void addSetting(Component component, Component label, LabelPosition labelPosition, boolean vFill, boolean hFill) {
 		
 		
 		
