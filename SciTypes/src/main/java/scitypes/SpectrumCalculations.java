@@ -448,7 +448,7 @@ public class SpectrumCalculations
 	 * @param l2
 	 * @return a list which is the result of l1*l2
 	 */
-	public static Spectrum multiplyLists(Spectrum l1, Spectrum l2)
+	public static Spectrum multiplyLists(ReadOnlySpectrum l1, ReadOnlySpectrum l2)
 	{
 
 		int maxInd = Math.min(l1.size(), l2.size());
@@ -459,6 +459,25 @@ public class SpectrumCalculations
 		}
 		
 		return result;
+	}
+	
+	/**
+	 * Multiplies two lists together, storing the result in l1
+	 * 
+	 * @param l1
+	 * @param l2
+	 * @return a list which is the result of l1*l2
+	 */
+	public static Spectrum multiplyLists_inplace(Spectrum l1, ReadOnlySpectrum l2)
+	{
+
+		int maxInd = Math.min(l1.size(), l2.size());
+		for (int i = 0; i < maxInd; i++)
+		{
+			l1.set(i, l1.get(i) * l2.get(i));
+		}
+		
+		return l1;
 	}
 
 
