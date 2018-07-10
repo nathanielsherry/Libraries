@@ -154,7 +154,7 @@ public class ISpectrum implements Spectrum
 	 * @param s
 	 */
 	@Override
-	public void copy(Spectrum s)
+	public void copy(ReadOnlySpectrum s)
 	{
 		int maxindex;
 		maxindex = Math.min(s.size(), size());
@@ -425,6 +425,11 @@ public class ISpectrum implements Spectrum
 	public static void main(String[] args)
 	{
 		
+	}
+
+	@Override
+	public void zero() {
+		Arrays.fill(data, 0f);
 	}
 
 }

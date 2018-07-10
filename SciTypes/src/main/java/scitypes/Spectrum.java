@@ -10,7 +10,7 @@ public interface Spectrum extends ReadOnlySpectrum {
 	 * Values copied will be in the range of 0 .. min(size(), s.size())
 	 * @param s
 	 */
-	void copy(Spectrum s);
+	void copy(ReadOnlySpectrum s);
 
 	/**
 	 * Adds a value to the Spectrum.  When a new spectrum is created 
@@ -43,5 +43,11 @@ public interface Spectrum extends ReadOnlySpectrum {
 	
 	//narrow the return type
 	Spectrum subSpectrum(int start, int stop);
+
+	/**
+	 * Populate all entries in a spectrum with 0s
+	 * This will not impact the add cursor's location
+	 */
+	void zero();
 
 }

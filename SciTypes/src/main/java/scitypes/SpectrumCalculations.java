@@ -52,7 +52,7 @@ public class SpectrumCalculations
 	 * @param list
 	 * @return max(list)
 	 */
-	public static Spectrum abs(Spectrum source)
+	public static Spectrum abs(ReadOnlySpectrum source)
 	{
 		Spectrum result = new ISpectrum(source.size());
 		float newvalue;
@@ -178,6 +178,28 @@ public class SpectrumCalculations
 		}
 		
 		return source;
+	}
+
+	
+	/**
+	 * returns the target Spectrum containing the results of multiplying source by value
+	 * 
+	 * @param source
+	 * @param target
+	 * @param value
+	 * @return the given target spectrum, now with altered values
+	 */
+	public static Spectrum multiplyBy_target(final ReadOnlySpectrum source, final Spectrum target, final float value)
+	{	
+		
+		float newvalue;
+		for (int i = 0; i < source.size(); i++)
+		{
+			newvalue = source.get(i) * value;
+			target.set(i, newvalue);
+		}
+		
+		return target;
 	}
 
 
