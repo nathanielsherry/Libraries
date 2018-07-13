@@ -32,7 +32,10 @@ public class HeaderBox extends PaintedPanel {
 	public HeaderBox(Component left, String title, Component right) {
 		super(true);
 		JLabel label = new JLabel(title);
-		label.setFont(label.getFont().deriveFont(Font.BOLD));
+		Font font = label.getFont();
+		font = font.deriveFont(Font.BOLD);
+		font = font.deriveFont(font.getSize() + 1f);
+		label.setFont(font);
 		label.setHorizontalAlignment(JLabel.CENTER);
 		
 		init(left, label, right);
