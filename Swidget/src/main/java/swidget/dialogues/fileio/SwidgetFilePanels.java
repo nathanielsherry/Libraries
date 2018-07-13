@@ -16,12 +16,14 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 
+import swidget.widgets.HeaderBox;
+import swidget.widgets.HeaderBoxPanel;
 import swidget.widgets.tabbedinterface.TabbedInterfaceDialog;
 import swidget.widgets.tabbedinterface.TabbedInterfacePanel;
 
 public class SwidgetFilePanels {
 
-	private static void showChooser(Component parent, JFileChooser chooser, Runnable onAccept, Runnable onCancel) {
+	private static void showChooser(Component parent, JFileChooser chooser, Runnable onAccept, Runnable onCancel, String title) {
 		if (parent instanceof TabbedInterfacePanel) {
 			TabbedInterfacePanel tabPanel = (TabbedInterfacePanel) parent;
 			
@@ -39,7 +41,9 @@ public class SwidgetFilePanels {
 			});
 			
 			
-			tabPanel.pushModalComponent(chooser);
+			HeaderBoxPanel dialog = new HeaderBoxPanel(new HeaderBox(null, title, null), chooser);
+			
+			tabPanel.pushModalComponent(dialog);
 			chooser.requestFocus();
 			chooser.addActionListener(e -> {
 				 if (e.getActionCommand().equals(JFileChooser.APPROVE_SELECTION)) {
@@ -73,6 +77,7 @@ public class SwidgetFilePanels {
 		chooser.setApproveButtonText("Save");
 		chooser.setApproveButtonToolTipText("Save Selected File");
 		
+		
 				
 		//Run this when the dialog is accepted
 		Runnable onAccept = () -> {
@@ -96,7 +101,7 @@ public class SwidgetFilePanels {
 			callback.accept(Optional.empty());
 		};
 		
-		showChooser(parent, chooser, onAccept, onCancel);
+		showChooser(parent, chooser, onAccept, onCancel, title);
 		
 
 	}
@@ -153,7 +158,7 @@ public class SwidgetFilePanels {
 		};
 		
 		
-		showChooser(parent, chooser, onAccept, onCancel);
+		showChooser(parent, chooser, onAccept, onCancel, title);
 		
 	}
 	
@@ -178,7 +183,7 @@ public class SwidgetFilePanels {
 			callback.accept(Optional.empty());
 		};
 		
-		showChooser(parent, chooser, onAccept, onCancel);
+		showChooser(parent, chooser, onAccept, onCancel, title);
 		
 	}
 	
