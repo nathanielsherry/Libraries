@@ -345,7 +345,7 @@ public class StreamExecutor<T> extends EventfulEnum<StreamExecutor.Event> implem
 			frame.setVisible(true);
 			
 			e1.start();
-		});
+		}, "Test");
 
 		
 

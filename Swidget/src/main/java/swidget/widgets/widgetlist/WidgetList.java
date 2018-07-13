@@ -36,7 +36,7 @@ public class WidgetList {
 			frame.pack();
 			frame.setVisible(true);
 			
-		});
+		}, "WidgetList Test");
 		
 
 	}

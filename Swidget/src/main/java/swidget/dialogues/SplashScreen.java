@@ -10,8 +10,8 @@ import javax.swing.SwingConstants;
 
 public class SplashScreen extends JFrame {
 
-	public SplashScreen(ImageIcon background, Image icon) {
-		super();
+	public SplashScreen(ImageIcon background, Image icon, String appName) {
+		super(appName);
 		
 		setUndecorated(true);
 		setIconImage(icon);
