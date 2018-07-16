@@ -648,5 +648,33 @@ public class SpectrumCalculations
 		return result;
 
 	}
+
+
+	public static Spectrum derivative(ReadOnlySpectrum list) {
+		Spectrum result = new ISpectrum(list.size());
+		
+		result.add(list.get(0));
+		for (int i = 0; i < list.size()-1; i++)
+		{
+			result.set(i, list.get(i+1) - list.get(i));
+		}
+			
+		return result;
+	}
+
+
+	public static Spectrum integral(ReadOnlySpectrum list) {
+		Spectrum result = new ISpectrum(list.size());
+		float val = 0;
+		
+		
+		for (int i = 0; i < list.size(); i++)
+		{
+			val += list.get(i);
+			result.set(i,  val );
+		}
+		
+		return result;
+	}
 	
 }
