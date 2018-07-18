@@ -4,7 +4,6 @@ import javax.swing.JLabel;
 
 import swidget.icons.IconFactory;
 import swidget.icons.IconSize;
-import swidget.icons.StockIcon;
 
 public class ToolTipHoverBox extends JLabel {
 

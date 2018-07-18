@@ -8,9 +8,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.LayoutManager2;
 import java.awt.LinearGradientPaint;
-import java.awt.geom.Point2D;
 
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -19,11 +17,9 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
-import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 
-import swidget.icons.StockIcon;
 import swidget.widgets.gradientpanel.PaintedPanel;
 
 public class HeaderBox extends PaintedPanel {

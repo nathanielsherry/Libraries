@@ -60,7 +60,7 @@ public class SparsedList<T> implements List<T> {
 		return backing.toArray();
 	}
 
-	public <T> T[] toArray(T[] a) {
+	public <S> S[] toArray(S[] a) {
 		return backing.toArray(a);
 	}
 

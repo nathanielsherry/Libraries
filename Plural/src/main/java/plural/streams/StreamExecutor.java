@@ -140,7 +140,7 @@ public class StreamExecutor<T> extends EventfulEnum<StreamExecutor.Event> implem
 	}
 
 	
-	public <T> StreamExecutor<T> then(StreamExecutor<T> next) {
+	public <S> StreamExecutor<S> then(StreamExecutor<S> next) {
 		setNext(next);
 		return next;
 	}

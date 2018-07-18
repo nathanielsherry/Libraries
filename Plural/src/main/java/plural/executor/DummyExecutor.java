@@ -25,22 +25,22 @@ public class DummyExecutor extends AbstractExecutor{
 		return 0;
 	}
 	
-	public void advanceState()
+	public synchronized void advanceState()
 	{
 		super.advanceState();
 	}
 	
-	public void setWorkUnits(int count)
+	public synchronized void setWorkUnits(int count)
 	{
 		super.setWorkUnits(count);
 	}
 	
-	public void workUnitCompleted(int count)
+	public synchronized void workUnitCompleted(int count)
 	{
 		super.workUnitCompleted(count);
 	}
 	
-	public void workUnitCompleted()
+	public synchronized void workUnitCompleted()
 	{
 		super.workUnitCompleted();
 	}

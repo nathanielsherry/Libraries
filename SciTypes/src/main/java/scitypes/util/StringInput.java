@@ -23,7 +23,6 @@ import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 import scitypes.log.SciLog;
-import sun.nio.ch.ChannelInputStream;
 
 
 public class StringInput implements Iterator<String>, Closeable{
@@ -102,11 +101,6 @@ public class StringInput implements Iterator<String>, Closeable{
 		return f;
 	}
 	
-	public static StringInput lines(ReadableByteChannel channel) {
-		StringInput f =  new StringInput();
-		f.backingIterator = new LinesReader(channel).iterator();
-		return f;
-	}
 	
 	public static StringInput lines(String source) {
 		StringInput f =  new StringInput();
@@ -135,11 +129,6 @@ public class StringInput implements Iterator<String>, Closeable{
 		return f;
 	}
 	
-	public static StringInput words(ReadableByteChannel channel) {
-		StringInput f = new StringInput();
-		f.backingIterator = new WordsReader(channel).iterator();
-		return f;
-	}
 	
 	public static StringInput words(String source) {
 		StringInput f = new StringInput();
@@ -379,11 +368,7 @@ class LinesReader implements CustomReader
 	public LinesReader(String s) {
 		this(new StringReader(s));
 	}
-	
-	public LinesReader(ReadableByteChannel r) {
-		this(new ChannelInputStream(r));
-	}
-	
+		
 	public LinesReader(File f) throws FileNotFoundException {
 		this(new FileReader(f));
 	}
@@ -484,10 +469,6 @@ class WordsReader implements CustomReader
 	
 	public WordsReader(String s) {
 		this(new StringReader(s));
-	}
-	
-	public WordsReader(ReadableByteChannel r) {
-		this(new ChannelInputStream(r));
 	}
 	
 	public WordsReader(File f) throws FileNotFoundException {
