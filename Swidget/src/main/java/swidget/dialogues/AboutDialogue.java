@@ -43,7 +43,6 @@ public class AboutDialogue extends JDialog
 	public static class Contents {
 		public String name;
 		public String description;
-		public String website;
 		public String copyright;
 		public String licence;
 		public String credits;
@@ -52,6 +51,8 @@ public class AboutDialogue extends JDialog
 		public String longVersion;
 		public String releaseDescription;
 		public String date;
+		public String linkref;
+		public String linktext;
 	}
 
 	public AboutDialogue(Window owner, Contents contents)
@@ -139,8 +140,8 @@ public class AboutDialogue extends JDialog
 		infopanel.add(text, gc);
 		
 		
-		if (contents.website != null) {
-			JLabel weblabel = new JLabel("<html><u>" + contents.website + "</u></html>");
+		if (contents.linktext != null && contents.linkref != null) {
+			JLabel weblabel = new JLabel("<html><u>" + contents.linktext + "</u></html>");
 			weblabel.addMouseListener(new MouseListener() {
 				
 				public void mouseReleased(MouseEvent e){}
@@ -152,7 +153,7 @@ public class AboutDialogue extends JDialog
 				public void mouseEntered(MouseEvent e){}
 				
 				public void mouseClicked(MouseEvent e){
-					Apps.browser(contents.website);
+					Apps.browser(contents.linkref);
 				}
 			});
 			weblabel.setForeground(Color.blue);
