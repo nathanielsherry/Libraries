@@ -47,13 +47,17 @@ public abstract class ListControls extends ClearPanel
 		this(null, null, false);
 	}
 
-	public ListControls(String[] tooltips, JPopupMenu addMenu, boolean addButtonShowsPopup)
+	public ListControls(String[] tooltips, JPopupMenu addMenu, boolean addButtonShowsPopup) {
+		this(tooltips, addMenu, addButtonShowsPopup, true);
+	}
+	
+	public ListControls(String[] tooltips, JPopupMenu addMenu, boolean addButtonShowsPopup, boolean showOrderButtons)
 	{
 		
 		buttons = new ArrayList<Component>();
 
 
-		final ListControlButton remove, clear, up, down;
+		final ListControlButton remove, clear;
 		final ListControlWidget add;
 		String tooltip;
 
@@ -157,54 +161,68 @@ public abstract class ListControls extends ClearPanel
 			}
 		});
 
-
-		tooltipCount++;
-		tooltip = (tooltips != null && tooltips.length > tooltipCount) ? tooltips[tooltipCount] : "";
-		up = new ListControlButton(StockIcon.GO_UP, "Up", tooltip) {
-
-			@Override
-			public void setEnableState(ElementCount ec)
-			{
-				this.setEnabled(ec == ElementCount.MANY);
-			}
-		};
-		up.addActionListener(new ActionListener() {
-
-			public void actionPerformed(ActionEvent e)
-			{
-				up();
-			}
-		});
-
-
-		tooltipCount++;
-		tooltip = (tooltips != null && tooltips.length > tooltipCount) ? tooltips[tooltipCount] : "";
-		down = new ListControlButton(StockIcon.GO_DOWN, "Down", tooltip) {
-
-			@Override
-			public void setEnableState(ElementCount ec)
-			{
-				this.setEnabled(ec == ElementCount.MANY);
-			}
-		};
-		down.addActionListener(new ActionListener() {
-
-			public void actionPerformed(ActionEvent e)
-			{
-				down();
-			}
-		});
-
-
-
 		buttons.add((Component)add);
 		buttons.add(remove);
+		
+		if (!showOrderButtons) {
+			buttons.add(new ClearPanel());
+		}
+		
 		buttons.add(clear);
 
-		buttons.add(new ClearPanel());
+		if (showOrderButtons) {
+			buttons.add(new ClearPanel());
+		}
+		
+		
 
-		buttons.add(up);
-		buttons.add(down);
+		
+		if (showOrderButtons) {
+			final ListControlButton up, down;
+			
+			tooltipCount++;
+			tooltip = (tooltips != null && tooltips.length > tooltipCount) ? tooltips[tooltipCount] : "";
+			up = new ListControlButton(StockIcon.GO_UP, "Up", tooltip) {
+	
+				@Override
+				public void setEnableState(ElementCount ec)
+				{
+					this.setEnabled(ec == ElementCount.MANY);
+				}
+			};
+			up.addActionListener(new ActionListener() {
+	
+				public void actionPerformed(ActionEvent e)
+				{
+					up();
+				}
+			});
+	
+	
+			tooltipCount++;
+			tooltip = (tooltips != null && tooltips.length > tooltipCount) ? tooltips[tooltipCount] : "";
+			down = new ListControlButton(StockIcon.GO_DOWN, "Down", tooltip) {
+	
+				@Override
+				public void setEnableState(ElementCount ec)
+				{
+					this.setEnabled(ec == ElementCount.MANY);
+				}
+			};
+			down.addActionListener(new ActionListener() {
+	
+				public void actionPerformed(ActionEvent e)
+				{
+					down();
+				}
+			});
+			
+			
+			buttons.add(up);
+			buttons.add(down);
+		}
+
+
 
 		layoutButtons();
 
