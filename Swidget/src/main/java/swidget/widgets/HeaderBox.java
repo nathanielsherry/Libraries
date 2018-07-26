@@ -20,6 +20,8 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.MatteBorder;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 
+import swidget.icons.IconSize;
+import swidget.icons.StockIcon;
 import swidget.widgets.gradientpanel.PaintedPanel;
 
 public class HeaderBox extends PaintedPanel {
@@ -68,6 +70,21 @@ public class HeaderBox extends PaintedPanel {
 		b = new CompoundBorder(new MatteBorder(0, 0, 1, 0, new Color(0x60000000, true)), b);
 		setBorder(b);
 		
+	}
+	
+
+	public static JButton button(StockIcon icon, String tooltip) {
+		return button(icon, tooltip, null);
+	}
+	
+	public static JButton button(StockIcon icon, String tooltip, Runnable onPress) {
+		JButton button = new JButton(icon.toImageIcon(IconSize.TOOLBAR_SMALL));
+		button.setToolTipText(tooltip);
+		button.setPreferredSize(new Dimension(32, 32));
+		if (onPress != null) {
+			button.addActionListener(e -> onPress.run());
+		}
+		return button;
 	}
 	
 	public static JButton button(String text) {
