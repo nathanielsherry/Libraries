@@ -41,7 +41,7 @@ public class ButtonBox extends JPanel
 		
 		setLayout(new BorderLayout());
 		
-		buttonPanel = new JPanel();
+		buttonPanel = new ClearPanel();
 		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
 		
 		if (divider) add(new JSeparator(JSeparator.HORIZONTAL), BorderLayout.NORTH);
@@ -51,9 +51,9 @@ public class ButtonBox extends JPanel
 		rl = new ArrayList<Component>();
 		cl = new ArrayList<Component>();
 		
-		left = new JPanel();
-		right = new JPanel();
-		centre = new JPanel();
+		left = new ClearPanel();
+		right = new ClearPanel();
+		centre = new ClearPanel();
 		
 		left.setLayout(new BoxLayout(left, BoxLayout.X_AXIS));
 		right.setLayout(new BoxLayout(right, BoxLayout.X_AXIS));

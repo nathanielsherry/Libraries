@@ -22,6 +22,7 @@ import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 
 import swidget.icons.IconSize;
 import swidget.icons.StockIcon;
+import swidget.widgets.ImageButton.Layout;
 import swidget.widgets.gradientpanel.PaintedPanel;
 
 public class HeaderBox extends PaintedPanel {
@@ -78,8 +79,7 @@ public class HeaderBox extends PaintedPanel {
 	}
 	
 	public static JButton button(StockIcon icon, String tooltip, Runnable onPress) {
-		JButton button = new JButton(icon.toImageIcon(IconSize.TOOLBAR_SMALL));
-		button.setToolTipText(tooltip);
+		JButton button = new ImageButton(icon, "", tooltip, Layout.IMAGE, false, IconSize.TOOLBAR_SMALL);
 		button.setPreferredSize(new Dimension(32, 32));
 		if (onPress != null) {
 			button.addActionListener(e -> onPress.run());
