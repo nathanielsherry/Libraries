@@ -16,6 +16,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 
+import swidget.widgets.HButton;
 import swidget.widgets.HeaderBox;
 import swidget.widgets.HeaderBoxPanel;
 import swidget.widgets.tabbedinterface.TabbedInterfaceDialog;
@@ -202,8 +203,8 @@ public class SwidgetFilePanels {
 						title, 
 						body, 
 						JOptionPane.QUESTION_MESSAGE,
-						JOptionPane.YES_NO_OPTION, 
-						v -> onResult.accept(v == (Integer)JOptionPane.YES_OPTION)
+						new HButton("Yes", () -> onResult.accept(true)),
+						new HButton("No", () -> onResult.accept(false))
 					).showIn((TabbedInterfacePanel) parent);
 				
 			} else {

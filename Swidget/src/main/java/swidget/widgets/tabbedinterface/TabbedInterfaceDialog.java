@@ -2,8 +2,11 @@ package swidget.widgets.tabbedinterface;
 
 import java.util.function.Consumer;
 
+import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
+
+import swidget.widgets.HButton;
 
 public class TabbedInterfaceDialog {
 
@@ -25,6 +28,27 @@ public class TabbedInterfaceDialog {
 		pane.setOptionType(optionType);
 		pane.setMessageType(messageType);
 		this.onResult = onResult;
+	}
+	
+	public TabbedInterfaceDialog(String title, String body, int messageType) {
+		this(title, body, messageType, "OK");
+	}
+	
+	public TabbedInterfaceDialog(String title, String body, int messageType, String button) {
+		this(title, body, messageType, new HButton(button));
+	}
+	
+	public TabbedInterfaceDialog(String title, String body, int messageType, JButton... buttons) {
+		this.title = title;
+		pane = new JOptionPane();
+		pane.setMessage("<html><h2>" + title + "</h2><br/>" + body.replace("\n",	"<br/>") + "</html>");
+		pane.setOptionType(0);
+		pane.setMessageType(messageType);
+		pane.setOptions(buttons);
+		for (JButton button : buttons) {
+			button.addActionListener(e -> pane.setValue(button));
+		}
+		this.onResult = r -> {};
 	}
 
 	

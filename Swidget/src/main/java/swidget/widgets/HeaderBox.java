@@ -72,33 +72,7 @@ public class HeaderBox extends PaintedPanel {
 		setBorder(b);
 		
 	}
-	
 
-	public static JButton button(StockIcon icon, String tooltip) {
-		return button(icon, tooltip, null);
-	}
-	
-	public static JButton button(StockIcon icon, String tooltip, Runnable onPress) {
-		JButton button = new ImageButton(icon, "", tooltip, Layout.IMAGE, false, IconSize.TOOLBAR_SMALL);
-		button.setPreferredSize(new Dimension(32, 32));
-		if (onPress != null) {
-			button.addActionListener(e -> onPress.run());
-		}
-		return button;
-	}
-	
-	public static JButton button(String text) {
-		return button(text, null);
-	}
-	public static JButton button(String text, Runnable onPress) {
-		JButton button = new JButton(text);
-		button.setPreferredSize(new Dimension(76, 32));
-		if (onPress != null) {
-			button.addActionListener(e -> onPress.run());
-		}
-		return button;
-	}
-	
 	
 	private class HeaderLayout implements LayoutManager2 {
 
@@ -203,7 +177,7 @@ public class HeaderBox extends PaintedPanel {
 		frame.pack();
 		frame.getContentPane().setLayout(new BorderLayout());
 		
-		HeaderBox box = new HeaderBox(null, "Title Text", HeaderBox.button("Right Side of the Window"));
+		HeaderBox box = new HeaderBox(null, "Title Text", new HButton("Right Side of the Window"));
 		frame.add(box, BorderLayout.NORTH);
 		
 		frame.setVisible(true);

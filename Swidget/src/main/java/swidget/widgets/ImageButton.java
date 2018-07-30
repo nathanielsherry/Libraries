@@ -48,6 +48,10 @@ public class ImageButton extends JButton
 	
 	private boolean	showBorder;
 
+	ImageButton() {
+		//Dummy empty constructor
+	}
+	
 	public ImageButton(String filename, String text)
 	{
 		super();
