@@ -2,7 +2,6 @@ package scidraw.swing;
 
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
@@ -21,7 +20,6 @@ import java.util.logging.Level;
 
 import javax.swing.AbstractAction;
 import javax.swing.Box;
-import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -38,7 +36,6 @@ import swidget.dialogues.fileio.SwidgetFilePanels;
 import swidget.icons.StockIcon;
 import swidget.widgets.ButtonBox;
 import swidget.widgets.ClearPanel;
-import swidget.widgets.HeaderBox;
 import swidget.widgets.ImageButton;
 import swidget.widgets.Spacing;
 import swidget.widgets.tabbedinterface.TabbedInterfacePanel;
@@ -68,20 +65,7 @@ public class SavePicture extends JPanel
 
 		setLayout(new BorderLayout());
 		add(createOptionsPane(), BorderLayout.CENTER);
-		
-		
-		if (owner instanceof TabbedInterfacePanel) {
-			JButton save = HeaderBox.button("Save");
-			save.addActionListener(e -> onSave());
-			
-			JButton cancel = HeaderBox.button("Cancel");
-			cancel.addActionListener(e -> onCancel());
-			
-			HeaderBox header = new HeaderBox(cancel, "Save Picture", save);
-			add(header, BorderLayout.NORTH);
-		} else {
-			add(createControlPanel(), BorderLayout.SOUTH);
-		}
+		add(createControlPanel(), BorderLayout.SOUTH);
 		
 		KeyStroke key = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0);
 		this.getInputMap(JComponent.WHEN_FOCUSED).put(key, key.toString());
@@ -142,32 +126,30 @@ public class SavePicture extends JPanel
 
 		ButtonBox buttonBox = new ButtonBox(Spacing.bHuge());
 
+
 		ImageButton ok = new ImageButton(StockIcon.DOCUMENT_SAVE, "Save", true);
 		ImageButton cancel = new ImageButton(StockIcon.CHOOSE_CANCEL, "Cancel", true);
 
-		ok.addActionListener(e -> onSave());
-		cancel.addActionListener(e -> onCancel());
+		ok.addActionListener(e -> {
+			int selection = group.getToggledIndex();
+			Cursor oldCursor = getCursor();
+			setCursor(new Cursor(Cursor.WAIT_CURSOR));
+			if (selection == 0) savePNG();
+			if (selection == 1) saveSVG();
+			if (selection == 2) savePDF();
+			setCursor(oldCursor);
+		});
+
+		cancel.addActionListener(e -> {
+			onComplete.accept(Optional.empty());
+			hide();
+		});
 
 		buttonBox.addRight(cancel);
 		buttonBox.addRight(ok);
 
 		return buttonBox;
 
-	}
-	
-	public void onSave() {
-		int selection = group.getToggledIndex();
-		Cursor oldCursor = getCursor();
-		setCursor(new Cursor(Cursor.WAIT_CURSOR));
-		if (selection == 0) savePNG();
-		if (selection == 1) saveSVG();
-		if (selection == 2) savePDF();
-		setCursor(oldCursor);
-	}
-	
-	public void onCancel() {
-		onComplete.accept(Optional.empty());
-		hide();
 	}
 
 	public JPanel createDimensionsPane() {
