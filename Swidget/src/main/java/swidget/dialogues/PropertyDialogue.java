@@ -55,7 +55,7 @@ public class PropertyDialogue extends JDialog
 		
 		//Button Box
 		ButtonBox bbox = new ButtonBox(Spacing.bHuge());
-		ImageButton close = new ImageButton(StockIcon.WINDOW_CLOSE, "Close", true);
+		ImageButton close = new ImageButton("Close", StockIcon.WINDOW_CLOSE);
 		close.addActionListener(new ActionListener() {
 		
 			public void actionPerformed(ActionEvent e)

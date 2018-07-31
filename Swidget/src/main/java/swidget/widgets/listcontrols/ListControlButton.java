@@ -8,14 +8,22 @@ import swidget.widgets.listcontrols.ListControls.ElementCount;
 public abstract class ListControlButton extends ImageButton implements ListControlWidget
 {
 
-	public ListControlButton(String filename, String text, String tooltip)
+	public ListControlButton(String filename, String tooltip)
 	{
-		super(filename, text, tooltip, Layout.IMAGE);
+		super();
+		super.withIcon(filename)
+			.withTooltip(tooltip)
+			.withLayout(Layout.IMAGE)
+			.withBordered(false);
+		
 	}
 	
-	public ListControlButton(StockIcon stock, String text, String tooltip)
+	public ListControlButton(StockIcon stock, String tooltip)
 	{
-		super(stock.toIconName(), text, tooltip, Layout.IMAGE);
+		super();
+		super.withIcon(stock)
+			.withTooltip(tooltip)
+			.withBordered(false);
 	}
 	
 	public abstract void setEnableState(ElementCount ec);

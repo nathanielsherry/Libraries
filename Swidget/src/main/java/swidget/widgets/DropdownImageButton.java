@@ -70,7 +70,11 @@ public class DropdownImageButton extends EventfulEnumPanel<DropdownImageButton.A
 		this.setOpaque(false);
 		setLayout(new BorderLayout());
 	
-		button = new ImageButton(filename, text, tooltip, layout, size);
+		button = new ImageButton(text)
+				.withIcon(filename, size)
+				.withTooltip(tooltip)
+				.withLayout(layout)
+				.withBordered(false);
 		button.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e)
@@ -137,15 +141,11 @@ public class DropdownImageButton extends EventfulEnumPanel<DropdownImageButton.A
 		
 		
 		
-		dropdown = new ImageButton(
-			imageName,
-			dropdownText.toString(),
-			"Show additional options",
-			(isTextArrow ? Layout.TEXT : Layout.IMAGE),
-			false,
-			null,
-			Spacing.iNone(),
-			Spacing.bMedium());
+		dropdown = new ImageButton(dropdownText.toString(), imageName)
+				.withTooltip("Show additional options")
+				.withLayout(isTextArrow ? Layout.TEXT : Layout.IMAGE)
+				.withBordered(false)
+				.withBorder(Spacing.bMedium());
 
 		dropdown.addActionListener(e -> showMenu());
 		

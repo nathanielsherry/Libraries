@@ -127,8 +127,8 @@ public class SavePicture extends JPanel
 		ButtonBox buttonBox = new ButtonBox(Spacing.bHuge());
 
 
-		ImageButton ok = new ImageButton(StockIcon.DOCUMENT_SAVE, "Save", true);
-		ImageButton cancel = new ImageButton(StockIcon.CHOOSE_CANCEL, "Cancel", true);
+		ImageButton ok = new ImageButton("Save", StockIcon.DOCUMENT_SAVE);
+		ImageButton cancel = new ImageButton("Cancel", StockIcon.CHOOSE_CANCEL);
 
 		ok.addActionListener(e -> {
 			int selection = group.getToggledIndex();

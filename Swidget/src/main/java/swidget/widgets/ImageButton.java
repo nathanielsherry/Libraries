@@ -32,7 +32,17 @@ import swidget.icons.StockIcon;
 public class ImageButton extends JButton
 {
 	
-
+	class ButtonConfig {
+		String imagename = null;
+		String text = "";
+		String tooltip = null;
+		public Layout layout = null;
+		boolean bordered = true;
+		IconSize size = IconSize.BUTTON;
+		Border border = null;
+	}
+	protected ButtonConfig config = new ButtonConfig();
+	
 	public final static Layout defaultLayout = Layout.IMAGE_ON_SIDE;
 	public final static IconSize defaultSize = IconSize.BUTTON;
 	public final static boolean defaultBorder = false;	
@@ -45,215 +55,112 @@ public class ImageButton extends JButton
 	}
 	
 	
-	
-	private boolean	showBorder;
-
-	ImageButton() {
-		//Dummy empty constructor
-	}
-	
-	public ImageButton(String filename, String text)
-	{
-		super();
-		initialize(filename, text, null, defaultLayout, defaultBorder, defaultSize, null, null);
-	}
-
-	public ImageButton(String filename, String text, boolean showBorder)
-	{
-		super();
-		initialize(filename, text, null, defaultLayout, showBorder, defaultSize, null, null);
-	}
-	
-	public ImageButton(String filename, String text, IconSize size)
-	{
-		super();
-		initialize(filename, text, null, defaultLayout, defaultBorder, size, null, null);
-	}
-	
-	
-	public ImageButton(String filename, String text, Layout mode)
-	{
-		super();
-		initialize(filename, text, null, mode, defaultBorder, defaultSize, null, null);
-	}
-
-	public ImageButton(String filename, String text, String tooltip)
-	{
-		super();
-		initialize(filename, text, tooltip, defaultLayout, defaultBorder, defaultSize, null, null);
-	}
-	
-	public ImageButton(String filename, String text, String tooltip, boolean showBorder)
-	{
-		super();
-		initialize(filename, text, tooltip, defaultLayout, showBorder, defaultSize, null, null);
-	}
-	
-	public ImageButton(String filename, String text, Layout mode, IconSize size)
-	{
-		super();
-		initialize(filename, text, null, mode, defaultBorder, size, null, null);
-	}
-	
-	public ImageButton(String filename, String text, String tooltip, Layout mode)
-	{
-		super();
-		initialize(filename, text, tooltip, mode, defaultBorder, defaultSize, null, null);
-	}
-
-	public ImageButton(String filename, String text, String tooltip, Layout mode, IconSize size)
-	{
-		super();
-		initialize(filename, text, tooltip, mode, defaultBorder, size, null, null);
-	}
-
-	public ImageButton(String filename, String text, String tooltip, IconSize size)
-	{
-		super();
-		initialize(filename, text, tooltip, defaultLayout, defaultBorder, size, null, null);
-	}
-
-	public ImageButton(String filename, String text, Layout mode, boolean showBorder)
-	{
-		super();
-		initialize(filename, text, null, mode, showBorder, defaultSize, null, null);
-	}
-
-	public ImageButton(String filename, String text, String tooltip, Layout mode, boolean showBorder)
-	{
-		super();
-		initialize(filename, text, tooltip, mode, showBorder, defaultSize, null, null);
-	}
-
-	public ImageButton(String filename, String text, String tooltip, Layout mode, boolean showBorder, IconSize size)
-	{
-		super();
-		initialize(filename, text, tooltip, mode, showBorder, size, null, null);
-	}
-	
-	public ImageButton(String filename, String text, String tooltip, Layout mode, boolean showBorder, IconSize size, Insets insets, Border border)
-	{
-		super();
-		initialize(filename, text, tooltip, mode, showBorder, size, insets, border);
-	}
-
-	
-
-	
-
-	public ImageButton(StockIcon stock, String text)
-	{
-		super();
-		initialize(stock.toIconName(), text, null, defaultLayout, defaultBorder, defaultSize, null, null);
-	}
-
-	public ImageButton(StockIcon stock, String text, boolean showBorder)
-	{
-		super();
-		initialize(stock.toIconName(), text, null, defaultLayout, showBorder, defaultSize, null, null);
-	}
-	
-	public ImageButton(StockIcon stock, String text, IconSize size)
-	{
-		super();
-		initialize(stock.toIconName(), text, null, defaultLayout, defaultBorder, size, null, null);
-	}
-	
-	
-	public ImageButton(StockIcon stock, String text, Layout mode)
-	{
-		super();
-		initialize(stock.toIconName(), text, null, mode, defaultBorder, defaultSize, null, null);
-	}
-
-	public ImageButton(StockIcon stock, String text, String tooltip)
-	{
-		super();
-		initialize(stock.toIconName(), text, tooltip, defaultLayout, defaultBorder, defaultSize, null, null);
-	}
-	
-	public ImageButton(StockIcon stock, String text, String tooltip, boolean showBorder)
-	{
-		super();
-		initialize(stock.toIconName(), text, tooltip, defaultLayout, showBorder, defaultSize, null, null);
-	}
-	
-	public ImageButton(StockIcon stock, String text, Layout mode, IconSize size)
-	{
-		super();
-		initialize(stock.toIconName(), text, null, mode, defaultBorder, size, null, null);
-	}
-	
-	public ImageButton(StockIcon stock, String text, String tooltip, Layout mode)
-	{
-		super();
-		initialize(stock.toIconName(), text, tooltip, mode, defaultBorder, defaultSize, null, null);
-	}
-
-	public ImageButton(StockIcon stock, String text, String tooltip, Layout mode, IconSize size)
-	{
-		super();
-		initialize(stock.toIconName(), text, tooltip, mode, defaultBorder, size, null, null);
-	}
-
-	public ImageButton(StockIcon stock, String text, String tooltip, IconSize size)
-	{
-		super();
-		initialize(stock.toIconName(), text, tooltip, defaultLayout, defaultBorder, size, null, null);
-	}
-
-	public ImageButton(StockIcon stock, String text, Layout mode, boolean showBorder)
-	{
-		super();
-		initialize(stock.toIconName(), text, null, mode, showBorder, defaultSize, null, null);
-	}
-
-	public ImageButton(StockIcon stock, String text, String tooltip, Layout mode, boolean showBorder)
-	{
-		super();
-		initialize(stock.toIconName(), text, tooltip, mode, showBorder, defaultSize, null, null);
-	}
-
-	public ImageButton(StockIcon stock, String text, String tooltip, Layout mode, boolean showBorder, IconSize size)
-	{
-		super();
-		initialize(stock.toIconName(), text, tooltip, mode, showBorder, size, null, null);
-	}
-	
-	public ImageButton(StockIcon stock, String text, String tooltip, Layout mode, boolean showBorder, IconSize size, Insets insets, Border border)
-	{
-		super();
-		initialize(stock.toIconName(), text, tooltip, mode, showBorder, size, insets, border);
-	}
 
 	
 	
 
-
-
-
-	public void initialize(String filename, String text, String tooltip, Layout mode, boolean _showBorder, IconSize size, Insets insets, Border border)
-	{
+	public ImageButton() {
+		init();
+		makeButton();
+	}
+	
+	public ImageButton(String text) {
+		config.text = text;
 		
+		init();
+		makeButton();
+	}
 	
-		isNimbus = Swidget.isNumbusDerivedLaF();
-		
-		
-		
-		this.showBorder = _showBorder;		
-		this.setContentAreaFilled(showBorder);
-		this.setBorderPainted(showBorder);
-		
-		/* SET BUTTON CONTENT */
-		ImageIcon image = IconFactory.getImageIcon(filename, size);
+	public ImageButton(StockIcon icon) {
+		config.imagename = icon.toIconName();
 
-		if (image.getIconHeight() == -1) {
-			mode = Layout.TEXT;
-		} else if (text == null || "".equals(text)) {
-			mode = Layout.IMAGE;
-		}
+		init();
+		makeButton();
+	}
+
+	public ImageButton(StockIcon icon, IconSize size) {
+		config.imagename = icon.toIconName();
+		config.size = size;
+
+		init();
+		makeButton();
+	}
 
 	
+	public ImageButton(String text, StockIcon icon) {
+		config.text = text;
+		config.imagename = icon.toIconName();
+
+		init();
+		makeButton();
+	}
+	
+	public ImageButton(String text, String icon) {
+		config.text = text;
+		config.imagename = icon;
+
+		init();
+		makeButton();
+	}
+	
+	
+
+	
+	public ImageButton withBordered(boolean bordered) {
+		config.bordered = bordered;
+		makeButton();
+		return this;
+	}
+	
+	public ImageButton withIcon(StockIcon stock) {
+		return withIcon(stock, IconSize.BUTTON);
+	}
+	
+	public ImageButton withIcon(StockIcon stock, IconSize size) {
+		return withIcon(stock.toIconName(), size);
+	}
+	
+	public ImageButton withIcon(String filename) {
+		return withIcon(filename, IconSize.BUTTON);
+	}
+	
+	public ImageButton withIcon(String filename, IconSize size) {
+		config.imagename = filename;
+		config.size = size;
+		makeButton();
+		return this;
+	}
+	
+	public ImageButton withBorder(Border border) {
+		config.border = border;
+		makeButton();
+		return this;
+	}
+	
+	public ImageButton withText(String text) {
+		config.text = text;
+		makeButton();
+		return this;
+	}
+	
+	public ImageButton withTooltip(String tooltip) {
+		config.tooltip = tooltip;
+		makeButton();
+		return this;
+	}
+	
+	public ImageButton withLayout(Layout layout) {
+		config.layout = layout;
+		makeButton();
+		return this;
+	}
+	
+	
+
+	
+	private void init() {
+		
+
 		this.addMouseListener(new MouseListener() {
 
 			public void mouseReleased(MouseEvent e)
@@ -320,7 +227,40 @@ public class ImageButton extends JButton
 				setButtonBorder();
 			}
 		});
+		
+	}
+	
+	private void makeButton() {
+		
+		isNimbus = Swidget.isNumbusDerivedLaF();
+		
+		this.setContentAreaFilled(config.bordered);
+		this.setBorderPainted(config.bordered);
+		
+		ImageIcon image = IconFactory.getImageIcon(config.imagename, config.size);
+		
+		
+		Layout mode = config.layout;
+		if (mode == null) {
+			//guess layout
+			mode = Layout.IMAGE_ON_SIDE;
+			if (config.imagename == null || image.getIconHeight() == -1) {
+				mode = Layout.TEXT;
+			} else if (config.text == null || "".equals(config.text)) {
+				mode = Layout.IMAGE;
+			}
+		}
 
+		
+		
+		String text = config.text;
+		String tooltip = config.tooltip;
+		
+		this.setIcon(null);
+		this.setText("");
+		this.setToolTipText(null);
+		
+		System.out.println(mode);
 		
 		switch (mode) {
 
@@ -381,18 +321,10 @@ public class ImageButton extends JButton
 
 		}
 		
-		//if (! isNumbus && insets != null) this.setMargin(insets);
-		if (isNimbus && border != null) super.setBorder(border);
-		
-		
-		//setMargin(new Insets(-1, -1, -1, -1));
-
-		//setBorder(new CompoundBorder(getBorder(), new javax.swing.plaf.basic.BasicBorders.MarginBorder()));
+		if (isNimbus && config.border != null) super.setBorder(config.border);
 		if (tooltip != null) this.setToolTipText(tooltip);
-
 		
 	}
-	
 	
 	
 	protected void setButtonBorder()
@@ -403,9 +335,9 @@ public class ImageButton extends JButton
 	protected void setButtonBorder(boolean forceBorder)
 	{
 		ButtonModel m = this.getModel();
-		boolean showBackground = isEnabled() && (m.isSelected() || m.isRollover() || m.isPressed() || m.isArmed() || forceBorder || showBorder);
+		boolean showBackground = isEnabled() && (m.isSelected() || m.isRollover() || m.isPressed() || m.isArmed() || forceBorder);
 
-		if (showBackground || (isEnabled() && hasFocus()) ) {
+		if (config.bordered || showBackground || (isEnabled() && hasFocus()) ) {
 			setBorderPainted(true);
 			this.setContentAreaFilled(true);
 		} else {
@@ -455,9 +387,12 @@ public class ImageButton extends JButton
 	}
 	
 	@Override
-	public void setToolTipText(String text)
-	{
-		super.setToolTipText(ImageButton.getWrappingTooltipText(this, text));
+	public void setToolTipText(String text)	{
+		if (text == null) {
+			super.setToolTipText(null);
+		} else {
+			super.setToolTipText(ImageButton.getWrappingTooltipText(this, text));
+		}
 	}
 
 

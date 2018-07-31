@@ -68,7 +68,7 @@ public abstract class ListControls extends ClearPanel
 		if (addMenu == null)
 		{
 			ListControlButton addButton;
-			addButton = new ListControlButton(StockIcon.EDIT_ADD, "Add", tooltip) {
+			addButton = new ListControlButton(StockIcon.EDIT_ADD, tooltip) {
 
 				@Override
 				public void setEnableState(ElementCount ec)
@@ -126,7 +126,7 @@ public abstract class ListControls extends ClearPanel
 
 		tooltipCount++;
 		tooltip = (tooltips != null && tooltips.length > tooltipCount) ? tooltips[tooltipCount] : "";
-		remove = new ListControlButton(StockIcon.EDIT_REMOVE, "Remove", tooltip) {
+		remove = new ListControlButton(StockIcon.EDIT_REMOVE, tooltip) {
 
 			@Override
 			public void setEnableState(ElementCount ec)
@@ -145,7 +145,7 @@ public abstract class ListControls extends ClearPanel
 
 		tooltipCount++;
 		tooltip = (tooltips != null && tooltips.length > tooltipCount) ? tooltips[tooltipCount] : "";
-		clear = new ListControlButton(StockIcon.EDIT_CLEAR, "Clear", tooltip) {
+		clear = new ListControlButton(StockIcon.EDIT_CLEAR, tooltip) {
 
 			@Override
 			public void setEnableState(ElementCount ec)
@@ -182,7 +182,7 @@ public abstract class ListControls extends ClearPanel
 			
 			tooltipCount++;
 			tooltip = (tooltips != null && tooltips.length > tooltipCount) ? tooltips[tooltipCount] : "";
-			up = new ListControlButton(StockIcon.GO_UP, "Up", tooltip) {
+			up = new ListControlButton(StockIcon.GO_UP, tooltip) {
 	
 				@Override
 				public void setEnableState(ElementCount ec)
@@ -201,7 +201,7 @@ public abstract class ListControls extends ClearPanel
 	
 			tooltipCount++;
 			tooltip = (tooltips != null && tooltips.length > tooltipCount) ? tooltips[tooltipCount] : "";
-			down = new ListControlButton(StockIcon.GO_DOWN, "Down", tooltip) {
+			down = new ListControlButton(StockIcon.GO_DOWN, tooltip) {
 	
 				@Override
 				public void setEnableState(ElementCount ec)

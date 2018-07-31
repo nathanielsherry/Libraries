@@ -17,34 +17,44 @@ public class ToolbarImageButton extends ImageButton {
 	
 	public ToolbarImageButton(String filename, String text)
 	{
-		super(filename, text, text, defaultLayout, false, defaultSize, defaultInsets, defaultBorder );
+		this(filename, text, text);
 	}
 	
 	public ToolbarImageButton(String filename, String text, String tooltip)
 	{
-		super(filename, text, tooltip, defaultLayout, false, defaultSize, defaultInsets, defaultBorder );
+		this(filename, text, tooltip, false);
 	}
 	
 	public ToolbarImageButton(String filename, String text, String tooltip, boolean isSignificant)
 	{
-		super(filename, text, tooltip, (isSignificant ? significantLayout : defaultLayout), false, defaultSize, defaultInsets, defaultBorder );
+		super(text);
+		super.withTooltip(tooltip)
+			.withLayout(isSignificant ? significantLayout : defaultLayout)
+			.withBordered(false)
+			.withIcon(filename, defaultSize)
+			.withBorder(defaultBorder);
 	}
 	
 	
 	
 	public ToolbarImageButton(StockIcon stock, String text)
 	{
-		super(stock.toIconName(), text, text, defaultLayout, false, defaultSize, defaultInsets, defaultBorder );
+		this(stock, text, text);
 	}
 	
 	public ToolbarImageButton(StockIcon stock, String text, String tooltip)
 	{
-		super(stock.toIconName(), text, tooltip, defaultLayout, false, defaultSize, defaultInsets, defaultBorder );
+		this(stock, text, tooltip, false);
 	}
 	
 	public ToolbarImageButton(StockIcon stock, String text, String tooltip, boolean isSignificant)
 	{
-		super(stock.toIconName(), text, tooltip, (isSignificant ? significantLayout : defaultLayout), false, defaultSize, defaultInsets, defaultBorder );
+		super(text);
+		super.withTooltip(tooltip)
+			.withLayout(isSignificant ? significantLayout : defaultLayout)
+			.withBordered(false)
+			.withIcon(stock, defaultSize)
+			.withBorder(defaultBorder);
 	}
 	
 }

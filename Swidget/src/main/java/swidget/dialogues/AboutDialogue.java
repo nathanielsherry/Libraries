@@ -166,7 +166,7 @@ public class AboutDialogue extends JDialog
 		
 		ButtonBox bbox = new ButtonBox();
 		
-		ImageButton btnCredit = new ImageButton(StockIcon.MISC_ABOUT, "Credits", "View Credits", ImageButton.defaultLayout, true, IconSize.BUTTON);
+		ImageButton btnCredit = new ImageButton().withIcon(StockIcon.MISC_ABOUT, IconSize.BUTTON).withText("Credits").withTooltip("View Credits");
 		btnCredit.addActionListener(new ActionListener() {
 		
 			public void actionPerformed(ActionEvent arg0)
@@ -187,7 +187,7 @@ public class AboutDialogue extends JDialog
 		bbox.addLeft(btnCredit);
 		
 		
-		ImageButton btnLicence = new ImageButton(StockIcon.MIME_TEXT, "Licence", "View Licence", ImageButton.defaultLayout, true, IconSize.BUTTON);
+		ImageButton btnLicence = new ImageButton().withIcon(StockIcon.MIME_TEXT, IconSize.BUTTON).withText("Licence").withTooltip("View Licence");
 		btnLicence.addActionListener(new ActionListener() {
 		
 			public void actionPerformed(ActionEvent arg0)
@@ -198,7 +198,7 @@ public class AboutDialogue extends JDialog
 		bbox.addLeft(btnLicence);	
 
 
-		ImageButton btnClose = new ImageButton(StockIcon.WINDOW_CLOSE, "Close", "Close this window", ImageButton.defaultLayout, true, IconSize.BUTTON);
+		ImageButton btnClose = new ImageButton().withIcon(StockIcon.WINDOW_CLOSE, IconSize.BUTTON).withText("Close").withTooltip("Close this window");
 		btnClose.addActionListener(new ActionListener() {
 		
 			public void actionPerformed(ActionEvent arg0)

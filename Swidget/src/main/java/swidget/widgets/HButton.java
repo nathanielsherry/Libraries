@@ -13,7 +13,12 @@ public class HButton extends ImageButton {
 	}
 	
 	public HButton(StockIcon icon, String tooltip, Runnable onPress) {
-		super(icon, "", tooltip, Layout.IMAGE, false, IconSize.TOOLBAR_SMALL);
+		super();
+		super.withIcon(icon, IconSize.TOOLBAR_SMALL)
+			.withTooltip(tooltip)
+			.withBordered(false)
+			.withLayout(Layout.IMAGE);
+		
 		this.setPreferredSize(new Dimension(32, 32));
 		if (onPress != null) {
 			this.addActionListener(e -> onPress.run());
@@ -32,6 +37,10 @@ public class HButton extends ImageButton {
 			this.addActionListener(e -> onPress.run());
 		}
 	}
+	
+	
+
+	
 	
 	
 }

@@ -27,8 +27,8 @@ public class ZoomSlider extends EventfulPanel
 
 		setLayout(new BorderLayout());
 
-		out = new ImageButton(StockIcon.ZOOM_OUT, "Zoom Out", Layout.IMAGE);
-		in = new ImageButton(StockIcon.ZOOM_IN, "Zoom In", Layout.IMAGE);
+		out = new ImageButton().withIcon(StockIcon.ZOOM_OUT).withTooltip("Zoom Out").withLayout(Layout.IMAGE).withBordered(false);
+		in = new ImageButton().withIcon(StockIcon.ZOOM_IN).withTooltip("Zoom In").withLayout(Layout.IMAGE).withBordered(false);
 
 
 		zoomSlider = new JSlider(start, end);

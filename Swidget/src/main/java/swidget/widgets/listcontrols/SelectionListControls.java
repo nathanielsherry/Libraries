@@ -20,7 +20,7 @@ public abstract class SelectionListControls extends JPanel
 		super();
 		setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
 		
-		ImageButton add = new ImageButton(StockIcon.CHOOSE_OK, "OK", "Add Selected " + name);
+		ImageButton add = new ImageButton("OK", StockIcon.CHOOSE_OK).withTooltip("Add Selected " + name).withBordered(false);
 		add.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e)
@@ -30,7 +30,7 @@ public abstract class SelectionListControls extends JPanel
 		});
 
 
-		ImageButton cancel = new ImageButton(StockIcon.CHOOSE_CANCEL, "Cancel", "Discard Selections");
+		ImageButton cancel = new ImageButton("Cancel", StockIcon.CHOOSE_CANCEL).withTooltip("Discard Selections").withBordered(false);
 		cancel.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e)

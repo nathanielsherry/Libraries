@@ -64,7 +64,7 @@ public class StreamExecutorPanel extends JPanel {
 		c.weightx = 0.0;
 		c.gridy += 1;
 		c.anchor = GridBagConstraints.LAST_LINE_END;
-		ImageButton cancel = new ImageButton(StockIcon.CHOOSE_CANCEL, "Cancel", true);
+		ImageButton cancel = new ImageButton("Cancel", StockIcon.CHOOSE_CANCEL);
 		cancel.addActionListener(e -> {
 			List<StreamExecutorView> reversed = new ArrayList<>(observerViews);
 			Collections.reverse(reversed);
