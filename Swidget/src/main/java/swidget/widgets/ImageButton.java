@@ -274,7 +274,6 @@ public class ImageButton extends JButton
 		this.setText("");
 		this.setToolTipText(null);
 		
-		System.out.println(mode);
 		
 		switch (mode) {
 
@@ -388,9 +387,7 @@ public class ImageButton extends JButton
 		if (buttonSize == null) {
 			buttonSize = guessButtonSize(mode);
 		}
-		
-		System.out.println(this.getText() + " (" + mode + ") - " + super.getPreferredSize());
-		
+				
 		if (buttonSize == ButtonSize.LARGE) {
 			Dimension size = super.getPreferredSize();
 			

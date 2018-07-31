@@ -6,7 +6,7 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
-import swidget.widgets.HButton;
+import swidget.widgets.ImageButton;
 
 public class TabbedInterfaceDialog {
 
@@ -35,7 +35,7 @@ public class TabbedInterfaceDialog {
 	}
 	
 	public TabbedInterfaceDialog(String title, String body, int messageType, String button) {
-		this(title, body, messageType, new HButton(button));
+		this(title, body, messageType, new ImageButton(button));
 	}
 	
 	public TabbedInterfaceDialog(String title, String body, int messageType, JButton... buttons) {

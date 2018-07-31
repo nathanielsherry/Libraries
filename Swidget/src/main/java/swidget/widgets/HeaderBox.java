@@ -177,7 +177,7 @@ public class HeaderBox extends PaintedPanel {
 		frame.pack();
 		frame.getContentPane().setLayout(new BorderLayout());
 		
-		HeaderBox box = new HeaderBox(null, "Title Text", new HButton("Right Side of the Window"));
+		HeaderBox box = new HeaderBox(null, "Title Text", new ImageButton("Right Side of the Window"));
 		frame.add(box, BorderLayout.NORTH);
 		
 		frame.setVisible(true);
