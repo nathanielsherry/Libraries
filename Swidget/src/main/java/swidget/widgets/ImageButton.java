@@ -5,7 +5,6 @@ import java.awt.Component;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
-import java.awt.Insets;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
@@ -32,7 +31,7 @@ import swidget.icons.StockIcon;
 public class ImageButton extends JButton
 {
 	
-	class ButtonConfig {
+	public static class ButtonConfig {
 		String imagename = null;
 		String text = "";
 		String tooltip = null;
@@ -230,7 +229,7 @@ public class ImageButton extends JButton
 		
 	}
 	
-	private void makeButton() {
+	protected void makeButton() {
 		
 		isNimbus = Swidget.isNumbusDerivedLaF();
 		
@@ -242,13 +241,7 @@ public class ImageButton extends JButton
 		
 		Layout mode = config.layout;
 		if (mode == null) {
-			//guess layout
-			mode = Layout.IMAGE_ON_SIDE;
-			if (config.imagename == null || image.getIconHeight() == -1) {
-				mode = Layout.TEXT;
-			} else if (config.text == null || "".equals(config.text)) {
-				mode = Layout.IMAGE;
-			}
+			mode = guessLayout();
 		}
 
 		
@@ -326,6 +319,16 @@ public class ImageButton extends JButton
 		
 	}
 	
+	protected Layout guessLayout() {
+		Layout mode = Layout.IMAGE_ON_SIDE;
+		ImageIcon image = IconFactory.getImageIcon(config.imagename, config.size);
+		if (config.imagename == null || image.getIconHeight() == -1) {
+			mode = Layout.TEXT;
+		} else if (config.text == null || "".equals(config.text)) {
+			mode = Layout.IMAGE;
+		}
+		return mode;
+	}
 	
 	protected void setButtonBorder()
 	{
