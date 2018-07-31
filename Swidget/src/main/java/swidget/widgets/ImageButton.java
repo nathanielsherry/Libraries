@@ -2,6 +2,7 @@ package swidget.widgets;
 
 
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
@@ -31,6 +32,10 @@ import swidget.icons.StockIcon;
 public class ImageButton extends JButton
 {
 	
+	public enum ButtonSize {
+		LARGE, COMPACT;
+	}
+	
 	public static class ButtonConfig {
 		String imagename = null;
 		String text = "";
@@ -39,6 +44,7 @@ public class ImageButton extends JButton
 		boolean bordered = true;
 		IconSize size = IconSize.BUTTON;
 		Border border = null;
+		ButtonSize buttonSize = null;
 	}
 	protected ButtonConfig config = new ButtonConfig();
 	
@@ -47,6 +53,7 @@ public class ImageButton extends JButton
 	public final static boolean defaultBorder = false;	
 	
 	private boolean isNimbus;
+	private Runnable onAction = null;
 	
 	public enum Layout
 	{
@@ -154,12 +161,26 @@ public class ImageButton extends JButton
 		return this;
 	}
 	
+	public ImageButton wittButtonSize(ButtonSize buttonSize) {
+		config.buttonSize = buttonSize;
+		makeButton();
+		return this;
+	}
 	
+	public ImageButton withAction(Runnable action) {
+		this.onAction = action;
+		return this;
+	}
 
 	
 	private void init() {
 		
-
+		this.addActionListener(e -> {
+			if (onAction != null) {
+				onAction.run();
+			}
+		});
+		
 		this.addMouseListener(new MouseListener() {
 
 			public void mouseReleased(MouseEvent e)
@@ -265,6 +286,7 @@ public class ImageButton extends JButton
 					this.setMargin(Spacing.iSmall());
 				}
 				
+								
 				this.setIcon(image);
 				if (tooltip == null || "".equals(tooltip)) {
 					tooltip = text;
@@ -351,6 +373,56 @@ public class ImageButton extends JButton
 		
 		
 		repaint();
+	}
+	
+	@Override
+	public Dimension getPreferredSize() {
+		
+		
+		Layout mode = config.layout;
+		if (mode == null) {
+			mode = guessLayout();
+		}
+		
+		ButtonSize buttonSize = config.buttonSize;
+		if (buttonSize == null) {
+			buttonSize = guessButtonSize(mode);
+		}
+		
+		System.out.println(this.getText() + " (" + mode + ") - " + super.getPreferredSize());
+		
+		if (buttonSize == ButtonSize.LARGE) {
+			Dimension size = super.getPreferredSize();
+			
+			switch (mode) {
+			case IMAGE:
+				return new Dimension((int)Math.max(size.getWidth(), 32), (int)Math.max(size.getHeight(), 32));
+			case TEXT:
+			case IMAGE_ON_SIDE:
+			case IMAGE_ON_TOP:
+			default:
+				return new Dimension((int)Math.max(size.getWidth(), 76), (int)Math.max(size.getHeight(), 32));
+
+			}
+			
+		} else {
+			return super.getPreferredSize();
+		}
+		
+		
+	}
+	
+	protected ButtonSize guessButtonSize(Layout mode) {
+		if (mode == Layout.IMAGE) {
+			return ButtonSize.COMPACT;
+		}
+		return ButtonSize.LARGE;
+		
+	}
+
+	@Override
+	public Dimension getMinimumSize() {
+		return getPreferredSize();
 	}
 	
 

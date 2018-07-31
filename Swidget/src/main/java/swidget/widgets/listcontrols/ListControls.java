@@ -90,7 +90,7 @@ public abstract class ListControls extends ClearPanel
 		{
 			ListControlDropdownButton addButton;
 			
-			addButton = new ListControlDropdownButton(StockIcon.EDIT_ADD, "Add", tooltip, addMenu) {
+			addButton = new ListControlDropdownButton(StockIcon.EDIT_ADD, tooltip, addMenu) {
 
 				@Override
 				public void setEnableState(ElementCount ec)

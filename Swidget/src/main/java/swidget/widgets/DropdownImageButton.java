@@ -13,6 +13,7 @@ import eventful.EventfulEnum;
 import eventful.swing.EventfulEnumPanel;
 import swidget.icons.IconSize;
 import swidget.icons.StockIcon;
+import swidget.widgets.ImageButton.ButtonSize;
 import swidget.widgets.ImageButton.Layout;
 
 
@@ -145,7 +146,8 @@ public class DropdownImageButton extends EventfulEnumPanel<DropdownImageButton.A
 				.withTooltip("Show additional options")
 				.withLayout(isTextArrow ? Layout.TEXT : Layout.IMAGE)
 				.withBordered(false)
-				.withBorder(Spacing.bMedium());
+				.withBorder(Spacing.bMedium())
+				.wittButtonSize(ButtonSize.COMPACT);
 
 		dropdown.addActionListener(e -> showMenu());
 		

@@ -12,14 +12,9 @@ import swidget.widgets.listcontrols.ListControls.ElementCount;
 public abstract class ListControlDropdownButton extends DropdownImageButton implements ListControlWidget
 {
 
-	public ListControlDropdownButton(String filename, String text, String tooltip, JPopupMenu menu)
+	public ListControlDropdownButton(StockIcon stock, String tooltip, JPopupMenu menu)
 	{
-		super(filename, text, tooltip, IconSize.BUTTON, Layout.IMAGE, menu);
-	}
-	
-	public ListControlDropdownButton(StockIcon stock, String text, String tooltip, JPopupMenu menu)
-	{
-		super(stock, text, tooltip, IconSize.BUTTON, Layout.IMAGE, menu);
+		super(stock, "", tooltip, IconSize.BUTTON, Layout.IMAGE, menu);
 	}
 	
 	public abstract void setEnableState(ElementCount ec);

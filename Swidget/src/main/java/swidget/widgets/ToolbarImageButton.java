@@ -1,7 +1,5 @@
 package swidget.widgets;
 
-import java.awt.Insets;
-
 import javax.swing.ImageIcon;
 import javax.swing.border.Border;
 
@@ -12,7 +10,6 @@ import swidget.icons.StockIcon;
 public class ToolbarImageButton extends ImageButton {
 
 	public static final Layout significantLayout = Layout.IMAGE_ON_SIDE;
-	public static final Border defaultBorder = Spacing.bMedium();
 	
 	boolean isSignificant;
 	
@@ -100,6 +97,10 @@ public class ToolbarImageButton extends ImageButton {
 		return this;
 	}
 
+	public ToolbarImageButton withAction(Runnable action) {
+		super.withAction(action);
+		return this;
+	}
 	
 	
 	
