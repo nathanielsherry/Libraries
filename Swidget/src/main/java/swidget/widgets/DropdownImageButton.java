@@ -147,7 +147,7 @@ public class DropdownImageButton extends EventfulEnumPanel<DropdownImageButton.A
 				.withLayout(isTextArrow ? Layout.TEXT : Layout.IMAGE)
 				.withBordered(false)
 				.withBorder(Spacing.bMedium())
-				.wittButtonSize(ButtonSize.COMPACT);
+				.withButtonSize(ButtonSize.COMPACT);
 
 		dropdown.addActionListener(e -> showMenu());
 		

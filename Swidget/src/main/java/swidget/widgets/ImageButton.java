@@ -161,7 +161,7 @@ public class ImageButton extends JButton
 		return this;
 	}
 	
-	public ImageButton wittButtonSize(ButtonSize buttonSize) {
+	public ImageButton withButtonSize(ButtonSize buttonSize) {
 		config.buttonSize = buttonSize;
 		makeButton();
 		return this;
