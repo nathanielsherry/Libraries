@@ -1,5 +1,7 @@
 package plural.streams.swing;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -9,6 +11,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import javax.swing.Box;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
@@ -16,6 +19,8 @@ import javax.swing.border.EmptyBorder;
 
 import plural.streams.StreamExecutor;
 import swidget.icons.StockIcon;
+import swidget.widgets.ButtonBox;
+import swidget.widgets.HeaderBox;
 import swidget.widgets.ImageButton;
 import swidget.widgets.Spacing;
 
@@ -27,43 +32,10 @@ public class StreamExecutorPanel extends JPanel {
 
 	public StreamExecutorPanel(String t, List<StreamExecutorView> observerViews) {
 
-		LayoutManager layout = new GridBagLayout();
-		GridBagConstraints c = new GridBagConstraints();
-		setLayout(layout);
-
-		c.gridx = 0;
-		c.gridy = 0;
-		c.weightx = 1.0;
-		c.weighty = 0.0;
-		c.anchor = GridBagConstraints.FIRST_LINE_START;
-
-		JLabel title = new JLabel(t);
-		title.setFont(title.getFont().deriveFont(Font.BOLD).deriveFont(title.getFont().getSize() + 2f));
-		title.setBorder(new EmptyBorder(Spacing.medium, 0, Spacing.medium, Spacing.medium));
-		add(title, c);
-
-		for (StreamExecutorView obsv : observerViews) {
-			c.gridy += 1;
-			add(obsv, c);
-		}
-
-		c.gridy += 1;
-		c.weighty = 1.0;
-		c.weightx = 1.0;
-
-		JProgressBar progress = new JProgressBar();
-		progress.setMaximum(100);
-		progress.setMinimum(0);
-		progress.setValue(0);
-		JPanel progressPanel = new JPanel();
-		progressPanel.add(progress);
-		progressPanel.setBorder(Spacing.bLarge());
-		add(progressPanel, c);
-
-		c.weighty = 0.0;
-		c.weightx = 0.0;
-		c.gridy += 1;
-		c.anchor = GridBagConstraints.LAST_LINE_END;
+		this.setLayout(new BorderLayout());
+		
+		
+		
 		ImageButton cancel = new ImageButton("Cancel", StockIcon.CHOOSE_CANCEL);
 		cancel.addActionListener(e -> {
 			List<StreamExecutorView> reversed = new ArrayList<>(observerViews);
@@ -72,9 +44,53 @@ public class StreamExecutorPanel extends JPanel {
 				v.getExecutor().abort();
 			}
 		});
-		add(cancel, c);
 
-		setBorder(Spacing.bHuge());
+		
+		HeaderBox header = new HeaderBox(null, t, cancel);
+		this.add(header, BorderLayout.NORTH);
+		
+		
+		JPanel center = new JPanel(new BorderLayout());
+		center.setBorder(Spacing.bHuge());
+		
+		JPanel lineItems = new JPanel();
+		lineItems.setBorder(new EmptyBorder(0, Spacing.huge, Spacing.huge, Spacing.huge));
+		LayoutManager layout = new GridBagLayout();
+		GridBagConstraints c = new GridBagConstraints();
+		lineItems.setLayout(layout);
+
+
+		
+		
+		
+		c.gridx = 0;
+		c.gridy = 0;
+		c.weightx = 1.0;
+		c.weighty = 0.0;
+		c.anchor = GridBagConstraints.FIRST_LINE_START;
+
+		for (StreamExecutorView obsv : observerViews) {
+			lineItems.add(obsv, c);
+			c.gridy += 1;
+		}
+		center.add(lineItems, BorderLayout.CENTER);
+		
+		
+		
+		JProgressBar progress = new JProgressBar();
+		progress.setMaximum(100);
+		progress.setMinimum(0);
+		progress.setValue(0);
+		center.add(progress, BorderLayout.SOUTH);
+
+		
+		
+		this.add(center, BorderLayout.CENTER);
+		
+		
+
+
+		
 
 		for (StreamExecutorView v : observerViews) {
 			v.getExecutor().addListener(event -> {

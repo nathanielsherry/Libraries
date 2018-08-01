@@ -1,5 +1,7 @@
 package plural.swing;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -7,14 +9,18 @@ import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.Box;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
+import javax.swing.border.EmptyBorder;
 
 import plural.executor.ExecutorSet;
 import plural.executor.ExecutorState;
 import plural.executor.PluralExecutor;
 import swidget.icons.StockIcon;
+import swidget.widgets.ButtonBox;
+import swidget.widgets.HeaderBox;
 import swidget.widgets.ImageButton;
 import swidget.widgets.Spacing;
 
@@ -33,64 +39,58 @@ public class ExecutorSetView extends JPanel
 		
 	private void init()
 	{
+		this.setLayout(new BorderLayout());
+
+		ImageButton cancel = new ImageButton("Cancel", StockIcon.CHOOSE_CANCEL).withAction(() -> {
+			executors.requestAbortWorking();
+		});
 		
-        LayoutManager layout = new GridBagLayout();
+        HeaderBox header = new HeaderBox(null, executors.getDescription(), cancel);
+        this.add(header, BorderLayout.NORTH);
+		
+		JPanel center = new JPanel(new BorderLayout());
+		center.setBorder(Spacing.bHuge());
+		
+        JPanel lineItems = new JPanel();
+        lineItems.setBorder(new EmptyBorder(0, Spacing.huge, Spacing.huge, Spacing.huge));
+		LayoutManager layout = new GridBagLayout();
         GridBagConstraints c = new GridBagConstraints();
-        setLayout(layout);
-		
+        lineItems.setLayout(layout);
+
+        
+        
         c.gridx = 0;
         c.gridy = 0;
         c.weightx = 1.0;
         c.weighty = 0.0;
         c.anchor = GridBagConstraints.FIRST_LINE_START;
-        
-        JLabel title = new JLabel(executors.getDescription());
-        title.setFont(title.getFont().deriveFont(Font.BOLD).deriveFont(title.getFont().getSize() + 2f));
-        title.setBorder(Spacing.bMedium());
-        add(title, c);
-        
-
+               
 		ExecutorView view;
 		for (PluralExecutor pl : executors){
+			view = new ExecutorView(pl);
+			lineItems.add(view, c);
 			
 			c.gridy += 1;
-			
-			view = new ExecutorView(pl);
-			add(view, c);
-			
-		}
-
-        
-		c.gridy += 1;
-		c.weighty = 1.0;
-		c.weightx = 1.0;
+		}	
+		center.add(lineItems, BorderLayout.CENTER);
+		
+		
 		
 		progress = new JProgressBar();
 		progress.setMaximum(100);
 		progress.setMinimum(0);
 		progress.setValue(0);
-		JPanel progressPanel = new JPanel();
-		progressPanel.add(progress);
-		progressPanel.setBorder(Spacing.bLarge());
-		add(progressPanel, c);
-        
-		c.weighty = 0.0;
-		c.weightx = 0.0;
-		c.gridy += 1;
-		c.anchor = GridBagConstraints.LAST_LINE_END;
-		ImageButton cancel = new ImageButton("Cancel", StockIcon.CHOOSE_CANCEL);
-		cancel.addActionListener(new ActionListener() {
-		
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				executors.requestAbortWorking();
-			}
-		});
-		add(cancel, c);
+		center.add(progress, BorderLayout.SOUTH);
+
 		
 		
-		setBorder(Spacing.bHuge());     
-        
+		this.add(center, BorderLayout.CENTER);
+		
+
+		
+
+		
+
 		
 		executors.addListener(() -> {
 			javax.swing.SwingUtilities.invokeLater(() -> {

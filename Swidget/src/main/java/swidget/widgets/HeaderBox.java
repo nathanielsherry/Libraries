@@ -16,6 +16,7 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 
@@ -27,6 +28,9 @@ public class HeaderBox extends PaintedPanel {
 	public HeaderBox(Component left, String title, Component right) {
 		super(true);
 		JLabel label = new JLabel(title);
+		if (left != null || right != null) {
+			label.setBorder(new EmptyBorder(0, Spacing.huge, 0, Spacing.huge));
+		}
 		Font font = label.getFont();
 		font = font.deriveFont(Font.BOLD);
 		font = font.deriveFont(font.getSize() + 1f);
