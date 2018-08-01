@@ -21,6 +21,7 @@ import swidget.widgets.HeaderBoxPanel;
 import swidget.widgets.ImageButton;
 import swidget.widgets.tabbedinterface.TabbedInterfaceDialog;
 import swidget.widgets.tabbedinterface.TabbedInterfacePanel;
+import swidget.widgets.tabbedinterface.TabbedInterfaceDialog.MessageType;
 
 public class SwidgetFilePanels {
 
@@ -202,10 +203,10 @@ public class SwidgetFilePanels {
 				new TabbedInterfaceDialog(
 						title, 
 						body, 
-						JOptionPane.QUESTION_MESSAGE,
-						new ImageButton("Yes").withAction(() -> onResult.accept(true)),
-						new ImageButton("No").withAction(() -> onResult.accept(false))
-					).showIn((TabbedInterfacePanel) parent);
+						MessageType.QUESTION)
+					.addRight(new ImageButton("No").withAction(() -> onResult.accept(false)))
+					.addLeft(new ImageButton("Yes").withAction(() -> onResult.accept(true)))
+					.showIn((TabbedInterfacePanel) parent);
 				
 			} else {
 				

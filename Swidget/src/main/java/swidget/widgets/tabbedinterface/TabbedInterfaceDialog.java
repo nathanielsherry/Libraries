@@ -1,78 +1,178 @@
 package swidget.widgets.tabbedinterface;
 
-import java.util.function.Consumer;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JOptionPane;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 
+import swidget.icons.IconSize;
+import swidget.icons.StockIcon;
+import swidget.widgets.ButtonBox;
+import swidget.widgets.HeaderBox;
 import swidget.widgets.ImageButton;
+import swidget.widgets.Spacing;
+
 
 public class TabbedInterfaceDialog {
 
-	private JOptionPane pane;
-	private Consumer<Object> onResult;
+	public enum MessageType {
+		ERROR, WARNING, INFO, QUESTION; 
+	}
 	
-	private String title;
+	private String title, body;
+	private MessageType messageType;
+	private List<JButton> leftButtons = new ArrayList<>(), rightButtons = new ArrayList<>();
+	private Runnable hider = () -> {};
 	
-	/**
-	 * Creates a new TabbedInterface Dialog
-	 * @param title the title of the dialog
-	 * @param body the body text of the dialog
-	 * @param messageType the {@link JOptionPane} message type
-	 */
-	public TabbedInterfaceDialog(String title, String body, int messageType, int optionType, Consumer<Object> onResult) {
+	
+	public TabbedInterfaceDialog(String title, String body, MessageType messageType) {
 		this.title = title;
-		pane = new JOptionPane();
-		pane.setMessage("<html><h2>" + title + "</h2><br/>" + body.replace("\n",	"<br/>") + "</html>");
-		pane.setOptionType(optionType);
-		pane.setMessageType(messageType);
-		this.onResult = onResult;
+		this.body = body;
+		this.messageType = messageType;
 	}
 	
-	public TabbedInterfaceDialog(String title, String body, int messageType) {
-		this(title, body, messageType, "OK");
-	}
-	
-	public TabbedInterfaceDialog(String title, String body, int messageType, String button) {
-		this(title, body, messageType, new ImageButton(button));
-	}
-	
-	public TabbedInterfaceDialog(String title, String body, int messageType, JButton... buttons) {
-		this.title = title;
-		pane = new JOptionPane();
-		pane.setMessage("<html><h2>" + title + "</h2><br/>" + body.replace("\n",	"<br/>") + "</html>");
-		pane.setOptionType(0);
-		pane.setMessageType(messageType);
-		pane.setOptions(buttons);
-		for (JButton button : buttons) {
-			button.addActionListener(e -> pane.setValue(button));
-		}
-		this.onResult = r -> {};
+	public TabbedInterfaceDialog addLeft(JButton button) {
+		leftButtons.add(button);
+		button.addActionListener(e -> hide());
+		return this;
 	}
 
-	
+	public TabbedInterfaceDialog addRight(JButton button) {
+		rightButtons.add(button);
+		button.addActionListener(e -> hide());
+		return this;
+	}
+
 	public void showIn(TabbedInterfacePanel owner) {
 		if (owner == null) {
-			JDialog dialog = pane.createDialog(title);
-			dialog.setModal(true);
-			dialog.setVisible(true);
-			onResult.accept(pane.getValue());
+			showInFrame(null);
 		} else {
-			owner.pushModalComponent(pane);
-			pane.addPropertyChangeListener(p -> {
-				if (p.getPropertyName().equals(JOptionPane.VALUE_PROPERTY) && 
-						p.getNewValue() != null &&
-						p.getNewValue() != JOptionPane.UNINITIALIZED_VALUE) {
-					owner.popModalComponent();
-					onResult.accept(p.getNewValue());
-				}
-			});
+			showInTab(owner);
 		}
 	}
 	
-	public JOptionPane getComponent() {
-		return pane;
+	public void showInFrame(JFrame frame) {
+		showInFrame(frame, false);
+	}
+	
+	public void showInFrame(JFrame frame, boolean alwaysOnTop) {
+		JDialog dialog = new JDialog(frame);
+		hider = () -> dialog.setVisible(false);
+		dialog.setTitle(this.title);
+		dialog.setModal(true);
+		dialog.setContentPane(buildPanel(false));
+		
+		dialog.pack();
+		dialog.setLocationRelativeTo(frame);
+		dialog.setAlwaysOnTop(alwaysOnTop);
+		dialog.setVisible(true);
+		
+	}
+	
+	private void showInTab(TabbedInterfacePanel owner) {
+		JPanel panel = buildPanel(true);
+		owner.pushModalComponent(panel);
+		hider = () -> owner.popModalComponent();
+	}
+	
+	private JPanel buildPanel(boolean selfcontained) {
+		JPanel panel = new JPanel(new BorderLayout());
+		int pad = Spacing.huge * 2;
+		
+		JLabel lblBody = new JLabel("<html><span style='font-size: 175%; font-weight: bold;'>" + title + "</span><br/><br/>" + body.replace("\n",	"<br/>") + "</html>");
+		
+		lblBody.setBorder(new EmptyBorder(pad, pad, pad, pad));
+		lblBody.setVerticalAlignment(JLabel.TOP);
+		panel.add(lblBody, BorderLayout.CENTER);
+		
+		JLabel icon = new JLabel(getBadge());
+		icon.setVerticalAlignment(JLabel.TOP);
+		icon.setHorizontalAlignment(JLabel.CENTER);
+		icon.setBorder(new EmptyBorder(pad, pad, pad, 0));
+		panel.add(icon, BorderLayout.WEST);
+
+		
+		if (!selfcontained) {
+			panel.add(buildButtonBox(), BorderLayout.SOUTH);
+		} else {			
+			panel.add(buildButtonBox(), BorderLayout.SOUTH);
+		}
+		
+		
+		return panel;
+	}
+	
+	private ButtonBox buildButtonBox() {
+		ButtonBox box = new ButtonBox();
+		for (JButton b : leftButtons) {
+			box.addLeft(b);
+		}
+		for (JButton b : rightButtons) {
+			box.addRight(b);
+		}
+		
+		if (leftButtons.size() == 0 && rightButtons.size() == 0) {
+			box.addRight(new ImageButton("OK").withAction(() -> hide()));
+		}
+		
+		return box;
+	}
+	
+	private HeaderBox buildHeaderBox() {
+		Component left, right;
+		
+		if (leftButtons.size() == 0) {
+			left = null;
+		} else if (leftButtons.size() == 1) {
+			left = leftButtons.get(0);
+		} else {
+			ButtonBox leftBox = new ButtonBox(Spacing.small, false);
+			for (JButton b : leftButtons) {
+				leftBox.addLeft(b);
+			}
+			left = leftBox;
+		}
+		
+		if (rightButtons.size() == 0) {
+			right = null;
+		} else if (rightButtons.size() == 1) {
+			right = rightButtons.get(0);
+		} else {
+			ButtonBox rightBox = new ButtonBox(Spacing.small, false);
+			for (JButton b : rightButtons) {
+				rightBox.addRight(b);
+			}
+			right = rightBox;
+		}
+		
+		if (left == null && right == null) {
+			right = new ImageButton("OK").withAction(() -> hide());
+		}
+		
+		HeaderBox box = new HeaderBox(left, this.title, right);
+		return box;
+	}
+	
+	private ImageIcon getBadge() {
+		switch (this.messageType) {
+		case ERROR: 	return StockIcon.BADGE_ERROR.toImageIcon(IconSize.ICON);
+		case WARNING:	return StockIcon.BADGE_WARNING.toImageIcon(IconSize.ICON);
+		case INFO:		return StockIcon.BADGE_INFO.toImageIcon(IconSize.ICON);
+		case QUESTION:	return StockIcon.BADGE_HELP.toImageIcon(IconSize.ICON);
+		default:		return StockIcon.BADGE_HELP.toImageIcon(IconSize.ICON);
+		}
+	}
+	
+	private void hide() {
+		hider.run();
 	}
 		
 }
