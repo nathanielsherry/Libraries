@@ -9,7 +9,6 @@ import java.awt.Font;
 import java.awt.LayoutManager2;
 import java.awt.LinearGradientPaint;
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -20,9 +19,6 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.MatteBorder;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 
-import swidget.icons.IconSize;
-import swidget.icons.StockIcon;
-import swidget.widgets.ImageButton.Layout;
 import swidget.widgets.gradientpanel.PaintedPanel;
 
 public class HeaderBox extends PaintedPanel {
@@ -127,10 +123,13 @@ public class HeaderBox extends PaintedPanel {
 		public void layoutContainer(Container parent) {
 			Dimension leftSize = left == null ? new Dimension(0, 0) : new Dimension(left.getPreferredSize());
 			Dimension rightSize = right == null ? new Dimension(0, 0) : new Dimension(right.getPreferredSize());
-						
-			if (left != null)   left.setBounds(0, 0, leftSize.width, leftSize.height);
+			
+			float lHalfDelta = Math.max(0, parent.getHeight() - leftSize.height) / 2f;
+			float rHalfDelta = Math.max(0, parent.getHeight() - rightSize.height) / 2f;
+			
+			if (left != null)   left.setBounds(0, (int)lHalfDelta, leftSize.width, leftSize.height);
 			if (centre != null) centre.setBounds(sideSize(), 0, parent.getWidth() - sideSize() - sideSize(), parent.getHeight());
-			if (right != null)  right.setBounds(parent.getWidth() - rightSize.width, 0, rightSize.width, rightSize.height);
+			if (right != null)  right.setBounds(parent.getWidth() - rightSize.width, (int)rHalfDelta, rightSize.width, rightSize.height);
 
 		}
 

@@ -54,7 +54,7 @@ public class PropertyDialogue extends JDialog
 		containerPanel.add(allPropertyPanels, BorderLayout.CENTER);
 		
 		//Button Box
-		ButtonBox bbox = new ButtonBox(Spacing.bHuge());
+		ButtonBox bbox = new ButtonBox();
 		ImageButton close = new ImageButton("Close", StockIcon.WINDOW_CLOSE);
 		close.addActionListener(new ActionListener() {
 		

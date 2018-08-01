@@ -124,7 +124,7 @@ public class SavePicture extends JPanel
 	public JPanel createControlPanel()
 	{
 
-		ButtonBox buttonBox = new ButtonBox(Spacing.bHuge());
+		ButtonBox buttonBox = new ButtonBox();
 
 
 		ImageButton ok = new ImageButton("Save", StockIcon.DOCUMENT_SAVE);

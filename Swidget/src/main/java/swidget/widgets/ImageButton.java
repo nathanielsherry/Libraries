@@ -251,7 +251,7 @@ public class ImageButton extends JButton
 	}
 	
 	protected void makeButton() {
-		
+				
 		isNimbus = Swidget.isNumbusDerivedLaF();
 		
 		this.setContentAreaFilled(config.bordered);
@@ -265,6 +265,10 @@ public class ImageButton extends JButton
 			mode = guessLayout();
 		}
 
+		ButtonSize buttonSize = config.buttonSize;
+		if(buttonSize == null) {
+			buttonSize = guessButtonSize(mode);
+		}
 		
 		
 		String text = config.text;
@@ -280,7 +284,7 @@ public class ImageButton extends JButton
 			case IMAGE:
 
 				if (isNimbus) { 
-					super.setBorder(Spacing.bMedium());
+					super.setBorder(buttonSize == ButtonSize.COMPACT ? Spacing.bMedium() : Spacing.bLarge());
 				} else {
 					this.setMargin(Spacing.iSmall());
 				}
@@ -377,6 +381,9 @@ public class ImageButton extends JButton
 	@Override
 	public Dimension getPreferredSize() {
 		
+		if (super.isPreferredSizeSet()) {
+			return super.getPreferredSize();
+		}
 		
 		Layout mode = config.layout;
 		if (mode == null) {
@@ -387,25 +394,26 @@ public class ImageButton extends JButton
 		if (buttonSize == null) {
 			buttonSize = guessButtonSize(mode);
 		}
-				
+		
+		int prefHeight = 32, prefWidth = 80;
+		
+		Dimension preferred = super.getPreferredSize();
 		if (buttonSize == ButtonSize.LARGE) {
-			Dimension size = super.getPreferredSize();
 			
 			switch (mode) {
 			case IMAGE:
-				return new Dimension((int)Math.max(size.getWidth(), 32), (int)Math.max(size.getHeight(), 32));
+				preferred = new Dimension((int)Math.max(preferred.getWidth(), prefHeight), (int)Math.max(preferred.getHeight(), prefHeight));
+				break;
 			case TEXT:
 			case IMAGE_ON_SIDE:
 			case IMAGE_ON_TOP:
 			default:
-				return new Dimension((int)Math.max(size.getWidth(), 76), (int)Math.max(size.getHeight(), 32));
-
+				preferred = new Dimension((int)Math.max(preferred.getWidth(), prefWidth), (int)Math.max(preferred.getHeight(), prefHeight));
+				break;
 			}
-			
-		} else {
-			return super.getPreferredSize();
 		}
 		
+		return preferred;
 		
 	}
 	

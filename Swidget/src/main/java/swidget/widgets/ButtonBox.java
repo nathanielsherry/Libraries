@@ -2,6 +2,7 @@ package swidget.widgets;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.FlowLayout;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +10,6 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
-import javax.swing.border.Border;
 
 
 public class ButtonBox extends JPanel
@@ -19,49 +19,37 @@ public class ButtonBox extends JPanel
 	private List<Component> ll, rl, cl;
 	
 	private JPanel buttonPanel;
-	
-	private int spacing;
-	
+		
 	public ButtonBox()
 	{
-		this(Spacing.bMedium(), Spacing.medium, true);
+		this(Spacing.huge, true);
 	}
 	public ButtonBox(boolean divider)
 	{
-		this(Spacing.bMedium(), Spacing.medium, divider);
+		this(Spacing.huge, divider);
 	}
-	public ButtonBox(Border border)
+	public ButtonBox(int spacing, boolean divider)
 	{
-		this(border, Spacing.medium, true);
-	}
-	public ButtonBox(Border border, int spacing, boolean divider)
-	{
-		
-		this.spacing = spacing;
-		
+				
 		setLayout(new BorderLayout());
 		
-		buttonPanel = new ClearPanel();
+		buttonPanel = new ClearPanel();		
 		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
 		
 		if (divider) add(new JSeparator(JSeparator.HORIZONTAL), BorderLayout.NORTH);
 		add(buttonPanel, BorderLayout.CENTER);
 		
 		ll = new ArrayList<Component>();
-		rl = new ArrayList<Component>();
 		cl = new ArrayList<Component>();
+		rl = new ArrayList<Component>();
 		
 		left = new ClearPanel();
-		right = new ClearPanel();
 		centre = new ClearPanel();
-		
-		left.setLayout(new BoxLayout(left, BoxLayout.X_AXIS));
-		right.setLayout(new BoxLayout(right, BoxLayout.X_AXIS));
-		centre.setLayout(new BoxLayout(centre, BoxLayout.X_AXIS));
-		
-		left.setBorder(border);
-		right.setBorder(border);
-		centre.setBorder(border);
+		right = new ClearPanel();
+					
+		left.setLayout(new FlowLayout(FlowLayout.LEFT, spacing, spacing));
+		centre.setLayout(new FlowLayout(FlowLayout.CENTER, spacing, spacing));
+		right.setLayout(new FlowLayout(FlowLayout.RIGHT, spacing, spacing));
 		
 		buttonPanel.add(left);
 		buttonPanel.add(Box.createHorizontalGlue());
@@ -81,7 +69,6 @@ public class ButtonBox extends JPanel
 		for (int i = 0; i < cl.size(); i++)
 		{
 			Component c = cl.get(i);
-			if (i > 0) centre.add(Box.createHorizontalStrut(spacing));
 			centre.add(c);
 		}
 		
@@ -89,7 +76,6 @@ public class ButtonBox extends JPanel
 		for (int i = 0; i < ll.size(); i++)
 		{
 			Component c = ll.get(i);
-			if (i > 0) left.add(Box.createHorizontalStrut(spacing));
 			left.add(c);
 		}
 		
@@ -97,7 +83,6 @@ public class ButtonBox extends JPanel
 		for (int i = 0; i < rl.size(); i++)
 		{
 			Component c = rl.get(i);
-			if (i > 0) right.add(Box.createHorizontalStrut(spacing));
 			right.add(c);
 		}
 		
