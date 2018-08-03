@@ -34,63 +34,45 @@ import javax.swing.plaf.LayerUI;
 
 import org.jdesktop.swingx.border.DropShadowBorder;
 
+import swidget.widgets.ClearPanel;
+
 
 public class TabbedInterfacePanel extends JLayeredPane {
 
-	private Stack<Component> modalComponents = new Stack<>();
-	private JPanel modalLayer = new JPanel();
-	private JScrollPane modalScroller;
+	private Stack<ModalPane> modalComponents = new Stack<>();
 	
 	private JPanel contentLayerPanel = new JPanel();
 	private final JLayer<JPanel> contentLayer;
-	
-	boolean modalShown = false;
 	
 	
 	public TabbedInterfacePanel() {
 		setLayout(new TabbedInterfaceLayerLayout());
 		
-		modalLayer.addMouseListener(new MouseAdapter() {});
-		modalLayer.addKeyListener(new KeyListener() {
-			
-			@Override
-			public void keyTyped(KeyEvent e) {
-				e.consume();
-			}
-			
-			@Override
-			public void keyReleased(KeyEvent e) {
-				e.consume();
-			}
-			
-			@Override
-			public void keyPressed(KeyEvent e) {
-				e.consume();
-			}
-		});
-
-		
-		BlurLayerUI<JPanel> blurUI = new BlurLayerUI<JPanel>(this) {
+		//set blur in case another layer is placed on top of this one
+		BlurLayerUI<JPanel> blurUI = new BlurLayerUI<JPanel>(this, contentLayerPanel) {
 			@Override
 			public void eventDispatched(AWTEvent e, JLayer<? extends JPanel> l) {
 				((InputEvent) e).consume();
 			}
 		};
 		contentLayer = new JLayer<JPanel>(contentLayerPanel, blurUI);
-
-
-		
-		
-		
-		addComponentListener(new ComponentAdapter() {
-			public void componentResized(ComponentEvent e) {
-				updateModalContentDimensions();
-			}
-		});
-		
 		add(contentLayer, new StackConstraints(JLayeredPane.DEFAULT_LAYER, "content"));
-		
-		
+				
+	}
+	
+	
+
+	
+	boolean isComponentOnTop(Component component) {
+		boolean result = false;
+		if (component == contentLayerPanel) {
+			result = modalComponents.size() == 0;
+		} else if (modalComponents.size() == 0) {
+			return false;
+		} else {
+			result = modalComponents.peek().getComponent().equals(component);
+		}
+		return result;
 	}
 	
 	private static final class StackConstraints {
@@ -114,39 +96,14 @@ public class TabbedInterfacePanel extends JLayeredPane {
 			layer = getLayer(comp);
 			constr = constraints;
 		}
+		
 		pos = insertIndexForLayer(layer, index);
 		super.addImpl(comp, constr, pos);
 		setLayer(comp, layer, pos);
 		comp.validate();
 		comp.repaint();
 	}
-	
-	//Shows the modal contentLayer
-	private void showModal() {
-		modalShown = true;
-		modalLayer.setVisible(true);
-		modalLayer.setOpaque(false);
-		modalLayer.setBackground(new Color(0, 0, 0, 0f));
-		
-		contentLayerPanel.setEnabled(false);
-		add(modalLayer, new StackConstraints(JLayeredPane.MODAL_LAYER, "modal"));
-		modalLayer.requestFocus();	
-		this.revalidate();
-		this.repaint();
-	}
-	
-	
-	//Hides the modal contentLayer
-	private void hideModal() {
-		modalComponents.clear();
-		modalShown = false;
-		modalLayer.setVisible(false);
-		this.remove(modalLayer);
-		contentLayerPanel.setEnabled(true);
-		updateIfMinimized();
-		contentLayerPanel.requestFocus();
-	}
-	
+
 	/**
 	 * This exists to work around a bug where nothing seems to be able to trigger 
 	 * a paint when the window is minimized, to the point where even after 
@@ -169,8 +126,15 @@ public class TabbedInterfacePanel extends JLayeredPane {
 	 * than one modal dialog at a time.
 	 */
 	public void pushModalComponent(Component panel) {
-		modalComponents.push(panel);
-		updateModalComponent();
+		ModalPane modalPane = new ModalPane(this, panel);
+		modalComponents.push(modalPane);
+		
+		this.add(modalPane.getLayer(), new StackConstraints(modalComponents.size()+200, "modal-layer-" + modalComponents.size()));
+				
+		modalPane.getLayer().requestFocus();
+		this.revalidate();
+		this.repaint();
+		
 	}
 	
 	/**
@@ -180,76 +144,14 @@ public class TabbedInterfacePanel extends JLayeredPane {
 		if (modalComponents.empty()) {
 			return;
 		}
-		modalComponents.pop();
-		updateModalComponent();
-	}
-	
-	
-	
-	// Updates the displayed component from the stack
-	private void updateModalComponent() {
-		if (modalComponents.empty()) {
-			hideModal();
-		} else {
-			if (!modalShown) {
-				showModal();
-			}
-			setModalComponent(modalComponents.peek());
-		}
-	}
-	
-	private void setModalComponent(Component panel) {
+		ModalPane modalPane = modalComponents.pop();
 		
-		JPanel wrap = new JPanel(new BorderLayout());
-		wrap.setOpaque(false);
-		modalScroller = new JScrollPane();
-		modalScroller.setViewportView(panel);
-		modalScroller.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		modalScroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-		modalScroller.setBorder(new EmptyBorder(0, 0, 0, 0));
-
-		
-		wrap.add(modalScroller, BorderLayout.CENTER);
-		DropShadowBorder border = new DropShadowBorder(Color.BLACK, 10, 0.4f, 20, true, true, true, true);
-		wrap.setBorder(border);
-		
-		modalLayer.removeAll();
-		modalLayer.setLayout(new GridBagLayout());
-		GridBagConstraints c = new GridBagConstraints();
-		c.fill = GridBagConstraints.NONE;
-		c.gridheight = 3;
-		c.gridwidth = 3;
-		c.weightx = 0f;
-		c.weighty = 0f;
-		c.gridx = 1;
-		c.gridy = 1;
-		
-		modalLayer.add(wrap, c);
-		
-		updateModalContentDimensions();
+		this.remove(modalPane.getLayer());
 		
 		this.repaint();
-	}
-	
-	private void updateModalContentDimensions() {
-		if (modalScroller == null) { 
-			return; 
-		}
-		Component modal = modalScroller.getViewport().getView();
-		if (modal == null) {
-			return;
-		}
-		Dimension size = getSize();
-		int newWidth = (int)Math.max(50, Math.min(size.getWidth()-40, modal.getPreferredSize().getWidth()));
-		int newHeight = (int)Math.max(50, Math.min(size.getHeight()-40, modal.getPreferredSize().getHeight()));
-		
-		modalScroller.getViewport().setPreferredSize(new Dimension(newWidth, newHeight));
-		modalScroller.revalidate();
 		
 	}
 
-
-	
 	
 	public JPanel getContentLayer() {
 		return contentLayerPanel;
@@ -264,9 +166,11 @@ class BlurLayerUI<T extends Component> extends LayerUI<T> {
 	private BufferedImageOp mOperation;
 
 	private TabbedInterfacePanel parent;
-
-	public BlurLayerUI(TabbedInterfacePanel parent) {
+	private Component component;
+	
+	public BlurLayerUI(TabbedInterfacePanel parent, Component component) {
 		this.parent = parent;
+		this.component = component;
 		float ninth = 1.0f / 9.0f;
 		float[] blurKernel = { ninth, ninth, ninth, ninth, ninth, ninth, ninth, ninth, ninth };
 		mOperation = new ConvolveOp(new Kernel(3, 3, blurKernel), ConvolveOp.EDGE_NO_OP, null);
@@ -274,7 +178,10 @@ class BlurLayerUI<T extends Component> extends LayerUI<T> {
 
 	@Override
 	public void paint(Graphics g, JComponent c) {
-		if (parent.modalShown) {
+		if (parent.isComponentOnTop(this.component)) {
+			super.paint(g, c);
+			
+		} else {
 			int w = c.getWidth();
 			int h = c.getHeight();
 	
@@ -285,7 +192,7 @@ class BlurLayerUI<T extends Component> extends LayerUI<T> {
 			// Only create the offscreen image if the one we have
 			// is the wrong size.
 			if (mOffscreenImage == null || mOffscreenImage.getWidth() != w || mOffscreenImage.getHeight() != h) {
-				mOffscreenImage = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
+				mOffscreenImage = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
 			}
 	
 			Graphics2D ig2 = mOffscreenImage.createGraphics();
@@ -301,9 +208,131 @@ class BlurLayerUI<T extends Component> extends LayerUI<T> {
 			g2.fillRect(0, 0, c.getWidth(), c.getHeight());
 			g2.dispose();
 			
-		} else {
-			super.paint(g, c);
 		}
 	}
+}
+
+class ModalPane {
+	private JLayer<JPanel> layer;
+	private Component component;
+	private TabbedInterfacePanel owner;
+	
+	public ModalPane(TabbedInterfacePanel owner, Component component) {
+		this.owner = owner;
+		this.component = component;
+		this.layer = makeModalLayer();
+	}
+	
+
+	public JLayer<JPanel> getLayer() {
+		return layer;
+	}
+
+
+	public Component getComponent() {
+		return component;
+	}
+
+
+	private JLayer<JPanel> makeModalLayer() {
+		
+		JPanel modalPanel = new ClearPanel();
+		
+		modalPanel.addMouseListener(new MouseAdapter() {});
+		modalPanel.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				e.consume();
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				e.consume();
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				e.consume();
+			}
+		});
+		
+		setModalPanelComponent(modalPanel, this.component);
+		
+		//set blur in case another layer is placed on top of this one
+		BlurLayerUI<JPanel> blurUI = new BlurLayerUI<JPanel>(this.owner, this.component) {
+			@Override
+			public void eventDispatched(AWTEvent e, JLayer<? extends JPanel> l) {
+				((InputEvent) e).consume();
+			}
+		};
+		JLayer<JPanel> layer = new JLayer<JPanel>(modalPanel, blurUI);
+		
+		layer.setVisible(true);
+		layer.setOpaque(false);
+		layer.setBackground(new Color(0, 0, 0, 0f));
+		
+		return layer;
+				
+		
+	}
+	
+
+	
+	private void setModalPanelComponent(JPanel modalPanel, Component component) {
+		
+		JPanel wrap = new JPanel(new BorderLayout());
+		wrap.setOpaque(false);
+		JScrollPane modalScroller = new JScrollPane();
+		modalScroller.setViewportView(component);
+		modalScroller.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		modalScroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+		modalScroller.setBorder(new EmptyBorder(0, 0, 0, 0));
+
+		
+		wrap.add(modalScroller, BorderLayout.CENTER);
+		DropShadowBorder border = new DropShadowBorder(Color.BLACK, 12, 0.3f, 20, true, true, true, true);
+		wrap.setBorder(border);
+		
+		modalPanel.removeAll();
+		modalPanel.setLayout(new GridBagLayout());
+		GridBagConstraints c = new GridBagConstraints();
+		c.fill = GridBagConstraints.NONE;
+		c.gridheight = 3;
+		c.gridwidth = 3;
+		c.weightx = 0f;
+		c.weighty = 0f;
+		c.gridx = 1;
+		c.gridy = 1;
+		
+		modalPanel.add(wrap, c);
+		updateModalContentDimensions(modalScroller);
+		owner.addComponentListener(new ComponentAdapter() {
+			public void componentResized(ComponentEvent e) {
+				updateModalContentDimensions(modalScroller);
+			}
+		});
+
+		
+	}
+	
+	private void updateModalContentDimensions(JScrollPane modalScroller) {
+		if (modalScroller == null) { 
+			return; 
+		}
+		Component modal = modalScroller.getViewport().getView();
+		if (modal == null) {
+			return;
+		}
+		Dimension ownerSize = owner.getSize();
+		int newWidth = (int)Math.max(50, Math.min(ownerSize.getWidth()-40, modal.getPreferredSize().getWidth()));
+		int newHeight = (int)Math.max(50, Math.min(ownerSize.getHeight()-40, modal.getPreferredSize().getHeight()));
+		
+		modalScroller.getViewport().setPreferredSize(new Dimension(newWidth, newHeight));
+		modalScroller.revalidate();
+		
+	}
+
+	
 }
 
