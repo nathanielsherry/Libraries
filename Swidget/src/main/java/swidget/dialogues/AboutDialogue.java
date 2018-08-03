@@ -33,6 +33,8 @@ import swidget.widgets.ButtonBox;
 import swidget.widgets.ImageButton;
 import swidget.widgets.Spacing;
 import swidget.widgets.properties.PropertyViewPanel;
+import swidget.widgets.tabbedinterface.TabbedInterfaceDialog;
+import swidget.widgets.tabbedinterface.TabbedInterfaceDialog.MessageType;
 
 
 public class AboutDialogue extends JDialog
@@ -166,35 +168,35 @@ public class AboutDialogue extends JDialog
 		
 		ButtonBox bbox = new ButtonBox();
 		
-		ImageButton btnCredit = new ImageButton().withIcon(StockIcon.MISC_ABOUT, IconSize.BUTTON).withText("Credits").withTooltip("View Credits");
-		btnCredit.addActionListener(new ActionListener() {
-		
-			public void actionPerformed(ActionEvent arg0)
-			{
-				Map<String, String> credits = new LinkedHashMap<>();
-				for (String credit : contents.credits.split("\n")) {
-					if (credit.trim().length() == 0) {
-						continue;
+		ImageButton btnCredit = new ImageButton()
+				.withIcon(StockIcon.MISC_ABOUT, IconSize.BUTTON)
+				.withText("Credits")
+				.withTooltip("View Credits")
+				.withAction(() -> {
+					
+					Map<String, String> credits = new LinkedHashMap<>();
+					for (String credit : contents.credits.split("\n")) {
+						if (credit.trim().length() == 0) {
+							continue;
+						}
+						String[] creditParts = credit.split(": ");
+						credits.put(creditParts[0], creditParts[1]);
 					}
-					String[] creditParts = credit.split(": ");
-					credits.put(creditParts[0], creditParts[1]);
-				}
-				PropertyViewPanel creditsPanel = new PropertyViewPanel(credits);
-				new PropertyDialogue("Credits", AboutDialogue.this, creditsPanel);
-				
-			}
-		});
+					PropertyViewPanel creditsPanel = new PropertyViewPanel(credits);
+					new PropertyDialogue("Credits", AboutDialogue.this, creditsPanel);
+					
+				});
 		bbox.addLeft(btnCredit);
 		
 		
-		ImageButton btnLicence = new ImageButton().withIcon(StockIcon.MIME_TEXT, IconSize.BUTTON).withText("Licence").withTooltip("View Licence");
-		btnLicence.addActionListener(new ActionListener() {
-		
-			public void actionPerformed(ActionEvent arg0)
-			{
-				JOptionPane.showMessageDialog(AboutDialogue.this, textForJOptionPane(contents.licence), contents.name + " Licence", JOptionPane.INFORMATION_MESSAGE, StockIcon.MIME_TEXT.toImageIcon(IconSize.ICON));
-			}
-		});
+		ImageButton btnLicence = new ImageButton()
+				.withIcon(StockIcon.MIME_TEXT, IconSize.BUTTON)
+				.withText("Licence")
+				.withTooltip("View Licence")
+				.withAction(() -> {
+					new TabbedInterfaceDialog(contents.name + " Licence", textForJOptionPane(contents.licence), MessageType.INFO).showInWindow(AboutDialogue.this);
+				});
+
 		bbox.addLeft(btnLicence);	
 
 
@@ -241,7 +243,7 @@ public class AboutDialogue extends JDialog
 		
 		s.setOpaque(false);
 		
-		s.setPreferredSize(new Dimension(500, 300));
+		s.setPreferredSize(new Dimension(500, 200));
 		s.setBorder(new EmptyBorder(0, 0, 0, 0));
 		
 		return s;

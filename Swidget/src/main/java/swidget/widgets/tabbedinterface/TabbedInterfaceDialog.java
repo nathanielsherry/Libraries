@@ -2,13 +2,14 @@ package swidget.widgets.tabbedinterface;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Window;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -27,13 +28,18 @@ public class TabbedInterfaceDialog {
 		ERROR, WARNING, INFO, QUESTION; 
 	}
 	
-	private String title, body;
+	private String title;
+	private JComponent body;
 	private MessageType messageType;
 	private List<JButton> leftButtons = new ArrayList<>(), rightButtons = new ArrayList<>();
 	private Runnable hider = () -> {};
 	
 	
 	public TabbedInterfaceDialog(String title, String body, MessageType messageType) {
+		this(title, buildBodyComponent(body), messageType);
+	}
+	
+	public TabbedInterfaceDialog(String title, JComponent body, MessageType messageType) {
 		this.title = title;
 		this.body = body;
 		this.messageType = messageType;
@@ -53,17 +59,17 @@ public class TabbedInterfaceDialog {
 
 	public void showIn(TabbedInterfacePanel owner) {
 		if (owner == null) {
-			showInFrame(null);
+			showInWindow(null);
 		} else {
 			showInTab(owner);
 		}
 	}
-	
-	public void showInFrame(JFrame frame) {
-		showInFrame(frame, false);
+		
+	public void showInWindow(Window frame) {
+		showInWindow(frame, false);
 	}
 	
-	public void showInFrame(JFrame frame, boolean alwaysOnTop) {
+	public void showInWindow(Window frame, boolean alwaysOnTop) {
 		JDialog dialog = new JDialog(frame);
 		hider = () -> dialog.setVisible(false);
 		dialog.setTitle(this.title);
@@ -86,12 +92,15 @@ public class TabbedInterfaceDialog {
 	private JPanel buildPanel(boolean selfcontained) {
 		JPanel panel = new JPanel(new BorderLayout());
 		int pad = Spacing.huge * 2;
+
+		JPanel center = new JPanel(new BorderLayout(pad, pad));
+		center.setBorder(new EmptyBorder(pad, pad, pad, pad));
+		JLabel lblTitle = new JLabel("<html><span style='font-size: 175%; font-weight: bold;'>" + title + "</span></html>");
+		lblTitle.setVerticalAlignment(JLabel.TOP);
+		center.add(lblTitle, BorderLayout.NORTH);
+		center.add(this.body, BorderLayout.CENTER);
 		
-		JLabel lblBody = new JLabel("<html><span style='font-size: 175%; font-weight: bold;'>" + title + "</span><br/><br/>" + body.replace("\n",	"<br/>") + "</html>");
-		
-		lblBody.setBorder(new EmptyBorder(pad, pad, pad, pad));
-		lblBody.setVerticalAlignment(JLabel.TOP);
-		panel.add(lblBody, BorderLayout.CENTER);
+		panel.add(center, BorderLayout.CENTER);
 		
 		JLabel icon = new JLabel(getBadge());
 		icon.setVerticalAlignment(JLabel.TOP);
@@ -108,6 +117,14 @@ public class TabbedInterfaceDialog {
 		
 		
 		return panel;
+	}
+	
+	
+	private static JComponent buildBodyComponent(String body) {
+		int pad = Spacing.huge * 2;
+		JLabel lblBody = new JLabel("<html>" + body.replace("\n",	"<br/>") + "</html>");
+		lblBody.setVerticalAlignment(JLabel.TOP);
+		return lblBody;
 	}
 	
 	private ButtonBox buildButtonBox() {
