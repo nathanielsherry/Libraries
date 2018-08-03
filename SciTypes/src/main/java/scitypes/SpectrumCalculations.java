@@ -320,6 +320,13 @@ public class SpectrumCalculations
 		return target;
 	}
 
+	
+	public static void addToList_inplace(Spectrum data, float value) {
+		for (int i = 0; i < data.size(); i++) {
+			data.set(i, data.get(i) + value);
+		}
+	}
+	
 
 	/**
 	 * adds the elements of the two lists together
@@ -676,5 +683,7 @@ public class SpectrumCalculations
 		
 		return result;
 	}
-	
+
+
+
 }
