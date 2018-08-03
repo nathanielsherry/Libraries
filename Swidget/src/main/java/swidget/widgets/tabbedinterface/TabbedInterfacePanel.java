@@ -145,9 +145,8 @@ public class TabbedInterfacePanel extends JLayeredPane {
 			return;
 		}
 		ModalPane modalPane = modalComponents.pop();
-		
 		this.remove(modalPane.getLayer());
-		
+		modalPane.discard();
 		this.repaint();
 		
 	}
@@ -217,6 +216,8 @@ class ModalPane {
 	private Component component;
 	private TabbedInterfacePanel owner;
 	
+	private ComponentAdapter listener;
+	
 	public ModalPane(TabbedInterfacePanel owner, Component component) {
 		this.owner = owner;
 		this.component = component;
@@ -233,6 +234,13 @@ class ModalPane {
 		return component;
 	}
 
+	//clean up after we're done with this modal layer.
+	public void discard() {
+		if (listener == null) {
+			return;
+		}
+		owner.removeComponentListener(listener);
+	}
 
 	private JLayer<JPanel> makeModalLayer() {
 		
@@ -307,11 +315,12 @@ class ModalPane {
 		
 		modalPanel.add(wrap, c);
 		updateModalContentDimensions(modalScroller);
-		owner.addComponentListener(new ComponentAdapter() {
+		listener = new ComponentAdapter() {
 			public void componentResized(ComponentEvent e) {
 				updateModalContentDimensions(modalScroller);
 			}
-		});
+		};
+		owner.addComponentListener(listener);
 
 		
 	}
