@@ -39,6 +39,7 @@ import swidget.widgets.ClearPanel;
 import swidget.widgets.ImageButton;
 import swidget.widgets.Spacing;
 import swidget.widgets.layerpanel.LayerPanel;
+import swidget.widgets.layerpanel.ModalLayer;
 import swidget.widgets.toggle.ItemToggleButton;
 import swidget.widgets.toggle.ToggleGroup;
 
@@ -82,7 +83,7 @@ public class SavePicture extends JPanel
 
 	public void show() {
 		if (owner instanceof LayerPanel) {
-			((LayerPanel) owner).pushModalComponent(this);
+			((LayerPanel) owner).pushLayer(new ModalLayer((LayerPanel) owner, this));
 			this.requestFocus();
 		} else {
 			showDialog();
@@ -91,7 +92,7 @@ public class SavePicture extends JPanel
 	
 	public void hide() {
 		if (owner instanceof LayerPanel) {
-			((LayerPanel) owner).popModalComponent();
+			((LayerPanel) owner).popLayer();
 		} else {
 			if (dialog != null) {
 				dialog.setVisible(false);

@@ -2,7 +2,7 @@ package swidget.widgets;
 
 import javax.swing.JLabel;
 
-public class TextWrapping extends JLabel
+public class TextWrapping
 {
 	public static final int DEFAULT_WIDTH = 300;
 

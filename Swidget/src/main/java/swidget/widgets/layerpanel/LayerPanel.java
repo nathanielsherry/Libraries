@@ -23,23 +23,36 @@ public class LayerPanel extends JLayeredPane {
 	public LayerPanel() {
 		setLayout(new LayerLayout());	
 		contentLayer = new ContentLayer(this);
-		add(contentLayer.getLayer(), new StackConstraints(JLayeredPane.DEFAULT_LAYER, "content"));
+		add(contentLayer.getJLayer(), new StackConstraints(JLayeredPane.DEFAULT_LAYER, "content"));
 				
 	}
 	
 	
 
-	
-	boolean isComponentOnTop(Component component) {
-		boolean result = false;
-		if (component == contentLayer.getComponent()) {
-			result = layers.size() == 0;
-		} else if (layers.size() == 0) {
-			return false;
-		} else {
-			result = layers.peek().getComponent().equals(component);
+	Layer layerForComponent(Component component) {
+		for (Layer layer : layers) {
+			if (layer.getComponent() == component) {
+				return layer;
+			}
 		}
-		return result;
+		return null;
+	}
+	
+	boolean isLayerBlocked(Layer layer) {
+		boolean blocked = false;
+		if (layers.isEmpty()) {
+			return blocked;
+		}
+		for (int i = layers.size()-1; i >= 0; i--) {
+			Layer li = layers.get(i);
+			if (layer == li) {
+				return blocked;
+			}
+			if (li.modal()) {
+				blocked = true;
+			}
+		}
+		return blocked;
 	}
 	
 	private static final class StackConstraints {
@@ -92,13 +105,12 @@ public class LayerPanel extends JLayeredPane {
 	 * Adds a modal component to the top of the modal stack. This allows more 
 	 * than one modal dialog at a time.
 	 */
-	public void pushModalComponent(JPanel panel) {
-		ModalLayer modalPane = new ModalLayer(this, panel);
-		layers.push(modalPane);
+	public void pushLayer(Layer layer) {
+		layers.push(layer);
 		
-		this.add(modalPane.getLayer(), new StackConstraints(layers.size()+200, "modal-layer-" + layers.size()));
+		this.add(layer.getJLayer(), new StackConstraints(layers.size()+200, "modal-layer-" + layers.size()));
 				
-		modalPane.getLayer().requestFocus();
+		layer.getJLayer().requestFocus();
 		this.revalidate();
 		this.repaint();
 		
@@ -107,17 +119,25 @@ public class LayerPanel extends JLayeredPane {
 	/**
 	 * Removes the topmost modal component from the modal stack
 	 */
-	public void popModalComponent() {
+	public void popLayer() {
 		if (layers.empty()) {
 			return;
 		}
-		Layer modalPane = layers.pop();
-		this.remove(modalPane.getLayer());
-		modalPane.discard();
-		this.repaint();
-		
+		removeLayer(layers.peek());
 	}
 
+	public void removeLayer(Layer layer) {
+		if (!layers.contains(layer)) {
+			return;
+		}
+		
+		layers.remove(layer);
+		this.remove(layer.getJLayer());
+		layer.discard();
+		this.repaint();
+
+	}
+	
 	
 	public JPanel getContentLayer() {
 		return contentLayer.getComponent();

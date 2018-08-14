@@ -30,7 +30,9 @@ public class LayerBlurUI<T extends Component> extends LayerUI<T> {
 
 	@Override
 	public void paint(Graphics g, JComponent c) {
-		if (parent.isComponentOnTop(this.component)) {
+		Layer layer = parent.layerForComponent(this.component);
+		
+		if (!parent.isLayerBlocked(layer)) {
 			super.paint(g, c);
 			
 		} else {

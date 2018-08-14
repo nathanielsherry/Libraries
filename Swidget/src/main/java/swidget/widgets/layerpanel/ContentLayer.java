@@ -24,7 +24,7 @@ public class ContentLayer implements Layer {
 	}
 	
 	@Override
-	public JLayer<JPanel> getLayer() {
+	public JLayer<JPanel> getJLayer() {
 		return contentJLayer;
 	}
 
@@ -35,5 +35,10 @@ public class ContentLayer implements Layer {
 
 	@Override
 	public void discard() {}
+
+	@Override
+	public boolean modal() {
+		return true;
+	}
 
 }

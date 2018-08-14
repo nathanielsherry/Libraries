@@ -41,7 +41,7 @@ public class ModalLayer implements Layer {
 	 * @see swidget.widgets.tabbedinterface.layer.Layer#getLayer()
 	 */
 	@Override
-	public JLayer<JPanel> getLayer() {
+	public JLayer<JPanel> getJLayer() {
 		return layer;
 	}
 
@@ -165,5 +165,11 @@ public class ModalLayer implements Layer {
 		modalScroller.revalidate();
 		
 	}
+	
+	@Override
+	public boolean modal() {
+		return true;
+	}
+
 
 }

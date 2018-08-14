@@ -85,8 +85,8 @@ public class LayerDialogs {
 	
 	private void showInLayer(LayerPanel owner) {
 		JPanel panel = buildPanel(true);
-		owner.pushModalComponent(panel);
-		hider = () -> owner.popModalComponent();
+		owner.pushLayer(new ModalLayer(owner, panel));
+		hider = () -> owner.popLayer();
 	}
 	
 	private JPanel buildPanel(boolean selfcontained) {

@@ -20,6 +20,7 @@ import swidget.widgets.HeaderBox;
 import swidget.widgets.HeaderBoxPanel;
 import swidget.widgets.ImageButton;
 import swidget.widgets.layerpanel.LayerPanel;
+import swidget.widgets.layerpanel.ModalLayer;
 import swidget.widgets.layerpanel.LayerDialogs;
 import swidget.widgets.layerpanel.LayerDialogs.MessageType;
 
@@ -37,7 +38,7 @@ public class SwidgetFilePanels {
 				
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					tabPanel.popModalComponent();
+					tabPanel.popLayer();
 					onCancel.run();
 				}
 			});
@@ -45,16 +46,16 @@ public class SwidgetFilePanels {
 			
 			HeaderBoxPanel dialog = new HeaderBoxPanel(new HeaderBox(null, title, null), chooser);
 			
-			tabPanel.pushModalComponent(dialog);
+			tabPanel.pushLayer(new ModalLayer(tabPanel, dialog));
 			chooser.requestFocus();
 			chooser.addActionListener(e -> {
 				 if (e.getActionCommand().equals(JFileChooser.APPROVE_SELECTION)) {
-					 tabPanel.popModalComponent();
+					 tabPanel.popLayer();
 					 onAccept.run();
 				 }
 				 
 				 if (e.getActionCommand().equals(JFileChooser.CANCEL_SELECTION)) {
-					 tabPanel.popModalComponent();
+					 tabPanel.popLayer();
 					 onCancel.run();
 				 }
 				 
