@@ -1,4 +1,4 @@
-package swidget.widgets.tabbedinterface;
+package swidget.widgets.layerpanel;
 
 import java.awt.CardLayout;
 import java.awt.Component;
@@ -62,7 +62,7 @@ import java.util.Vector;
  * @since JDK1.0
  */
 
-public class TabbedInterfaceLayerLayout implements LayoutManager2, Serializable {
+public class LayerLayout implements LayoutManager2, Serializable {
 
 	private static final long serialVersionUID = -4328196481005934313L;
 
@@ -129,7 +129,7 @@ public class TabbedInterfaceLayerLayout implements LayoutManager2, Serializable 
 	/**
      * Creates a new card layout with gaps of size zero.
      */
-    public TabbedInterfaceLayerLayout() {
+    public LayerLayout() {
         this(0, 0);
     }
 
@@ -141,7 +141,7 @@ public class TabbedInterfaceLayerLayout implements LayoutManager2, Serializable 
      * @param     hgap   the horizontal gap.
      * @param     vgap   the vertical gap.
      */
-    public TabbedInterfaceLayerLayout(int hgap, int vgap) {
+    public LayerLayout(int hgap, int vgap) {
         this.hgap = hgap;
         this.vgap = vgap;
     }

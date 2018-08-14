@@ -19,15 +19,15 @@ import javax.swing.KeyStroke;
 import swidget.widgets.HeaderBox;
 import swidget.widgets.HeaderBoxPanel;
 import swidget.widgets.ImageButton;
-import swidget.widgets.tabbedinterface.TabbedInterfaceDialog;
-import swidget.widgets.tabbedinterface.TabbedInterfacePanel;
-import swidget.widgets.tabbedinterface.TabbedInterfaceDialog.MessageType;
+import swidget.widgets.layerpanel.LayerPanel;
+import swidget.widgets.layerpanel.LayerDialogs;
+import swidget.widgets.layerpanel.LayerDialogs.MessageType;
 
 public class SwidgetFilePanels {
 
 	private static void showChooser(Component parent, JFileChooser chooser, Runnable onAccept, Runnable onCancel, String title) {
-		if (parent instanceof TabbedInterfacePanel) {
-			TabbedInterfacePanel tabPanel = (TabbedInterfacePanel) parent;
+		if (parent instanceof LayerPanel) {
+			LayerPanel tabPanel = (LayerPanel) parent;
 			
 			
 			KeyStroke key = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0);
@@ -198,15 +198,15 @@ public class SwidgetFilePanels {
 		String title = "File Already Exists";
 		
 		if (filename.exists()) {
-			if (parent instanceof TabbedInterfacePanel) {
+			if (parent instanceof LayerPanel) {
 				
-				new TabbedInterfaceDialog(
+				new LayerDialogs(
 						title, 
 						body, 
 						MessageType.QUESTION)
 					.addRight(new ImageButton("No").withAction(() -> onResult.accept(false)))
 					.addLeft(new ImageButton("Yes").withAction(() -> onResult.accept(true)))
-					.showIn((TabbedInterfacePanel) parent);
+					.showIn((LayerPanel) parent);
 				
 			} else {
 				

@@ -32,9 +32,9 @@ import swidget.icons.StockIcon;
 import swidget.widgets.ButtonBox;
 import swidget.widgets.ImageButton;
 import swidget.widgets.Spacing;
+import swidget.widgets.layerpanel.LayerDialogs;
+import swidget.widgets.layerpanel.LayerDialogs.MessageType;
 import swidget.widgets.properties.PropertyViewPanel;
-import swidget.widgets.tabbedinterface.TabbedInterfaceDialog;
-import swidget.widgets.tabbedinterface.TabbedInterfaceDialog.MessageType;
 
 
 public class AboutDialogue extends JDialog
@@ -194,7 +194,7 @@ public class AboutDialogue extends JDialog
 				.withText("Licence")
 				.withTooltip("View Licence")
 				.withAction(() -> {
-					new TabbedInterfaceDialog(contents.name + " Licence", textForJOptionPane(contents.licence), MessageType.INFO).showInWindow(AboutDialogue.this);
+					new LayerDialogs(contents.name + " Licence", textForJOptionPane(contents.licence), MessageType.INFO).showInWindow(AboutDialogue.this);
 				});
 
 		bbox.addLeft(btnLicence);	

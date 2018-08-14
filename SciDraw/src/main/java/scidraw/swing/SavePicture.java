@@ -38,7 +38,7 @@ import swidget.widgets.ButtonBox;
 import swidget.widgets.ClearPanel;
 import swidget.widgets.ImageButton;
 import swidget.widgets.Spacing;
-import swidget.widgets.tabbedinterface.TabbedInterfacePanel;
+import swidget.widgets.layerpanel.LayerPanel;
 import swidget.widgets.toggle.ItemToggleButton;
 import swidget.widgets.toggle.ToggleGroup;
 
@@ -81,8 +81,8 @@ public class SavePicture extends JPanel
 	}
 
 	public void show() {
-		if (owner instanceof TabbedInterfacePanel) {
-			((TabbedInterfacePanel) owner).pushModalComponent(this);
+		if (owner instanceof LayerPanel) {
+			((LayerPanel) owner).pushModalComponent(this);
 			this.requestFocus();
 		} else {
 			showDialog();
@@ -90,8 +90,8 @@ public class SavePicture extends JPanel
 	}
 	
 	public void hide() {
-		if (owner instanceof TabbedInterfacePanel) {
-			((TabbedInterfacePanel) owner).popModalComponent();
+		if (owner instanceof LayerPanel) {
+			((LayerPanel) owner).popModalComponent();
 		} else {
 			if (dialog != null) {
 				dialog.setVisible(false);

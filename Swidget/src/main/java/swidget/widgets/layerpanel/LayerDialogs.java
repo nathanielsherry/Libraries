@@ -1,4 +1,4 @@
-package swidget.widgets.tabbedinterface;
+package swidget.widgets.layerpanel;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -22,7 +22,7 @@ import swidget.widgets.ImageButton;
 import swidget.widgets.Spacing;
 
 
-public class TabbedInterfaceDialog {
+public class LayerDialogs {
 
 	public enum MessageType {
 		ERROR, WARNING, INFO, QUESTION; 
@@ -35,33 +35,33 @@ public class TabbedInterfaceDialog {
 	private Runnable hider = () -> {};
 	
 	
-	public TabbedInterfaceDialog(String title, String body, MessageType messageType) {
+	public LayerDialogs(String title, String body, MessageType messageType) {
 		this(title, buildBodyComponent(body), messageType);
 	}
 	
-	public TabbedInterfaceDialog(String title, JComponent body, MessageType messageType) {
+	public LayerDialogs(String title, JComponent body, MessageType messageType) {
 		this.title = title;
 		this.body = body;
 		this.messageType = messageType;
 	}
 	
-	public TabbedInterfaceDialog addLeft(JButton button) {
+	public LayerDialogs addLeft(JButton button) {
 		leftButtons.add(button);
 		button.addActionListener(e -> hide());
 		return this;
 	}
 
-	public TabbedInterfaceDialog addRight(JButton button) {
+	public LayerDialogs addRight(JButton button) {
 		rightButtons.add(button);
 		button.addActionListener(e -> hide());
 		return this;
 	}
 
-	public void showIn(TabbedInterfacePanel owner) {
+	public void showIn(LayerPanel owner) {
 		if (owner == null) {
 			showInWindow(null);
 		} else {
-			showInTab(owner);
+			showInLayer(owner);
 		}
 	}
 		
@@ -83,7 +83,7 @@ public class TabbedInterfaceDialog {
 		
 	}
 	
-	private void showInTab(TabbedInterfacePanel owner) {
+	private void showInLayer(LayerPanel owner) {
 		JPanel panel = buildPanel(true);
 		owner.pushModalComponent(panel);
 		hider = () -> owner.popModalComponent();
