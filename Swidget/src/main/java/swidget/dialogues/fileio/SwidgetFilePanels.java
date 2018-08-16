@@ -1,6 +1,7 @@
 package swidget.dialogues.fileio;
 
 import java.awt.Component;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.io.File;
@@ -205,12 +206,22 @@ public class SwidgetFilePanels {
 						title, 
 						body, 
 						MessageType.QUESTION)
-					.addRight(new ImageButton("No").withAction(() -> onResult.accept(false)))
-					.addLeft(new ImageButton("Yes").withAction(() -> onResult.accept(true)))
+					.addRight(new ImageButton("Cancel").withAction(() -> onResult.accept(false)))
+					.addLeft(new ImageButton("Replace").withAction(() -> onResult.accept(true)))
 					.showIn((LayerPanel) parent);
 				
+			} else if (parent instanceof Window) {
+				
+				new LayerDialogs(
+						title, 
+						body, 
+						MessageType.QUESTION)
+					.addRight(new ImageButton("Cancel").withAction(() -> onResult.accept(false)))
+					.addLeft(new ImageButton("Replace").withAction(() -> onResult.accept(true)))
+					.showInWindow((Window)parent);
 			} else {
 				
+				//??? fallback
 				int response = JOptionPane.showConfirmDialog(parent,
 						"The file you have selected already exists, are you sure you want to replace it?",
 						"File Already Exists", JOptionPane.YES_NO_OPTION
