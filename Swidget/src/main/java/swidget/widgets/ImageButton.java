@@ -1,6 +1,7 @@
 package swidget.widgets;
 
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -171,7 +172,19 @@ public class ImageButton extends JButton
 		this.onAction = action;
 		return this;
 	}
-
+	
+	public ImageButton withStateDefault() {
+		this.setBackground(new Color(0xff1f89d1, true));
+		this.setForeground(Color.WHITE);
+		return this;
+	}
+	
+	public ImageButton withStateCritical() {
+		this.setBackground(new Color(0xffE83232, true));
+		this.setForeground(Color.WHITE);
+		return this;
+	}
+	
 	
 	private void init() {
 		
