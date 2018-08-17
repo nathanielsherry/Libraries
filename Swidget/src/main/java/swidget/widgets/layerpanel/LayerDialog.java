@@ -22,7 +22,7 @@ import swidget.widgets.ImageButton;
 import swidget.widgets.Spacing;
 
 
-public class LayerDialogs {
+public class LayerDialog {
 
 	public enum MessageType {
 		ERROR, WARNING, INFO, QUESTION; 
@@ -33,29 +33,30 @@ public class LayerDialogs {
 	private MessageType messageType;
 	private List<JButton> leftButtons = new ArrayList<>(), rightButtons = new ArrayList<>();
 	private Runnable hider = () -> {};
+	private boolean header = false;
 	
-	
-	public LayerDialogs(String title, String body, MessageType messageType) {
+	public LayerDialog(String title, String body, MessageType messageType) {
 		this(title, buildBodyComponent(body), messageType);
 	}
 	
-	public LayerDialogs(String title, JComponent body, MessageType messageType) {
+	public LayerDialog(String title, JComponent body, MessageType messageType) {
 		this.title = title;
 		this.body = body;
 		this.messageType = messageType;
 	}
 	
-	public LayerDialogs addLeft(JButton button) {
+	public LayerDialog addLeft(JButton button) {
 		leftButtons.add(button);
 		button.addActionListener(e -> hide());
 		return this;
 	}
 
-	public LayerDialogs addRight(JButton button) {
+	public LayerDialog addRight(JButton button) {
 		rightButtons.add(button);
 		button.addActionListener(e -> hide());
 		return this;
 	}
+	
 
 	public void showIn(LayerPanel owner) {
 		if (owner == null) {
@@ -84,7 +85,7 @@ public class LayerDialogs {
 	}
 	
 	private void showInLayer(LayerPanel owner) {
-		JPanel panel = buildPanel(true);
+		JPanel panel = buildPanel(header);
 		owner.pushLayer(new ModalLayer(owner, panel));
 		hider = () -> owner.popLayer();
 	}
@@ -112,7 +113,7 @@ public class LayerDialogs {
 		if (!selfcontained) {
 			panel.add(buildButtonBox(), BorderLayout.SOUTH);
 		} else {			
-			panel.add(buildButtonBox(), BorderLayout.SOUTH);
+			panel.add(buildHeaderBox(), BorderLayout.NORTH);
 		}
 		
 		

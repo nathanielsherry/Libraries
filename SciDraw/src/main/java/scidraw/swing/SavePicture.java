@@ -36,6 +36,7 @@ import swidget.dialogues.fileio.SwidgetFilePanels;
 import swidget.icons.StockIcon;
 import swidget.widgets.ButtonBox;
 import swidget.widgets.ClearPanel;
+import swidget.widgets.HeaderBox;
 import swidget.widgets.ImageButton;
 import swidget.widgets.Spacing;
 import swidget.widgets.layerpanel.LayerPanel;
@@ -63,10 +64,6 @@ public class SavePicture extends JPanel
 		this.owner = owner;
 		this.controller = controller;
 		this.startingFolder = startingFolder;
-
-		setLayout(new BorderLayout());
-		add(createOptionsPane(), BorderLayout.CENTER);
-		add(createControlPanel(), BorderLayout.SOUTH);
 		
 		KeyStroke key = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0);
 		this.getInputMap(JComponent.WHEN_FOCUSED).put(key, key.toString());
@@ -83,9 +80,11 @@ public class SavePicture extends JPanel
 
 	public void show() {
 		if (owner instanceof LayerPanel) {
+			makeGUI(true);
 			((LayerPanel) owner).pushLayer(new ModalLayer((LayerPanel) owner, this));
 			this.requestFocus();
 		} else {
+			makeGUI(false);
 			showDialog();
 		}
 	}
@@ -120,17 +119,26 @@ public class SavePicture extends JPanel
 		setVisible(true);
 	}
 
+	private void makeGUI(boolean inLayer) {
+		if (inLayer) {
+			setLayout(new BorderLayout());
+			add(createOptionsPane(), BorderLayout.CENTER);
+			add(new HeaderBox(cancelButton(), "Save as Image", saveButton().withStateDefault()), BorderLayout.NORTH);
+		} else {
+			setLayout(new BorderLayout());
+			add(createOptionsPane(), BorderLayout.CENTER);
+			ButtonBox box = new ButtonBox();
+			box.addLeft(cancelButton());
+			box.addRight(saveButton());
+			add(box, BorderLayout.SOUTH);
+		}
+	}
 
 
-	public JPanel createControlPanel()
-	{
 
-		ButtonBox buttonBox = new ButtonBox();
-
-
-		ImageButton ok = new ImageButton("Save", StockIcon.DOCUMENT_SAVE);
-		ImageButton cancel = new ImageButton("Cancel", StockIcon.CHOOSE_CANCEL);
-
+	
+	private ImageButton saveButton() {
+		ImageButton ok = new ImageButton("Save");
 		ok.addActionListener(e -> {
 			int selection = group.getToggledIndex();
 			Cursor oldCursor = getCursor();
@@ -140,19 +148,18 @@ public class SavePicture extends JPanel
 			if (selection == 2) savePDF();
 			setCursor(oldCursor);
 		});
+		return ok;
+	}
 
+	private ImageButton cancelButton() {
+		ImageButton cancel = new ImageButton("Cancel");
 		cancel.addActionListener(e -> {
 			onComplete.accept(Optional.empty());
 			hide();
 		});
-
-		buttonBox.addRight(cancel);
-		buttonBox.addRight(ok);
-
-		return buttonBox;
-
+		return cancel;
 	}
-
+	
 	public JPanel createDimensionsPane() {
 		
 		JPanel panel = new JPanel();

@@ -22,8 +22,8 @@ import swidget.widgets.HeaderBoxPanel;
 import swidget.widgets.ImageButton;
 import swidget.widgets.layerpanel.LayerPanel;
 import swidget.widgets.layerpanel.ModalLayer;
-import swidget.widgets.layerpanel.LayerDialogs;
-import swidget.widgets.layerpanel.LayerDialogs.MessageType;
+import swidget.widgets.layerpanel.LayerDialog;
+import swidget.widgets.layerpanel.LayerDialog.MessageType;
 
 public class SwidgetFilePanels {
 
@@ -202,7 +202,7 @@ public class SwidgetFilePanels {
 		if (filename.exists()) {
 			if (parent instanceof LayerPanel) {
 				
-				new LayerDialogs(
+				new LayerDialog(
 						title, 
 						body, 
 						MessageType.QUESTION)
@@ -212,7 +212,7 @@ public class SwidgetFilePanels {
 				
 			} else if (parent instanceof Window) {
 				
-				new LayerDialogs(
+				new LayerDialog(
 						title, 
 						body, 
 						MessageType.QUESTION)
