@@ -36,7 +36,7 @@ public class StreamExecutorPanel extends JPanel {
 		
 		
 		
-		ImageButton cancel = new ImageButton("Cancel", StockIcon.CHOOSE_CANCEL);
+		ImageButton cancel = new ImageButton("Cancel").withStateCritical();
 		cancel.addActionListener(e -> {
 			List<StreamExecutorView> reversed = new ArrayList<>(observerViews);
 			Collections.reverse(reversed);

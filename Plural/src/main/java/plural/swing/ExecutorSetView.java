@@ -41,7 +41,7 @@ public class ExecutorSetView extends JPanel
 	{
 		this.setLayout(new BorderLayout());
 
-		ImageButton cancel = new ImageButton("Cancel", StockIcon.CHOOSE_CANCEL).withAction(() -> {
+		ImageButton cancel = new ImageButton("Cancel").withStateCritical().withAction(() -> {
 			executors.requestAbortWorking();
 		});
 		
@@ -95,11 +95,11 @@ public class ExecutorSetView extends JPanel
 		executors.addListener(() -> {
 			javax.swing.SwingUtilities.invokeLater(() -> {
 
-				if (executors.isAborted()){
-					executors.finished();
+				if (executors.isAborted() && executors.isResultSet()){
+					executors.discard();
 				}
 				else if (executors.getCompleted()){
-					executors.finished();
+					executors.discard();
 				} else {
 					updateProgressBar();
 				}

@@ -28,6 +28,7 @@ public abstract class ExecutorSet<T> extends Eventful implements Iterable<Plural
 
 	private List<PluralExecutor>	executors;
 	private T				result;
+	private boolean			hasResult			= false;
 	private String			description;
 	private Thread			worker;
 	private boolean			isAbortRequested	= false;
@@ -73,6 +74,13 @@ public abstract class ExecutorSet<T> extends Eventful implements Iterable<Plural
 
 
 	/**
+	 * Returns true if the result has been set, false otherwise
+	 */
+	public synchronized boolean isResultSet() {
+		return hasResult;
+	}
+	
+	/**
 	 * Set the result of this TaskList's {@link #execute()} method
 	 * 
 	 * @param result
@@ -80,6 +88,7 @@ public abstract class ExecutorSet<T> extends Eventful implements Iterable<Plural
 	protected synchronized void setResult(T result)
 	{
 		this.result = result;
+		this.hasResult = true;
 		this.completed = !isAbortRequested;
 		updateListeners();
 	}
@@ -208,7 +217,7 @@ public abstract class ExecutorSet<T> extends Eventful implements Iterable<Plural
 	/**
 	 * removes all references to tasks, and removes references to all listeners
 	 */
-	public synchronized void finished()
+	public synchronized void discard()
 	{
 		for (PluralExecutor e : executors)
 		{
