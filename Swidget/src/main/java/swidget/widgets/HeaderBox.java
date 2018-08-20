@@ -24,9 +24,11 @@ import swidget.widgets.gradientpanel.PaintedPanel;
 
 public class HeaderBox extends PaintedPanel {
 
+	private Color base;
 	
 	public HeaderBox(Component left, String title, Component right) {
 		super(true);
+		base = getBackground();
 		JLabel label = new JLabel(title);
 		if (left != null || right != null) {
 			label.setBorder(new EmptyBorder(0, Spacing.huge, 0, Spacing.huge));
@@ -62,8 +64,8 @@ public class HeaderBox extends PaintedPanel {
 		if (right != null) inner.add(right);
 		
 		setBackgroundPaint(new LinearGradientPaint(0, 0, 0, this.getPreferredSize().height, new float[] {0, 1f}, new Color[] {
-			new Color(0x88ffffff, true),
-			new Color(0x00ffffff, true)
+			lighten(base, 0.05f),
+			base
 		}));
 		
 		Border b = Spacing.bMedium();
@@ -72,6 +74,13 @@ public class HeaderBox extends PaintedPanel {
 		setBorder(b);
 		
 	}
+	
+	private static Color lighten(Color src, float amount) {
+    	float[] hsb = new float[3];
+    	Color.RGBtoHSB(src.getRed(), src.getGreen(), src.getBlue(), hsb);
+    	hsb[2] = Math.min(1f, hsb[2] + amount);
+    	return new Color(Color.HSBtoRGB(hsb[0], hsb[1], hsb[2]));
+    }
 
 	
 	private class HeaderLayout implements LayoutManager2 {

@@ -188,6 +188,8 @@ public class ImageButton extends JButton
 	
 	private void init() {
 		
+		this.setOpaque(false);
+		
 		this.addActionListener(e -> {
 			if (onAction != null) {
 				onAction.run();
