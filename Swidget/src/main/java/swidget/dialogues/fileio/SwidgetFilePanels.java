@@ -206,8 +206,8 @@ public class SwidgetFilePanels {
 						title, 
 						body, 
 						MessageType.QUESTION)
-					.addRight(new ImageButton("Cancel").withAction(() -> onResult.accept(false)))
-					.addLeft(new ImageButton("Replace").withAction(() -> onResult.accept(true)))
+					.addLeft(new ImageButton("Cancel").withAction(() -> onResult.accept(false)))
+					.addRight(new ImageButton("Replace").withAction(() -> onResult.accept(true)))
 					.showIn((LayerPanel) parent);
 				
 			} else if (parent instanceof Window) {
@@ -216,8 +216,8 @@ public class SwidgetFilePanels {
 						title, 
 						body, 
 						MessageType.QUESTION)
-					.addRight(new ImageButton("Cancel").withAction(() -> onResult.accept(false)))
-					.addLeft(new ImageButton("Replace").withAction(() -> onResult.accept(true)))
+					.addLeft(new ImageButton("Cancel").withAction(() -> onResult.accept(false)))
+					.addRight(new ImageButton("Replace").withAction(() -> onResult.accept(true)))
 					.showInWindow((Window)parent);
 			} else {
 				

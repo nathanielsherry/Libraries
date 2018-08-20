@@ -180,7 +180,7 @@ public class ImageButton extends JButton
 	}
 	
 	public ImageButton withStateCritical() {
-		this.setBackground(new Color(0xffE83232, true));
+		this.setBackground(new Color(0xffF60A24, true));
 		this.setForeground(Color.WHITE);
 		return this;
 	}
