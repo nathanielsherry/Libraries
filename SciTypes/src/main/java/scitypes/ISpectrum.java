@@ -41,7 +41,7 @@ public class ISpectrum implements Spectrum
 	{
 		this.data = new float[size];
 		this.size = size;		
-		maxIndex = 0;
+		maxIndex = 0 - 1;
 	}
 	
 	/**
@@ -53,12 +53,9 @@ public class ISpectrum implements Spectrum
 	{
 		this.data = new float[size];
 		this.size = size;
-		maxIndex = 0;
+		maxIndex = 0 - 1;
 		
-		for (int i = 0; i < size; i++)
-		{
-			data[i] = initialize;
-		}
+		Arrays.fill(this.data, 0, size, initialize);
 		maxIndex = size - 1;
 	}
 	
@@ -80,14 +77,8 @@ public class ISpectrum implements Spectrum
     public ISpectrum(float[] fromArray, boolean copy)
     {
     	if(copy) {
-    	
-            this.data = new float[fromArray.length];
-            this.size = fromArray.length;
-
-            for (int i = 0; i < size; i++)
-            {
-                    data[i] = fromArray[i];
-            }
+    		this.data = Arrays.copyOf(fromArray, fromArray.length);
+    		this.size = fromArray.length;
             maxIndex = size - 1;
     	} else {
     		this.data = fromArray;
@@ -109,7 +100,7 @@ public class ISpectrum implements Spectrum
 
         for (int i = 0; i < size; i++)
         {
-                data[i] = (float)fromArray[i];
+            data[i] = (float)fromArray[i];
         }
         maxIndex = size - 1;
 	}
@@ -150,21 +141,36 @@ public class ISpectrum implements Spectrum
 	
 	/**
 	 * Copies the values from the given spectrum into this one. 
-	 * Values copied will be in the range of 0 .. min(size(), s.size())
+	 * Values copied will be in the range of 0 .. min(size(), s.size()) exclusive
 	 * @param s
 	 */
 	@Override
 	public void copy(ReadOnlySpectrum s)
 	{
-		int maxindex;
-		maxindex = Math.min(s.size(), size());
-		
-		for (int i = 0; i < maxindex; i++)
-		{
-			set(i, s.get(i));
-		}
+		copy(s.backingArrayCopy());
 	}
 
+	/**
+	 * Copies the values from the given spectrum into this one. 
+	 * Values copied will be in the range of 0 .. min(size(), s.size()) exclusive
+	 * @param s
+	 */
+	@Override
+	public void copy(Spectrum s)
+	{
+		copy(s.backingArray());
+	}
+	
+	/**
+	 * Copies the given array into the start of this Spectrum's data array 
+	 * up to min(this.size(), array.length) exclusive;
+	 * @param array the array to copy from
+	 */
+	private void copy(float[] array) {
+		int length = Math.min(this.data.length, array.length);
+		System.arraycopy(array, 0, this.data, 0, length);
+		maxIndex = Math.max(maxIndex, array.length-1);
+	}
 
 	/**
 	 * Adds a value to the Spectrum.  When a new spectrum is created 
@@ -419,11 +425,6 @@ public class ISpectrum implements Spectrum
 		}
 				
 		return sb.toString();
-		
-	}
-
-	public static void main(String[] args)
-	{
 		
 	}
 

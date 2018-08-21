@@ -7,11 +7,18 @@ public interface Spectrum extends ReadOnlySpectrum {
 
 	/**
 	 * Copies the values from the given spectrum into this one. 
-	 * Values copied will be in the range of 0 .. min(size(), s.size())
+	 * Values copied will be in the range of 0 .. min(size(), s.size()) exclusive
 	 * @param s
 	 */
 	void copy(ReadOnlySpectrum s);
 
+	/**
+	 * Copies the values from the given spectrum into this one. 
+	 * Values copied will be in the range of 0 .. min(size(), s.size()) exclusive
+	 * @param s
+	 */
+	void copy(Spectrum s);
+	
 	/**
 	 * Adds a value to the Spectrum.  When a new spectrum is created 
 	 * without being initialized with any values, it can have <tt>size</tt> 
