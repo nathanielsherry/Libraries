@@ -172,25 +172,6 @@ public class SparsedList<T> implements List<T> {
 		return backing.spliterator();
 	}
 
-	public static void main(String[] args) {
 
-		ArrayList<Integer> backer = new ArrayList<>();
-		SparsedList<Integer> list = new SparsedList<>(backer);
-		list.add(10, 10);
-		assert (list.get(10) == 10);
-		assert (list.get(9) == null);
-
-		list.set(20, 20);
-		assert (list.get(20) == 20);
-		assert (list.get(19) == null);
-
-		list.set(5, 5);
-		assert (list.get(5) == 5);
-		assert (list.get(10) == 10);
-		assert (list.get(19) == null);
-
-		System.out.println(list.getBackingList());
-
-	}
 
 }
