@@ -1,5 +1,7 @@
 package scitypes;
 
+import java.io.Serializable;
+
 /**
  * 
  *  This class provides a method of storing an xy coordinate using any datatype
@@ -10,7 +12,7 @@ package scitypes;
  */
 
 
-public class Coord<T> {
+public class Coord<T> implements Serializable {
 
 	public T x, y;
 	
