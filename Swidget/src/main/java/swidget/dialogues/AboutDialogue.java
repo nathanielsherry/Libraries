@@ -26,7 +26,6 @@ import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
 
-import commonenvironment.Apps;
 import swidget.icons.IconSize;
 import swidget.icons.StockIcon;
 import swidget.widgets.ButtonBox;
@@ -53,8 +52,8 @@ public class AboutDialogue extends JDialog
 		public String longVersion;
 		public String releaseDescription;
 		public String date;
-		public String linkref;
 		public String linktext;
+		public Runnable linkAction;
 	}
 
 	public AboutDialogue(Window owner, Contents contents)
@@ -142,7 +141,7 @@ public class AboutDialogue extends JDialog
 		infopanel.add(text, gc);
 		
 		
-		if (contents.linktext != null && contents.linkref != null) {
+		if (contents.linktext != null && contents.linkAction != null) {
 			JLabel weblabel = new JLabel("<html><u>" + contents.linktext + "</u></html>");
 			weblabel.addMouseListener(new MouseListener() {
 				
@@ -155,7 +154,7 @@ public class AboutDialogue extends JDialog
 				public void mouseEntered(MouseEvent e){}
 				
 				public void mouseClicked(MouseEvent e){
-					Apps.browser(contents.linkref);
+					contents.linkAction.run();
 				}
 			});
 			weblabel.setForeground(Color.blue);

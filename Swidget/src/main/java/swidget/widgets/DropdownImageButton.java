@@ -8,7 +8,6 @@ import java.awt.event.MouseListener;
 import javax.swing.JButton;
 import javax.swing.JPopupMenu;
 
-import commonenvironment.Env;
 import eventful.EventfulEnum;
 import eventful.swing.EventfulEnumPanel;
 import swidget.icons.IconSize;

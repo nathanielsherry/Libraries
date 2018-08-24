@@ -11,7 +11,7 @@
   
   <modules>
 <!--    <module>Chanje</module>    -->
-    <module>CommonEnvironment</module>
+<!--    <module>CommonEnvironment</module>   -->
     <module>Eventful</module>
     <module>Plural</module>
     <module>SciDraw</module>
