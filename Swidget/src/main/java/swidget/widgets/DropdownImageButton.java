@@ -132,19 +132,20 @@ public class DropdownImageButton extends EventfulEnumPanel<DropdownImageButton.A
 		String dropdownText = "▾";
 		String imageName = "";
 		
-		boolean isTextArrow = button.getFont().canDisplay(dropdownText.charAt(0)) && !(Env.isMac());
-		
-		if (! isTextArrow)
-		{
-			dropdownText = "";
-			imageName = "downarrow";
-		}
+//		boolean isTextArrow = button.getFont().canDisplay(dropdownText.charAt(0)) && !(Env.isMac());
+//		
+//		if (! isTextArrow)
+//		{
+//			dropdownText = "";
+//			imageName = "downarrow";
+//		}
 		
 		
 		
 		dropdown = new ImageButton(dropdownText.toString(), imageName)
 				.withTooltip("Show additional options")
-				.withLayout(isTextArrow ? Layout.TEXT : Layout.IMAGE)
+				//.withLayout(isTextArrow ? Layout.TEXT : Layout.IMAGE)
+				.withLayout(Layout.TEXT)
 				.withBordered(false)
 				.withBorder(Spacing.bMedium())
 				.withButtonSize(ButtonSize.COMPACT);

@@ -14,57 +14,67 @@ public class Env
 		WINDOWS,
 		MAC,
 		UNIX,
-		OTHER
+		OTHER;
+		
+		
+		public static boolean isWindows()
+		{
+
+			String os = System.getProperty("os.name").toLowerCase();
+			// windows
+			return (os.indexOf("win") >= 0);
+
+		}
+
+
+		public static boolean isMac()
+		{
+
+			String os = System.getProperty("os.name").toLowerCase();
+			// Mac
+			return (os.indexOf("mac") >= 0);
+
+		}
+
+
+		public static boolean isUnix()
+		{
+
+			String os = System.getProperty("os.name").toLowerCase();
+			// linux or unix
+			return (os.indexOf("nix") >= 0 || os.indexOf("nux") >= 0);
+
+		}
+
+		
 	}
 	
 
 	
 
 
-	public static boolean isWindows()
-	{
-
-		String os = System.getProperty("os.name").toLowerCase();
-		// windows
-		return (os.indexOf("win") >= 0);
-
-	}
-
-
-	public static boolean isMac()
-	{
-
-		String os = System.getProperty("os.name").toLowerCase();
-		// Mac
-		return (os.indexOf("mac") >= 0);
-
-	}
-
-
-	public static boolean isUnix()
-	{
-
-		String os = System.getProperty("os.name").toLowerCase();
-		// linux or unix
-		return (os.indexOf("nix") >= 0 || os.indexOf("nux") >= 0);
-
-	}
 
 	
 	public static Env.OS getOS()
 	{
-		if (isWindows()) return OS.WINDOWS;
-		if (isMac()) return OS.MAC;
-		if (isUnix()) return OS.UNIX;
+		if (OS.isWindows()) return OS.WINDOWS;
+		if (OS.isMac()) return OS.MAC;
+		if (OS.isUnix()) return OS.UNIX;
 		return OS.OTHER;
 	}
 	
-	public static long heapSize()
+	/**
+	 * Returns the maximum size of the heap in megabytes
+	 */
+	public static long maxHeap()
 	{
-		return (long)(heapSizeBytes() / 1024f / 1024f);
+		return (long)(maxHeapBytes() << 20);
 	}
 	
-	public static long heapSizeBytes()
+	/**
+	 * Returns the maximum size of the heap in bytes
+	 */
+	public static long maxHeapBytes()
 	{
 		return Runtime.getRuntime().maxMemory();
 	}
@@ -89,10 +99,6 @@ public class Env
 
 	}
 	
-	public static void main(String[] args) {
-		
-	}
-
 
 	public static File homeDirectory() {
 		return new File(System.getProperty("user.home"));
