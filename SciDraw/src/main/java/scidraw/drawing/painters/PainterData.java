@@ -5,6 +5,8 @@ import scidraw.drawing.Drawing;
 import scidraw.drawing.DrawingRequest;
 import scidraw.drawing.backends.Surface;
 import scitypes.Coord;
+import scitypes.ISpectrum;
+import scitypes.ReadOnlySpectrum;
 import scitypes.Spectrum;
 
 /**
@@ -23,6 +25,7 @@ public class PainterData
 	public DrawingRequest dr;
 	public Coord<Float> plotSize;
 	public Spectrum dataHeights;
+	public ReadOnlySpectrum originalHeights; //TODO: maybe dataHeights, decorationHeights?
 	
 	
 	public PainterData(Surface context, DrawingRequest dr, Coord<Float> plotSize, Spectrum dataHeights)
@@ -31,6 +34,7 @@ public class PainterData
 		this.dr = dr;
 		this.plotSize = plotSize;
 		this.dataHeights = dataHeights;
+		this.originalHeights = new ISpectrum(dataHeights);
 	}
 	
 	public double getChannelXValue(double channel)
