@@ -1,7 +1,6 @@
 package scidraw.drawing.map.palettes;
 
-import java.awt.Color;
-
+import scitypes.palette.PaletteColour;
 
 /**
  * A Palette is used to control the colour scheme used to fill in a Map.
@@ -25,7 +24,7 @@ public abstract class AbstractPalette
 	 *            the maximum intensity for this map
 	 * @return a Colour, or null
 	 */
-	public abstract Color getFillColour(double intensity, double maximum);
+	public abstract PaletteColour getFillColour(double intensity, double maximum);
 
 
 }

@@ -1,7 +1,7 @@
-package scidraw.drawing.common;
+package scitypes.palette;
 
-import java.awt.Color;
 import java.util.List;
+
 
 public enum Palette
 {
@@ -86,10 +86,6 @@ public enum Palette
 		;
 		public abstract int[] getPaletteData();
 
-		public List<Color> toSpectrum()
-		{
-			return Spectrums.getScale(this);
-		}
 		
 		public String toString()
 		{
@@ -102,101 +98,110 @@ public enum Palette
 		}
 		
 		private final static int[] thermal = { 
-			 18,  41,  77,   0,
-			 41,  89, 166,  77,
-			 89, 176,   8,  51, 
-			224, 186,   0,  59,
-			207,  92,   0,  31, 
-			163,   0,   0,  37
+				0xff12294d, 0,
+				0xff2959a6, 77,
+				0xff59b008, 51,
+				0xffe0ba00, 59,
+				0xffcf5c00, 31,
+				0xffa30000, 37
 		};
 		
 
 		private final static int[] monochrome = {
-			  0,   0,   0,   0,
-			255, 255, 255, 255
+				0xff000000, 0,
+				0xffffffff, 255
 		};
 		
 
 		private final static int[] inv_monochrome = {
-			255, 255, 255, 255,
-			  0,   0,   0,   0
+				0xffffffff, 255,
+				0xff000000, 0
 		};
 		
 		//nice
 		private final static int[] thoughtful = {
-			236, 208, 120,   0,
-			217,  91,  67,  85,
-			192,  41,  66,  85,
-			 84,  36,  55,  85
+				0xffecd078, 0,
+				0xffd95b43, 85,
+				0xffc02942, 85,
+				0xff542437, 85
 		};
 		
 		//nice
 		private final static int[] terra = {
-			  3,  22,  52,   0,
-			  3,  54,  73,  64,
-			  3, 101, 100,  64,
-			205, 179, 128,  64,
-			232, 221, 203,  63
+				0xff031634, 0,
+				0xff033649, 64,
+				0xff036564, 64,
+				0xffcdb380, 64,
+				0xffe8ddcb, 63
 		};
 		
 		//good on unsubtracted, okay on subtracted
 		private final static int[] olive = {
-			 48,   0,  24,   0,
-			 90,  61,  49,  64,
-			131, 123,  71,  64,
-			173, 184,  95,  64,
-			229, 237, 184,  63
+				0xff300018, 0,
+				0xff5a3d31, 64,
+				0xff837b47, 64,
+				0xffadb85f, 64,
+				0xffe5edb8, 63
 		};
 		
 		private final static int[] vintage = {
-			140,  35,  24,   0,
-			 94, 140, 106,  64,
-			136, 166,  94,  64,
-			191, 179,  90,  64,
-			242, 196,  90,  63
+				0xff8c2318, 0,
+				0xff5e8c6a, 64,
+				0xff88a65e, 64,
+				0xffbfb35a, 64,
+				0xfff2c45a, 63
 		};
 		
 		private final static int[] goldfish = {
-			105, 210, 231,   0,
-			167, 219, 216,  80,
-			
-			224, 228, 204,  64,
-			217, 214, 184,  24,
-			
-			243, 148,  73,  16,
-			250, 105,   0,  48,
-			255,  64,   0,  31
+				0xff69d2e7, 0,
+				0xffa7dbd8, 80,
+				0xffe0e4cc, 64,
+				0xffd9d6b8, 24,
+				0xfff39449, 16,
+				0xfffa6900, 48,
+				0xffff4000, 31
 		};
 		
 		// based off of "sugar is three"
 		private final static int[] sugar = {
-			 44, 139, 154,   0,
-			
-			106, 195, 174,  64,
-			217, 200, 167,  48,
-			249, 205, 173,  48,
-			
-			252, 157, 154,  48,
-			254,  67, 101,  32,
-			254,  38,  77,  15
+				0xff2c8b9a, 0,
+				0xff6ac3ae, 64,
+				0xffd9c8a7, 48,
+				0xfff9cdad, 48,
+				0xfffc9d9a, 48,
+				0xfffe4365, 32,
+				0xfffe264d, 15
 		};
 
 
 		private final static int[] brownsugar = {
-			 73,  10,  61,   0,
-			189,  21,  80,  64,
-			233, 127,   2,  64,
-			248, 202,   0,  64,
-			138, 155,  15,  63
+				0xff490a3d, 0,
+				0xffbd1550, 64,
+				0xffe97f02, 64,
+				0xfff8ca00, 64,
+				0xff8a9b0f, 63
 		};
 
 
 		private final static int[] blackbody = {
-			248,  38,   0,   0,
-			255, 177,  47,  64,
-			255, 231, 191,  64,
-			223, 230, 255,  64,
-			166, 186, 255,  63
+				0xfff82600, 0,
+				0xffffb12f, 64,
+				0xffffe7bf, 64,
+				0xffdfe6ff, 64,
+				0xffa6baff, 63
 		};
+		
+//		public static void main(String[] args) {
+//			
+//			int[] spectrum = blackbody;
+//			for (int i = 0; i+3 < spectrum.length; i+=4) {
+//				PaletteColour c = new PaletteColour(255, spectrum[i], spectrum[i+1], spectrum[i+2]);
+//				int steps = spectrum[i+3];
+//				System.out.println("0x" + Integer.toHexString(c.getARGB()) + ", " + steps + ",");
+//			}
+//			
+//			
+//		}
+//		
 	
 }

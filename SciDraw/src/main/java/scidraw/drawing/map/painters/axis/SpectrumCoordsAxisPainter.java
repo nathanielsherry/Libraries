@@ -263,7 +263,7 @@ public class SpectrumCoordsAxisPainter extends AbstractKeyCoordAxisPainter
 		
 		for (AbstractPalette r : colourRules)
 		{
-			c = r.getFillColour(intensity, maximum);
+			c = new Color(r.getFillColour(intensity, maximum).getARGB(), true);
 			if (c != null) return c;
 		}
 

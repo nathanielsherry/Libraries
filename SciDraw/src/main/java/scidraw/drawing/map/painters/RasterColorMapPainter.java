@@ -8,6 +8,7 @@ import java.util.stream.IntStream;
 import scidraw.drawing.backends.Buffer;
 import scidraw.drawing.map.palettes.SingleColourPalette;
 import scidraw.drawing.painters.PainterData;
+import scitypes.palette.PaletteColour;
 
 /**
  * 
@@ -19,17 +20,17 @@ import scidraw.drawing.painters.PainterData;
 public class RasterColorMapPainter extends MapPainter
 {
 	
-	private List<Color> 			pixels;
+	private List<PaletteColour> 	pixels;
 	protected Buffer 				buffer;
 
 
 	public RasterColorMapPainter()
 	{
-		super(new SingleColourPalette(new Color(0, 0, 0, 0)));
+		super(new SingleColourPalette(new PaletteColour(0, 0, 0, 0)));
 	}
 
 
-	public void setPixels(List<Color> pixels)
+	public void setPixels(List<PaletteColour> pixels)
 	{
 		this.pixels = pixels;
 	}
@@ -58,7 +59,7 @@ public class RasterColorMapPainter extends MapPainter
 	}
 
 
-	private Buffer drawAsRaster(PainterData p, final List<Color> data, float cellSize, final int maximumIndex)
+	private Buffer drawAsRaster(PainterData p, final List<PaletteColour> data, float cellSize, final int maximumIndex)
 	{
 
 		final Buffer b = p.context.getImageBuffer(p.dr.dataWidth, p.dr.dataHeight);
@@ -67,7 +68,7 @@ public class RasterColorMapPainter extends MapPainter
 		
 		IntStream.range(0, data.size()).parallel().forEach(ordinal -> {		
 			if (maximumIndex > ordinal) {
-				Color c = data.get(ordinal);
+				Color c = new Color(data.get(ordinal).getARGB(), true);
 				if (c == null) c = transparent;
 				b.setPixelValue(ordinal, c);
 			}
@@ -79,7 +80,7 @@ public class RasterColorMapPainter extends MapPainter
 	}
 
 
-	private void drawAsScalar(PainterData p, List<Color> data, float cellSize)
+	private void drawAsScalar(PainterData p, List<PaletteColour> data, float cellSize)
 	{
 
 		p.context.save();
@@ -95,7 +96,7 @@ public class RasterColorMapPainter extends MapPainter
 
 				int index = y * p.dr.dataWidth + x;
 				p.context.rectangle(x * cellSize, y * cellSize, cellSize + 1, cellSize + 1);
-				p.context.setSource(data.get(index));
+				p.context.setSource(new Color(data.get(index).getARGB(), true));
 				p.context.fill();
 
 				

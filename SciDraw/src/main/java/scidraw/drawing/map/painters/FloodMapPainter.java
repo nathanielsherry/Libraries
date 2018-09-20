@@ -5,6 +5,7 @@ import java.awt.Color;
 
 import scidraw.drawing.map.palettes.SingleColourPalette;
 import scidraw.drawing.painters.PainterData;
+import scitypes.palette.PaletteColour;
 
 
 /**
@@ -19,11 +20,11 @@ public class FloodMapPainter extends MapPainter
 
 	private Color c;
 	
-	public FloodMapPainter(Color c)
+	public FloodMapPainter(PaletteColour c)
 	{
 		super(new SingleColourPalette(c));
 		
-		this.c = c;
+		this.c = new Color(c.getARGB(), true);
 		
 	}
 

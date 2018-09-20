@@ -3,7 +3,6 @@ package scidraw.drawing.map.painters.axis;
 
 
 import java.awt.Color;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -11,6 +10,7 @@ import scidraw.drawing.painters.PainterData;
 import scitypes.Coord;
 import scitypes.Pair;
 import scitypes.SISize;
+import scitypes.palette.PaletteColour;
 
 
 public class LegendCoordsAxisPainter extends AbstractKeyCoordAxisPainter
@@ -20,7 +20,7 @@ public class LegendCoordsAxisPainter extends AbstractKeyCoordAxisPainter
 
 	public LegendCoordsAxisPainter(boolean drawCoords, Coord<Number> topLeftCoord, Coord<Number> topRightCoord,
 			Coord<Number> bottomLeftCoord, Coord<Number> bottomRightCoord, SISize coordinateUnits,
-			boolean drawSpectrum, int spectrumHeight, boolean realDimensionsProvided, String descriptor, List<Pair<Color, String>> entries)
+			boolean drawSpectrum, int spectrumHeight, boolean realDimensionsProvided, String descriptor, List<Pair<PaletteColour, String>> entries)
 	{
 		super(
 			drawCoords,
@@ -34,7 +34,7 @@ public class LegendCoordsAxisPainter extends AbstractKeyCoordAxisPainter
 			realDimensionsProvided,
 			descriptor);
 
-		this.entries = new ArrayList<>(entries);
+		this.entries = entries.stream().map(p -> new Pair<>(new Color(p.first.getARGB(), true), p.second)).collect(Collectors.toList());
 
 	}
 

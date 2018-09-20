@@ -1,17 +1,17 @@
 package scidraw.drawing.map.palettes;
 
 
-import java.awt.Color;
 import java.util.List;
 
-import scidraw.drawing.common.Spectrums;
+import scitypes.palette.PaletteColour;
+import scitypes.palette.Spectrums;
 
 
 
 public class ThermalScalePalette extends AbstractPalette
 {
 	
-	private List<Color> spectrum;
+	private List<PaletteColour> spectrum;
 	private boolean hasNegatives;
 
 	public ThermalScalePalette()
@@ -56,7 +56,7 @@ public class ThermalScalePalette extends AbstractPalette
 	}
 
 	@Override
-	public Color getFillColour(double intensity, double maximum)
+	public PaletteColour getFillColour(double intensity, double maximum)
 	{
 		
 		double percentage;

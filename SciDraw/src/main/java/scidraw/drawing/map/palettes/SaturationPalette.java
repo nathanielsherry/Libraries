@@ -1,14 +1,13 @@
 package scidraw.drawing.map.palettes;
 
-import java.awt.Color;
-
+import scitypes.palette.PaletteColour;
 
 public class SaturationPalette extends AbstractPalette
 {
 
-	private Color saturated, unsaturated;
+	private PaletteColour saturated, unsaturated;
 	
-	public SaturationPalette(Color saturated, Color unsaturated){
+	public SaturationPalette(PaletteColour saturated, PaletteColour unsaturated){
 		
 		this.saturated = saturated;
 		this.unsaturated = unsaturated;
@@ -16,7 +15,7 @@ public class SaturationPalette extends AbstractPalette
 	}
 	
 	@Override
-	public Color getFillColour(double intensity, double maximum)
+	public PaletteColour getFillColour(double intensity, double maximum)
 	{
 		if (intensity == maximum){
 			return saturated;

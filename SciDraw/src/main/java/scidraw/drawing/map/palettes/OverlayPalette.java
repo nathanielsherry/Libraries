@@ -1,34 +1,34 @@
 package scidraw.drawing.map.palettes;
 
 
-import java.awt.Color;
 import java.util.List;
 
-import scidraw.drawing.common.Spectrums;
+import scitypes.palette.PaletteColour;
+import scitypes.palette.Spectrums;
 
 
 public class OverlayPalette extends AbstractPalette
 {
 	
-	private List<Color> spectrum;
+	private List<PaletteColour> spectrum;
 
 	public OverlayPalette()
 	{
 		this.spectrum = Spectrums.MonochromeScale();
 	}
 	
-	public OverlayPalette(Color c)
+	public OverlayPalette(PaletteColour c)
 	{
 		this.spectrum = Spectrums.MonochromeScale(c);
 	}
 	
-	public OverlayPalette(int steps, Color c)
+	public OverlayPalette(int steps, PaletteColour c)
 	{
 		this.spectrum = Spectrums.MonochromeScale(steps, c);
 	}
 
 	@Override
-	public Color getFillColour(double intensity, double maximum)
+	public PaletteColour getFillColour(double intensity, double maximum)
 	{
 		double percentage = intensity / maximum;
 		int index = (int)(spectrum.size() * percentage);

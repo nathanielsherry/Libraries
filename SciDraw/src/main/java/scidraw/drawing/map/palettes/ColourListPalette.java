@@ -1,20 +1,21 @@
 package scidraw.drawing.map.palettes;
 
-import java.awt.Color;
 import java.util.List;
+
+import scitypes.palette.PaletteColour;
 
 public class ColourListPalette extends AbstractPalette {
 
-	private List<Color> spectrum;
+	private List<PaletteColour> spectrum;
 	private boolean hasNegatives;
 	
-	public ColourListPalette(List<Color> palette, boolean hasNegatives) {
+	public ColourListPalette(List<PaletteColour> palette, boolean hasNegatives) {
 		this.spectrum = palette;
 		this.hasNegatives = hasNegatives;
 	}
 	
 	@Override
-	public Color getFillColour(double intensity, double maximum) {
+	public PaletteColour getFillColour(double intensity, double maximum) {
 		
 		double percentage;
 		if (hasNegatives) {

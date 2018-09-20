@@ -1,23 +1,21 @@
 package scidraw.drawing.map.painters;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
+import scitypes.palette.PaletteColour;
+
 public class SelectionMaskPainter extends RasterColorMapPainter {
 
-	private Color c;
-	
-	public SelectionMaskPainter(Color c, List<Integer> points, int sizeX, int sizeY) {
+	public SelectionMaskPainter(PaletteColour c, List<Integer> points, int sizeX, int sizeY) {
 		super();
 		
-		c = new Color(c.getRed(), c.getGreen(), c.getBlue(), 96);
-		Color t = new Color(0, 0, 0, 0);
+		c = new PaletteColour(96, c.getRed(), c.getGreen(), c.getBlue());
+		PaletteColour transparent = new PaletteColour(0, 0, 0, 0);
 		
-		this.c = c;
-		List<Color> colors = new ArrayList<>();
+		List<PaletteColour> colors = new ArrayList<>();
 		for (int i = 0; i < (sizeX*sizeY); i++) {
-			colors.add(t);
+			colors.add(transparent);
 		}
 		for (Integer i : points) {
 			if (i >= sizeX*sizeY) continue;
