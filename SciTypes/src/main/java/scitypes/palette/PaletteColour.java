@@ -2,38 +2,38 @@ package scitypes.palette;
 
 public class PaletteColour {
 
-	private int value;
+	private int arbg;
 	
 	public PaletteColour() {
 		this(0);
 	}
 	
-	public PaletteColour(int value) {
-		this.value = value;
+	public PaletteColour(int arbg) {
+		this.arbg = arbg;
 	}
 	
 	public PaletteColour(int alpha, int red, int green, int blue) {
-		value = (alpha<<24) | (red<<16) | (green<<8) | (blue<<0);
+		arbg = (alpha<<24) | (red<<16) | (green<<8) | (blue<<0);
 	}
 	
 	public int getAlpha() {
-		return (value & 0xFF000000) >> 24;
+		return (arbg & 0xFF000000) >> 24;
 	}
 	
 	public int getRed() {
-		return (value & 0x00FF0000) >> 16;
+		return (arbg & 0x00FF0000) >> 16;
 	}
 	
 	public int getGreen() {
-		return (value & 0x0000FF00) >> 8;
+		return (arbg & 0x0000FF00) >> 8;
 	}
 	
 	public int getBlue() {
-		return (value & 0x000000FF) >> 0;
+		return (arbg & 0x000000FF) >> 0;
 	}
 	
 	public int getARGB() {
-		return value;
+		return arbg;
 	}
 	
 	public PaletteColour blend(PaletteColour other, double percentOther) {
@@ -49,7 +49,7 @@ public class PaletteColour {
 	}
 	
 	public String toString() {
-		return Integer.toHexString(value);
+		return Integer.toHexString(arbg);
 	}
 	
 }
