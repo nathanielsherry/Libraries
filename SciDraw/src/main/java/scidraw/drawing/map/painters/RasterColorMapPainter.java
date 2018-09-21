@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 import scidraw.drawing.backends.Buffer;
-import scidraw.drawing.map.palettes.SingleColourPalette;
 import scidraw.drawing.painters.PainterData;
-import scitypes.palette.PaletteColour;
+import scitypes.palette.base.PaletteColour;
+import scitypes.palette.palettes.SingleColourPalette;
 
 /**
  * 

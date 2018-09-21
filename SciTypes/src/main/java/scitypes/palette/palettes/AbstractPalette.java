@@ -1,6 +1,6 @@
-package scidraw.drawing.map.palettes;
+package scitypes.palette.palettes;
 
-import scitypes.palette.PaletteColour;
+import scitypes.palette.base.PaletteColour;
 
 /**
  * A Palette is used to control the colour scheme used to fill in a Map.

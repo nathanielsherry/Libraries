@@ -8,13 +8,13 @@ import java.util.List;
 import scidraw.drawing.DrawingRequest;
 import scidraw.drawing.ViewTransform;
 import scidraw.drawing.map.MapDrawing;
-import scidraw.drawing.map.palettes.AbstractPalette;
 import scidraw.drawing.painters.Painter;
 import scidraw.drawing.painters.PainterData;
 import scitypes.ISpectrum;
 import scitypes.ReadOnlySpectrum;
 import scitypes.Spectrum;
 import scitypes.SpectrumCalculations;
+import scitypes.palette.palettes.AbstractPalette;
 
 /**
  * 

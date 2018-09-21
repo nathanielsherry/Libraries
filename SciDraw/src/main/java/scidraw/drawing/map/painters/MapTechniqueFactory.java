@@ -3,9 +3,9 @@ package scidraw.drawing.map.painters;
 import java.util.ArrayList;
 import java.util.List;
 
-import scidraw.drawing.map.palettes.AbstractPalette;
-import scidraw.drawing.map.palettes.ThermalScalePalette;
 import scitypes.Spectrum;
+import scitypes.palette.palettes.AbstractPalette;
+import scitypes.palette.palettes.ThermalScalePalette;
 
 
 public class MapTechniqueFactory

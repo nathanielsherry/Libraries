@@ -1,4 +1,4 @@
-package scitypes.palette;
+package scitypes.palette.base;
 
 import java.util.List;
 

@@ -7,12 +7,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import scidraw.drawing.ViewTransform;
-import scidraw.drawing.map.palettes.AbstractPalette;
 import scidraw.drawing.painters.PainterData;
 import scitypes.Coord;
 import scitypes.Pair;
 import scitypes.SISize;
 import scitypes.SigDigits;
+import scitypes.palette.palettes.AbstractPalette;
 
 
 

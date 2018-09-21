@@ -3,9 +3,9 @@ package scidraw.drawing.map.painters;
 
 import java.awt.Color;
 
-import scidraw.drawing.map.palettes.SingleColourPalette;
 import scidraw.drawing.painters.PainterData;
-import scitypes.palette.PaletteColour;
+import scitypes.palette.base.PaletteColour;
+import scitypes.palette.palettes.SingleColourPalette;
 
 
 /**

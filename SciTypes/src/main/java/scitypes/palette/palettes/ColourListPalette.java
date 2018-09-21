@@ -1,8 +1,8 @@
-package scidraw.drawing.map.palettes;
+package scitypes.palette.palettes;
 
 import java.util.List;
 
-import scitypes.palette.PaletteColour;
+import scitypes.palette.base.PaletteColour;
 
 public class ColourListPalette extends AbstractPalette {
 

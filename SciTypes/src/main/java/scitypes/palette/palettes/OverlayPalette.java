@@ -1,10 +1,10 @@
-package scidraw.drawing.map.palettes;
+package scitypes.palette.palettes;
 
 
 import java.util.List;
 
-import scitypes.palette.PaletteColour;
-import scitypes.palette.Spectrums;
+import scitypes.palette.base.PaletteColour;
+import scitypes.palette.base.Spectrums;
 
 
 public class OverlayPalette extends AbstractPalette

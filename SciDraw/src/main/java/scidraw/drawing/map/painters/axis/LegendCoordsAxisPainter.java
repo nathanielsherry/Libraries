@@ -10,7 +10,7 @@ import scidraw.drawing.painters.PainterData;
 import scitypes.Coord;
 import scitypes.Pair;
 import scitypes.SISize;
-import scitypes.palette.PaletteColour;
+import scitypes.palette.base.PaletteColour;
 
 
 public class LegendCoordsAxisPainter extends AbstractKeyCoordAxisPainter

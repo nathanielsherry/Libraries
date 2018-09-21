@@ -2,8 +2,8 @@ package scidraw.drawing.map.painters;
 
 import java.util.List;
 
-import scidraw.drawing.map.palettes.AbstractPalette;
 import scitypes.Spectrum;
+import scitypes.palette.palettes.AbstractPalette;
 
 public abstract class SpectrumMapPainter extends MapPainter
 {

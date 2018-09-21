@@ -9,11 +9,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import scidraw.drawing.backends.Surface.LineJoin;
-import scidraw.drawing.map.palettes.AbstractPalette;
 import scidraw.drawing.painters.PainterData;
 import scitypes.GridPerspective;
 import scitypes.Range;
 import scitypes.Spectrum;
+import scitypes.palette.palettes.AbstractPalette;
 
 
 enum Threshold

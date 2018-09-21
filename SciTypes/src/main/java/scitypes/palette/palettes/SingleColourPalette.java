@@ -1,6 +1,6 @@
-package scidraw.drawing.map.palettes;
+package scitypes.palette.palettes;
 
-import scitypes.palette.PaletteColour;
+import scitypes.palette.base.PaletteColour;
 
 public class SingleColourPalette extends AbstractPalette
 {
