@@ -11,19 +11,17 @@ import scitypes.visualization.palette.palettes.ThermalScalePalette;
 public class MapTechniqueFactory
 {
 
-	public static SpectrumMapPainter getTechnique(List<AbstractPalette> colourRules, Spectrum data, boolean contour, int contourSteps)
+	public static SpectrumMapPainter getTechnique(List<AbstractPalette> colourRules, Spectrum data, int contourSteps)
 	{
-		System.out.println(contour);
-		if (contour) return new ContourMapPainter(colourRules, data, contourSteps); //ContourMapPainter(colourRules, data, contourSteps);
 		return new RasterSpectrumMapPainter(colourRules, data);
 	}
 	
-	public static SpectrumMapPainter getTechnique(AbstractPalette colourRule, Spectrum data, boolean contour, int contourSteps)
+	public static SpectrumMapPainter getTechnique(AbstractPalette colourRule, Spectrum data, int contourSteps)
 	{
 		List<AbstractPalette> colourRules = new ArrayList<AbstractPalette>();
 		colourRules.add(colourRule);
 		
-		return getTechnique(colourRules, data, contour, contourSteps);
+		return getTechnique(colourRules, data, contourSteps);
 	}
 	
 	public static SpectrumMapPainter getDefaultTechnique(Spectrum data)
