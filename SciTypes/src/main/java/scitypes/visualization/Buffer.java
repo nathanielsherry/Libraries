@@ -1,6 +1,6 @@
-package scidraw.drawing.backends;
+package scitypes.visualization;
 
-import java.awt.Color;
+import scitypes.visualization.palette.PaletteColour;
 
 
 
@@ -19,9 +19,9 @@ public interface Buffer extends Surface
 	Object getImageSource();
 
 
-	void setPixelValue(int x, int y, Color c);
+	void setPixelValue(int x, int y, PaletteColour c);
 
 
-	void setPixelValue(int offset, Color c);
+	void setPixelValue(int offset, PaletteColour c);
 
 }

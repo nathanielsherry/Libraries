@@ -3,11 +3,11 @@ package scidraw.drawing.plot.painters;
 
 
 import scidraw.drawing.DrawingRequest;
-import scidraw.drawing.backends.Surface;
 import scidraw.drawing.painters.PainterData;
 import scitypes.Coord;
 import scitypes.ReadOnlySpectrum;
 import scitypes.Spectrum;
+import scitypes.visualization.Surface;
 
 
 public abstract class SpectrumPainter extends PlotPainter

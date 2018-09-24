@@ -1,6 +1,6 @@
 package scidraw.drawing.painters;
 
-import scidraw.drawing.backends.Surface.CompositeModes;
+import scitypes.visualization.Surface.CompositeModes;
 
 
 

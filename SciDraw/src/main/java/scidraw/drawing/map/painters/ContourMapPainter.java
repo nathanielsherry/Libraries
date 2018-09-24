@@ -1,19 +1,19 @@
 package scidraw.drawing.map.painters;
 
 
-import java.awt.Color;
 import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.geom.Area;
 import java.util.ArrayList;
 import java.util.List;
 
-import scidraw.drawing.backends.Surface.LineJoin;
 import scidraw.drawing.painters.PainterData;
 import scitypes.GridPerspective;
 import scitypes.Range;
 import scitypes.Spectrum;
-import scitypes.palette.palettes.AbstractPalette;
+import scitypes.visualization.Surface.LineJoin;
+import scitypes.visualization.palette.PaletteColour;
+import scitypes.visualization.palette.palettes.AbstractPalette;
 
 
 enum Threshold
@@ -131,14 +131,14 @@ public class ContourMapPainter extends SpectrumMapPainter
 		for (int i = 0; i < cache.size(); i++)
 		{
 					
-			Color colour = getColourFromRules(i, cache.size(), p.dr.viewTransform);
+			PaletteColour colour = getColourFromRules(i, cache.size(), p.dr.viewTransform);
 			
 			p.context.addShape(cache.get(i));
 			
 			p.context.setSource(colour);
 			if (outline) {
 				p.context.fillPreserve();
-				p.context.setSource(Color.black);
+				p.context.setSource(new PaletteColour(0xff000000));
 				p.context.stroke();
 				
 			} else {

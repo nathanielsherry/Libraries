@@ -1,7 +1,11 @@
-package scidraw.drawing.backends;
+package scidraw.backend.awt;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+
+import scitypes.visualization.SaveableSurface;
+import scitypes.visualization.Surface;
+import scitypes.visualization.SurfaceType;
 
 /**
  * This factory contains the logic used to create a Surface from the preferred implementation
@@ -12,7 +16,7 @@ import java.awt.image.BufferedImage;
  *
  */
 
-public class DrawingSurfaceFactory
+public class AwtDrawingSurfaceFactory
 {
 
 	/**
@@ -27,7 +31,7 @@ public class DrawingSurfaceFactory
 	public static Surface createScreenSurface(Object backendSource)
 	{
 		if (backendSource instanceof Graphics) {
-			return scidraw.drawing.backends.graphics2d.Graphics2DDrawingSurfaceFactory.createScreenSurface(backendSource);
+			return scidraw.backend.awt.Graphics2DDrawingSurfaceFactory.createScreenSurface(backendSource);
 		}
 
 		return null;
@@ -49,12 +53,12 @@ public class DrawingSurfaceFactory
 	 */
 	public static SaveableSurface createSaveableSurface(SurfaceType type, int width, int height)
 	{
-		return scidraw.drawing.backends.graphics2d.Graphics2DDrawingSurfaceFactory.createSaveableSurface(type, width, height);
+		return scidraw.backend.awt.Graphics2DDrawingSurfaceFactory.createSaveableSurface(type, width, height);
 	}
 	
 	public static SaveableSurface createSaveableSurfaceFromG2DBufferedImage(BufferedImage image)
 	{
-		return scidraw.drawing.backends.graphics2d.Graphics2DDrawingSurfaceFactory.createSaveableSurfaceFromG2DBufferedImage(image);
+		return scidraw.backend.awt.Graphics2DDrawingSurfaceFactory.createSaveableSurfaceFromG2DBufferedImage(image);
 	}
 	
 	

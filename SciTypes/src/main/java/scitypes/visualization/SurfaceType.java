@@ -1,4 +1,4 @@
-package scidraw.drawing.backends;
+package scitypes.visualization;
 
 /**
  * 

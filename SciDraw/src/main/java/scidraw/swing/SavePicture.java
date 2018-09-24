@@ -28,8 +28,8 @@ import javax.swing.JSpinner;
 import javax.swing.KeyStroke;
 import javax.swing.SpinnerNumberModel;
 
-import scidraw.drawing.backends.Surface;
 import scitypes.log.SciLog;
+import scitypes.visualization.Surface;
 import swidget.Swidget;
 import swidget.dialogues.fileio.SimpleFileExtension;
 import swidget.dialogues.fileio.SwidgetFilePanels;

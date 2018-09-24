@@ -1,11 +1,6 @@
-package scidraw.drawing.backends;
+package scitypes.visualization;
 
-
-
-import java.awt.Color;
-import java.awt.Shape;
-
-
+import scitypes.visualization.palette.PaletteColour;
 
 /**
  * A Surface is something which can be drawn to. This includes things such as raster images, SVG documents, sections of
@@ -58,8 +53,11 @@ public interface Surface
 	 */
 	void moveTo(float x, float y);
 
+	
+	public void arcTo(float x, float y, float w, float h, float start, float extent);
+	
 
-	void addShape(Shape s);
+	void addShape(SurfaceDrawing sd);
 	
 	
 	/**
@@ -162,7 +160,7 @@ public interface Surface
 	 * @param c
 	 *            the Colour object to retrieve the colour from
 	 */
-	void setSource(Color c);
+	void setSource(PaletteColour c);
 
 
 	/**
@@ -181,7 +179,7 @@ public interface Surface
 	 * @param colour2
 	 *            the second colour
 	 */
-	void setSourceGradient(float x1, float y1, Color colour1, float x2, float y2, Color colour2);
+	void setSourceGradient(float x1, float y1, PaletteColour colour1, float x2, float y2, PaletteColour colour2);
 
 
 	/**

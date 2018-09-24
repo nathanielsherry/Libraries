@@ -1,7 +1,6 @@
 package scidraw.drawing.map.painters;
 
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +13,8 @@ import scitypes.ISpectrum;
 import scitypes.ReadOnlySpectrum;
 import scitypes.Spectrum;
 import scitypes.SpectrumCalculations;
-import scitypes.palette.palettes.AbstractPalette;
+import scitypes.visualization.palette.PaletteColour;
+import scitypes.visualization.palette.palettes.AbstractPalette;
 
 /**
  * 
@@ -52,10 +52,10 @@ public abstract class MapPainter extends Painter
 		return 1;
 	}
 	
-	public Color getColourFromRules(double intensity, double maximum, ViewTransform transform)
+	public PaletteColour getColourFromRules(double intensity, double maximum, ViewTransform transform)
 	{
 
-		Color c;
+		PaletteColour c;
 		
 		if (transform == ViewTransform.LOG) {
 			//intensity will already have been log'd, we just have to log the max
@@ -63,11 +63,11 @@ public abstract class MapPainter extends Painter
 		}
 		
 		for (AbstractPalette r : colourRules) {
-			c = new Color(r.getFillColour(intensity, maximum).getARGB(), true);
+			c = r.getFillColour(intensity, maximum);
 			if (c != null) return c;
 		}
 
-		return new Color(0.0f, 0.0f, 0.0f, 0.0f);
+		return new PaletteColour(0x00000000);
 
 	}
 	

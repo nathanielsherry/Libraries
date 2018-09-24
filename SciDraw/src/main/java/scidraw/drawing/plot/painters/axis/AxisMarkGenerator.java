@@ -3,9 +3,9 @@ package scidraw.drawing.plot.painters.axis;
 import java.util.ArrayList;
 import java.util.List;
 
-import scidraw.drawing.backends.Surface;
 import scitypes.Pair;
 import scitypes.SigDigits;
+import scitypes.visualization.Surface;
 
 
 public class AxisMarkGenerator

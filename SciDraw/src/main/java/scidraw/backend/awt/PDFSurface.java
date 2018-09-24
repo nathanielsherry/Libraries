@@ -1,4 +1,4 @@
-package scidraw.drawing.backends.graphics2d;
+package scidraw.backend.awt;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

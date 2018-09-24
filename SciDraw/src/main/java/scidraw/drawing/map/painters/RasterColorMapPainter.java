@@ -1,14 +1,13 @@
 package scidraw.drawing.map.painters;
 
 
-import java.awt.Color;
 import java.util.List;
 import java.util.stream.IntStream;
 
-import scidraw.drawing.backends.Buffer;
 import scidraw.drawing.painters.PainterData;
-import scitypes.palette.base.PaletteColour;
-import scitypes.palette.palettes.SingleColourPalette;
+import scitypes.visualization.Buffer;
+import scitypes.visualization.palette.PaletteColour;
+import scitypes.visualization.palette.palettes.SingleColourPalette;
 
 /**
  * 
@@ -64,11 +63,11 @@ public class RasterColorMapPainter extends MapPainter
 
 		final Buffer b = p.context.getImageBuffer(p.dr.dataWidth, p.dr.dataHeight);
 
-		final Color transparent = new Color(0, 0 ,0, 0);
+		final PaletteColour transparent = new PaletteColour(0x00000000);
 		
 		IntStream.range(0, data.size()).parallel().forEach(ordinal -> {		
 			if (maximumIndex > ordinal) {
-				Color c = new Color(data.get(ordinal).getARGB(), true);
+				PaletteColour c = data.get(ordinal);
 				if (c == null) c = transparent;
 				b.setPixelValue(ordinal, c);
 			}
@@ -96,7 +95,7 @@ public class RasterColorMapPainter extends MapPainter
 
 				int index = y * p.dr.dataWidth + x;
 				p.context.rectangle(x * cellSize, y * cellSize, cellSize + 1, cellSize + 1);
-				p.context.setSource(new Color(data.get(index).getARGB(), true));
+				p.context.setSource(data.get(index));
 				p.context.fill();
 
 				

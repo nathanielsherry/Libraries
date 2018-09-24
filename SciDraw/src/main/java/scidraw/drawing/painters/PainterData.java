@@ -3,11 +3,11 @@ package scidraw.drawing.painters;
 
 import scidraw.drawing.Drawing;
 import scidraw.drawing.DrawingRequest;
-import scidraw.drawing.backends.Surface;
 import scitypes.Coord;
 import scitypes.ISpectrum;
 import scitypes.ReadOnlySpectrum;
 import scitypes.Spectrum;
+import scitypes.visualization.Surface;
 
 /**
  * 

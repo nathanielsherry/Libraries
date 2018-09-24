@@ -3,7 +3,7 @@ package scidraw.drawing.map.painters;
 import java.util.ArrayList;
 import java.util.List;
 
-import scitypes.palette.base.PaletteColour;
+import scitypes.visualization.palette.PaletteColour;
 
 public class SelectionMaskPainter extends RasterColorMapPainter {
 

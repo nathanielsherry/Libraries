@@ -1,19 +1,18 @@
 package scidraw.drawing.plot.painters.plot;
 
 
-import java.awt.Color;
-
 import scidraw.drawing.painters.PainterData;
 import scidraw.drawing.plot.painters.SpectrumPainter;
 import scitypes.ReadOnlySpectrum;
+import scitypes.visualization.palette.PaletteColour;
 
 public class LinePainter extends SpectrumPainter
 {
 
-	protected Color colour;
+	protected PaletteColour colour;
 	
 	
-	public LinePainter(ReadOnlySpectrum data, Color colour)
+	public LinePainter(ReadOnlySpectrum data, PaletteColour colour)
 	{
 		super(data);
 		this.colour = colour;
@@ -22,7 +21,7 @@ public class LinePainter extends SpectrumPainter
 	public LinePainter(ReadOnlySpectrum data)
 	{
 		super(data);
-		this.colour = new Color(0, 0, 0);
+		this.colour = new PaletteColour(0xff000000);
 	}
 	
 	@Override

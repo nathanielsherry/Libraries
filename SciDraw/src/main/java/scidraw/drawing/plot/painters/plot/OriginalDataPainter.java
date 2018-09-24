@@ -1,10 +1,9 @@
 package scidraw.drawing.plot.painters.plot;
 
 
-import java.awt.Color;
-
 import scidraw.drawing.painters.PainterData;
 import scitypes.ReadOnlySpectrum;
+import scitypes.visualization.palette.PaletteColour;
 
 public class OriginalDataPainter extends LinePainter
 {
@@ -19,12 +18,12 @@ public class OriginalDataPainter extends LinePainter
 	}
 
 
-	private static Color getColour(boolean isMonochrome)
+	private static PaletteColour getColour(boolean isMonochrome)
 	{
 		if (! isMonochrome) {
-			return new Color(0x60D32F2F, true);
+			return new PaletteColour(0x60D32F2F);
 		} else {
-			return new Color(0x7f000000, true);
+			return new PaletteColour(0x7f000000);
 		}
 	}
 		

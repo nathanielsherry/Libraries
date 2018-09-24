@@ -1,4 +1,4 @@
-package scidraw.drawing.backends.graphics2d.composite;
+package scidraw.backend.awt.composite;
 
 import java.awt.Color;
 import java.awt.Composite;

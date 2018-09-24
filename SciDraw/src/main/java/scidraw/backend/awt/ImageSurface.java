@@ -1,4 +1,4 @@
-package scidraw.drawing.backends.graphics2d;
+package scidraw.backend.awt;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -6,8 +6,8 @@ import java.io.OutputStream;
 
 import javax.imageio.ImageIO;
 
-import scidraw.drawing.backends.SaveableSurface;
-import scidraw.drawing.backends.Surface;
+import scitypes.visualization.SaveableSurface;
+import scitypes.visualization.Surface;
 
 
 

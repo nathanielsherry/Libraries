@@ -1,4 +1,4 @@
-package scidraw.drawing.backends.graphics2d;
+package scidraw.backend.awt;
 
 
 import java.awt.AlphaComposite;
@@ -11,15 +11,18 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.font.TextLayout;
+import java.awt.geom.Arc2D;
 import java.awt.geom.GeneralPath;
 import java.awt.image.BufferedImage;
 import java.util.Stack;
 import java.util.logging.Level;
 
-import scidraw.drawing.backends.Buffer;
-import scidraw.drawing.backends.Surface;
-import scidraw.drawing.backends.graphics2d.composite.BlendComposite;
+import scidraw.backend.awt.composite.BlendComposite;
 import scitypes.log.SciLog;
+import scitypes.visualization.Buffer;
+import scitypes.visualization.Surface;
+import scitypes.visualization.SurfaceDrawing;
+import scitypes.visualization.palette.PaletteColour;
 
 /**
  * @author Nathaniel Sherry, 2009
@@ -107,10 +110,17 @@ abstract class AbstractGraphicsSurface implements Surface
 		path.moveTo(x, y);
 	}
 	
+	@Override
+	public void arcTo(float x, float y, float w, float h, float start, float extent) {
+		Arc2D.Float arc = new Arc2D.Float(x, y, w, h, start, extent, Arc2D.OPEN);
+		path.append(arc, true);
+	}
 	
-	public void addShape(Shape s)
+	
+	@Override
+	public void addShape(SurfaceDrawing s)
 	{
-		path.append(s, false);
+		s.apply(this);
 	}
 
 	public void rectangle(float x, float y, float width, float height)
@@ -171,9 +181,9 @@ abstract class AbstractGraphicsSurface implements Surface
 	}
 
 
-	public void setSource(Color c)
+	public void setSource(PaletteColour c)
 	{
-		graphics.setColor(c);
+		graphics.setColor(new Color(c.getARGB(), true));
 
 	}
 
@@ -191,9 +201,9 @@ abstract class AbstractGraphicsSurface implements Surface
 	}
 
 
-	public void setSourceGradient(float x1, float y1, Color colour1, float x2, float y2, Color colour2)
+	public void setSourceGradient(float x1, float y1, PaletteColour colour1, float x2, float y2, PaletteColour colour2)
 	{
-		GradientPaint gradient = new GradientPaint(x1, y1, colour1, x2,	y2, colour2);
+		GradientPaint gradient = new GradientPaint(x1, y1, new Color(colour1.getARGB(), true), x2,	y2, new Color(colour2.getARGB(), true));
 
 		graphics.setPaint(gradient);
 	}

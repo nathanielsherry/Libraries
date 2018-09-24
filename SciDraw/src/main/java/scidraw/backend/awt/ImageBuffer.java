@@ -1,11 +1,11 @@
-package scidraw.drawing.backends.graphics2d;
+package scidraw.backend.awt;
 
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
-import scidraw.drawing.backends.Buffer;
+import scitypes.visualization.Buffer;
+import scitypes.visualization.palette.PaletteColour;
 
 public class ImageBuffer extends ScreenSurface implements Buffer
 {
@@ -46,7 +46,7 @@ public class ImageBuffer extends ScreenSurface implements Buffer
 		dirty = false;
 	}
 
-	public void setPixelValue(int x, int y, Color c)
+	public void setPixelValue(int x, int y, PaletteColour c)
 	{
 		dirty = true;
 		int offset = (y * image.getWidth() + x);
@@ -54,7 +54,7 @@ public class ImageBuffer extends ScreenSurface implements Buffer
 	}
 
 
-	public void setPixelValue(int offset, Color c)
+	public void setPixelValue(int offset, PaletteColour c)
 	{
 
 		dirty = true;

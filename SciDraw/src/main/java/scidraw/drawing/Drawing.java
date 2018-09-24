@@ -1,7 +1,7 @@
 package scidraw.drawing;
 
 
-import scidraw.drawing.backends.Surface;
+import scitypes.visualization.Surface;
 
 /**
  * 

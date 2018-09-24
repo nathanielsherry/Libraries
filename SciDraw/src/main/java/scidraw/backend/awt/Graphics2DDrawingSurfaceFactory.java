@@ -1,4 +1,4 @@
-package scidraw.drawing.backends.graphics2d;
+package scidraw.backend.awt;
 
 
 import java.awt.Dimension;
@@ -11,9 +11,9 @@ import org.apache.batik.svggen.SVGGraphics2D;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 
-import scidraw.drawing.backends.SaveableSurface;
-import scidraw.drawing.backends.Surface;
-import scidraw.drawing.backends.SurfaceType;
+import scitypes.visualization.SaveableSurface;
+import scitypes.visualization.Surface;
+import scitypes.visualization.SurfaceType;
 
 /**
  * @author Nathaniel Sherry, 2009

@@ -2,7 +2,6 @@ package scidraw.drawing.map.painters.axis;
 
 
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +11,8 @@ import scitypes.Coord;
 import scitypes.Pair;
 import scitypes.SISize;
 import scitypes.SigDigits;
-import scitypes.palette.palettes.AbstractPalette;
+import scitypes.visualization.palette.PaletteColour;
+import scitypes.visualization.palette.palettes.AbstractPalette;
 
 
 
@@ -251,10 +251,10 @@ public class SpectrumCoordsAxisPainter extends AbstractKeyCoordAxisPainter
 	}
 
 
-	public Color getColourFromRules(float intensity, float maximum, ViewTransform transform)
+	public PaletteColour getColourFromRules(float intensity, float maximum, ViewTransform transform)
 	{
 
-		Color c;
+		PaletteColour c;
 
 		if (transform == ViewTransform.LOG) {
 			intensity = (float)Math.log1p(intensity);
@@ -263,11 +263,11 @@ public class SpectrumCoordsAxisPainter extends AbstractKeyCoordAxisPainter
 		
 		for (AbstractPalette r : colourRules)
 		{
-			c = new Color(r.getFillColour(intensity, maximum).getARGB(), true);
+			c = r.getFillColour(intensity, maximum);
 			if (c != null) return c;
 		}
 
-		return new Color(0.0f, 0.0f, 0.0f, 0.0f);
+		return new PaletteColour(0x00000000);
 
 	}
 

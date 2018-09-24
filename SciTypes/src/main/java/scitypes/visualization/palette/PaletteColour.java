@@ -1,4 +1,4 @@
-package scitypes.palette.base;
+package scitypes.visualization.palette;
 
 public class PaletteColour {
 

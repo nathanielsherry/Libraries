@@ -1,19 +1,18 @@
 package scidraw.drawing.plot.painters.plot;
 
 
-import java.awt.Color;
-
 import scidraw.drawing.painters.PainterData;
 import scidraw.drawing.plot.painters.SpectrumPainter;
 import scitypes.ReadOnlySpectrum;
+import scitypes.visualization.palette.PaletteColour;
 
 
 public class AreaPainter extends SpectrumPainter
 {
 
-	private Color topColour, bottomColour, strokeColour;
+	private PaletteColour topColour, bottomColour, strokeColour;
 
-	public AreaPainter(ReadOnlySpectrum data, Color top, Color bottom, Color stroke)
+	public AreaPainter(ReadOnlySpectrum data, PaletteColour top, PaletteColour bottom, PaletteColour stroke)
 	{
 		super(data);
 		topColour = top;
@@ -25,9 +24,9 @@ public class AreaPainter extends SpectrumPainter
 	public AreaPainter(ReadOnlySpectrum data)
 	{
 		super(data);
-		topColour = new Color(0x7f7f7f);
-		bottomColour = new Color(0x606060);
-		strokeColour = new Color(0x202020);
+		topColour = new PaletteColour(0xff7f7f7f);
+		bottomColour = new PaletteColour(0xff606060);
+		strokeColour = new PaletteColour(0xff202020);
 	}
 
 	@Override

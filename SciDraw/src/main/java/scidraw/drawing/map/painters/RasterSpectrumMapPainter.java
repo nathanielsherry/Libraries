@@ -1,14 +1,14 @@
 package scidraw.drawing.map.painters;
 
 
-import java.awt.Color;
 import java.util.List;
 import java.util.stream.IntStream;
 
-import scidraw.drawing.backends.Buffer;
 import scidraw.drawing.painters.PainterData;
 import scitypes.Spectrum;
-import scitypes.palette.palettes.AbstractPalette;
+import scitypes.visualization.Buffer;
+import scitypes.visualization.palette.PaletteColour;
+import scitypes.visualization.palette.palettes.AbstractPalette;
 
 /**
  * 
@@ -89,7 +89,7 @@ public class RasterSpectrumMapPainter extends SpectrumMapPainter
 	private void drawAsScalar(PainterData p, Spectrum data, float cellSize, final float maxIntensity)
 	{
 		float intensity;
-		Color c;
+		PaletteColour c;
 		int index;
 
 		p.context.save();

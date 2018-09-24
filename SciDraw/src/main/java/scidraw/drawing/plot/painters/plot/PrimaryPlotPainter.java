@@ -1,9 +1,8 @@
 package scidraw.drawing.plot.painters.plot;
 
 
-import java.awt.Color;
-
 import scitypes.ReadOnlySpectrum;
+import scitypes.visualization.palette.PaletteColour;
 
 
 
@@ -20,22 +19,22 @@ public class PrimaryPlotPainter extends AreaPainter
 		super(data, getTopColor(false), getBottomColor(false), getStrokeColor(false));
 	}
 	
-	private static Color getTopColor(boolean isMonochrome)
+	private static PaletteColour getTopColor(boolean isMonochrome)
 	{
-		if (isMonochrome) return new Color(0x606060);
-		return new Color(0x388E3C); //material green 700
+		if (isMonochrome) return new PaletteColour(0xff606060);
+		return new PaletteColour(0xff388E3C); //material green 700
 	}
 	
-	private static Color getBottomColor(boolean isMonochrome)
+	private static PaletteColour getBottomColor(boolean isMonochrome)
 	{
-		if (isMonochrome) return new Color(0x707070);
-		return new Color(0x43A047); //material green 600
+		if (isMonochrome) return new PaletteColour(0xff707070);
+		return new PaletteColour(0xff43A047); //material green 600
 	}
 	
-	private static Color getStrokeColor(boolean isMonochrome)
+	private static PaletteColour getStrokeColor(boolean isMonochrome)
 	{
-		if (isMonochrome) return new Color(0x202020);
-		return new Color(0x1B5E20); //material green 900
+		if (isMonochrome) return new PaletteColour(0xff202020);
+		return new PaletteColour(0xff1B5E20); //material green 900
 	}
 	
 

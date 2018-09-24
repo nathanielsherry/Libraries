@@ -10,10 +10,10 @@ import java.io.OutputStream;
 
 import javax.swing.JPanel;
 
-import scidraw.drawing.backends.DrawingSurfaceFactory;
-import scidraw.drawing.backends.SaveableSurface;
-import scidraw.drawing.backends.Surface;
-import scidraw.drawing.backends.SurfaceType;
+import scidraw.backend.awt.AwtDrawingSurfaceFactory;
+import scitypes.visualization.SaveableSurface;
+import scitypes.visualization.Surface;
+import scitypes.visualization.SurfaceType;
 
 
 /**
@@ -81,7 +81,7 @@ public abstract class GraphicsPanel extends JPanel
 	
 	private void draw(Object drawContext, Dimension size)
 	{
-		drawGraphics(DrawingSurfaceFactory.createScreenSurface(drawContext), false, size);
+		drawGraphics(AwtDrawingSurfaceFactory.createScreenSurface(drawContext), false, size);
 	}
 
 
@@ -109,7 +109,7 @@ public abstract class GraphicsPanel extends JPanel
 		boolean vector = false;
 		if (type == SurfaceType.PDF || type == SurfaceType.VECTOR) vector = true;
 		
-		SaveableSurface b = DrawingSurfaceFactory.createSaveableSurface(type, size.width, size.height);
+		SaveableSurface b = AwtDrawingSurfaceFactory.createSaveableSurface(type, size.width, size.height);
 		drawGraphics(b, vector, size);
 		b.write(out);
 	}

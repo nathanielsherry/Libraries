@@ -1,4 +1,4 @@
-package scidraw.drawing.backends.graphics2d;
+package scidraw.backend.awt;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -6,8 +6,8 @@ import java.io.OutputStreamWriter;
 
 import org.apache.batik.svggen.SVGGraphics2D;
 
-import scidraw.drawing.backends.SaveableSurface;
-import scidraw.drawing.backends.Surface;
+import scitypes.visualization.SaveableSurface;
+import scitypes.visualization.Surface;
 
 class SVGSurface extends AbstractGraphicsSurface implements SaveableSurface 
 {

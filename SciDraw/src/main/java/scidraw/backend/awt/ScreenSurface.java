@@ -1,8 +1,8 @@
-package scidraw.drawing.backends.graphics2d;
+package scidraw.backend.awt;
 
 import java.awt.Graphics2D;
 
-import scidraw.drawing.backends.Surface;
+import scitypes.visualization.Surface;
 
 
 class ScreenSurface extends AbstractGraphicsSurface

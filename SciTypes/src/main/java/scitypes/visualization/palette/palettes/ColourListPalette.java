@@ -1,8 +1,8 @@
-package scitypes.palette.palettes;
+package scitypes.visualization.palette.palettes;
 
 import java.util.List;
 
-import scitypes.palette.base.PaletteColour;
+import scitypes.visualization.palette.PaletteColour;
 
 public class ColourListPalette extends AbstractPalette {
 

@@ -2,7 +2,6 @@ package scidraw.drawing.map.painters.axis;
 
 
 
-import java.awt.Color;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -10,13 +9,13 @@ import scidraw.drawing.painters.PainterData;
 import scitypes.Coord;
 import scitypes.Pair;
 import scitypes.SISize;
-import scitypes.palette.base.PaletteColour;
+import scitypes.visualization.palette.PaletteColour;
 
 
 public class LegendCoordsAxisPainter extends AbstractKeyCoordAxisPainter
 {
 
-	private List<Pair<Color, String>>	entries;
+	private List<Pair<PaletteColour, String>>	entries;
 
 	public LegendCoordsAxisPainter(boolean drawCoords, Coord<Number> topLeftCoord, Coord<Number> topRightCoord,
 			Coord<Number> bottomLeftCoord, Coord<Number> bottomRightCoord, SISize coordinateUnits,
@@ -34,7 +33,7 @@ public class LegendCoordsAxisPainter extends AbstractKeyCoordAxisPainter
 			realDimensionsProvided,
 			descriptor);
 
-		this.entries = entries.stream().map(p -> new Pair<>(new Color(p.first.getARGB(), true), p.second)).collect(Collectors.toList());
+		this.entries = entries;
 
 	}
 
@@ -81,11 +80,11 @@ public class LegendCoordsAxisPainter extends AbstractKeyCoordAxisPainter
 		float startX = offsetX + ((width - expectedTextWidth) / 2.0f);
 		
 		float position = startX;
-		for (Pair<Color, String> entry : entries) {
+		for (Pair<PaletteColour, String> entry : entries) {
 			p.context.rectangle(position, textBaseline, keyHeight, -keyHeight);
 			p.context.setSource(entry.first);
 			p.context.fillPreserve();
-			p.context.setSource(Color.black);
+			p.context.setSource(new PaletteColour(0xff000000));
 			p.context.stroke();
 
 			p.context.writeText(entry.second, position + keyHeight * 1.5f, textBaseline);

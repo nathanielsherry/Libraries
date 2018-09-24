@@ -8,7 +8,6 @@ import java.util.logging.Level;
 import scidraw.drawing.Drawing;
 import scidraw.drawing.DrawingRequest;
 import scidraw.drawing.ViewTransform;
-import scidraw.drawing.backends.Surface;
 import scidraw.drawing.painters.PainterData;
 import scidraw.drawing.painters.axis.AxisPainter;
 import scidraw.drawing.plot.painters.PlotPainter;
@@ -20,6 +19,7 @@ import scitypes.Pair;
 import scitypes.ReadOnlySpectrum;
 import scitypes.Spectrum;
 import scitypes.log.SciLog;
+import scitypes.visualization.Surface;
 
 /**
  * 

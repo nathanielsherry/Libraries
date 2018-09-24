@@ -1,6 +1,6 @@
-package scitypes.palette.palettes;
+package scitypes.visualization.palette.palettes;
 
-import scitypes.palette.base.PaletteColour;
+import scitypes.visualization.palette.PaletteColour;
 
 public class SingleColourPalette extends AbstractPalette
 {
