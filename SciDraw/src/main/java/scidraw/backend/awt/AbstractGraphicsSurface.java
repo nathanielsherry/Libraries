@@ -21,8 +21,8 @@ import scidraw.backend.awt.composite.BlendComposite;
 import scitypes.log.SciLog;
 import scitypes.visualization.Buffer;
 import scitypes.visualization.Surface;
-import scitypes.visualization.SurfaceDrawing;
 import scitypes.visualization.palette.PaletteColour;
+import scitypes.visualization.template.SurfaceTemplate;
 
 /**
  * @author Nathaniel Sherry, 2009
@@ -118,7 +118,7 @@ abstract class AbstractGraphicsSurface implements Surface
 	
 	
 	@Override
-	public void addShape(SurfaceDrawing s)
+	public void addShape(SurfaceTemplate s)
 	{
 		s.apply(this);
 	}

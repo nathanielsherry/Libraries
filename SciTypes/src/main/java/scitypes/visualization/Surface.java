@@ -1,6 +1,7 @@
 package scitypes.visualization;
 
 import scitypes.visualization.palette.PaletteColour;
+import scitypes.visualization.template.SurfaceTemplate;
 
 /**
  * A Surface is something which can be drawn to. This includes things such as raster images, SVG documents, sections of
@@ -57,7 +58,7 @@ public interface Surface
 	public void arcTo(float x, float y, float w, float h, float start, float extent);
 	
 
-	void addShape(SurfaceDrawing sd);
+	void addShape(SurfaceTemplate sd);
 	
 	
 	/**
