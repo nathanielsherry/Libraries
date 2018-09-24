@@ -6,6 +6,7 @@ import java.util.stream.IntStream;
 
 import scidraw.drawing.painters.PainterData;
 import scitypes.visualization.Buffer;
+import scitypes.visualization.drawings.Rectangle;
 import scitypes.visualization.palette.PaletteColour;
 import scitypes.visualization.palette.palettes.SingleColourPalette;
 
@@ -84,7 +85,7 @@ public class RasterColorMapPainter extends MapPainter
 
 		p.context.save();
 
-		p.context.rectangle(0, 0, p.plotSize.x, p.plotSize.y);
+		p.context.addShape(new Rectangle(0, 0, p.plotSize.x, p.plotSize.y));
 		p.context.clip();
 		
 		// draw the map
@@ -94,7 +95,7 @@ public class RasterColorMapPainter extends MapPainter
 
 
 				int index = y * p.dr.dataWidth + x;
-				p.context.rectangle(x * cellSize, y * cellSize, cellSize + 1, cellSize + 1);
+				p.context.addShape(new Rectangle(x * cellSize, y * cellSize, cellSize + 1, cellSize + 1));
 				p.context.setSource(data.get(index));
 				p.context.fill();
 

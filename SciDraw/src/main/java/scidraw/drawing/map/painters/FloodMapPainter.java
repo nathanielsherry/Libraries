@@ -2,6 +2,7 @@ package scidraw.drawing.map.painters;
 
 
 import scidraw.drawing.painters.PainterData;
+import scitypes.visualization.drawings.Rectangle;
 import scitypes.visualization.palette.PaletteColour;
 import scitypes.visualization.palette.palettes.SingleColourPalette;
 
@@ -35,7 +36,7 @@ public class FloodMapPainter extends MapPainter
 	
 			p.context.setSource(c);
 			
-			p.context.rectangle(0, 0, p.dr.dataWidth * cellSize, p.dr.dataHeight * cellSize);
+			p.context.addShape(new Rectangle(0, 0, p.dr.dataWidth * cellSize, p.dr.dataHeight * cellSize));
 			p.context.fill();
 
 		p.context.restore();

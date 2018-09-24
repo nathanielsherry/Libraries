@@ -4,7 +4,6 @@ package scidraw.swing;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Cursor;
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Window;
@@ -28,6 +27,7 @@ import javax.swing.JSpinner;
 import javax.swing.KeyStroke;
 import javax.swing.SpinnerNumberModel;
 
+import scitypes.Coord;
 import scitypes.log.SciLog;
 import scitypes.visualization.Surface;
 import swidget.Swidget;
@@ -301,7 +301,7 @@ public class SavePicture extends JPanel
 					OutputStream os = new FileOutputStream(result.get());
 					int width = ((Number)spnWidth.getValue()).intValue();
 					int height = ((Number)spnHeight.getValue()).intValue();
-					controller.writePNG(os, new Dimension(width, height));
+					controller.writePNG(os, new Coord<Integer>(width, height));
 					os.close();
 	
 					startingFolder = result.get().getParentFile();
@@ -340,7 +340,7 @@ public class SavePicture extends JPanel
 					OutputStream os = new FileOutputStream(result.get());				
 					int width = ((Number)spnWidth.getValue()).intValue();
 					int height = ((Number)spnHeight.getValue()).intValue();
-					controller.writeSVG(os, new Dimension(width, height));
+					controller.writeSVG(os, new Coord<Integer>(width, height));
 					os.close();
 
 					startingFolder = result.get().getParentFile();
@@ -376,7 +376,7 @@ public class SavePicture extends JPanel
 				OutputStream os = new FileOutputStream(result.get());				
 				int width = ((Number)spnWidth.getValue()).intValue();
 				int height = ((Number)spnHeight.getValue()).intValue();
-				controller.writePDF(os, new Dimension(width, height));
+				controller.writePDF(os, new Coord<Integer>(width, height));
 				os.close();
 
 				startingFolder = result.get().getParentFile();
@@ -443,7 +443,7 @@ public class SavePicture extends JPanel
 			}
 			
 			@Override
-			protected void drawGraphics(Surface backend, boolean vector, Dimension size) {
+			protected void drawGraphics(Surface backend, boolean vector, Coord<Integer> size) {
 				// TODO Auto-generated method stub
 				
 			}

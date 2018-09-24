@@ -11,6 +11,7 @@ import scitypes.Coord;
 import scitypes.Pair;
 import scitypes.SISize;
 import scitypes.SigDigits;
+import scitypes.visualization.drawings.Rectangle;
 import scitypes.visualization.palette.PaletteColour;
 import scitypes.visualization.palette.palettes.AbstractPalette;
 
@@ -156,7 +157,7 @@ public class SpectrumCoordsAxisPainter extends AbstractKeyCoordAxisPainter
 		for (int i = (negativeValues ? -steps : 0); i < steps; i++)
 		{
 
-			p.context.rectangle(spectrumPosition, offsetY, increment + 1.0f, keyHeight);
+			p.context.addShape(new Rectangle(spectrumPosition, offsetY, increment + 1.0f, keyHeight));
 			p.context.setSource(getColourFromRules(((float)i/(float)steps)*p.dr.maxYIntensity, p.dr.maxYIntensity, p.dr.viewTransform));
 			p.context.fill();
 			spectrumPosition += increment;

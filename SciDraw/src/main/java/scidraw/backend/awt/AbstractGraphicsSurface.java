@@ -123,15 +123,6 @@ abstract class AbstractGraphicsSurface implements Surface
 		s.apply(this);
 	}
 
-	public void rectangle(float x, float y, float width, float height)
-	{
-		path.moveTo(x, y);
-		path.lineTo(x, (y + height));
-		path.lineTo((x + width), (y + height));
-		path.lineTo((x + width), y);
-		path.lineTo(x, y);
-	}
-
 
 	public void restore()
 	{

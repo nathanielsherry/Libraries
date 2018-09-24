@@ -20,6 +20,7 @@ import scitypes.ReadOnlySpectrum;
 import scitypes.Spectrum;
 import scitypes.log.SciLog;
 import scitypes.visualization.Surface;
+import scitypes.visualization.drawings.Rectangle;
 
 /**
  * 
@@ -175,7 +176,7 @@ public class PlotDrawing extends Drawing
 			context.translate(availableX.start, availableY.start);
 	
 			// clip the region so that we can't draw outside of it
-			context.rectangle(0, 0, plotSize.x, plotSize.y);
+			context.addShape(new Rectangle(0, 0, plotSize.x, plotSize.y));
 			//context.rectangle(0, 0, availableX.end - availableX.start, availableY.end - availableY.start);
 			context.clip();
 	

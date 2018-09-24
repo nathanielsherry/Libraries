@@ -9,6 +9,7 @@ import scidraw.drawing.painters.PainterData;
 import scitypes.Coord;
 import scitypes.Pair;
 import scitypes.SISize;
+import scitypes.visualization.drawings.Rectangle;
 import scitypes.visualization.palette.PaletteColour;
 
 
@@ -81,7 +82,7 @@ public class LegendCoordsAxisPainter extends AbstractKeyCoordAxisPainter
 		
 		float position = startX;
 		for (Pair<PaletteColour, String> entry : entries) {
-			p.context.rectangle(position, textBaseline, keyHeight, -keyHeight);
+			p.context.addShape(new Rectangle(position, textBaseline, keyHeight, -keyHeight));
 			p.context.setSource(entry.first);
 			p.context.fillPreserve();
 			p.context.setSource(new PaletteColour(0xff000000));

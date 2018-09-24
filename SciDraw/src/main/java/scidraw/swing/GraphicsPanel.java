@@ -1,7 +1,6 @@
 package scidraw.swing;
 
 
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Transparency;
 import java.awt.image.VolatileImage;
@@ -11,6 +10,7 @@ import java.io.OutputStream;
 import javax.swing.JPanel;
 
 import scidraw.backend.awt.AwtDrawingSurfaceFactory;
+import scitypes.Coord;
 import scitypes.visualization.SaveableSurface;
 import scitypes.visualization.Surface;
 import scitypes.visualization.SurfaceType;
@@ -47,7 +47,7 @@ public abstract class GraphicsPanel extends JPanel
 	{
 		super.paintComponent(g);
 		
-		Dimension size = new Dimension(getWidth(), getHeight());
+		Coord<Integer> size = new Coord<Integer>(getWidth(), getHeight());
 		
 		if (buffer) {
 			if (
@@ -79,37 +79,37 @@ public abstract class GraphicsPanel extends JPanel
 		bimage.setAccelerationPriority(1f);
 	}
 	
-	private void draw(Object drawContext, Dimension size)
+	private void draw(Object drawContext, Coord<Integer> size)
 	{
 		drawGraphics(AwtDrawingSurfaceFactory.createScreenSurface(drawContext), false, size);
 	}
 
 
-	public void writePNG(OutputStream out, Dimension size) throws IOException
+	public void writePNG(OutputStream out, Coord<Integer> size) throws IOException
 	{
 		write(SurfaceType.RASTER, out, size);
 	}
 
 
-	public void writeSVG(OutputStream out, Dimension size) throws IOException
+	public void writeSVG(OutputStream out, Coord<Integer> size) throws IOException
 	{
 		write(SurfaceType.VECTOR, out, size);
 	}
 
 
-	public void writePDF(OutputStream out, Dimension size) throws IOException
+	public void writePDF(OutputStream out, Coord<Integer> size) throws IOException
 	{
 		write(SurfaceType.PDF, out, size);
 	}
 
 
-	private void write(SurfaceType type, OutputStream out, Dimension size) throws IOException
+	private void write(SurfaceType type, OutputStream out, Coord<Integer> size) throws IOException
 	{
 
 		boolean vector = false;
 		if (type == SurfaceType.PDF || type == SurfaceType.VECTOR) vector = true;
 		
-		SaveableSurface b = AwtDrawingSurfaceFactory.createSaveableSurface(type, size.width, size.height);
+		SaveableSurface b = AwtDrawingSurfaceFactory.createSaveableSurface(type, size.x, size.y);
 		drawGraphics(b, vector, size);
 		b.write(out);
 	}
@@ -123,7 +123,7 @@ public abstract class GraphicsPanel extends JPanel
 	 * @param size The dimensions of the image to draw. This is not the same as 
 	 * the dimensions of the surface to draw on (eg window size)
 	 */
-	protected abstract void drawGraphics(Surface backend, boolean vector, Dimension size);
+	protected abstract void drawGraphics(Surface backend, boolean vector, Coord<Integer> size);
 
 
 	/**

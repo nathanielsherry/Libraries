@@ -13,6 +13,7 @@ import scitypes.ISpectrum;
 import scitypes.ReadOnlySpectrum;
 import scitypes.Spectrum;
 import scitypes.SpectrumCalculations;
+import scitypes.visualization.drawings.Rectangle;
 import scitypes.visualization.palette.PaletteColour;
 import scitypes.visualization.palette.palettes.AbstractPalette;
 
@@ -96,7 +97,7 @@ public abstract class MapPainter extends Painter
 			float rawCellSize = MapDrawing.calcUninterpolatedCellSize(p.plotSize.x, p.plotSize.y, p.dr);
 	
 			// clip the region
-			p.context.rectangle(0, 0, p.dr.dataWidth * cellSize, p.dr.dataHeight * cellSize);
+			p.context.addShape(new Rectangle(0, 0, p.dr.dataWidth * cellSize, p.dr.dataHeight * cellSize));
 			p.context.clip();
 			
 			drawMap(p, cellSize, rawCellSize);

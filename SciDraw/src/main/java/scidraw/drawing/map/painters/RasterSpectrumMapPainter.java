@@ -7,6 +7,7 @@ import java.util.stream.IntStream;
 import scidraw.drawing.painters.PainterData;
 import scitypes.Spectrum;
 import scitypes.visualization.Buffer;
+import scitypes.visualization.drawings.Rectangle;
 import scitypes.visualization.palette.PaletteColour;
 import scitypes.visualization.palette.palettes.AbstractPalette;
 
@@ -104,7 +105,7 @@ public class RasterSpectrumMapPainter extends SpectrumMapPainter
 
 				c = getColourFromRules(intensity, maxIntensity, p.dr.viewTransform);
 
-				p.context.rectangle(x * cellSize, y * cellSize, cellSize + 1, cellSize + 1);
+				p.context.addShape(new Rectangle(x * cellSize, y * cellSize, cellSize + 1, cellSize + 1));
 
 				p.context.setSource(c);
 				p.context.fill();

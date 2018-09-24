@@ -273,21 +273,6 @@ public interface Surface
 
 
 	/**
-	 * Draws a rectangle
-	 * 
-	 * @param x
-	 *            starting x position
-	 * @param y
-	 *            starting y position
-	 * @param width
-	 *            width of the rectangle
-	 * @param height
-	 *            height of the rectangle
-	 */
-	void rectangle(float x, float y, float width, float height);
-
-
-	/**
 	 * Shifts the origin point.
 	 * 
 	 * @param x
