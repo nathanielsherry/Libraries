@@ -12,7 +12,6 @@ import javax.swing.JPanel;
 import scitypes.Coord;
 import scitypes.visualization.SaveableSurface;
 import scitypes.visualization.Surface;
-import scitypes.visualization.SurfaceFactory;
 import scitypes.visualization.SurfaceType;
 import scitypes.visualization.backend.awt.AwtSurfaceFactory;
 
@@ -31,7 +30,6 @@ public abstract class GraphicsPanel extends JPanel
 	private boolean buffer = false;
 	private float bufferSlack = 1.2f;
 	private VolatileImage bimage;
-	private SurfaceFactory surfaceFactory = new AwtSurfaceFactory();
 
 	public GraphicsPanel()
 	{
@@ -83,7 +81,8 @@ public abstract class GraphicsPanel extends JPanel
 	
 	private void draw(Object drawContext, Coord<Integer> size)
 	{
-		drawGraphics(surfaceFactory.createScreenSurface(drawContext), false, size);
+		Surface surface = AwtSurfaceFactory.createScreenSurface(drawContext);
+		drawGraphics(surface, false, size);
 	}
 
 
@@ -111,9 +110,9 @@ public abstract class GraphicsPanel extends JPanel
 		boolean vector = false;
 		if (type == SurfaceType.PDF || type == SurfaceType.VECTOR) vector = true;
 		
-		SaveableSurface b = surfaceFactory.createSaveableSurface(type, size.x, size.y);
-		drawGraphics(b, vector, size);
-		b.write(out);
+		SaveableSurface surface = AwtSurfaceFactory.createSaveableSurface(type, size.x, size.y);
+		drawGraphics(surface, vector, size);
+		surface.write(out);
 	}
 
 

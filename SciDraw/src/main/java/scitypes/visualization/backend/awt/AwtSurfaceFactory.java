@@ -1,22 +1,32 @@
 package scitypes.visualization.backend.awt;
 
+
+import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+
+import org.apache.batik.dom.GenericDOMImplementation;
+import org.apache.batik.svggen.SVGGraphics2D;
+import org.w3c.dom.DOMImplementation;
+import org.w3c.dom.Document;
 
 import scitypes.visualization.SaveableSurface;
 import scitypes.visualization.Surface;
-import scitypes.visualization.SurfaceFactory;
 import scitypes.visualization.SurfaceType;
 
 /**
- * This factory contains the logic used to create a Surface from the preferred implementation
- * 
  * @author Nathaniel Sherry, 2009
  * 
+ *         This factory contains the logic for creating a Surface object based on the Graphics2D implementations
+ * 
  * @see Surface
- *
+ * @see Graphics2D
+ * 
  */
 
-public class AwtSurfaceFactory implements SurfaceFactory
+// import org.freedesktop.cairo.Surface;
+public class AwtSurfaceFactory
 {
 
 	/**
@@ -28,15 +38,17 @@ public class AwtSurfaceFactory implements SurfaceFactory
 	 * 
 	 * @see Surface
 	 */
-	public Surface createScreenSurface(Object backendSource)
+	public static Surface createScreenSurface(Object backendSource)
 	{
+
 		if (backendSource instanceof Graphics) {
-			return scitypes.visualization.backend.awt.Graphics2DDrawingSurfaceFactory.createScreenSurface(backendSource);
+			return new ScreenSurface((Graphics2D) backendSource);
 		}
 
 		return null;
 	}
-	
+
+
 	/**
 	 * Creates a new surface of the given SurfaceType.
 	 * 
@@ -51,10 +63,45 @@ public class AwtSurfaceFactory implements SurfaceFactory
 	 * @see Surface
 	 * @see SurfaceType
 	 */
-	public SaveableSurface createSaveableSurface(SurfaceType type, int width, int height)
+	public static SaveableSurface createSaveableSurface(SurfaceType type, int width, int height)
 	{
-		return scitypes.visualization.backend.awt.Graphics2DDrawingSurfaceFactory.createSaveableSurface(type, width, height);
+
+		switch (type) {
+
+			case RASTER:
+
+				return new ImageSurface(new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB));
+				
+
+			case VECTOR:
+				return new SVGSurface(getScalarSurface(width, height));
+
+			case PDF:
+				return new PDFSurface(getScalarSurface(width, height));
+
+
+		}
+
+		return null;
+
 	}
 	
-	
+
+	private static SVGGraphics2D getScalarSurface(int width, int height)
+	{
+
+		// Get a DOMImplementation.
+		DOMImplementation domImpl = GenericDOMImplementation.getDOMImplementation();
+
+		Document d = domImpl.createDocument("http://www.w3.org/2000/svg", "svg", null);
+
+		// Create an instance of the SVG Generator.
+		SVGGraphics2D svg = new SVGGraphics2D(d);
+
+		svg.setSVGCanvasSize(new Dimension(width, height));
+
+		return svg;
+
+	}
+
 }
