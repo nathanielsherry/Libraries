@@ -11,8 +11,6 @@
   
   <modules>
 <!--    <module>Chanje</module>    -->
-    <module>SciDraw</module>
-    <module>SciTypes</module>
   </modules>
   
   <build>
