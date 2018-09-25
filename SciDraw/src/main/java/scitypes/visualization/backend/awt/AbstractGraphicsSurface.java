@@ -1,4 +1,4 @@
-package scidraw.backend.awt;
+package scitypes.visualization.backend.awt;
 
 
 import java.awt.AlphaComposite;
@@ -17,10 +17,10 @@ import java.awt.image.BufferedImage;
 import java.util.Stack;
 import java.util.logging.Level;
 
-import scidraw.backend.awt.composite.BlendComposite;
 import scitypes.log.SciLog;
 import scitypes.visualization.Buffer;
 import scitypes.visualization.Surface;
+import scitypes.visualization.backend.awt.composite.BlendComposite;
 import scitypes.visualization.palette.PaletteColour;
 import scitypes.visualization.template.SurfaceTemplate;
 

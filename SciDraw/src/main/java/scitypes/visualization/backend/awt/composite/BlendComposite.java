@@ -1,4 +1,4 @@
-package scidraw.backend.awt.composite;
+package scitypes.visualization.backend.awt.composite;
 
 import java.awt.Color;
 import java.awt.Composite;

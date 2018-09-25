@@ -1,4 +1,4 @@
-package scidraw.backend.awt;
+package scitypes.visualization.backend.awt;
 
 import java.io.IOException;
 import java.io.OutputStream;

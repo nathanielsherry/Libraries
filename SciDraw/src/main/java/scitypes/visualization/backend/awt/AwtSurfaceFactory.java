@@ -1,4 +1,4 @@
-package scidraw.backend.awt;
+package scitypes.visualization.backend.awt;
 
 import java.awt.Graphics;
 
@@ -31,7 +31,7 @@ public class AwtSurfaceFactory implements SurfaceFactory
 	public Surface createScreenSurface(Object backendSource)
 	{
 		if (backendSource instanceof Graphics) {
-			return scidraw.backend.awt.Graphics2DDrawingSurfaceFactory.createScreenSurface(backendSource);
+			return scitypes.visualization.backend.awt.Graphics2DDrawingSurfaceFactory.createScreenSurface(backendSource);
 		}
 
 		return null;
@@ -53,7 +53,7 @@ public class AwtSurfaceFactory implements SurfaceFactory
 	 */
 	public SaveableSurface createSaveableSurface(SurfaceType type, int width, int height)
 	{
-		return scidraw.backend.awt.Graphics2DDrawingSurfaceFactory.createSaveableSurface(type, width, height);
+		return scitypes.visualization.backend.awt.Graphics2DDrawingSurfaceFactory.createSaveableSurface(type, width, height);
 	}
 	
 	

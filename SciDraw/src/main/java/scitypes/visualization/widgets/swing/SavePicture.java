@@ -1,4 +1,4 @@
-package scidraw.swing;
+package scitypes.visualization.widgets.swing;
 
 
 import java.awt.BorderLayout;

@@ -1,4 +1,4 @@
-package scidraw.backend.awt;
+package scitypes.visualization.backend.awt;
 
 import java.awt.Graphics2D;
 

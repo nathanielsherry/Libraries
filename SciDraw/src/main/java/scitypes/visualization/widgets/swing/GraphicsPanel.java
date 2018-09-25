@@ -1,4 +1,4 @@
-package scidraw.swing;
+package scitypes.visualization.widgets.swing;
 
 
 import java.awt.Graphics;
@@ -9,12 +9,12 @@ import java.io.OutputStream;
 
 import javax.swing.JPanel;
 
-import scidraw.backend.awt.AwtSurfaceFactory;
 import scitypes.Coord;
 import scitypes.visualization.SaveableSurface;
 import scitypes.visualization.Surface;
 import scitypes.visualization.SurfaceFactory;
 import scitypes.visualization.SurfaceType;
+import scitypes.visualization.backend.awt.AwtSurfaceFactory;
 
 
 /**
